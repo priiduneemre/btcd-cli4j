@@ -1,4 +1,4 @@
-package com.neemre.btccli2j;
+package com.neemre.btcdcli;
 
 import junit.framework.Test;
 import junit.framework.TestCase;

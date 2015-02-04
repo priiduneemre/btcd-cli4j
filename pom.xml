@@ -3,11 +3,11 @@
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>com.neemre</groupId>
-  <artifactId>btc-cli2j</artifactId>
+  <artifactId>btcd-cli4j</artifactId>
   <version>0.0.1</version>
   <packaging>jar</packaging>
 
-  <name>btc-cli2j</name>
+  <name>btcd-cli4j</name>
   <url>http://maven.apache.org</url>
 
   <properties>
