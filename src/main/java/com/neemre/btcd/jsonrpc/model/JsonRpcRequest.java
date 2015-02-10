@@ -1,4 +1,4 @@
-package com.neemre.btcd.jsonrpc;
+package com.neemre.btcd.jsonrpc.model;
 
 import java.util.List;
 

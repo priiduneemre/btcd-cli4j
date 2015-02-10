@@ -1,4 +1,4 @@
-package com.neemre.btcd.jsonrpc;
+package com.neemre.btcd.jsonrpc.misc;
 
 import java.io.IOException;
 
@@ -7,6 +7,8 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonNode;
+import com.neemre.btcd.jsonrpc.model.JsonRpcError;
+import com.neemre.btcd.jsonrpc.model.JsonRpcResponse;
 
 public class JsonRpcResponseDeserializer extends JsonDeserializer<JsonRpcResponse> {
 
@@ -14,24 +16,23 @@ public class JsonRpcResponseDeserializer extends JsonDeserializer<JsonRpcRespons
 	public JsonRpcResponse deserialize(JsonParser parser, DeserializationContext context)
 			throws IOException, JsonProcessingException {
 		RawJsonRpcResponse rawRpcResponse = parser.readValueAs(RawJsonRpcResponse.class);
-		
+
 		return rawRpcResponse.toJsonRpcResponse();
 	}
-	
+
 	private static class RawJsonRpcResponse {
-		public int id;
+		
 		public JsonNode result;
 		public JsonRpcError error;
-	
+		public int id;
+
+		
 		JsonRpcResponse toJsonRpcResponse() {
 			JsonRpcResponse rpcResponse = new JsonRpcResponse();
-			rpcResponse.setId(id);
-			System.out.println("Result as string: " + result.toString());
 			rpcResponse.setResult(result.toString());
 			rpcResponse.setError(error);
-			
+			rpcResponse.setId(id);
 			return rpcResponse;
 		} 
 	}
-
 }

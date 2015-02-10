@@ -1,4 +1,4 @@
-package com.neemre.btcd.rpc;
+package com.neemre.btcd.client;
 
 public class BtcdClientImpl {
 

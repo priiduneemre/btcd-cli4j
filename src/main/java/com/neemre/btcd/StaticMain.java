@@ -2,7 +2,6 @@ package com.neemre.btcd;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-
 import java.util.ArrayList;
 
 import org.apache.commons.codec.binary.Base64;
@@ -13,14 +12,15 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.HttpClientBuilder;
+import org.apache.http.message.BasicHeader;
 import org.apache.http.util.EntityUtils;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 import com.neemre.btcd.domain.Info;
-import com.neemre.btcd.jsonrpc.JsonRpcRequest;
-import com.neemre.btcd.jsonrpc.JsonRpcResponse;
+import com.neemre.btcd.jsonrpc.model.JsonRpcRequest;
+import com.neemre.btcd.jsonrpc.model.JsonRpcResponse;
 
 public class StaticMain {
 	public static String protocol = "http";
@@ -43,6 +43,11 @@ public class StaticMain {
 		HttpPost httpRequest = new HttpPost(String.format("%s://%s:%s/", protocol, host, port));
 		httpRequest.setHeader(HttpConst.REQ_HEADER_AUTH, HttpConst.AUTH_SCHEME_BASIC + " " 
 				+ credentials);
+		httpRequest.setHeader(null);
+		httpRequest.setHeader(new BasicHeader("", ""));
+		for(int i = 0; i < httpRequest.getAllHeaders().length; i++) {
+			System.out.println(httpRequest.getAllHeaders()[i]);
+		}
 		try {
 			httpRequest.setEntity(new StringEntity(jsonWriter.writeValueAsString(rpcRequest)));
 			HttpResponse httpResponse = httpClient.execute(httpRequest);
