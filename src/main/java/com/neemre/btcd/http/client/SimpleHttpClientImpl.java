@@ -34,7 +34,7 @@ public class SimpleHttpClientImpl implements SimpleHttpClient {
 	
 	public String execute(String reqPayload) {
 		try {
-			HttpResponse response = rawClient.execute(getNewRequest(HttpConst.REQ_METHOD_GET, 
+			HttpResponse response = rawClient.execute(getNewRequest(HttpConst.REQ_METHOD_POST, 
 					reqPayload));
 			HttpEntity respPayloadEntity = response.getEntity();
 			if(respPayloadEntity != null) {
@@ -72,8 +72,8 @@ public class SimpleHttpClientImpl implements SimpleHttpClient {
 			return null;
 		}
 		if(authScheme.equals(HttpConst.AUTH_SCHEME_BASIC)) {
-			return new BasicHeader(HttpConst.REQ_HEADER_AUTH, HttpConst.AUTH_SCHEME_BASIC 
-							+ " " + getCredentials(HttpConst.AUTH_SCHEME_BASIC));
+			return new BasicHeader(HttpConst.REQ_HEADER_AUTH, HttpConst.AUTH_SCHEME_BASIC + " " 
+					+ getCredentials(HttpConst.AUTH_SCHEME_BASIC));
 		}
 		return null;
 	}
@@ -82,8 +82,8 @@ public class SimpleHttpClientImpl implements SimpleHttpClient {
 		if(authScheme.equals(HttpConst.AUTH_SCHEME_NONE)){
 			return GeneralConst.EMPTY;
 		} else if(authScheme.equals(HttpConst.AUTH_SCHEME_BASIC)) {
-			return Base64.encodeBase64String((nodeConfig.get(NodeProperties.RPC_USER) + ":" 
-					+ nodeConfig.get(NodeProperties.RPC_PASSWORD)).getBytes());
+			return Base64.encodeBase64String((nodeConfig.get(NodeProperties.RPC_USER.getKey()) 
+					+ ":" + nodeConfig.get(NodeProperties.RPC_PASSWORD.getKey())).getBytes());
 		}
 		return null;
 	}

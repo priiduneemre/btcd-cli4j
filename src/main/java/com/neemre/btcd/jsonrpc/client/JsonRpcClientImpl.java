@@ -28,11 +28,15 @@ public class JsonRpcClientImpl implements JsonRpcClient {
 		jsonWriter = jsonMapper.writer().withDefaultPrettyPrinter();
 	}
 	
+	public String execute(String method) {
+		return execute(method, null);
+	}
+	
 	public <T> String execute(String method, List<T> params) {
 		try {
-			JsonRpcRequest request = getNewRequest(method, params, 3);
-			String respPayloadString = httpClient.execute(jsonWriter.writeValueAsString(request));
-			JsonRpcResponse response = jsonMapper.readValue(respPayloadString, JsonRpcResponse.class);
+			JsonRpcRequest request = getNewRequest(method, params, 80085);
+			String responseJson = httpClient.execute(jsonWriter.writeValueAsString(request));
+			JsonRpcResponse response = jsonMapper.readValue(responseJson, JsonRpcResponse.class);
 			return response.getResult();
 		} catch (JsonProcessingException e) {
 			e.printStackTrace();
@@ -40,6 +44,11 @@ public class JsonRpcClientImpl implements JsonRpcClient {
 			e.printStackTrace();
 		}
 		return null;
+	}
+	
+	@Override
+	public ObjectMapper getMapper() {
+		return jsonMapper;
 	}
 	
 	private <T> JsonRpcRequest<T> getNewRequest(String method, List<T> params, int id) {

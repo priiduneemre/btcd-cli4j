@@ -9,7 +9,8 @@ import lombok.ToString;
 @AllArgsConstructor
 public enum Commands {
 	
-	GET_INFO("getinfo");
+	GET_INFO("getinfo"),
+	GET_DIFFICULTY("getdifficulty");
 	
 	@Getter
 	@Setter

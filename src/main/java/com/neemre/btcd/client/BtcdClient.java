@@ -1,5 +1,12 @@
 package com.neemre.btcd.client;
 
-public class BtcdClient {
+import java.math.BigDecimal;
 
+import com.neemre.btcd.domain.Info;
+
+public interface BtcdClient {
+	
+	Info getInfo();
+	
+	BigDecimal getDifficulty();
 }

@@ -9,12 +9,12 @@ import lombok.ToString;
 @AllArgsConstructor
 public enum NodeProperties {
 	
-	RPC_PROTOCOL("node.full.bitcoind.rpc.protocol"),
-	RPC_USER("node.full.bitcoind.rpc.user"),
-	RPC_PASSWORD("node.full.bitcoind.rpc.password"),
-	RPC_HOST("node.full.bitcoind.rpc.host"),
-	RPC_PORT("node.full.bitcoind.rpc.port"),
-	HTTP_AUTH_SCHEME("node.full.bitcoind.http.auth_scheme");
+	RPC_PROTOCOL("node.bitcoind.rpc.protocol"),
+	RPC_USER("node.bitcoind.rpc.user"),
+	RPC_PASSWORD("node.bitcoind.rpc.password"),
+	RPC_HOST("node.bitcoind.rpc.host"),
+	RPC_PORT("node.bitcoind.rpc.port"),
+	HTTP_AUTH_SCHEME("node.bitcoind.http.auth_scheme");
 	
 	@Getter
 	@Setter
