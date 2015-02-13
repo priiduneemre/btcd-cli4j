@@ -1,4 +1,4 @@
-package com.neemre.btcd.jsonrpc.service;
+package com.neemre.btcd.jsonrpc.client;
 
 import java.util.List;
 

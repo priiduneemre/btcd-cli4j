@@ -10,9 +10,9 @@ import java.util.Properties;
 import org.apache.http.client.HttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
 
+import com.neemre.btcd.client.BtcdClient;
+import com.neemre.btcd.client.BtcdClientImpl;
 import com.neemre.btcd.domain.Info;
-import com.neemre.btcd.service.BtcdClient;
-import com.neemre.btcd.service.BtcdClientImpl;
 
 public class StaticMain2 {
 	

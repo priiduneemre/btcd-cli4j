@@ -1,4 +1,4 @@
-package com.neemre.btcd.jsonrpc.service;
+package com.neemre.btcd.jsonrpc.client;
 
 import java.io.IOException;
 import java.util.List;
@@ -9,8 +9,8 @@ import org.apache.http.client.HttpClient;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
-import com.neemre.btcd.http.service.SimpleHttpClient;
-import com.neemre.btcd.http.service.SimpleHttpClientImpl;
+import com.neemre.btcd.http.client.SimpleHttpClient;
+import com.neemre.btcd.http.client.SimpleHttpClientImpl;
 import com.neemre.btcd.jsonrpc.domain.JsonRpcError;
 import com.neemre.btcd.jsonrpc.domain.JsonRpcRequest;
 import com.neemre.btcd.jsonrpc.domain.JsonRpcResponse;

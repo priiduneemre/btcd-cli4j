@@ -1,4 +1,4 @@
-package com.neemre.btcd.http.service;
+package com.neemre.btcd.http.client;
 
 import java.io.IOException;
 import java.net.URI;
@@ -17,8 +17,8 @@ import org.apache.http.entity.StringEntity;
 import org.apache.http.message.BasicHeader;
 import org.apache.http.util.EntityUtils;
 
+import com.neemre.btcd.NodeProperties;
 import com.neemre.btcd.common.GeneralConst;
-import com.neemre.btcd.common.NodeProperties;
 import com.neemre.btcd.http.HttpConst;
 
 public class SimpleHttpClientImpl implements SimpleHttpClient {

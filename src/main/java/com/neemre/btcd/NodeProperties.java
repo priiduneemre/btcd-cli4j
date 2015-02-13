@@ -1,4 +1,4 @@
-package com.neemre.btcd.common;
+package com.neemre.btcd;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
