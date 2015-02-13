@@ -1,4 +1,4 @@
-package com.neemre.btcd.client;
+package com.neemre.btcd.service;
 
 import java.math.BigDecimal;
 

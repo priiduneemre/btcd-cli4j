@@ -19,8 +19,9 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 import com.neemre.btcd.domain.Info;
-import com.neemre.btcd.jsonrpc.model.JsonRpcRequest;
-import com.neemre.btcd.jsonrpc.model.JsonRpcResponse;
+import com.neemre.btcd.http.HttpConst;
+import com.neemre.btcd.jsonrpc.domain.JsonRpcRequest;
+import com.neemre.btcd.jsonrpc.domain.JsonRpcResponse;
 
 public class StaticMain {
 	public static String protocol = "http";

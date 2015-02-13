@@ -1,4 +1,4 @@
-package com.neemre.btcd.http.client;
+package com.neemre.btcd.http.service;
 
 public interface SimpleHttpClient {
 	

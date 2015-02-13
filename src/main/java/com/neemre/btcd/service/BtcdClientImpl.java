@@ -1,4 +1,4 @@
-package com.neemre.btcd.client;
+package com.neemre.btcd.service;
 
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -10,8 +10,8 @@ import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.neemre.btcd.Commands;
 import com.neemre.btcd.domain.Info;
-import com.neemre.btcd.jsonrpc.client.JsonRpcClient;
-import com.neemre.btcd.jsonrpc.client.JsonRpcClientImpl;
+import com.neemre.btcd.jsonrpc.service.JsonRpcClient;
+import com.neemre.btcd.jsonrpc.service.JsonRpcClientImpl;
 
 public class BtcdClientImpl implements BtcdClient {
 

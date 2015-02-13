@@ -1,4 +1,4 @@
-package com.neemre.btcd;
+package com.neemre.btcd.http;
 
 public class HttpConst {
 	

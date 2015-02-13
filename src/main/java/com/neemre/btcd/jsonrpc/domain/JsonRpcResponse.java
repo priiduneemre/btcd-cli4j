@@ -1,7 +1,7 @@
-package com.neemre.btcd.jsonrpc.model;
+package com.neemre.btcd.jsonrpc.domain;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.neemre.btcd.jsonrpc.misc.JsonRpcResponseDeserializer;
+import com.neemre.btcd.jsonrpc.domain.misc.JsonRpcResponseDeserializer;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;

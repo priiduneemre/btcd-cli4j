@@ -1,4 +1,4 @@
-package com.neemre.btcd;
+package com.neemre.btcd.common;
 
 public class GeneralConst {
 	
