@@ -30,8 +30,7 @@ public class Info extends Entity {
 	private Integer connections;
 	private String proxy;
 	private BigDecimal difficulty;
-	@JsonProperty("testnet")
-	private Boolean testNet;
+	private Boolean testnet;
 	@JsonProperty("keypoololdest")
 	private Long keyPoolOldest;
 	@JsonProperty("keypoolsize")

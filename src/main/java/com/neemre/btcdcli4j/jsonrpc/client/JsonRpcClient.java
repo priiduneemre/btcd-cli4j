@@ -8,6 +8,8 @@ public interface JsonRpcClient {
 
 	String execute(String method);
 	
+	<T> String execute(String method, T param);
+	
 	<T> String execute(String method, List<T> params);
 	
 	ObjectMapper getMapper();

@@ -1,6 +1,7 @@
 package com.neemre.btcdcli4j.jsonrpc.client;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
@@ -28,10 +29,19 @@ public class JsonRpcClientImpl implements JsonRpcClient {
 		jsonWriter = jsonMapper.writer().withDefaultPrettyPrinter();
 	}
 	
+	@Override
 	public String execute(String method) {
 		return execute(method, null);
 	}
 	
+	@Override
+	public <T> String execute(String method, T param) {
+		List<T> params = new ArrayList<T>();
+		params.add(param);
+		return execute(method, params);
+	}
+	
+	@Override
 	public <T> String execute(String method, List<T> params) {
 		try {
 			JsonRpcRequest request = getNewRequest(method, params, 80085);

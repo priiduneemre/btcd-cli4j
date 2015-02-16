@@ -38,9 +38,10 @@ public class SimpleHttpClientImpl implements SimpleHttpClient {
 					reqPayload));
 			HttpEntity respPayloadEntity = response.getEntity();
 			if(respPayloadEntity != null) {
-				return EntityUtils.toString(respPayloadEntity);
+				String respPayload = EntityUtils.toString(respPayloadEntity);
+				return respPayload;
 			}
-			return Constants.EMPTY;
+			return Constants.STRING_EMPTY;
 		} catch (ClientProtocolException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
@@ -80,7 +81,7 @@ public class SimpleHttpClientImpl implements SimpleHttpClient {
 	
 	private String getCredentials(String authScheme) {
 		if(authScheme.equals(HttpConst.AUTH_SCHEME_NONE)){
-			return Constants.EMPTY;
+			return Constants.STRING_EMPTY;
 		} else if(authScheme.equals(HttpConst.AUTH_SCHEME_BASIC)) {
 			return Base64.encodeBase64String((nodeConfig.get(NodeProperties.RPC_USER.getKey()) 
 					+ ":" + nodeConfig.get(NodeProperties.RPC_PASSWORD.getKey())).getBytes());
