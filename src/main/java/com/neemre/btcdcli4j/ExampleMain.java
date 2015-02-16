@@ -13,6 +13,7 @@ import org.apache.http.impl.client.HttpClientBuilder;
 import com.neemre.btcdcli4j.client.BtcdClient;
 import com.neemre.btcdcli4j.client.BtcdClientImpl;
 import com.neemre.btcdcli4j.domain.Info;
+import com.neemre.btcdcli4j.domain.MemPoolInfo;
 import com.neemre.btcdcli4j.domain.MiningInfo;
 
 public class ExampleMain {
@@ -52,5 +53,10 @@ public class ExampleMain {
 		
 		MiningInfo miningInfo = btcdClient.getMiningInfo();
 		System.out.printf("bitcoind.exe response for 'getmininginfo()': '%s'\n", miningInfo);
+		
+		//[START]Not supported until Bicoin Core 0.10.0
+		MemPoolInfo memPoolInfo = btcdClient.getMemPoolInfo();
+		System.out.printf("bitcoind.exe response for 'getmempoolinfo()': '%s'\n", memPoolInfo);
+		//[END]Not supported until Bicoin Core 0.10.0
 	}
 }

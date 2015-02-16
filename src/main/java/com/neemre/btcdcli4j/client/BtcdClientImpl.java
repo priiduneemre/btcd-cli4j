@@ -13,6 +13,7 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.neemre.btcdcli4j.Commands;
 import com.neemre.btcdcli4j.common.Defaults;
 import com.neemre.btcdcli4j.domain.Info;
+import com.neemre.btcdcli4j.domain.MemPoolInfo;
 import com.neemre.btcdcli4j.domain.MiningInfo;
 import com.neemre.btcdcli4j.jsonrpc.client.JsonRpcClient;
 import com.neemre.btcdcli4j.jsonrpc.client.JsonRpcClientImpl;
@@ -48,6 +49,23 @@ public class BtcdClientImpl implements BtcdClient {
 			String miningInfoJson = rpcClient.execute(Commands.GET_MINING_INFO.getName());
 			MiningInfo miningInfo = rpcClient.getMapper().readValue(miningInfoJson, MiningInfo.class);
 			return miningInfo;
+		} catch (JsonParseException e) {
+			e.printStackTrace();
+		} catch (JsonMappingException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	@Override
+	public MemPoolInfo getMemPoolInfo() {
+		try {
+			String memPoolInfoJson = rpcClient.execute(Commands.GET_MEM_POOL_INFO.getName());
+			MemPoolInfo memPoolInfo = rpcClient.getMapper().readValue(memPoolInfoJson, 
+					MemPoolInfo.class);
+			return memPoolInfo;
 		} catch (JsonParseException e) {
 			e.printStackTrace();
 		} catch (JsonMappingException e) {
