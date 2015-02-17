@@ -9,6 +9,7 @@ import java.util.Properties;
 import org.apache.http.client.HttpClient;
 
 import com.neemre.btcdcli4j.Commands;
+import com.neemre.btcdcli4j.common.Constants;
 import com.neemre.btcdcli4j.common.Defaults;
 import com.neemre.btcdcli4j.domain.Info;
 import com.neemre.btcdcli4j.domain.MemPoolInfo;
@@ -26,24 +27,10 @@ public class BtcdClientImpl implements BtcdClient {
 	}
 	
 	@Override
-	public Info getInfo() {
-		String infoJson = rpcClient.execute(Commands.GET_INFO.getName());
-		Info info = rpcClient.mapToEntity(infoJson, Info.class);
-		return info;
-	}
-
-	@Override
-	public MiningInfo getMiningInfo() {
-		String miningInfoJson = rpcClient.execute(Commands.GET_MINING_INFO.getName());
-		MiningInfo miningInfo = rpcClient.mapToEntity(miningInfoJson, MiningInfo.class);
-		return miningInfo;
-	}
-
-	@Override
-	public MemPoolInfo getMemPoolInfo() {
-		String memPoolInfoJson = rpcClient.execute(Commands.GET_MEM_POOL_INFO.getName());
-		MemPoolInfo memPoolInfo = rpcClient.mapToEntity(memPoolInfoJson, MemPoolInfo.class);
-		return memPoolInfo;
+	public String encryptWallet(String passphrase) {
+		String noticeMsgJson = rpcClient.execute(Commands.ENCRYPT_WALLET.getName(), passphrase);
+		String noticeMsg = rpcClient.getMapper().stripQuotes(noticeMsgJson);
+		return noticeMsg;
 	}
 
 	@Override
@@ -62,6 +49,35 @@ public class BtcdClientImpl implements BtcdClient {
 	}
 	
 	@Override
+	public Integer getHashesPerSec() {
+		String hashesPerSecStr = rpcClient.execute(Commands.GET_HASHES_PER_SEC.getName());
+		Integer hashesPerSec = Integer.valueOf(hashesPerSecStr);
+		return hashesPerSec;
+	}
+	
+	@Override
+	public Info getInfo() {
+		String infoJson = rpcClient.execute(Commands.GET_INFO.getName());
+		Info info = rpcClient.getMapper().mapToEntity(infoJson, Info.class);
+		return info;
+	}
+	
+	@Override
+	public MemPoolInfo getMemPoolInfo() {
+		String memPoolInfoJson = rpcClient.execute(Commands.GET_MEM_POOL_INFO.getName());
+		MemPoolInfo memPoolInfo = rpcClient.getMapper().mapToEntity(memPoolInfoJson, 
+				MemPoolInfo.class);
+		return memPoolInfo;
+	}
+
+	@Override
+	public MiningInfo getMiningInfo() {
+		String miningInfoJson = rpcClient.execute(Commands.GET_MINING_INFO.getName());
+		MiningInfo miningInfo = rpcClient.getMapper().mapToEntity(miningInfoJson, MiningInfo.class);
+		return miningInfo;
+	}
+
+	@Override
 	public void setGenerate(Boolean isGenerate) {
 		rpcClient.execute(Commands.SET_GENERATE.getName(), isGenerate);		
 	}
@@ -75,9 +91,30 @@ public class BtcdClientImpl implements BtcdClient {
 	}
 	
 	@Override
-	public Integer getHashesPerSec() {
-		String hashesPerSecStr = rpcClient.execute(Commands.GET_HASHES_PER_SEC.getName());
-		Integer hashesPerSec = Integer.valueOf(hashesPerSecStr);
-		return hashesPerSec;
+	public String stop() {
+		String noticeMsgJson = rpcClient.execute(Commands.STOP.getName());
+		String noticeMsg = rpcClient.getMapper().stripQuotes(noticeMsgJson);
+		return noticeMsg;
+	}
+	
+	@Override
+	public void walletLock() {
+		rpcClient.execute(Commands.WALLET_LOCK.getName());
+	}
+	
+	@Override
+	public void walletPassphrase(String passphrase, int authTimeout) {
+		List<Object> params = new ArrayList<Object>();
+		params.add(passphrase);
+		params.add(authTimeout);
+		rpcClient.execute(Commands.WALLET_PASSPHRASE.getName(), params);
+	}
+
+	@Override
+	public void walletPassphraseChange(String curPassphrase, String newPassphrase) {
+		List<Object> params = new ArrayList<Object>();
+		params.add(curPassphrase);
+		params.add(newPassphrase);
+		rpcClient.execute(Commands.WALLET_PASSPHRASE_CHANGE.getName(), params);
 	}
 }

@@ -8,19 +8,29 @@ import com.neemre.btcdcli4j.domain.MiningInfo;
 
 public interface BtcdClient {
 	
-	Info getInfo();
-	
-	MiningInfo getMiningInfo();
-	
-	MemPoolInfo getMemPoolInfo();
+	String encryptWallet(String passphrase);
 	
 	BigDecimal getDifficulty();
 	
 	Boolean getGenerate();
 	
+	Integer getHashesPerSec();
+	
+	Info getInfo();
+	
+	MemPoolInfo getMemPoolInfo();
+	
+	MiningInfo getMiningInfo();
+	
 	void setGenerate(Boolean isGenerate);
 	
 	void setGenerate(Boolean isGenerate, Integer processorCount);
 	
-	Integer getHashesPerSec();
+	String stop();
+		
+	void walletLock();
+
+	void walletPassphrase(String passphrase, int authTimeout);
+
+	void walletPassphraseChange(String curPassphrase, String newPassphrase);
 }

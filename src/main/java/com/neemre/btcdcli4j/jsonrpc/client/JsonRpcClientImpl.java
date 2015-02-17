@@ -1,19 +1,15 @@
 package com.neemre.btcdcli4j.jsonrpc.client;
 
-import java.io.IOException;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
 import org.apache.http.client.HttpClient;
 
-import com.fasterxml.jackson.core.JsonParseException;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonMappingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.ObjectWriter;
 import com.neemre.btcdcli4j.http.client.SimpleHttpClient;
 import com.neemre.btcdcli4j.http.client.SimpleHttpClientImpl;
+import com.neemre.btcdcli4j.jsonrpc.JsonMapper;
 import com.neemre.btcdcli4j.jsonrpc.domain.JsonRpcError;
 import com.neemre.btcdcli4j.jsonrpc.domain.JsonRpcRequest;
 import com.neemre.btcdcli4j.jsonrpc.domain.JsonRpcResponse;
@@ -21,14 +17,12 @@ import com.neemre.btcdcli4j.jsonrpc.domain.JsonRpcResponse;
 public class JsonRpcClientImpl implements JsonRpcClient {
 	
 	private SimpleHttpClient httpClient;
-	private ObjectMapper jsonMapper;
-	private ObjectWriter jsonWriter;
+	private JsonMapper mapper;
 	
 	
 	public JsonRpcClientImpl(HttpClient rawHttpClient, Properties nodeConfig) {
 		httpClient = new SimpleHttpClientImpl(rawHttpClient, nodeConfig);
-		jsonMapper = new ObjectMapper();
-		jsonWriter = jsonMapper.writer().withDefaultPrettyPrinter();
+		mapper = new JsonMapper();
 	}
 	
 	@Override
@@ -45,36 +39,16 @@ public class JsonRpcClientImpl implements JsonRpcClient {
 
 	@Override
 	public <T> String execute(String method, List<T> params) {
-		JsonRpcRequest request = getNewRequest(method, params, 80085);
-		String responseJson = httpClient.execute(mapToJson(request));
-		JsonRpcResponse response = mapToEntity(responseJson, JsonRpcResponse.class);
+		JsonRpcRequest<T> request = getNewRequest(method, params, 80085);
+		String responseJson = httpClient.execute(mapper.mapToJson(request));
+		System.out.println("responseJson: " + responseJson);
+		JsonRpcResponse response = mapper.mapToEntity(responseJson, JsonRpcResponse.class);
 		return response.getResult();
 	}
 	
 	@Override
-	public <T> String mapToJson(T entity) {
-		try {
-			String entityJson = jsonWriter.writeValueAsString(entity);
-			return entityJson;
-		} catch (JsonProcessingException e) {
-			e.printStackTrace();
-		}
-		return null;
-	}
-
-	@Override
-	public <T> T mapToEntity(String entityJson, Class<T> clazz) {
-		try {
-			T entity = jsonMapper.readValue(entityJson, clazz);
-			return entity;
-		} catch (JsonParseException e) {
-			e.printStackTrace();
-		} catch (JsonMappingException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		return null;
+	public JsonMapper getMapper() {
+		return mapper;
 	}
 	
 	private <T> JsonRpcRequest<T> getNewRequest(String method, List<T> params, int id) {
