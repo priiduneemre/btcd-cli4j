@@ -7,7 +7,9 @@ import java.util.Properties;
 
 import org.apache.http.client.HttpClient;
 
+import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 import com.neemre.btcdcli4j.http.client.SimpleHttpClient;
@@ -40,25 +42,39 @@ public class JsonRpcClientImpl implements JsonRpcClient {
 		params.add(param);
 		return execute(method, params);
 	}
-	
+
 	@Override
 	public <T> String execute(String method, List<T> params) {
+		JsonRpcRequest request = getNewRequest(method, params, 80085);
+		String responseJson = httpClient.execute(mapToJson(request));
+		JsonRpcResponse response = mapToEntity(responseJson, JsonRpcResponse.class);
+		return response.getResult();
+	}
+	
+	@Override
+	public <T> String mapToJson(T entity) {
 		try {
-			JsonRpcRequest request = getNewRequest(method, params, 80085);
-			String responseJson = httpClient.execute(jsonWriter.writeValueAsString(request));
-			JsonRpcResponse response = jsonMapper.readValue(responseJson, JsonRpcResponse.class);
-			return response.getResult();
+			String entityJson = jsonWriter.writeValueAsString(entity);
+			return entityJson;
 		} catch (JsonProcessingException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	@Override
+	public <T> T mapToEntity(String entityJson, Class<T> clazz) {
+		try {
+			T entity = jsonMapper.readValue(entityJson, clazz);
+			return entity;
+		} catch (JsonParseException e) {
+			e.printStackTrace();
+		} catch (JsonMappingException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		return null;
-	}
-	
-	@Override
-	public ObjectMapper getMapper() {
-		return jsonMapper;
 	}
 	
 	private <T> JsonRpcRequest<T> getNewRequest(String method, List<T> params, int id) {

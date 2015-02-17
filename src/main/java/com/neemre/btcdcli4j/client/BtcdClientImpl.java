@@ -1,6 +1,6 @@
 package com.neemre.btcdcli4j.client;
 
-import java.io.IOException;
+
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
@@ -8,8 +8,6 @@ import java.util.Properties;
 
 import org.apache.http.client.HttpClient;
 
-import com.fasterxml.jackson.core.JsonParseException;
-import com.fasterxml.jackson.databind.JsonMappingException;
 import com.neemre.btcdcli4j.Commands;
 import com.neemre.btcdcli4j.common.Defaults;
 import com.neemre.btcdcli4j.domain.Info;
@@ -29,51 +27,23 @@ public class BtcdClientImpl implements BtcdClient {
 	
 	@Override
 	public Info getInfo() {
-		try {
-			String infoJson = rpcClient.execute(Commands.GET_INFO.getName());
-			Info info = rpcClient.getMapper().readValue(infoJson, Info.class);
-			return info;
-		} catch (JsonParseException e) {
-			e.printStackTrace();
-		} catch (JsonMappingException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		return null;
+		String infoJson = rpcClient.execute(Commands.GET_INFO.getName());
+		Info info = rpcClient.mapToEntity(infoJson, Info.class);
+		return info;
 	}
-	
+
 	@Override
 	public MiningInfo getMiningInfo() {
-		try {
-			String miningInfoJson = rpcClient.execute(Commands.GET_MINING_INFO.getName());
-			MiningInfo miningInfo = rpcClient.getMapper().readValue(miningInfoJson, MiningInfo.class);
-			return miningInfo;
-		} catch (JsonParseException e) {
-			e.printStackTrace();
-		} catch (JsonMappingException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		return null;
+		String miningInfoJson = rpcClient.execute(Commands.GET_MINING_INFO.getName());
+		MiningInfo miningInfo = rpcClient.mapToEntity(miningInfoJson, MiningInfo.class);
+		return miningInfo;
 	}
 
 	@Override
 	public MemPoolInfo getMemPoolInfo() {
-		try {
-			String memPoolInfoJson = rpcClient.execute(Commands.GET_MEM_POOL_INFO.getName());
-			MemPoolInfo memPoolInfo = rpcClient.getMapper().readValue(memPoolInfoJson, 
-					MemPoolInfo.class);
-			return memPoolInfo;
-		} catch (JsonParseException e) {
-			e.printStackTrace();
-		} catch (JsonMappingException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		return null;
+		String memPoolInfoJson = rpcClient.execute(Commands.GET_MEM_POOL_INFO.getName());
+		MemPoolInfo memPoolInfo = rpcClient.mapToEntity(memPoolInfoJson, MemPoolInfo.class);
+		return memPoolInfo;
 	}
 
 	@Override
