@@ -29,10 +29,26 @@ public class BtcdClientImpl implements BtcdClient {
 	@Override
 	public String encryptWallet(String passphrase) {
 		String noticeMsgJson = rpcClient.execute(Commands.ENCRYPT_WALLET.getName(), passphrase);
-		String noticeMsg = rpcClient.getMapper().stripQuotes(noticeMsgJson);
+		String noticeMsg = rpcClient.getMapper().decode(noticeMsgJson);
 		return noticeMsg;
 	}
 
+	@Override
+	public BigDecimal getBalance() {
+		String balanceStr = rpcClient.execute(Commands.GET_BALANCE.getName());
+		BigDecimal balance = new BigDecimal(balanceStr).setScale(Defaults.DECIMAL_SCALE, 
+				Defaults.DECIMAL_ROUNDING_MODE);
+		return balance;
+	}
+	
+	@Override
+	public BigDecimal getBalance(String account) {
+		String balanceStr = rpcClient.execute(Commands.GET_BALANCE.getName(), account);
+		BigDecimal balance = new BigDecimal(balanceStr).setScale(Defaults.DECIMAL_SCALE,
+				Defaults.DECIMAL_ROUNDING_MODE);
+		return balance;
+	}
+	
 	@Override
 	public BigDecimal getDifficulty() {
 		String difficultyStr = rpcClient.execute(Commands.GET_DIFFICULTY.getName());
@@ -93,7 +109,7 @@ public class BtcdClientImpl implements BtcdClient {
 	@Override
 	public String stop() {
 		String noticeMsgJson = rpcClient.execute(Commands.STOP.getName());
-		String noticeMsg = rpcClient.getMapper().stripQuotes(noticeMsgJson);
+		String noticeMsg = rpcClient.getMapper().decode(noticeMsgJson);
 		return noticeMsg;
 	}
 	

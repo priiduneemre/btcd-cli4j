@@ -79,7 +79,15 @@ public class ExampleMain {
 		System.out.printf("bitcoind.exe response for 'encryptwallet(%s=%s)': '%s'\n", "passphrase2",
 				passphrase2, noticeMsg1);
 		
-		String noticeMsg2 = btcdClient.stop();
-		System.out.printf("bitcoind.exe response for 'stop()': '%s'\n", noticeMsg2);
+//		String noticeMsg2 = btcdClient.stop();
+//		System.out.printf("bitcoind.exe response for 'stop()': '%s'\n", noticeMsg2);
+		
+		BigDecimal balance1 = btcdClient.getBalance();
+		System.out.printf("bitcoind.exe response for 'getbalance()': '%s'\n", balance1);
+	
+		String account1 = "";
+		BigDecimal balance2 = btcdClient.getBalance(account1);
+		System.out.printf("bitcoind.exe response for 'getbalance(%s=%s)': '%s'\n", "account1", 
+				account1, balance2);
 	}
 }

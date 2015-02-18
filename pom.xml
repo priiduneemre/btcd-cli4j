@@ -7,7 +7,7 @@
 	<packaging>jar</packaging>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>btcd-cli4j</name>
-	<description>A simple Java wrapper for Bitcoin Core's JSON-RPC interface</description>
+	<description>A simple Java wrapper around Bitcoin Core's JSON-RPC interface</description>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -44,6 +44,11 @@
 			<groupId>com.fasterxml.jackson.core</groupId>
 			<artifactId>jackson-databind</artifactId>
 			<version>2.5.0</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-lang3</artifactId>
+			<version>3.3.2</version>
 		</dependency>
 		<dependency>
 			<groupId>org.projectlombok</groupId>

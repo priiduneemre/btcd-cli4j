@@ -1,13 +1,16 @@
 package com.neemre.btcdcli4j.jsonrpc;
 
 import java.io.IOException;
+import java.math.BigDecimal;
+
+import org.apache.commons.lang3.StringEscapeUtils;
 
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
-import com.neemre.btcdcli4j.common.Constants;
+import com.neemre.btcdcli4j.common.Defaults;
 
 public class JsonMapper {
 	
@@ -44,8 +47,18 @@ public class JsonMapper {
 		return null;
 	}
 
-	public String stripQuotes(String json) {
-		String strippedJson = json.replaceAll(Constants.QUOTE_DOUBLE, Constants.STRING_EMPTY);
-		return strippedJson;
+	public String decode(String stringJson) {
+		String string = unescapeJson(stringJson.substring(1, stringJson.length() - 1));
+		return string;
+	}
+	
+	public BigDecimal decodeAsBigDecimal(String bigDecimalJson) {
+		BigDecimal bigDecimal = new BigDecimal(bigDecimalJson).setScale(Defaults.DECIMAL_SCALE,
+				Defaults.DECIMAL_ROUNDING_MODE);
+		return bigDecimal;
+	}
+	
+	public String unescapeJson(String json) {
+		return StringEscapeUtils.unescapeJson(json);
 	}
 }

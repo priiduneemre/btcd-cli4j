@@ -41,7 +41,6 @@ public class JsonRpcClientImpl implements JsonRpcClient {
 	public <T> String execute(String method, List<T> params) {
 		JsonRpcRequest<T> request = getNewRequest(method, params, 80085);
 		String responseJson = httpClient.execute(mapper.mapToJson(request));
-		System.out.println("responseJson: " + responseJson);
 		JsonRpcResponse response = mapper.mapToEntity(responseJson, JsonRpcResponse.class);
 		return response.getResult();
 	}

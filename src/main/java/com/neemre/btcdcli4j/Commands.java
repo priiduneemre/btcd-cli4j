@@ -20,7 +20,20 @@ public enum Commands {
 	STOP("stop", 0, 0),
 	WALLET_LOCK("walletlock", 0, 0),
 	WALLET_PASSPHRASE("walletpassphrase", 2, 2),
-	WALLET_PASSPHRASE_CHANGE("walletpassphrasechange", 2, 2);
+	WALLET_PASSPHRASE_CHANGE("walletpassphrasechange", 2, 2),
+	
+	LIST_ACCOUNTS("listaccounts", 0, 2),
+	GET_NEW_ADDRESS("getnewaddress", 0, 1),
+	GET_BALANCE("getbalance", 0, 3),
+	GET_ACCOUNT("getaccount", 1, 1),
+	GET_ACCOUNT_ADDRESS("getaccountaddress", 1, 1),
+	GET_RECEIVED_BY_ACCOUNT("getreceivedbyaccount", 1, 2),
+	GET_RECEIVED_BY_ADDRESS("getreceivedbyaddress", 1, 2),
+	GET_ADDRESSES_BY_ACCOUNT("getaddressesbyaccount", 1, 1),
+	GET_PEER_INFO("getpeerinfo", 0, 0),
+	SET_ACCOUNT("setaccount", 2, 2),
+	SET_TX_FEE("settxfee", 1, 1);
+	
 	
 	@Getter
 	@Setter

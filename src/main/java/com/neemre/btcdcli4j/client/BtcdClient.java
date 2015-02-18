@@ -10,6 +10,10 @@ public interface BtcdClient {
 	
 	String encryptWallet(String passphrase);
 	
+	BigDecimal getBalance();
+	
+	BigDecimal getBalance(String account);
+	
 	BigDecimal getDifficulty();
 	
 	Boolean getGenerate();
