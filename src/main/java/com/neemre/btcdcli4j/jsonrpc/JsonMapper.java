@@ -46,16 +46,22 @@ public class JsonMapper {
 		}
 		return null;
 	}
-
-	public String decode(String stringJson) {
-		String string = unescapeJson(stringJson.substring(1, stringJson.length() - 1));
-		return string;
+	
+	public Boolean parseBoolean(String booleanJson) {
+		return Boolean.valueOf(booleanJson);
 	}
 	
-	public BigDecimal decodeAsBigDecimal(String bigDecimalJson) {
-		BigDecimal bigDecimal = new BigDecimal(bigDecimalJson).setScale(Defaults.DECIMAL_SCALE,
+	public BigDecimal parseBigDecimal(String bigDecimalJson) {
+		return new BigDecimal(bigDecimalJson).setScale(Defaults.DECIMAL_SCALE,
 				Defaults.DECIMAL_ROUNDING_MODE);
-		return bigDecimal;
+	}
+	
+	public Integer parseInteger(String integerJson) {
+		return Integer.valueOf(integerJson);
+	}
+
+	public String parseString(String stringJson) {
+		return unescapeJson(stringJson.substring(1, stringJson.length() - 1));
 	}
 	
 	public String unescapeJson(String json) {

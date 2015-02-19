@@ -8,7 +8,7 @@ public class StaticMain3 {
 		JsonMapper mapper = new JsonMapper();
 		String testString = "\"This is a \\\"typical\\\" JSON string containing escaped double-quotes.\"";
 		System.out.printf("%s: %s\n", "testString", testString);
-		String decodedString = mapper.decode(testString);
+		String decodedString = mapper.parseString(testString);
 		System.out.printf("%s: %s\n", "decodedString", decodedString);
 	}
 }

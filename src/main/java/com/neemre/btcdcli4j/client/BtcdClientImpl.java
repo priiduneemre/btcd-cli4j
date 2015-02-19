@@ -1,6 +1,5 @@
 package com.neemre.btcdcli4j.client;
 
-
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
@@ -9,8 +8,6 @@ import java.util.Properties;
 import org.apache.http.client.HttpClient;
 
 import com.neemre.btcdcli4j.Commands;
-import com.neemre.btcdcli4j.common.Constants;
-import com.neemre.btcdcli4j.common.Defaults;
 import com.neemre.btcdcli4j.domain.Info;
 import com.neemre.btcdcli4j.domain.MemPoolInfo;
 import com.neemre.btcdcli4j.domain.MiningInfo;
@@ -29,45 +26,42 @@ public class BtcdClientImpl implements BtcdClient {
 	@Override
 	public String encryptWallet(String passphrase) {
 		String noticeMsgJson = rpcClient.execute(Commands.ENCRYPT_WALLET.getName(), passphrase);
-		String noticeMsg = rpcClient.getMapper().decode(noticeMsgJson);
+		String noticeMsg = rpcClient.getMapper().parseString(noticeMsgJson);
 		return noticeMsg;
 	}
 
 	@Override
 	public BigDecimal getBalance() {
-		String balanceStr = rpcClient.execute(Commands.GET_BALANCE.getName());
-		BigDecimal balance = new BigDecimal(balanceStr).setScale(Defaults.DECIMAL_SCALE, 
-				Defaults.DECIMAL_ROUNDING_MODE);
+		String balanceJson = rpcClient.execute(Commands.GET_BALANCE.getName());
+		BigDecimal balance = rpcClient.getMapper().parseBigDecimal(balanceJson);
 		return balance;
 	}
 	
 	@Override
 	public BigDecimal getBalance(String account) {
-		String balanceStr = rpcClient.execute(Commands.GET_BALANCE.getName(), account);
-		BigDecimal balance = new BigDecimal(balanceStr).setScale(Defaults.DECIMAL_SCALE,
-				Defaults.DECIMAL_ROUNDING_MODE);
+		String balanceJson = rpcClient.execute(Commands.GET_BALANCE.getName(), account);
+		BigDecimal balance = rpcClient.getMapper().parseBigDecimal(balanceJson);
 		return balance;
 	}
 	
 	@Override
 	public BigDecimal getDifficulty() {
-		String difficultyStr = rpcClient.execute(Commands.GET_DIFFICULTY.getName());
-		BigDecimal difficulty = new BigDecimal(difficultyStr).setScale(Defaults.DECIMAL_SCALE, 
-				Defaults.DECIMAL_ROUNDING_MODE);
+		String difficultyJson = rpcClient.execute(Commands.GET_DIFFICULTY.getName());
+		BigDecimal difficulty = rpcClient.getMapper().parseBigDecimal(difficultyJson);
 		return difficulty;
 	}
 	
 	@Override
 	public Boolean getGenerate() {
-		String isGenerateStr = rpcClient.execute(Commands.GET_GENERATE.getName());
-		Boolean isGenerate = Boolean.valueOf(isGenerateStr);
+		String isGenerateJson = rpcClient.execute(Commands.GET_GENERATE.getName());
+		Boolean isGenerate = rpcClient.getMapper().parseBoolean(isGenerateJson);
 		return isGenerate;
 	}
 	
 	@Override
 	public Integer getHashesPerSec() {
-		String hashesPerSecStr = rpcClient.execute(Commands.GET_HASHES_PER_SEC.getName());
-		Integer hashesPerSec = Integer.valueOf(hashesPerSecStr);
+		String hashesPerSecJson = rpcClient.execute(Commands.GET_HASHES_PER_SEC.getName());
+		Integer hashesPerSec = rpcClient.getMapper().parseInteger(hashesPerSecJson);
 		return hashesPerSec;
 	}
 	
@@ -109,7 +103,7 @@ public class BtcdClientImpl implements BtcdClient {
 	@Override
 	public String stop() {
 		String noticeMsgJson = rpcClient.execute(Commands.STOP.getName());
-		String noticeMsg = rpcClient.getMapper().decode(noticeMsgJson);
+		String noticeMsg = rpcClient.getMapper().parseString(noticeMsgJson);
 		return noticeMsg;
 	}
 	
