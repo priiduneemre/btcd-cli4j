@@ -2,12 +2,15 @@ package com.neemre.btcdcli4j.domain;
 
 import java.math.BigDecimal;
 
+import lombok.AccessLevel;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.Setter;
 import lombok.ToString;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.neemre.btcdcli4j.common.Defaults;
 
 @Data
 @ToString(callSuper = true)
@@ -21,6 +24,7 @@ public class MiningInfo extends Entity {
 	private Integer currentBlockSize;
 	@JsonProperty("currentblocktx")
 	private Integer currentBlockTx;
+	@Setter(AccessLevel.NONE)
 	private BigDecimal difficulty;
 	private String errors;
 	@JsonProperty("genproclimit")
@@ -34,4 +38,9 @@ public class MiningInfo extends Entity {
 	private Boolean generate;
 	@JsonProperty("hashespersec")
 	private Long hashesPerSec;
+	
+	
+	public void setDifficulty(BigDecimal difficulty) {
+		this.difficulty = difficulty.setScale(Defaults.DECIMAL_SCALE, Defaults.ROUNDING_MODE);
+	}
 }

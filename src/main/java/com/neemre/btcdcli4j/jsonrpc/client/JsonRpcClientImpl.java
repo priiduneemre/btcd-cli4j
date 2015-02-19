@@ -10,6 +10,7 @@ import org.apache.http.client.HttpClient;
 import com.neemre.btcdcli4j.http.client.SimpleHttpClient;
 import com.neemre.btcdcli4j.http.client.SimpleHttpClientImpl;
 import com.neemre.btcdcli4j.jsonrpc.JsonMapper;
+import com.neemre.btcdcli4j.jsonrpc.JsonParser;
 import com.neemre.btcdcli4j.jsonrpc.domain.JsonRpcError;
 import com.neemre.btcdcli4j.jsonrpc.domain.JsonRpcRequest;
 import com.neemre.btcdcli4j.jsonrpc.domain.JsonRpcResponse;
@@ -17,11 +18,13 @@ import com.neemre.btcdcli4j.jsonrpc.domain.JsonRpcResponse;
 public class JsonRpcClientImpl implements JsonRpcClient {
 	
 	private SimpleHttpClient httpClient;
+	private JsonParser parser;
 	private JsonMapper mapper;
 	
 	
 	public JsonRpcClientImpl(HttpClient rawHttpClient, Properties nodeConfig) {
 		httpClient = new SimpleHttpClientImpl(rawHttpClient, nodeConfig);
+		parser = new JsonParser();
 		mapper = new JsonMapper();
 	}
 	
@@ -43,6 +46,11 @@ public class JsonRpcClientImpl implements JsonRpcClient {
 		String responseJson = httpClient.execute(mapper.mapToJson(request));
 		JsonRpcResponse response = mapper.mapToEntity(responseJson, JsonRpcResponse.class);
 		return response.getResult();
+	}
+	
+	@Override
+	public JsonParser getParser() {
+		return parser;
 	}
 	
 	@Override

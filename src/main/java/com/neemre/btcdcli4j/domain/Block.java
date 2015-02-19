@@ -5,9 +5,12 @@ import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.neemre.btcdcli4j.common.Defaults;
 
+import lombok.AccessLevel;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.Setter;
 import lombok.ToString;
 
 @Data
@@ -28,6 +31,7 @@ public class Block extends Entity {
 	private Long time;
 	private Integer nonce;
 	private String bits;
+	@Setter(AccessLevel.NONE)
 	private BigDecimal difficulty;
 	@JsonProperty("chainwork")
 	private String chainWork;
@@ -35,4 +39,9 @@ public class Block extends Entity {
 	private String previousBlockHash;
 	@JsonProperty("nextblockhash")
 	private String nextBlockHash;
+	
+	
+	public void setDifficulty(BigDecimal difficulty) {
+		this.difficulty = difficulty.setScale(Defaults.DECIMAL_SCALE, Defaults.ROUNDING_MODE);
+	}
 }

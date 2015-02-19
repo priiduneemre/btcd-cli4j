@@ -89,5 +89,7 @@ public class ExampleMain {
 		BigDecimal balance2 = btcdClient.getBalance(account1);
 		System.out.printf("bitcoind.exe response for 'getbalance(%s=%s)': '%s'\n", "account1", 
 				account1, balance2);
+		
+		
 	}
 }
