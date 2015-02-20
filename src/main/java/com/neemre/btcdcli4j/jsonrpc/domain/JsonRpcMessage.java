@@ -5,5 +5,5 @@ import lombok.Data;
 @Data
 public abstract class JsonRpcMessage {
 	
-	private int id;
+	private String id;
 }

@@ -4,6 +4,7 @@ package com.neemre.btcdcli4j.jsonrpc.client;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
+import java.util.UUID;
 
 import org.apache.http.client.HttpClient;
 
@@ -42,9 +43,12 @@ public class JsonRpcClientImpl implements JsonRpcClient {
 
 	@Override
 	public <T> String execute(String method, List<T> params) {
-		JsonRpcRequest<T> request = getNewRequest(method, params, 80085);
+		String requestUuid = getNewUuid();
+		JsonRpcRequest<T> request = getNewRequest(method, params, requestUuid);
 		String responseJson = httpClient.execute(mapper.mapToJson(request));
 		JsonRpcResponse response = mapper.mapToEntity(responseJson, JsonRpcResponse.class);
+		response = verifyResponse(request, response);
+		response = checkResponse(request, response);
 		return response.getResult();
 	}
 	
@@ -58,21 +62,41 @@ public class JsonRpcClientImpl implements JsonRpcClient {
 		return mapper;
 	}
 	
-	private <T> JsonRpcRequest<T> getNewRequest(String method, List<T> params, int id) {
+	private <T> JsonRpcRequest<T> getNewRequest(String method, List<T> params, String id) {
 		JsonRpcRequest<T> rpcRequest = new JsonRpcRequest<T>();
-		
 		rpcRequest.setMethod(method);
 		rpcRequest.setParams(params);
 		rpcRequest.setId(id);
 		return rpcRequest;
 	}
 	
-	private JsonRpcResponse getNewResponse(String result, JsonRpcError error, int id) {
+	private JsonRpcResponse getNewResponse(String result, JsonRpcError error, String id) {
 		JsonRpcResponse rpcResponse = new JsonRpcResponse();
-		
 		rpcResponse.setResult(result);
 		rpcResponse.setError(error);
 		rpcResponse.setId(id);
 		return rpcResponse;
+	}
+	
+	private String getNewUuid() {
+		return UUID.randomUUID().toString().replaceAll("-", "");
+	}
+	
+	private <T> JsonRpcResponse verifyResponse(JsonRpcRequest<T> request, JsonRpcResponse response) {
+		if(!response.getId().equals(request.getId())) {
+			System.out.printf("%s.%s(..): I am broken.", getClass().getSimpleName(), 
+					getClass().getEnclosingMethod().getName());	//TODO
+		}
+		return response;
+	}
+	
+	private <T> JsonRpcResponse checkResponse(JsonRpcRequest<T> request, JsonRpcResponse response) {
+		if(!response.getId().equals(request.getId())) {
+			if(!response.getError().equals(null)) {
+				System.out.printf("%s.%s(..): I am broken.", getClass().getSimpleName(), 
+						getClass().getEnclosingMethod().getName());	//TODO
+			}
+		}
+		return response;
 	}
 }

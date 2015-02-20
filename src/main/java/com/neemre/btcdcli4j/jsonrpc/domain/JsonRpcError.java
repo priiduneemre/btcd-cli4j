@@ -5,6 +5,6 @@ import lombok.Data;
 @Data
 public class JsonRpcError {
 	
-	private int code;
+	private Integer code;
 	private String message;
 }

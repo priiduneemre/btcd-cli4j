@@ -24,7 +24,7 @@ public class JsonRpcResponseDeserializer extends JsonDeserializer<JsonRpcRespons
 		
 		public JsonNode result;
 		public JsonRpcError error;
-		public int id;
+		public String id;
 
 		
 		JsonRpcResponse toJsonRpcResponse() {

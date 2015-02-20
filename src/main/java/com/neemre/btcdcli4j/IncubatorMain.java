@@ -1,6 +1,6 @@
 package com.neemre.btcdcli4j;
 
-import java.math.BigDecimal;
+import java.util.UUID;
 
 import com.neemre.btcdcli4j.jsonrpc.JsonParser;
 
@@ -10,5 +10,8 @@ public class IncubatorMain {
 		JsonParser parser = new JsonParser();
 
 		System.out.println(parser.parseString("\"nul\"\""));
+		
+		String id = UUID.randomUUID().toString().replaceAll("-", "");
+		System.out.printf("Unique ID: '%s'\n", id);
 	}
 }
