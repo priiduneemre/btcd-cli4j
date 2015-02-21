@@ -14,6 +14,10 @@ public interface BtcdClient {
 	
 	BigDecimal getBalance(String account);
 	
+	BigDecimal getBalance(String account, Integer confirmations);
+
+	BigDecimal getBalance(String account, Integer confirmations, Boolean hasWatchOnly);
+	
 	BigDecimal getDifficulty();
 	
 	Boolean getGenerate();
@@ -28,7 +32,7 @@ public interface BtcdClient {
 	
 	void setGenerate(Boolean isGenerate);
 	
-	void setGenerate(Boolean isGenerate, Integer processorCount);
+	void setGenerate(Boolean isGenerate, Integer processors);
 	
 	String stop();
 		

@@ -1,10 +1,12 @@
-package com.neemre.btcdcli4j;
+package com.neemre.btcdcli4j.api;
 
 import java.io.BufferedInputStream;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
 
 import org.apache.http.client.HttpClient;
@@ -16,18 +18,12 @@ import com.neemre.btcdcli4j.common.Defaults;
 import com.neemre.btcdcli4j.domain.Info;
 import com.neemre.btcdcli4j.domain.MemPoolInfo;
 import com.neemre.btcdcli4j.domain.MiningInfo;
+import com.neemre.btcdcli4j.util.CollectionUtils;
 
-public class ExampleMain {
+public class ApiCallsMain {
 	
 	public static void main(String[] args) throws IOException {
-		HttpClient rawHttpClient = HttpClientBuilder.create().build();
-		Properties nodeConfig = new Properties();
-		InputStream inputStream = new BufferedInputStream(new FileInputStream(
-				"src/main/resources/node_config.properties"));
-		nodeConfig.load(inputStream);
-		inputStream.close();
-		
-		BtcdClient btcdClient = new BtcdClientImpl(rawHttpClient, nodeConfig);
+		BtcdClient btcdClient = new BtcdClientImpl(getHttpProvider(), getNodeConfig());
 		
 		Info info = btcdClient.getInfo();
 		System.out.printf("bitcoind.exe response for 'getinfo()': '%s'\n", info);
@@ -90,6 +86,44 @@ public class ExampleMain {
 		System.out.printf("bitcoind.exe response for 'getbalance(%s=%s)': '%s'\n", "account1", 
 				account1, balance2);
 		
+		String account2 = "";
+		Integer confirmations1 = 6;
+		BigDecimal balance3 = btcdClient.getBalance(account2, confirmations1);
+		System.out.printf("bitcoind.exe response for 'getbalance(%s=%s, %s=%s)': '%s'\n", 
+				"account2", account2, "confirmations1", confirmations1, balance3);
+		
+		String account3 = "";
+		Integer confirmations2 = 7;
+		Boolean hasWatchOnly = true;
+		BigDecimal balance4 = btcdClient.getBalance(account3, confirmations2, hasWatchOnly);
+		System.out.printf("bitcoind.exe response for 'getbalance(%s=%s, %s=%s, %s=%s)': '%s'\n",
+				"account3", account3, "confirmations2", confirmations2, "hasWatchOnly", 
+				hasWatchOnly, balance4);
+		
+	}
+	
+	private static HttpClient getHttpProvider() {
+		HttpClient rawHttpClient = HttpClientBuilder.create().build();
+		return rawHttpClient;
+	}
+	
+	private static Properties getNodeConfig() throws IOException {
+		Properties nodeConfig = new Properties();
+		InputStream inputStream = new BufferedInputStream(new FileInputStream(
+				"src/main/resources/node_config.properties"));
+		nodeConfig.load(inputStream);
+		inputStream.close();
+		return nodeConfig;
+	}
+	
+	private static void printResult(String methodName, List<Object> paramNames, 
+			List<Object> paramValues, Object result) {
+		List<Object> printables = new ArrayList<Object>();
+		printables.add(methodName);
+		printables.add(CollectionUtils.mergeInterlaced(paramNames, paramValues));
+		printables.add(result);
+		String resultString = String.format("'bitcoind' response for method '%s()' was: '%s'\n");
+		for(int i = 0; i < paramNames.size();)
 		
 	}
 }

@@ -10,6 +10,7 @@ import lombok.ToString;
 public enum Commands {
 	
 	ENCRYPT_WALLET("encryptwallet", 1, 1),
+	GET_BALANCE("getbalance", 0, 3),
 	GET_DIFFICULTY("getdifficulty", 0, 0),
 	GET_GENERATE("getgenerate", 0, 0),
 	GET_HASHES_PER_SEC("gethashespersec", 0, 0),
@@ -24,7 +25,6 @@ public enum Commands {
 	
 	LIST_ACCOUNTS("listaccounts", 0, 2),
 	GET_NEW_ADDRESS("getnewaddress", 0, 1),
-	GET_BALANCE("getbalance", 0, 3),
 	GET_ACCOUNT("getaccount", 1, 1),
 	GET_ACCOUNT_ADDRESS("getaccountaddress", 1, 1),
 	GET_RECEIVED_BY_ACCOUNT("getreceivedbyaccount", 1, 2),

@@ -21,12 +21,12 @@ public class JsonRpcResponseDeserializer extends JsonDeserializer<JsonRpcRespons
 	}
 
 	private static class RawJsonRpcResponse {
-		
+
 		public JsonNode result;
 		public JsonRpcError error;
 		public String id;
 
-		
+
 		JsonRpcResponse toJsonRpcResponse() {
 			JsonRpcResponse rpcResponse = new JsonRpcResponse();
 			rpcResponse.setResult(result.toString());

@@ -45,6 +45,22 @@ public class BtcdClientImpl implements BtcdClient {
 	}
 	
 	@Override
+	public BigDecimal getBalance(String account, Integer confirmations) {
+		List<Object> params = CollectionUtils.asList(account, confirmations);
+		String balanceJson = rpcClient.execute(Commands.GET_BALANCE.getName(), params);
+		BigDecimal balance = rpcClient.getParser().parseBigDecimal(balanceJson);
+		return balance;
+	}
+
+	@Override
+	public BigDecimal getBalance(String account, Integer confirmations, Boolean hasWatchOnly) {
+		List<Object> params = CollectionUtils.asList(account, confirmations, hasWatchOnly);
+		String balanceJson = rpcClient.execute(Commands.GET_BALANCE.getName(), params);
+		BigDecimal balance = rpcClient.getParser().parseBigDecimal(balanceJson);
+		return balance;
+	}
+	
+	@Override
 	public BigDecimal getDifficulty() {
 		String difficultyJson = rpcClient.execute(Commands.GET_DIFFICULTY.getName());
 		BigDecimal difficulty = rpcClient.getParser().parseBigDecimal(difficultyJson);
@@ -93,8 +109,8 @@ public class BtcdClientImpl implements BtcdClient {
 	}
 	
 	@Override
-	public void setGenerate(Boolean isGenerate, Integer processorCount) {
-		List<Object> params = CollectionUtils.asList(isGenerate, processorCount);
+	public void setGenerate(Boolean isGenerate, Integer processors) {
+		List<Object> params = CollectionUtils.asList(isGenerate, processors);
 		rpcClient.execute(Commands.SET_GENERATE.getName(), params);
 	}
 	
