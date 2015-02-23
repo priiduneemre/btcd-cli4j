@@ -19,8 +19,8 @@ public class BtcdClientImpl implements BtcdClient {
 	private JsonRpcClient rpcClient;
 	
 	
-	public BtcdClientImpl(HttpClient rawHttpClient, Properties nodeConfig) {
-		rpcClient = new JsonRpcClientImpl(rawHttpClient, nodeConfig);
+	public BtcdClientImpl(HttpClient httpProvider, Properties nodeConfig) {
+		rpcClient = new JsonRpcClientImpl(httpProvider, nodeConfig);
 	}
 	
 	@Override
@@ -75,9 +75,9 @@ public class BtcdClientImpl implements BtcdClient {
 	}
 	
 	@Override
-	public Integer getHashesPerSec() {
+	public Long getHashesPerSec() {
 		String hashesPerSecJson = rpcClient.execute(Commands.GET_HASHES_PER_SEC.getName());
-		Integer hashesPerSec = rpcClient.getParser().parseInteger(hashesPerSecJson);
+		Long hashesPerSec = rpcClient.getParser().parseLong(hashesPerSecJson);
 		return hashesPerSec;
 	}
 	

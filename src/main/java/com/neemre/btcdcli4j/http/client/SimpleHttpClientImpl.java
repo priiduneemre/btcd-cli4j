@@ -23,18 +23,18 @@ import com.neemre.btcdcli4j.http.HttpConst;
 
 public class SimpleHttpClientImpl implements SimpleHttpClient {
 	
-	private HttpClient rawClient;
+	private HttpClient provider;
 	private Properties nodeConfig;
 	
 	
-	public SimpleHttpClientImpl(HttpClient rawClient, Properties nodeConfig) {
-		this.rawClient = rawClient;
+	public SimpleHttpClientImpl(HttpClient provider, Properties nodeConfig) {
+		this.provider = provider;
 		this.nodeConfig = nodeConfig;
 	}
 	
 	public String execute(String reqPayload) {
 		try {
-			HttpResponse response = rawClient.execute(getNewRequest(HttpConst.REQ_METHOD_POST, 
+			HttpResponse response = provider.execute(getNewRequest(HttpConst.REQ_METHOD_POST, 
 					reqPayload));
 			HttpEntity respPayloadEntity = response.getEntity();
 			if(respPayloadEntity != null) {

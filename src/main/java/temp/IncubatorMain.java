@@ -1,6 +1,7 @@
-package com.neemre.btcdcli4j.other;
+package temp;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
@@ -32,10 +33,20 @@ public class IncubatorMain {
 		listD.add("listD: I like bitcoin");
 		listD.add("listD: I like litecoin");
 		listD.add("listD: I like dogecoin");
-		
+
 		System.out.printf("CollectionUtils.equalsSize(..) result is: '%s'\n", 
 				CollectionUtils.equalsSize(listA, listB, listC, listD, null));
 		System.out.printf("CollectionUtils.mergeInterlaced(..) result is: '%s'\n",
 				CollectionUtils.mergeInterlaced(listA, listB, listC, listD));
+		
+		String[] arrayA = new String[3];
+		arrayA[0] = "Hey, (A)";
+		arrayA[1] = "what's (A)";
+		arrayA[2] = "up? (A)";
+		String[] arrayB = new String[3];
+		arrayB[0] = "Hey, (B)";
+		arrayB[1] = "what's (B)";
+		arrayB[2] = "up? (B)";
+		System.out.println(CollectionUtils.mergeInterlaced(Arrays.asList(arrayA), Arrays.asList(arrayB)));
 	}
 }

@@ -23,8 +23,8 @@ public class JsonRpcClientImpl implements JsonRpcClient {
 	private JsonMapper mapper;
 
 
-	public JsonRpcClientImpl(HttpClient rawHttpClient, Properties nodeConfig) {
-		httpClient = new SimpleHttpClientImpl(rawHttpClient, nodeConfig);
+	public JsonRpcClientImpl(HttpClient httpProvider, Properties nodeConfig) {
+		httpClient = new SimpleHttpClientImpl(httpProvider, nodeConfig);
 		parser = new JsonParser();
 		mapper = new JsonMapper();
 	}
@@ -84,16 +84,14 @@ public class JsonRpcClientImpl implements JsonRpcClient {
 
 	private <T> JsonRpcResponse validateResponse(JsonRpcRequest<T> request, JsonRpcResponse response) {
 		if(!response.getId().equals(request.getId())) {
-			System.out.printf("%s.%s(..): I am broken.", getClass().getSimpleName(), 
-					getClass().getEnclosingMethod().getName());	//TODO
+			//throw new IllegalArgumentException("I am broken.");	//TODO
 		}
 		return response;
 	}
 
 	private <T> JsonRpcResponse checkResponse(JsonRpcResponse response) {
-		if(!response.getError().equals(null)) {
-			System.out.printf("%s.%s(..): I am broken.", getClass().getSimpleName(), 
-					getClass().getEnclosingMethod().getName());	//TODO
+		if(!(response.getError() == null)) {
+			//throw new IllegalArgumentException("I am broken.");	//TODO
 		}
 		return response;
 	}

@@ -1,6 +1,7 @@
 package com.neemre.btcdcli4j.util;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -9,33 +10,39 @@ public final class CollectionUtils {
 
 	private CollectionUtils() {}
 
-	@SafeVarargs
-	public static <T> List<T> asList(T... items) {
-		List<T> itemsList = new ArrayList<T>(items.length);
-		for(T item : items) {
+
+	public static List<Object> asList(Object... items) {
+		List<Object> itemsList = new ArrayList<Object>(items.length);
+		for(Object item : items) {
 			itemsList.add(item);
 		}
 		return itemsList;
 	}
 
 	@SafeVarargs
-	public static <T> List<T> merge(List<T>... lists) {
-		List<T> mergedList = new ArrayList<T>();
-		for(List<T> list : lists) {
+	public static List<Object> merge(List<? extends Object>... lists) {
+		if(containsNull(lists)) {
+			throw new IllegalArgumentException("I am broken."); //TODO
+		}
+		List<Object> mergedList = new ArrayList<Object>();
+		for(List<? extends Object> list : lists) {
 			mergedList.addAll(list);
 		}
 		return mergedList;
 	}
 
 	@SafeVarargs
-	public static <T> List<T> mergeInterlaced(List<T>... lists) {
+	public static List<Object> mergeInterlaced(List<? extends Object>... lists) {
+		if(containsNull(lists)) {
+			throw new IllegalArgumentException("I am broken."); //TODO
+		}
 		if(!equalsSize(lists)) {
 			throw new IllegalArgumentException("I am broken.");	//TODO
 		}
-		List<T> mergedList = new ArrayList<T>();
+		List<Object> mergedList = new ArrayList<Object>();
 		if(lists.length > 0) {
 			for(int i = 0; i < lists[0].size(); i++) {
-				for(List<T> list : lists) {
+				for(List<? extends Object> list : lists) {
 					mergedList.add(list.get(i));
 				}
 			}
@@ -44,9 +51,9 @@ public final class CollectionUtils {
 	}
 
 	@SafeVarargs
-	public static <T> boolean equalsSize(List<T>... lists) {
+	public static boolean equalsSize(List<? extends Object>... lists) {
 		Set<Integer> sizes = new HashSet<Integer>(lists.length);
-		for(List<T> list : lists) {
+		for(List<? extends Object> list : lists) {
 			if(list == null) {
 				return false;
 			}
@@ -59,5 +66,35 @@ public final class CollectionUtils {
 			}
 		}
 		return true;
+	}
+
+	public static Object[] asLists(Object[]... arrays) {
+		if(containsNull(arrays)) {
+			throw new IllegalArgumentException("I am broken."); //TODO
+		}
+		Object[] lists = new Object[arrays.length];
+		for(int i = 0; i < arrays.length; i++) {
+			lists[i] = Arrays.asList(arrays[i]);
+		}
+		return lists;
+	}
+
+	public static boolean containsNull(Object[]... arrays) {
+		for(Object[] array : arrays) {
+			if(array == null) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	@SafeVarargs
+	public static boolean containsNull(List<? extends Object>... lists) {
+		for(List<? extends Object> list : lists) {
+			if(list == null) {
+				return true;
+			}
+		}
+		return false;
 	}
 }

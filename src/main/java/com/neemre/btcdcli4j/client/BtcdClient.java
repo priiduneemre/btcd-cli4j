@@ -22,7 +22,7 @@ public interface BtcdClient {
 	
 	Boolean getGenerate();
 	
-	Integer getHashesPerSec();
+	Long getHashesPerSec();
 	
 	Info getInfo();
 	
