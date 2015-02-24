@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 import java.util.Properties;
 
 import org.apache.commons.lang3.StringUtils;
@@ -20,31 +21,36 @@ import com.neemre.btcdcli4j.util.CollectionUtils;
 
 public class ApiUsage {
 	
-	/**A list of examples for invoking any of the <i>bitcoind</i> API commands currently supported 
-	 * by btcd-cli4j (as of 0.1.0). Calling any of the methods below will cause a short overview 
-	 * (<i>i.e.</i> of the results) to be written to {@code stdout}.*/
+	/**A list of examples demonstrating the use of all <i>bitcoind</i> API commands currently 
+	 * supported by btcd-cli4j (as of 0.1.0). Calling any of the methods below will cause a
+	 * short overview (<i>i.e.</i> the results of the operation) to be written to 
+	 * {@code stdout}.*/
 	public static void main(String[] args) throws Exception {
 		HttpClient httpProvider = ExampleUtils.getHttpProvider();
 		Properties nodeConfig = ExampleUtils.getNodeConfig();
-		ApiCalls sampleCalls = new ApiCalls(httpProvider, nodeConfig);
+		ApiCalls supportedCalls = new ApiCalls(httpProvider, nodeConfig);
 		
-		sampleCalls.encryptWallet("strawberry");
-		sampleCalls.getBalance();
-		sampleCalls.getBalance("");
-		sampleCalls.getBalance("", 6);
-		sampleCalls.getBalance("", 6, true);
-		sampleCalls.getDifficulty();
-		sampleCalls.getGenerate();
-		sampleCalls.getHashesPerSec();
-		sampleCalls.getInfo();
-		sampleCalls.getMemPoolInfo();
-		sampleCalls.getMiningInfo();
-		sampleCalls.setGenerate(false);
-		sampleCalls.setGenerate(false, 7);
-		//apiCalls.stop();
-		sampleCalls.walletLock();
-		sampleCalls.walletPassphrase("strawberry", Defaults.WALLET_AUTH_TIMEOUT);
-		sampleCalls.walletPassphraseChange("strawberry", "raspberry");
+		supportedCalls.encryptWallet("strawberry");
+		supportedCalls.getAccount("15eXDukpi27y3WwZK7U23zQyTFQboLD2Qr");
+		supportedCalls.getBalance();
+		supportedCalls.getBalance("");
+		supportedCalls.getBalance("", 6);
+		supportedCalls.getBalance("", 6, true);
+		supportedCalls.getDifficulty();
+		supportedCalls.getGenerate();
+		supportedCalls.getHashesPerSec();
+		supportedCalls.getInfo();
+		supportedCalls.getMemPoolInfo();
+		supportedCalls.getMiningInfo();
+		supportedCalls.listAccounts();
+		supportedCalls.listAccounts(6);
+		supportedCalls.listAccounts(6, true);
+		supportedCalls.setGenerate(false);
+		supportedCalls.setGenerate(false, 7);
+		//supportedCalls.stop();
+		supportedCalls.walletLock();
+		supportedCalls.walletPassphrase("strawberry", Defaults.WALLET_AUTH_TIMEOUT);
+		supportedCalls.walletPassphraseChange("strawberry", "raspberry");
 	}
 
 	static class ApiCalls {
@@ -62,6 +68,12 @@ public class ApiUsage {
 					new Object[]{passphrase}, noticeMsg);
 		}	
 
+		private void getAccount(String address) {
+			String account = btcdClient.getAccount(address);
+			printResult(Commands.GET_ACCOUNT.getName(), new String[]{"address"}, 
+					new Object[]{address}, account);
+		}
+		
 		private void getBalance() {
 			BigDecimal balance = btcdClient.getBalance();
 			printResult(Commands.GET_BALANCE.getName(), null, null, balance);
@@ -79,10 +91,10 @@ public class ApiUsage {
 					new Object[]{account, confirmations}, balance);
 		}
 
-		private void getBalance(String account, int confirmations, boolean hasWatchOnly) {
-			BigDecimal balance = btcdClient.getBalance(account, confirmations, hasWatchOnly);
+		private void getBalance(String account, int confirmations, boolean withWatchOnly) {
+			BigDecimal balance = btcdClient.getBalance(account, confirmations, withWatchOnly);
 			printResult(Commands.GET_BALANCE.getName(), new String[]{"account", "confirmations", 
-			"hasWatchOnly"}, new Object[]{account, confirmations, hasWatchOnly}, balance);
+			"withWatchOnly"}, new Object[]{account, confirmations, withWatchOnly}, balance);
 		}
 
 		private void getDifficulty() {
@@ -115,6 +127,23 @@ public class ApiUsage {
 			printResult(Commands.GET_MINING_INFO.getName(), null, null, miningInfo);
 		}
 
+		private void listAccounts() {
+			Map<String, BigDecimal> accounts = btcdClient.listAccounts();
+			printResult(Commands.LIST_ACCOUNTS.getName(), null, null, accounts);
+		}
+		
+		private void listAccounts(int confirmations) {
+			Map<String, BigDecimal> accounts = btcdClient.listAccounts(confirmations);
+			printResult(Commands.LIST_ACCOUNTS.getName(), new String[]{"confirmations"}, 
+					new Object[]{confirmations}, accounts);
+		}
+		
+		private void listAccounts(int confirmations, boolean withWatchOnly) {
+			Map<String, BigDecimal> accounts = btcdClient.listAccounts(confirmations, withWatchOnly);
+			printResult(Commands.LIST_ACCOUNTS.getName(), new String[]{"confirmations", 
+				"withWatchOnly"}, new Object[]{confirmations, withWatchOnly}, accounts);			
+		}
+		
 		private void setGenerate(boolean isGenerate) {
 			btcdClient.setGenerate(isGenerate);
 			printResult(Commands.SET_GENERATE.getName(), new String[]{"isGenerate"}, 

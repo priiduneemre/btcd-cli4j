@@ -2,17 +2,20 @@ package com.neemre.btcdcli4j.client;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Map;
 import java.util.Properties;
 
 import org.apache.http.client.HttpClient;
 
 import com.neemre.btcdcli4j.Commands;
+import com.neemre.btcdcli4j.common.Defaults;
 import com.neemre.btcdcli4j.domain.Info;
 import com.neemre.btcdcli4j.domain.MemPoolInfo;
 import com.neemre.btcdcli4j.domain.MiningInfo;
 import com.neemre.btcdcli4j.jsonrpc.client.JsonRpcClient;
 import com.neemre.btcdcli4j.jsonrpc.client.JsonRpcClientImpl;
 import com.neemre.btcdcli4j.util.CollectionUtils;
+import com.neemre.btcdcli4j.util.NumberUtils;
 
 public class BtcdClientImpl implements BtcdClient {
 
@@ -28,6 +31,13 @@ public class BtcdClientImpl implements BtcdClient {
 		String noticeMsgJson = rpcClient.execute(Commands.ENCRYPT_WALLET.getName(), passphrase);
 		String noticeMsg = rpcClient.getParser().parseString(noticeMsgJson);
 		return noticeMsg;
+	}
+	
+	@Override
+	public String getAccount(String address) {
+		String accountJson = rpcClient.execute(Commands.GET_ACCOUNT.getName(), address);
+		String account = rpcClient.getParser().parseString(accountJson);
+		return account;
 	}
 
 	@Override
@@ -53,8 +63,8 @@ public class BtcdClientImpl implements BtcdClient {
 	}
 
 	@Override
-	public BigDecimal getBalance(String account, Integer confirmations, Boolean hasWatchOnly) {
-		List<Object> params = CollectionUtils.asList(account, confirmations, hasWatchOnly);
+	public BigDecimal getBalance(String account, Integer confirmations, Boolean withWatchOnly) {
+		List<Object> params = CollectionUtils.asList(account, confirmations, withWatchOnly);
 		String balanceJson = rpcClient.execute(Commands.GET_BALANCE.getName(), params);
 		BigDecimal balance = rpcClient.getParser().parseBigDecimal(balanceJson);
 		return balance;
@@ -102,7 +112,35 @@ public class BtcdClientImpl implements BtcdClient {
 		MiningInfo miningInfo = rpcClient.getMapper().mapToEntity(miningInfoJson, MiningInfo.class);
 		return miningInfo;
 	}
+	
+	@Override
+	public Map<String, BigDecimal> listAccounts() {
+		String accountsJson = rpcClient.execute(Commands.LIST_ACCOUNTS.getName());
+		Map<String, BigDecimal> accounts = rpcClient.getMapper().mapToMap(accountsJson, 
+				String.class, BigDecimal.class);
+		accounts = NumberUtils.setValueScale(accounts, Defaults.DECIMAL_SCALE);
+		return accounts;
+	}
+	
+	@Override
+	public Map<String, BigDecimal> listAccounts(int confirmations) {
+		String accountsJson = rpcClient.execute(Commands.LIST_ACCOUNTS.getName(), confirmations);
+		Map<String, BigDecimal> accounts = rpcClient.getMapper().mapToMap(accountsJson, 
+				String.class, BigDecimal.class);
+		accounts = NumberUtils.setValueScale(accounts, Defaults.DECIMAL_SCALE);
+		return accounts;
+	}
 
+	@Override
+	public Map<String, BigDecimal> listAccounts(int confirmations, boolean withWatchOnly) {
+		List<Object> params = CollectionUtils.asList(confirmations, withWatchOnly);
+		String accountsJson = rpcClient.execute(Commands.LIST_ACCOUNTS.getName(), params);
+		Map<String, BigDecimal> accounts = rpcClient.getMapper().mapToMap(accountsJson, 
+				String.class, BigDecimal.class);
+		accounts = NumberUtils.setValueScale(accounts, Defaults.DECIMAL_SCALE);
+		return accounts;
+	}
+	
 	@Override
 	public void setGenerate(Boolean isGenerate) {
 		rpcClient.execute(Commands.SET_GENERATE.getName(), isGenerate);		
