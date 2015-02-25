@@ -17,6 +17,7 @@ import com.neemre.btcdcli4j.common.Defaults;
 import com.neemre.btcdcli4j.domain.Info;
 import com.neemre.btcdcli4j.domain.MemPoolInfo;
 import com.neemre.btcdcli4j.domain.MiningInfo;
+import com.neemre.btcdcli4j.domain.PeerNode;
 import com.neemre.btcdcli4j.util.CollectionUtils;
 
 public class ApiUsage {
@@ -32,6 +33,7 @@ public class ApiUsage {
 		
 		supportedCalls.encryptWallet("strawberry");
 		supportedCalls.getAccount("15eXDukpi27y3WwZK7U23zQyTFQboLD2Qr");
+		supportedCalls.getAccountAddress("firefly");
 		supportedCalls.getBalance();
 		supportedCalls.getBalance("");
 		supportedCalls.getBalance("", 6);
@@ -42,6 +44,13 @@ public class ApiUsage {
 		supportedCalls.getInfo();
 		supportedCalls.getMemPoolInfo();
 		supportedCalls.getMiningInfo();
+		supportedCalls.getNewAddress();
+		supportedCalls.getNewAddress("firefly");
+		supportedCalls.getPeerInfo();
+		supportedCalls.getReceivedByAccount("firefly");
+		supportedCalls.getReceivedByAccount("firefly", 6);
+		supportedCalls.getReceivedByAddress("1NroLTCuf15y2UYqmhbMgYoVGEfF8QVTA4");
+		supportedCalls.getReceivedByAddress("1NroLTCuf15y2UYqmhbMgYoVGEfF8QVTA4", 6);
 		supportedCalls.listAccounts();
 		supportedCalls.listAccounts(6);
 		supportedCalls.listAccounts(6, true);
@@ -72,6 +81,13 @@ public class ApiUsage {
 			String account = btcdClient.getAccount(address);
 			printResult(Commands.GET_ACCOUNT.getName(), new String[]{"address"}, 
 					new Object[]{address}, account);
+		}
+		
+		public void getAccountAddress(String account) {
+			String address = btcdClient.getAccountAddress(account);
+			printResult(Commands.GET_ACCOUNT_ADDRESS.getName(), new String[]{"account"}, 
+					new Object[]{account}, address);
+			
 		}
 		
 		private void getBalance() {
@@ -126,7 +142,47 @@ public class ApiUsage {
 			MiningInfo miningInfo = btcdClient.getMiningInfo();
 			printResult(Commands.GET_MINING_INFO.getName(), null, null, miningInfo);
 		}
+		
+		public void getNewAddress() {
+			String address = btcdClient.getNewAddress();
+			printResult(Commands.GET_NEW_ADDRESS.getName(), null, null, address);
+		}
 
+		public void getNewAddress(String account) {
+			String address = btcdClient.getNewAddress(account);
+			printResult(Commands.GET_NEW_ADDRESS.getName(), new String[]{"account"}, 
+					new Object[]{account}, address);
+		}
+		
+		public void getPeerInfo() {
+			List<PeerNode> peerInfo = btcdClient.getPeerInfo();
+			printResult(Commands.GET_PEER_INFO.getName(), null, null, peerInfo);
+		}
+		
+		public void getReceivedByAccount(String account) {
+			BigDecimal totalReceived = btcdClient.getReceivedByAccount(account);
+			printResult(Commands.GET_RECEIVED_BY_ACCOUNT.getName(), new String[]{"account"},
+					new Object[]{account}, totalReceived);
+		}
+		
+		public void getReceivedByAccount(String account, int confirmations) {
+			BigDecimal totalReceived = btcdClient.getReceivedByAccount(account, confirmations);
+			printResult(Commands.GET_RECEIVED_BY_ACCOUNT.getName(), new String[]{"account", 
+				"confirmations"}, new Object[]{account, confirmations}, totalReceived);
+		}
+		
+		public void getReceivedByAddress(String address) {
+			BigDecimal totalReceived = btcdClient.getReceivedByAddress(address);
+			printResult(Commands.GET_RECEIVED_BY_ADDRESS.getName(), new String[]{"address"},
+					new Object[]{address}, totalReceived);
+		}
+		
+		public void getReceivedByAddress(String address, int confirmations) {
+			BigDecimal totalReceived = btcdClient.getReceivedByAddress(address, confirmations);
+			printResult(Commands.GET_RECEIVED_BY_ADDRESS.getName(), new String[]{"address", 
+				"confirmations"}, new Object[]{address, confirmations}, totalReceived);
+		}
+		
 		private void listAccounts() {
 			Map<String, BigDecimal> accounts = btcdClient.listAccounts();
 			printResult(Commands.LIST_ACCOUNTS.getName(), null, null, accounts);

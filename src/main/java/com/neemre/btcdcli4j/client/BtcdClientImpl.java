@@ -12,6 +12,7 @@ import com.neemre.btcdcli4j.common.Defaults;
 import com.neemre.btcdcli4j.domain.Info;
 import com.neemre.btcdcli4j.domain.MemPoolInfo;
 import com.neemre.btcdcli4j.domain.MiningInfo;
+import com.neemre.btcdcli4j.domain.PeerNode;
 import com.neemre.btcdcli4j.jsonrpc.client.JsonRpcClient;
 import com.neemre.btcdcli4j.jsonrpc.client.JsonRpcClientImpl;
 import com.neemre.btcdcli4j.util.CollectionUtils;
@@ -38,6 +39,13 @@ public class BtcdClientImpl implements BtcdClient {
 		String accountJson = rpcClient.execute(Commands.GET_ACCOUNT.getName(), address);
 		String account = rpcClient.getParser().parseString(accountJson);
 		return account;
+	}
+	
+	@Override
+	public String getAccountAddress(String account) {
+		String addressJson = rpcClient.execute(Commands.GET_ACCOUNT_ADDRESS.getName(), account);
+		String address = rpcClient.getParser().parseString(addressJson);
+		return address;
 	}
 
 	@Override
@@ -111,6 +119,61 @@ public class BtcdClientImpl implements BtcdClient {
 		String miningInfoJson = rpcClient.execute(Commands.GET_MINING_INFO.getName());
 		MiningInfo miningInfo = rpcClient.getMapper().mapToEntity(miningInfoJson, MiningInfo.class);
 		return miningInfo;
+	}
+	
+	@Override
+	public String getNewAddress() {
+		String addressJson = rpcClient.execute(Commands.GET_NEW_ADDRESS.getName());
+		String address = rpcClient.getParser().parseString(addressJson);
+		return address;
+	}
+
+	@Override
+	public String getNewAddress(String account) {
+		String addressJson = rpcClient.execute(Commands.GET_NEW_ADDRESS.getName(), account);
+		String address = rpcClient.getParser().parseString(addressJson);
+		return address;
+	}
+	
+	@Override
+	public List<PeerNode> getPeerInfo() {
+		String peerInfoJson = rpcClient.execute(Commands.GET_PEER_INFO.getName());
+		List<PeerNode> peerInfo = rpcClient.getMapper().mapToList(peerInfoJson, PeerNode.class);
+		return peerInfo;
+	}
+	
+	@Override
+	public BigDecimal getReceivedByAccount(String account) {
+		String totalReceivedJson = rpcClient.execute(Commands.GET_RECEIVED_BY_ACCOUNT.getName(),
+				account);
+		BigDecimal totalReceived = rpcClient.getParser().parseBigDecimal(totalReceivedJson);
+		return totalReceived;
+	}
+
+	@Override
+	public BigDecimal getReceivedByAccount(String account, int confirmations) {
+		List<Object> params = CollectionUtils.asList(account, confirmations);
+		String totalReceivedJson = rpcClient.execute(Commands.GET_RECEIVED_BY_ACCOUNT.getName(), 
+				params);
+		BigDecimal totalReceived = rpcClient.getParser().parseBigDecimal(totalReceivedJson);
+		return totalReceived;
+	}
+	
+	@Override
+	public BigDecimal getReceivedByAddress(String address) {
+		String totalReceivedJson = rpcClient.execute(Commands.GET_RECEIVED_BY_ADDRESS.getName(),
+				address);
+		BigDecimal totalReceived = rpcClient.getParser().parseBigDecimal(totalReceivedJson);
+		return totalReceived;
+	}
+
+	@Override
+	public BigDecimal getReceivedByAddress(String address, int confirmations) {
+		List<Object> params = CollectionUtils.asList(address, confirmations);
+		String totalReceivedJson = rpcClient.execute(Commands.GET_RECEIVED_BY_ADDRESS.getName(),
+				params);
+		BigDecimal totalReceived = rpcClient.getParser().parseBigDecimal(totalReceivedJson);
+		return totalReceived;
 	}
 	
 	@Override
