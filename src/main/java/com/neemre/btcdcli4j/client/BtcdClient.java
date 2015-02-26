@@ -28,6 +28,12 @@ public interface BtcdClient {
 
 	BigDecimal getBalance(String account, Integer confirmations, Boolean withWatchOnly);
 	
+	String getBestBlockHash();
+	
+	Integer getBlockCount();
+	
+	String getBlockHash(Integer blockHeight);
+	
 	BigDecimal getDifficulty();
 	
 	Boolean getGenerate();
@@ -46,6 +52,8 @@ public interface BtcdClient {
 	
 	List<PeerNode> getPeerInfo();
 	
+	String getRawChangeAddress();
+	
 	BigDecimal getReceivedByAccount(String account);
 
 	BigDecimal getReceivedByAccount(String account, Integer confirmations);
@@ -53,6 +61,8 @@ public interface BtcdClient {
 	BigDecimal getReceivedByAddress(String address);
 
 	BigDecimal getReceivedByAddress(String address, Integer confirmations);
+	
+	BigDecimal getUnconfirmedBalance();
 	
 	WalletInfo getWalletInfo();
 	

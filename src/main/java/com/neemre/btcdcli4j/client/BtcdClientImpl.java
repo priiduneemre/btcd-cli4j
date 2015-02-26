@@ -88,6 +88,27 @@ public class BtcdClientImpl implements BtcdClient {
 	}
 	
 	@Override
+	public String getBestBlockHash() {
+		String blockHashJson = rpcClient.execute(Commands.GET_BEST_BLOCK_HASH.getName());
+		String blockHash = rpcClient.getParser().parseString(blockHashJson);
+		return blockHash;
+	}
+	
+	@Override
+	public Integer getBlockCount() {
+		String blockHeightJson = rpcClient.execute(Commands.GET_BLOCK_COUNT.getName());
+		Integer blockHeight = rpcClient.getParser().parseInteger(blockHeightJson);
+		return blockHeight;
+	}
+
+	@Override
+	public String getBlockHash(Integer blockHeight) {
+		String blockHashJson = rpcClient.execute(Commands.GET_BLOCK_HASH.getName(), blockHeight);
+		String blockHash = rpcClient.getParser().parseString(blockHashJson);
+		return blockHash;
+	}
+	
+	@Override
 	public BigDecimal getDifficulty() {
 		String difficultyJson = rpcClient.execute(Commands.GET_DIFFICULTY.getName());
 		BigDecimal difficulty = rpcClient.getParser().parseBigDecimal(difficultyJson);
@@ -152,6 +173,13 @@ public class BtcdClientImpl implements BtcdClient {
 	}
 	
 	@Override
+	public String getRawChangeAddress() {
+		String addressJson = rpcClient.execute(Commands.GET_RAW_CHANGE_ADDRESS.getName());
+		String address = rpcClient.getParser().parseString(addressJson);
+		return address;
+	}
+	
+	@Override
 	public BigDecimal getReceivedByAccount(String account) {
 		String totalReceivedJson = rpcClient.execute(Commands.GET_RECEIVED_BY_ACCOUNT.getName(),
 				account);
@@ -185,6 +213,12 @@ public class BtcdClientImpl implements BtcdClient {
 		return totalReceived;
 	}
 	
+	@Override
+	public BigDecimal getUnconfirmedBalance() {
+		String unconfirmedBalanceJson = rpcClient.execute(Commands.GET_UNCONFIRMED_BALANCE.getName());
+		BigDecimal unconfirmedBalance = rpcClient.getParser().parseBigDecimal(unconfirmedBalanceJson);
+		return unconfirmedBalance;
+	}	
 
 	@Override
 	public WalletInfo getWalletInfo() {

@@ -40,6 +40,9 @@ public class ApiUsage {
 		supportedCalls.getBalance("");
 		supportedCalls.getBalance("", 6);
 		supportedCalls.getBalance("", 6, true);
+		supportedCalls.getBestBlockHash();
+		supportedCalls.getBlockCount();
+		supportedCalls.getBlockHash(345168);
 		supportedCalls.getDifficulty();
 		supportedCalls.getGenerate();
 		supportedCalls.getHashesPerSec();
@@ -49,10 +52,12 @@ public class ApiUsage {
 		supportedCalls.getNewAddress();
 		supportedCalls.getNewAddress("firefly");
 		supportedCalls.getPeerInfo();
+		supportedCalls.getRawChangeAddress();
 		supportedCalls.getReceivedByAccount("firefly");
 		supportedCalls.getReceivedByAccount("firefly", 6);
 		supportedCalls.getReceivedByAddress("1NroLTCuf15y2UYqmhbMgYoVGEfF8QVTA4");
 		supportedCalls.getReceivedByAddress("1NroLTCuf15y2UYqmhbMgYoVGEfF8QVTA4", 6);
+		supportedCalls.getUnconfirmedBalance();
 		supportedCalls.getWalletInfo();
 		supportedCalls.listAccounts();
 		supportedCalls.listAccounts(6);
@@ -92,7 +97,6 @@ public class ApiUsage {
 			String address = btcdClient.getAccountAddress(account);
 			printResult(Commands.GET_ACCOUNT_ADDRESS.getName(), new String[]{"account"}, 
 					new Object[]{account}, address);
-			
 		}
 		
 		public void getAddressesByAccount(String account) {
@@ -122,6 +126,22 @@ public class ApiUsage {
 			BigDecimal balance = btcdClient.getBalance(account, confirmations, withWatchOnly);
 			printResult(Commands.GET_BALANCE.getName(), new String[]{"account", "confirmations", 
 			"withWatchOnly"}, new Object[]{account, confirmations, withWatchOnly}, balance);
+		}
+		
+		private void getBestBlockHash() {
+			String blockHash = btcdClient.getBestBlockHash();
+			printResult(Commands.GET_BEST_BLOCK_HASH.getName(), null, null, blockHash);
+		}
+		
+		private void getBlockCount() {
+			Integer blockHeight = btcdClient.getBlockCount();
+			printResult(Commands.GET_BLOCK_COUNT.getName(), null, null, blockHeight);
+		}
+	
+		private void getBlockHash(Integer blockHeight) {
+			String blockHash = btcdClient.getBlockHash(blockHeight);
+			printResult(Commands.GET_BLOCK_HASH.getName(), new String[]{"blockHeight"}, 
+					new Object[]{blockHeight}, blockHash);
 		}
 
 		private void getDifficulty() {
@@ -170,6 +190,11 @@ public class ApiUsage {
 			printResult(Commands.GET_PEER_INFO.getName(), null, null, peerInfo);
 		}
 		
+		public void getRawChangeAddress() {
+			String address = btcdClient.getRawChangeAddress();
+			printResult(Commands.GET_RAW_CHANGE_ADDRESS.getName(), null, null, address);
+		}
+		
 		public void getReceivedByAccount(String account) {
 			BigDecimal totalReceived = btcdClient.getReceivedByAccount(account);
 			printResult(Commands.GET_RECEIVED_BY_ACCOUNT.getName(), new String[]{"account"},
@@ -192,6 +217,11 @@ public class ApiUsage {
 			BigDecimal totalReceived = btcdClient.getReceivedByAddress(address, confirmations);
 			printResult(Commands.GET_RECEIVED_BY_ADDRESS.getName(), new String[]{"address", 
 				"confirmations"}, new Object[]{address, confirmations}, totalReceived);
+		}
+		
+		public void getUnconfirmedBalance() {
+			BigDecimal unconfirmedBalance = btcdClient.getUnconfirmedBalance();
+			printResult(Commands.GET_UNCONFIRMED_BALANCE.getName(), null, null, unconfirmedBalance);
 		}
 		
 		public void getWalletInfo() {
