@@ -54,14 +54,16 @@ public class ApiUsage {
 		supportedCalls.listAccounts();
 		supportedCalls.listAccounts(6);
 		supportedCalls.listAccounts(6, true);
+		supportedCalls.setAccount("1NRpYDf2GdAL4yLZEAww8uUSEGM7Df6KKc", "aardvark");
 		supportedCalls.setGenerate(false);
 		supportedCalls.setGenerate(false, 7);
+		supportedCalls.setTxFee(new BigDecimal("0.00004900"));
 		//supportedCalls.stop();
 		supportedCalls.walletLock();
 		supportedCalls.walletPassphrase("strawberry", Defaults.WALLET_AUTH_TIMEOUT);
 		supportedCalls.walletPassphraseChange("strawberry", "raspberry");
 	}
-
+	
 	static class ApiCalls {
 
 		private BtcdClient btcdClient;
@@ -200,6 +202,12 @@ public class ApiUsage {
 				"withWatchOnly"}, new Object[]{confirmations, withWatchOnly}, accounts);			
 		}
 		
+		public void setAccount(String address, String account) {
+			String nullMsg = btcdClient.setAccount(address, account);
+			printResult(Commands.SET_ACCOUNT.getName(), new String[]{"address", "account"},
+					new Object[]{address, account}, nullMsg);
+		}
+		
 		private void setGenerate(boolean isGenerate) {
 			btcdClient.setGenerate(isGenerate);
 			printResult(Commands.SET_GENERATE.getName(), new String[]{"isGenerate"}, 
@@ -210,6 +218,12 @@ public class ApiUsage {
 			btcdClient.setGenerate(isGenerate, processors);
 			printResult(Commands.SET_GENERATE.getName(), new String[]{"isGenerate", "processors"},
 					new Object[]{isGenerate, processors}, null);
+		}
+		
+		private void setTxFee(BigDecimal txFee) {
+			Boolean result = btcdClient.setTxFee(txFee);
+			printResult(Commands.SET_TX_FEE.getName(), new String[]{"txFee"}, new Object[]{txFee},
+					result);
 		}
 
 		private void stop() {

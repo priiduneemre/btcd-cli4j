@@ -45,27 +45,31 @@ public interface BtcdClient {
 	
 	BigDecimal getReceivedByAccount(String account);
 
-	BigDecimal getReceivedByAccount(String account, int confirmations);
+	BigDecimal getReceivedByAccount(String account, Integer confirmations);
 
 	BigDecimal getReceivedByAddress(String address);
 
-	BigDecimal getReceivedByAddress(String address, int confirmations);
+	BigDecimal getReceivedByAddress(String address, Integer confirmations);
 	
 	Map<String, BigDecimal> listAccounts();
 	
-	Map<String, BigDecimal> listAccounts(int confirmations);
+	Map<String, BigDecimal> listAccounts(Integer confirmations);
 	
-	Map<String, BigDecimal> listAccounts(int confirmations, boolean withWatchOnly);
+	Map<String, BigDecimal> listAccounts(Integer confirmations, Boolean withWatchOnly);
+	
+	String setAccount(String address, String account);
 	
 	void setGenerate(Boolean isGenerate);
 	
 	void setGenerate(Boolean isGenerate, Integer processors);
 	
+	Boolean setTxFee(BigDecimal txFee);
+	
 	String stop();
 		
 	void walletLock();
 
-	void walletPassphrase(String passphrase, int authTimeout);
+	void walletPassphrase(String passphrase, Integer authTimeout);
 
 	void walletPassphraseChange(String curPassphrase, String newPassphrase);
 }

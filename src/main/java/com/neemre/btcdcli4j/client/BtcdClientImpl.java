@@ -151,7 +151,7 @@ public class BtcdClientImpl implements BtcdClient {
 	}
 
 	@Override
-	public BigDecimal getReceivedByAccount(String account, int confirmations) {
+	public BigDecimal getReceivedByAccount(String account, Integer confirmations) {
 		List<Object> params = CollectionUtils.asList(account, confirmations);
 		String totalReceivedJson = rpcClient.execute(Commands.GET_RECEIVED_BY_ACCOUNT.getName(), 
 				params);
@@ -168,7 +168,7 @@ public class BtcdClientImpl implements BtcdClient {
 	}
 
 	@Override
-	public BigDecimal getReceivedByAddress(String address, int confirmations) {
+	public BigDecimal getReceivedByAddress(String address, Integer confirmations) {
 		List<Object> params = CollectionUtils.asList(address, confirmations);
 		String totalReceivedJson = rpcClient.execute(Commands.GET_RECEIVED_BY_ADDRESS.getName(),
 				params);
@@ -186,7 +186,7 @@ public class BtcdClientImpl implements BtcdClient {
 	}
 	
 	@Override
-	public Map<String, BigDecimal> listAccounts(int confirmations) {
+	public Map<String, BigDecimal> listAccounts(Integer confirmations) {
 		String accountsJson = rpcClient.execute(Commands.LIST_ACCOUNTS.getName(), confirmations);
 		Map<String, BigDecimal> accounts = rpcClient.getMapper().mapToMap(accountsJson, 
 				String.class, BigDecimal.class);
@@ -195,13 +195,21 @@ public class BtcdClientImpl implements BtcdClient {
 	}
 
 	@Override
-	public Map<String, BigDecimal> listAccounts(int confirmations, boolean withWatchOnly) {
+	public Map<String, BigDecimal> listAccounts(Integer confirmations, Boolean withWatchOnly) {
 		List<Object> params = CollectionUtils.asList(confirmations, withWatchOnly);
 		String accountsJson = rpcClient.execute(Commands.LIST_ACCOUNTS.getName(), params);
 		Map<String, BigDecimal> accounts = rpcClient.getMapper().mapToMap(accountsJson, 
 				String.class, BigDecimal.class);
 		accounts = NumberUtils.setValueScale(accounts, Defaults.DECIMAL_SCALE);
 		return accounts;
+	}
+	
+	@Override
+	public String setAccount(String address, String account) {
+		List<Object> params = CollectionUtils.asList(address, account);
+		String nullMsgJson = rpcClient.execute(Commands.SET_ACCOUNT.getName(), params);
+		String nullMsg = rpcClient.getParser().parseString(nullMsgJson);
+		return nullMsg;
 	}
 	
 	@Override
@@ -213,6 +221,13 @@ public class BtcdClientImpl implements BtcdClient {
 	public void setGenerate(Boolean isGenerate, Integer processors) {
 		List<Object> params = CollectionUtils.asList(isGenerate, processors);
 		rpcClient.execute(Commands.SET_GENERATE.getName(), params);
+	}
+	
+	@Override
+	public Boolean setTxFee(BigDecimal txFee) {
+		String resultJson = rpcClient.execute(Commands.SET_TX_FEE.getName(), txFee);
+		Boolean result = rpcClient.getParser().parseBoolean(resultJson);
+		return result;
 	}
 	
 	@Override
@@ -228,7 +243,7 @@ public class BtcdClientImpl implements BtcdClient {
 	}
 	
 	@Override
-	public void walletPassphrase(String passphrase, int authTimeout) {
+	public void walletPassphrase(String passphrase, Integer authTimeout) {
 		List<Object> params = CollectionUtils.asList(passphrase, authTimeout);
 		rpcClient.execute(Commands.WALLET_PASSPHRASE.getName(), params);
 	}

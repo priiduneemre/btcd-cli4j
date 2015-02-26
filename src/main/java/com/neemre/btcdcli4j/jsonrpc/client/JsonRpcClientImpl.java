@@ -84,7 +84,7 @@ public class JsonRpcClientImpl implements JsonRpcClient {
 
 	private <T> JsonRpcResponse validateResponse(JsonRpcRequest<T> request, JsonRpcResponse response) {
 		if(!response.getId().equals(request.getId())) {
-			//throw new IllegalArgumentException("I am broken.");	//TODO
+			throw new IllegalArgumentException("I am broken.");	//TODO
 		}
 		return response;
 	}
