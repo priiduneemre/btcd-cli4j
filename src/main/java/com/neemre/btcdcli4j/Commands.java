@@ -24,6 +24,7 @@ public enum Commands {
 	GET_PEER_INFO("getpeerinfo", 0, 0),
 	GET_RECEIVED_BY_ACCOUNT("getreceivedbyaccount", 1, 2),
 	GET_RECEIVED_BY_ADDRESS("getreceivedbyaddress", 1, 2),
+	GET_WALLET_INFO("getwalletinfo", 0, 0),
 	LIST_ACCOUNTS("listaccounts", 0, 2),
 	SET_ACCOUNT("setaccount", 2, 2),
 	SET_GENERATE("setgenerate", 1, 2),
@@ -31,11 +32,7 @@ public enum Commands {
 	STOP("stop", 0, 0),
 	WALLET_LOCK("walletlock", 0, 0),
 	WALLET_PASSPHRASE("walletpassphrase", 2, 2),
-	WALLET_PASSPHRASE_CHANGE("walletpassphrasechange", 2, 2),
-	
-	GET_WALLET_INFO("getwalletinfo", 0, 0);
-
-	
+	WALLET_PASSPHRASE_CHANGE("walletpassphrasechange", 2, 2);
 	
 	@Getter
 	@Setter

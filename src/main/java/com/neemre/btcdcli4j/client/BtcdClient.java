@@ -8,6 +8,7 @@ import com.neemre.btcdcli4j.domain.Info;
 import com.neemre.btcdcli4j.domain.MemPoolInfo;
 import com.neemre.btcdcli4j.domain.MiningInfo;
 import com.neemre.btcdcli4j.domain.PeerNode;
+import com.neemre.btcdcli4j.domain.WalletInfo;
 
 public interface BtcdClient {
 	
@@ -16,6 +17,8 @@ public interface BtcdClient {
 	String getAccount(String address);
 	
 	String getAccountAddress(String account);
+	
+	List<String> getAddressesByAccount(String account);
 	
 	BigDecimal getBalance();
 	
@@ -50,6 +53,8 @@ public interface BtcdClient {
 	BigDecimal getReceivedByAddress(String address);
 
 	BigDecimal getReceivedByAddress(String address, Integer confirmations);
+	
+	WalletInfo getWalletInfo();
 	
 	Map<String, BigDecimal> listAccounts();
 	

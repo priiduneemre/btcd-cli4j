@@ -35,9 +35,9 @@ public class Info extends Entity {
 	private BigDecimal difficulty;
 	private Boolean testnet;
 	@JsonProperty("keypoololdest")
-	private Long keyPoolOldest;
+	private Long keypoolOldest;
 	@JsonProperty("keypoolsize")
-	private Integer keyPoolSize;
+	private Integer keypoolSize;
 	@JsonProperty("unlocked_until")
 	private Long unlockedUntil;
 	@Setter(AccessLevel.NONE)

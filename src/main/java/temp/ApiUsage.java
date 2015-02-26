@@ -18,6 +18,7 @@ import com.neemre.btcdcli4j.domain.Info;
 import com.neemre.btcdcli4j.domain.MemPoolInfo;
 import com.neemre.btcdcli4j.domain.MiningInfo;
 import com.neemre.btcdcli4j.domain.PeerNode;
+import com.neemre.btcdcli4j.domain.WalletInfo;
 import com.neemre.btcdcli4j.util.CollectionUtils;
 
 public class ApiUsage {
@@ -34,6 +35,7 @@ public class ApiUsage {
 		supportedCalls.encryptWallet("strawberry");
 		supportedCalls.getAccount("15eXDukpi27y3WwZK7U23zQyTFQboLD2Qr");
 		supportedCalls.getAccountAddress("firefly");
+		supportedCalls.getAddressesByAccount("firefly");
 		supportedCalls.getBalance();
 		supportedCalls.getBalance("");
 		supportedCalls.getBalance("", 6);
@@ -51,6 +53,7 @@ public class ApiUsage {
 		supportedCalls.getReceivedByAccount("firefly", 6);
 		supportedCalls.getReceivedByAddress("1NroLTCuf15y2UYqmhbMgYoVGEfF8QVTA4");
 		supportedCalls.getReceivedByAddress("1NroLTCuf15y2UYqmhbMgYoVGEfF8QVTA4", 6);
+		supportedCalls.getWalletInfo();
 		supportedCalls.listAccounts();
 		supportedCalls.listAccounts(6);
 		supportedCalls.listAccounts(6, true);
@@ -90,6 +93,12 @@ public class ApiUsage {
 			printResult(Commands.GET_ACCOUNT_ADDRESS.getName(), new String[]{"account"}, 
 					new Object[]{account}, address);
 			
+		}
+		
+		public void getAddressesByAccount(String account) {
+			List<String> addresses = btcdClient.getAddressesByAccount(account);
+			printResult(Commands.GET_ADDRESSES_BY_ACCOUNT.getName(), new String[]{"account"},
+					new Object[]{account}, addresses);
 		}
 		
 		private void getBalance() {
@@ -183,6 +192,11 @@ public class ApiUsage {
 			BigDecimal totalReceived = btcdClient.getReceivedByAddress(address, confirmations);
 			printResult(Commands.GET_RECEIVED_BY_ADDRESS.getName(), new String[]{"address", 
 				"confirmations"}, new Object[]{address, confirmations}, totalReceived);
+		}
+		
+		public void getWalletInfo() {
+			WalletInfo walletInfo = btcdClient.getWalletInfo();
+			printResult(Commands.GET_WALLET_INFO.getName(), null, null, walletInfo);
 		}
 		
 		private void listAccounts() {

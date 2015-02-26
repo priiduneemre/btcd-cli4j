@@ -13,6 +13,7 @@ import com.neemre.btcdcli4j.domain.Info;
 import com.neemre.btcdcli4j.domain.MemPoolInfo;
 import com.neemre.btcdcli4j.domain.MiningInfo;
 import com.neemre.btcdcli4j.domain.PeerNode;
+import com.neemre.btcdcli4j.domain.WalletInfo;
 import com.neemre.btcdcli4j.jsonrpc.client.JsonRpcClient;
 import com.neemre.btcdcli4j.jsonrpc.client.JsonRpcClientImpl;
 import com.neemre.btcdcli4j.util.CollectionUtils;
@@ -46,6 +47,14 @@ public class BtcdClientImpl implements BtcdClient {
 		String addressJson = rpcClient.execute(Commands.GET_ACCOUNT_ADDRESS.getName(), account);
 		String address = rpcClient.getParser().parseString(addressJson);
 		return address;
+	}
+	
+	@Override
+	public List<String> getAddressesByAccount(String account) {
+		String addressesJson = rpcClient.execute(Commands.GET_ADDRESSES_BY_ACCOUNT.getName(), 
+				account);
+		List<String> addresses = rpcClient.getMapper().mapToList(addressesJson, String.class);
+		return addresses;
 	}
 
 	@Override
@@ -174,6 +183,14 @@ public class BtcdClientImpl implements BtcdClient {
 				params);
 		BigDecimal totalReceived = rpcClient.getParser().parseBigDecimal(totalReceivedJson);
 		return totalReceived;
+	}
+	
+
+	@Override
+	public WalletInfo getWalletInfo() {
+		String walletInfoJson = rpcClient.execute(Commands.GET_WALLET_INFO.getName());
+		WalletInfo walletInfo = rpcClient.getMapper().mapToEntity(walletInfoJson, WalletInfo.class);
+		return walletInfo;
 	}
 	
 	@Override
