@@ -59,6 +59,8 @@ public class ApiUsage {
 		supportedCalls.getReceivedByAddress("1NroLTCuf15y2UYqmhbMgYoVGEfF8QVTA4", 6);
 		supportedCalls.getUnconfirmedBalance();
 		supportedCalls.getWalletInfo();
+		supportedCalls.keyPoolRefill();
+		supportedCalls.keyPoolRefill(115);
 		supportedCalls.listAccounts();
 		supportedCalls.listAccounts(6);
 		supportedCalls.listAccounts(6, true);
@@ -80,7 +82,7 @@ public class ApiUsage {
 		public ApiCalls(HttpClient httpProvider, Properties nodeConfig) {
 			btcdClient = new BtcdClientImpl(httpProvider, nodeConfig);
 		}
-
+		
 		private void encryptWallet(String passphrase) {
 			String noticeMsg = btcdClient.encryptWallet(passphrase);
 			printResult(Commands.ENCRYPT_WALLET.getName(), new String[]{"passphrase"}, 
@@ -227,6 +229,18 @@ public class ApiUsage {
 		public void getWalletInfo() {
 			WalletInfo walletInfo = btcdClient.getWalletInfo();
 			printResult(Commands.GET_WALLET_INFO.getName(), null, null, walletInfo);
+		}
+		
+		public void keyPoolRefill() {
+			String nullMsg = btcdClient.keyPoolRefill();
+			printResult(Commands.KEY_POOL_REFILL.getName(), null, null, nullMsg);
+		}
+
+		
+		public void keyPoolRefill(int keypoolSize) {
+			String nullMsg = btcdClient.keyPoolRefill(keypoolSize);
+			printResult(Commands.KEY_POOL_REFILL.getName(), new String[]{"keypoolSize"}, 
+					new Object[]{keypoolSize}, nullMsg);
 		}
 		
 		private void listAccounts() {

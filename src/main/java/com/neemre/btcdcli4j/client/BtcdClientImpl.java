@@ -228,6 +228,20 @@ public class BtcdClientImpl implements BtcdClient {
 	}
 	
 	@Override
+	public String keyPoolRefill() {
+		String nullMsgJson = rpcClient.execute(Commands.KEY_POOL_REFILL.getName());
+		String nullMsg = rpcClient.getParser().parseString(nullMsgJson);
+		return nullMsg;
+	}
+
+	@Override
+	public String keyPoolRefill(int keypoolSize) {
+		String nullMsgJson = rpcClient.execute(Commands.KEY_POOL_REFILL.getName(), keypoolSize);
+		String nullMsg = rpcClient.getParser().parseString(nullMsgJson);
+		return nullMsg;
+	}
+	
+	@Override
 	public Map<String, BigDecimal> listAccounts() {
 		String accountsJson = rpcClient.execute(Commands.LIST_ACCOUNTS.getName());
 		Map<String, BigDecimal> accounts = rpcClient.getMapper().mapToMap(accountsJson, 

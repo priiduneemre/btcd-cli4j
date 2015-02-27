@@ -30,6 +30,7 @@ public enum Commands {
 	GET_RECEIVED_BY_ADDRESS("getreceivedbyaddress", 1, 2),
 	GET_UNCONFIRMED_BALANCE("getunconfirmedbalance", 0, 0),
 	GET_WALLET_INFO("getwalletinfo", 0, 0),
+	KEY_POOL_REFILL("keypoolrefill", 0, 1),
 	LIST_ACCOUNTS("listaccounts", 0, 2),
 	SET_ACCOUNT("setaccount", 2, 2),
 	SET_GENERATE("setgenerate", 1, 2),
@@ -39,11 +40,6 @@ public enum Commands {
 	WALLET_PASSPHRASE("walletpassphrase", 2, 2),
 	WALLET_PASSPHRASE_CHANGE("walletpassphrasechange", 2, 2),
 	
-
-
-
-
-	KEY_POOL_REFILL("keypoolrefill", -1, -1),
 	
 	IMPORT_ADDRESS("importaddress", -1, -1),
 	IMPORT_PRIV_KEY("importprivkey", -1, -1),

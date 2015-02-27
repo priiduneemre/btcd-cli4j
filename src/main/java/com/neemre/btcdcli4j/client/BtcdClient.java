@@ -66,6 +66,10 @@ public interface BtcdClient {
 	
 	WalletInfo getWalletInfo();
 	
+	String keyPoolRefill();
+
+	String keyPoolRefill(int keypoolSize);
+	
 	Map<String, BigDecimal> listAccounts();
 	
 	Map<String, BigDecimal> listAccounts(Integer confirmations);
