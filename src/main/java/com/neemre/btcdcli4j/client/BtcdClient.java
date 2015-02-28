@@ -14,6 +14,10 @@ public interface BtcdClient {
 	
 	void backupWallet(String filePath);
 	
+	String dumpPrivKey(String address);
+	
+	void dumpWallet(String filePath);
+	
 	String encryptWallet(String passphrase);
 
 	String getAccount(String address);
@@ -68,21 +72,23 @@ public interface BtcdClient {
 	
 	WalletInfo getWalletInfo();
 	
-	String importAddress(String address);
+	void importAddress(String address);
 	
-	String importAddress(String address, String account);
+	void importAddress(String address, String account);
 
-	String importAddress(String address, String account, boolean withRescan);
+	void importAddress(String address, String account, boolean withRescan);
 	
-	String importPrivKey(String privateKey);
+	void importPrivKey(String privateKey);
 
-	String importPrivKey(String privateKey, String account);
+	void importPrivKey(String privateKey, String account);
 
-	String importPrivKey(String privateKey, String account, boolean withRescan);
+	void importPrivKey(String privateKey, String account, boolean withRescan);
 	
-	String keyPoolRefill();
+	void importWallet(String filePath);
+	
+	void keyPoolRefill();
 
-	String keyPoolRefill(int keypoolSize);
+	void keyPoolRefill(int keypoolSize);
 	
 	Map<String, BigDecimal> listAccounts();
 	
@@ -90,7 +96,7 @@ public interface BtcdClient {
 	
 	Map<String, BigDecimal> listAccounts(Integer confirmations, Boolean withWatchOnly);
 	
-	String setAccount(String address, String account);
+	void setAccount(String address, String account);
 	
 	void setGenerate(Boolean isGenerate);
 	

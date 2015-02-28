@@ -29,6 +29,24 @@ public class BtcdClientImpl implements BtcdClient {
 	}
 	
 	@Override
+	public void backupWallet(String filePath) {
+		rpcClient.execute(Commands.BACKUP_WALLET.getName(), filePath);
+	}
+	
+	@Override
+	public String dumpPrivKey(String address) {
+		String privateKeyJson = rpcClient.execute(Commands.DUMP_PRIV_KEY.getName(), address);
+		String privateKey = rpcClient.getParser().parseString(privateKeyJson);
+		return privateKey;
+		
+	}
+	
+	@Override
+	public void dumpWallet(String filePath) {
+		rpcClient.execute(Commands.DUMP_WALLET.getName(), filePath);
+	}
+	
+	@Override
 	public String encryptWallet(String passphrase) {
 		String noticeMsgJson = rpcClient.execute(Commands.ENCRYPT_WALLET.getName(), passphrase);
 		String noticeMsg = rpcClient.getParser().parseString(noticeMsgJson);
@@ -228,63 +246,52 @@ public class BtcdClientImpl implements BtcdClient {
 	}
 	
 	@Override
-	public String importAddress(String address) {
-		String nullMsgJson = rpcClient.execute(Commands.IMPORT_ADDRESS.getName(), address);
-		String nullMsg = rpcClient.getParser().parseString(nullMsgJson);
-		return nullMsg;
+	public void importAddress(String address) {
+		rpcClient.execute(Commands.IMPORT_ADDRESS.getName(), address);
 	}
 
 	@Override
-	public String importAddress(String address, String account) {
+	public void importAddress(String address, String account) {
 		List<Object> params = CollectionUtils.asList(address, account);
-		String nullMsgJson = rpcClient.execute(Commands.IMPORT_ADDRESS.getName(), params);
-		String nullMsg = rpcClient.getParser().parseString(nullMsgJson);
-		return nullMsg;
+		rpcClient.execute(Commands.IMPORT_ADDRESS.getName(), params);
 	}
 
 	@Override
-	public String importAddress(String address, String account, boolean withRescan) {
+	public void importAddress(String address, String account, boolean withRescan) {
 		List<Object> params = CollectionUtils.asList(address, account, withRescan);
-		String nullMsgJson = rpcClient.execute(Commands.IMPORT_ADDRESS.getName(), params);
-		String nullMsg = rpcClient.getParser().parseString(nullMsgJson);
-		return nullMsg;
+		rpcClient.execute(Commands.IMPORT_ADDRESS.getName(), params);
 	}
 	
 	@Override
-	public String importPrivKey(String privateKey) {
-		String nullMsgJson = rpcClient.execute(Commands.IMPORT_PRIV_KEY.getName(), privateKey);
-		String nullMsg = rpcClient.getParser().parseString(nullMsgJson);
-		return nullMsg;
+	public void importPrivKey(String privateKey) {
+		rpcClient.execute(Commands.IMPORT_PRIV_KEY.getName(), privateKey);
 	}
 
 	@Override
-	public String importPrivKey(String privateKey, String account) {
+	public void importPrivKey(String privateKey, String account) {
 		List<Object> params = CollectionUtils.asList(privateKey, account);
-		String nullMsgJson = rpcClient.execute(Commands.IMPORT_PRIV_KEY.getName(), params);
-		String nullMsg = rpcClient.getParser().parseString(nullMsgJson);
-		return nullMsg;
+		rpcClient.execute(Commands.IMPORT_PRIV_KEY.getName(), params);
 	}
 
 	@Override
-	public String importPrivKey(String privateKey, String account, boolean withRescan) {
+	public void importPrivKey(String privateKey, String account, boolean withRescan) {
 		List<Object> params = CollectionUtils.asList(privateKey, account, withRescan);
-		String nullMsgJson = rpcClient.execute(Commands.IMPORT_PRIV_KEY.getName(), params);
-		String nullMsg = rpcClient.getParser().parseString(nullMsgJson);
-		return nullMsg;
+		rpcClient.execute(Commands.IMPORT_PRIV_KEY.getName(), params);
 	}
 	
 	@Override
-	public String keyPoolRefill() {
-		String nullMsgJson = rpcClient.execute(Commands.KEY_POOL_REFILL.getName());
-		String nullMsg = rpcClient.getParser().parseString(nullMsgJson);
-		return nullMsg;
+	public void importWallet(String filePath) {
+		rpcClient.execute(Commands.IMPORT_WALLET.getName(), filePath);
+	}
+	
+	@Override
+	public void keyPoolRefill() {
+		rpcClient.execute(Commands.KEY_POOL_REFILL.getName());
 	}
 
 	@Override
-	public String keyPoolRefill(int keypoolSize) {
-		String nullMsgJson = rpcClient.execute(Commands.KEY_POOL_REFILL.getName(), keypoolSize);
-		String nullMsg = rpcClient.getParser().parseString(nullMsgJson);
-		return nullMsg;
+	public void keyPoolRefill(int keypoolSize) {
+		rpcClient.execute(Commands.KEY_POOL_REFILL.getName(), keypoolSize);
 	}
 	
 	@Override
@@ -316,11 +323,9 @@ public class BtcdClientImpl implements BtcdClient {
 	}
 	
 	@Override
-	public String setAccount(String address, String account) {
+	public void setAccount(String address, String account) {
 		List<Object> params = CollectionUtils.asList(address, account);
-		String nullMsgJson = rpcClient.execute(Commands.SET_ACCOUNT.getName(), params);
-		String nullMsg = rpcClient.getParser().parseString(nullMsgJson);
-		return nullMsg;
+		rpcClient.execute(Commands.SET_ACCOUNT.getName(), params);
 	}
 	
 	@Override

@@ -10,6 +10,8 @@ import lombok.ToString;
 public enum Commands {
 	
 	BACKUP_WALLET("backupwallet", 1, 1),
+	DUMP_PRIV_KEY("dumpprivkey", 1, 1),
+	DUMP_WALLET("dumpwallet", 1, 1),
 	ENCRYPT_WALLET("encryptwallet", 1, 1),
 	GET_ACCOUNT("getaccount", 1, 1),
 	GET_ACCOUNT_ADDRESS("getaccountaddress", 1, 1),
@@ -33,6 +35,7 @@ public enum Commands {
 	GET_WALLET_INFO("getwalletinfo", 0, 0),
 	IMPORT_ADDRESS("importaddress", 1, 3),
 	IMPORT_PRIV_KEY("importprivkey", 1, 3),
+	IMPORT_WALLET("importwallet", 1, 1),
 	KEY_POOL_REFILL("keypoolrefill", 0, 1),
 	LIST_ACCOUNTS("listaccounts", 0, 2),
 	SET_ACCOUNT("setaccount", 2, 2),
@@ -42,13 +45,8 @@ public enum Commands {
 	WALLET_LOCK("walletlock", 0, 0),
 	WALLET_PASSPHRASE("walletpassphrase", 2, 2),
 	WALLET_PASSPHRASE_CHANGE("walletpassphrasechange", 2, 2),
-	
-	
-	
-	DUMP_PRIV_KEY("dumpprivkey", -1, -1),
-	DUMP_WALLET("dumpwallet", -1, -1),
-	IMPORT_WALLET("importwallet", -1, -1),
-	
+
+
 	SIGN_MESSAGE("signmessage", -1, -1),
 	VERIFY_MESSAGE("verifymessage", -1, -1),
 	VALIDATE_ADDRESS("validateaddress", -1, -1),
