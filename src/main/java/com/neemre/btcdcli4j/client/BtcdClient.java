@@ -12,6 +12,8 @@ import com.neemre.btcdcli4j.domain.WalletInfo;
 
 public interface BtcdClient {
 	
+	void backupWallet(String filePath);
+	
 	String encryptWallet(String passphrase);
 
 	String getAccount(String address);
@@ -65,6 +67,18 @@ public interface BtcdClient {
 	BigDecimal getUnconfirmedBalance();
 	
 	WalletInfo getWalletInfo();
+	
+	String importAddress(String address);
+	
+	String importAddress(String address, String account);
+
+	String importAddress(String address, String account, boolean withRescan);
+	
+	String importPrivKey(String privateKey);
+
+	String importPrivKey(String privateKey, String account);
+
+	String importPrivKey(String privateKey, String account, boolean withRescan);
 	
 	String keyPoolRefill();
 

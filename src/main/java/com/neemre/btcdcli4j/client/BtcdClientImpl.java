@@ -228,6 +228,52 @@ public class BtcdClientImpl implements BtcdClient {
 	}
 	
 	@Override
+	public String importAddress(String address) {
+		String nullMsgJson = rpcClient.execute(Commands.IMPORT_ADDRESS.getName(), address);
+		String nullMsg = rpcClient.getParser().parseString(nullMsgJson);
+		return nullMsg;
+	}
+
+	@Override
+	public String importAddress(String address, String account) {
+		List<Object> params = CollectionUtils.asList(address, account);
+		String nullMsgJson = rpcClient.execute(Commands.IMPORT_ADDRESS.getName(), params);
+		String nullMsg = rpcClient.getParser().parseString(nullMsgJson);
+		return nullMsg;
+	}
+
+	@Override
+	public String importAddress(String address, String account, boolean withRescan) {
+		List<Object> params = CollectionUtils.asList(address, account, withRescan);
+		String nullMsgJson = rpcClient.execute(Commands.IMPORT_ADDRESS.getName(), params);
+		String nullMsg = rpcClient.getParser().parseString(nullMsgJson);
+		return nullMsg;
+	}
+	
+	@Override
+	public String importPrivKey(String privateKey) {
+		String nullMsgJson = rpcClient.execute(Commands.IMPORT_PRIV_KEY.getName(), privateKey);
+		String nullMsg = rpcClient.getParser().parseString(nullMsgJson);
+		return nullMsg;
+	}
+
+	@Override
+	public String importPrivKey(String privateKey, String account) {
+		List<Object> params = CollectionUtils.asList(privateKey, account);
+		String nullMsgJson = rpcClient.execute(Commands.IMPORT_PRIV_KEY.getName(), params);
+		String nullMsg = rpcClient.getParser().parseString(nullMsgJson);
+		return nullMsg;
+	}
+
+	@Override
+	public String importPrivKey(String privateKey, String account, boolean withRescan) {
+		List<Object> params = CollectionUtils.asList(privateKey, account, withRescan);
+		String nullMsgJson = rpcClient.execute(Commands.IMPORT_PRIV_KEY.getName(), params);
+		String nullMsg = rpcClient.getParser().parseString(nullMsgJson);
+		return nullMsg;
+	}
+	
+	@Override
 	public String keyPoolRefill() {
 		String nullMsgJson = rpcClient.execute(Commands.KEY_POOL_REFILL.getName());
 		String nullMsg = rpcClient.getParser().parseString(nullMsgJson);

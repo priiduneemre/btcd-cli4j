@@ -9,6 +9,7 @@ import lombok.ToString;
 @AllArgsConstructor
 public enum Commands {
 	
+	BACKUP_WALLET("backupwallet", 1, 1),
 	ENCRYPT_WALLET("encryptwallet", 1, 1),
 	GET_ACCOUNT("getaccount", 1, 1),
 	GET_ACCOUNT_ADDRESS("getaccountaddress", 1, 1),
@@ -30,6 +31,8 @@ public enum Commands {
 	GET_RECEIVED_BY_ADDRESS("getreceivedbyaddress", 1, 2),
 	GET_UNCONFIRMED_BALANCE("getunconfirmedbalance", 0, 0),
 	GET_WALLET_INFO("getwalletinfo", 0, 0),
+	IMPORT_ADDRESS("importaddress", 1, 3),
+	IMPORT_PRIV_KEY("importprivkey", 1, 3),
 	KEY_POOL_REFILL("keypoolrefill", 0, 1),
 	LIST_ACCOUNTS("listaccounts", 0, 2),
 	SET_ACCOUNT("setaccount", 2, 2),
@@ -41,17 +44,16 @@ public enum Commands {
 	WALLET_PASSPHRASE_CHANGE("walletpassphrasechange", 2, 2),
 	
 	
-	IMPORT_ADDRESS("importaddress", -1, -1),
-	IMPORT_PRIV_KEY("importprivkey", -1, -1),
+	
+	DUMP_PRIV_KEY("dumpprivkey", -1, -1),
+	DUMP_WALLET("dumpwallet", -1, -1),
+	IMPORT_WALLET("importwallet", -1, -1),
 	
 	SIGN_MESSAGE("signmessage", -1, -1),
 	VERIFY_MESSAGE("verifymessage", -1, -1),
 	VALIDATE_ADDRESS("validateaddress", -1, -1),
 	
 	ADD_MULTI_SIG_ADDRESS("addmultisigaddress", -1, -1),
-	BACKUP_WALLET("backupwallet", -1, -1),
-	DUMP_PRIV_KEY("dumpprivkey", -1, -1),
-	DUMP_WALLET("dumpwallet", -1, -1),
 	GET_TRANSACTION("gettransaction", -1, -1),
 	LIST_ADDRESS_GROUPINGS("listaddressgroupings", -1, -1),
 	LIST_LOCK_UNSPENT("listlockunspent", -1, -1),

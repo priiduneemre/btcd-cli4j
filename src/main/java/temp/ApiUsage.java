@@ -25,53 +25,60 @@ public class ApiUsage {
 	
 	/**A list of examples demonstrating the use of all <i>bitcoind</i> API commands currently 
 	 * supported by btcd-cli4j (as of 0.1.0). Calling any of the methods below will cause a
-	 * short overview (<i>i.e.</i> the results of the operation) to be written to 
+	 * short overview (<i>i.e.</i> of the results of the operation) to be written to 
 	 * {@code stdout}.*/
 	public static void main(String[] args) throws Exception {
 		HttpClient httpProvider = ExampleUtils.getHttpProvider();
 		Properties nodeConfig = ExampleUtils.getNodeConfig();
 		ApiCalls supportedCalls = new ApiCalls(httpProvider, nodeConfig);
 		
-		supportedCalls.encryptWallet("strawberry");
-		supportedCalls.getAccount("15eXDukpi27y3WwZK7U23zQyTFQboLD2Qr");
-		supportedCalls.getAccountAddress("firefly");
-		supportedCalls.getAddressesByAccount("firefly");
-		supportedCalls.getBalance();
-		supportedCalls.getBalance("");
-		supportedCalls.getBalance("", 6);
-		supportedCalls.getBalance("", 6, true);
-		supportedCalls.getBestBlockHash();
-		supportedCalls.getBlockCount();
-		supportedCalls.getBlockHash(345168);
-		supportedCalls.getDifficulty();
-		supportedCalls.getGenerate();
-		supportedCalls.getHashesPerSec();
-		supportedCalls.getInfo();
-		supportedCalls.getMemPoolInfo();
-		supportedCalls.getMiningInfo();
-		supportedCalls.getNewAddress();
-		supportedCalls.getNewAddress("firefly");
-		supportedCalls.getPeerInfo();
-		supportedCalls.getRawChangeAddress();
-		supportedCalls.getReceivedByAccount("firefly");
-		supportedCalls.getReceivedByAccount("firefly", 6);
-		supportedCalls.getReceivedByAddress("1NroLTCuf15y2UYqmhbMgYoVGEfF8QVTA4");
-		supportedCalls.getReceivedByAddress("1NroLTCuf15y2UYqmhbMgYoVGEfF8QVTA4", 6);
-		supportedCalls.getUnconfirmedBalance();
-		supportedCalls.getWalletInfo();
-		supportedCalls.keyPoolRefill();
-		supportedCalls.keyPoolRefill(115);
-		supportedCalls.listAccounts();
-		supportedCalls.listAccounts(6);
-		supportedCalls.listAccounts(6, true);
-		supportedCalls.setAccount("1NRpYDf2GdAL4yLZEAww8uUSEGM7Df6KKc", "aardvark");
-		supportedCalls.setGenerate(false);
-		supportedCalls.setGenerate(false, 7);
-		supportedCalls.setTxFee(new BigDecimal("0.00004900"));
-		//supportedCalls.stop();
-		supportedCalls.walletLock();
-		supportedCalls.walletPassphrase("strawberry", Defaults.WALLET_AUTH_TIMEOUT);
-		supportedCalls.walletPassphraseChange("strawberry", "raspberry");
+		supportedCalls.backupWallet("G:\\bitplexus\\data\\wallet_backup_28022015.dat");
+//		supportedCalls.encryptWallet("strawberry");
+//		supportedCalls.getAccount("15eXDukpi27y3WwZK7U23zQyTFQboLD2Qr");
+//		supportedCalls.getAccountAddress("firefly");
+//		supportedCalls.getAddressesByAccount("firefly");
+//		supportedCalls.getBalance();
+//		supportedCalls.getBalance("");
+//		supportedCalls.getBalance("", 6);
+//		supportedCalls.getBalance("", 6, true);
+//		supportedCalls.getBestBlockHash();
+//		supportedCalls.getBlockCount();
+//		supportedCalls.getBlockHash(345168);
+//		supportedCalls.getDifficulty();
+//		supportedCalls.getGenerate();
+//		supportedCalls.getHashesPerSec();
+//		supportedCalls.getInfo();
+//		supportedCalls.getMemPoolInfo();
+//		supportedCalls.getMiningInfo();
+//		supportedCalls.getNewAddress();
+//		supportedCalls.getNewAddress("firefly");
+//		supportedCalls.getPeerInfo();
+//		supportedCalls.getRawChangeAddress();
+//		supportedCalls.getReceivedByAccount("firefly");
+//		supportedCalls.getReceivedByAccount("firefly", 6);
+//		supportedCalls.getReceivedByAddress("1NroLTCuf15y2UYqmhbMgYoVGEfF8QVTA4");
+//		supportedCalls.getReceivedByAddress("1NroLTCuf15y2UYqmhbMgYoVGEfF8QVTA4", 6);
+//		supportedCalls.getUnconfirmedBalance();
+//		supportedCalls.getWalletInfo();
+//		supportedCalls.importAddress("mydXVfvTMgphEU8TnE5MCQ4oksqc4Xhari");
+//		supportedCalls.importAddress("mydXVfvTMgphEU8TnE5MCQ4oksqc4Xhari", "mantis");
+//		supportedCalls.importAddress("mydXVfvTMgphEU8TnE5MCQ4oksqc4Xhari", "mongoose", false);
+//		supportedCalls.importPrivKey("cU8Q2jGeX3GNKNa5etiC8mgEgFSeVUTRQfWE2ZCzszyqYNK4Mepy");
+//		supportedCalls.importPrivKey("cU8Q2jGeX3GNKNa5etiC8mgEgFSeVUTRQfWE2ZCzszyqYNK4Mepy", "cricket");
+//		supportedCalls.importPrivKey("cU8Q2jGeX3GNKNa5etiC8mgEgFSeVUTRQfWE2ZCzszyqYNK4Mepy", "jackal", true);
+//		supportedCalls.keyPoolRefill();
+//		supportedCalls.keyPoolRefill(115);
+//		supportedCalls.listAccounts();
+//		supportedCalls.listAccounts(6);
+//		supportedCalls.listAccounts(6, true);
+//		supportedCalls.setAccount("1NRpYDf2GdAL4yLZEAww8uUSEGM7Df6KKc", "aardvark");
+//		supportedCalls.setGenerate(false);
+//		supportedCalls.setGenerate(false, 7);
+//		supportedCalls.setTxFee(new BigDecimal("0.00004900"));
+//		supportedCalls.stop();
+//		supportedCalls.walletLock();
+//		supportedCalls.walletPassphrase("strawberry", Defaults.WALLET_AUTH_TIMEOUT);
+//		supportedCalls.walletPassphraseChange("strawberry", "raspberry");
 	}
 	
 	static class ApiCalls {
@@ -81,6 +88,12 @@ public class ApiUsage {
 
 		public ApiCalls(HttpClient httpProvider, Properties nodeConfig) {
 			btcdClient = new BtcdClientImpl(httpProvider, nodeConfig);
+		}
+		
+		public void backupWallet(String filePath) {
+			btcdClient.backupWallet(filePath);
+			printResult(Commands.BACKUP_WALLET.getName(), new String[]{"filePath"}, 
+					new Object[]{filePath}, null);
 		}
 		
 		private void encryptWallet(String passphrase) {
@@ -229,6 +242,42 @@ public class ApiUsage {
 		public void getWalletInfo() {
 			WalletInfo walletInfo = btcdClient.getWalletInfo();
 			printResult(Commands.GET_WALLET_INFO.getName(), null, null, walletInfo);
+		}
+		
+		public void importAddress(String address) {
+			String nullMsg = btcdClient.importAddress(address);
+			printResult(Commands.IMPORT_ADDRESS.getName(), new String[]{"address"}, 
+					new Object[]{address}, nullMsg);
+		}
+
+		public void importAddress(String address, String account) {
+			String nullMsg = btcdClient.importAddress(address, account);
+			printResult(Commands.IMPORT_ADDRESS.getName(), new String[]{"address", "account"},
+				new Object[]{address, account}, nullMsg);
+		}
+
+		public void importAddress(String address, String account, boolean withRescan) {
+			String nullMsg = btcdClient.importAddress(address, account, withRescan);
+			printResult(Commands.IMPORT_ADDRESS.getName(), new String[]{"address", "account", 
+				"withRescan"}, new Object[]{address, account, withRescan}, nullMsg);
+		}
+		
+		public void importPrivKey(String privateKey) {
+			String nullMsg = btcdClient.importPrivKey(privateKey);
+			printResult(Commands.IMPORT_PRIV_KEY.getName(), new String[]{"privateKey"}, 
+					new Object[]{privateKey}, nullMsg);
+		}
+		
+		public void importPrivKey(String privateKey, String account) {
+			String nullMsg = btcdClient.importPrivKey(privateKey, account);
+			printResult(Commands.IMPORT_PRIV_KEY.getName(), new String[]{"privateKey", "account"},
+					new Object[]{privateKey, account}, nullMsg);
+		}
+
+		public void importPrivKey(String privateKey, String account, boolean withRescan) {
+			String nullMsg = btcdClient.importPrivKey(privateKey, account, withRescan);
+			printResult(Commands.IMPORT_PRIV_KEY.getName(), new String[]{"privateKey", "account", 
+				"withRescan"}, new Object[]{privateKey, account, withRescan}, nullMsg);
 		}
 		
 		public void keyPoolRefill() {

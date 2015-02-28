@@ -83,6 +83,12 @@ public class JsonRpcClientImpl implements JsonRpcClient {
 	}
 
 	private <T> JsonRpcResponse validateResponse(JsonRpcRequest<T> request, JsonRpcResponse response) {
+		if(response == null) {
+			throw new IllegalArgumentException("I am broken."); //TODO
+		}
+		if(response.getId() == null) {
+			throw new IllegalArgumentException("I am broken."); //TODO
+		}
 		if(!response.getId().equals(request.getId())) {
 			throw new IllegalArgumentException("I am broken.");	//TODO
 		}
@@ -92,6 +98,7 @@ public class JsonRpcClientImpl implements JsonRpcClient {
 	private <T> JsonRpcResponse checkResponse(JsonRpcResponse response) {
 		if(!(response.getError() == null)) {
 			//throw new IllegalArgumentException("I am broken.");	//TODO
+			System.out.println("A non-null error object was returned: " + response.getError());
 		}
 		return response;
 	}
