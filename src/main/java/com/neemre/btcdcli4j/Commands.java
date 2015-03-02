@@ -38,22 +38,21 @@ public enum Commands {
 	IMPORT_WALLET("importwallet", 1, 1),
 	KEY_POOL_REFILL("keypoolrefill", 0, 1),
 	LIST_ACCOUNTS("listaccounts", 0, 2),
+	LIST_ADDRESS_GROUPINGS("listaddressgroupings", 0, 0),
 	SET_ACCOUNT("setaccount", 2, 2),
 	SET_GENERATE("setgenerate", 1, 2),
 	SET_TX_FEE("settxfee", 1, 1),
+	SIGN_MESSAGE("signmessage", 2, 2),
 	STOP("stop", 0, 0),
+	VALIDATE_ADDRESS("validateaddress", 1, 1),
+	VERIFY_MESSAGE("verifymessage", 3, 3),
 	WALLET_LOCK("walletlock", 0, 0),
 	WALLET_PASSPHRASE("walletpassphrase", 2, 2),
 	WALLET_PASSPHRASE_CHANGE("walletpassphrasechange", 2, 2),
 
-
-	SIGN_MESSAGE("signmessage", -1, -1),
-	VERIFY_MESSAGE("verifymessage", -1, -1),
-	VALIDATE_ADDRESS("validateaddress", -1, -1),
 	
 	ADD_MULTI_SIG_ADDRESS("addmultisigaddress", -1, -1),
 	GET_TRANSACTION("gettransaction", -1, -1),
-	LIST_ADDRESS_GROUPINGS("listaddressgroupings", -1, -1),
 	LIST_LOCK_UNSPENT("listlockunspent", -1, -1),
 	LIST_RECEIVED_BY_ACCOUNT("listreceivedbyaccount", -1, -1),
 	LIST_RECEIVED_BY_ADDRESS("listreceivedbyaddress", -1, -1),
@@ -72,8 +71,8 @@ public enum Commands {
 	String name;
 	@Getter
 	@Setter
-	int minParamCount;
+	int minParams;
 	@Getter
 	@Setter
-	int maxParamCount;
+	int maxParams;
 }

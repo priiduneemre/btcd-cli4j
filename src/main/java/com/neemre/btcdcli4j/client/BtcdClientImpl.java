@@ -7,8 +7,11 @@ import java.util.Properties;
 
 import org.apache.http.client.HttpClient;
 
+import com.fasterxml.jackson.databind.DeserializationConfig;
 import com.neemre.btcdcli4j.Commands;
 import com.neemre.btcdcli4j.common.Defaults;
+import com.neemre.btcdcli4j.domain.AddressDetails;
+import com.neemre.btcdcli4j.domain.AddressInfo;
 import com.neemre.btcdcli4j.domain.Info;
 import com.neemre.btcdcli4j.domain.MemPoolInfo;
 import com.neemre.btcdcli4j.domain.MiningInfo;
@@ -323,6 +326,14 @@ public class BtcdClientImpl implements BtcdClient {
 	}
 	
 	@Override
+	public List<List<AddressDetails>> listAddressGroupings() {
+		String groupingsJson = rpcClient.execute(Commands.LIST_ADDRESS_GROUPINGS.getName());
+		List<List<AddressDetails>> groupings = rpcClient.getMapper().mapToNestedLists(1, groupingsJson, 
+				AddressDetails.class);
+		return groupings;
+	}
+	
+	@Override
 	public void setAccount(String address, String account) {
 		List<Object> params = CollectionUtils.asList(address, account);
 		rpcClient.execute(Commands.SET_ACCOUNT.getName(), params);
@@ -347,10 +358,34 @@ public class BtcdClientImpl implements BtcdClient {
 	}
 	
 	@Override
+	public String signMessage(String address, String message) {
+		List<Object> params = CollectionUtils.asList(address, message);
+		String signatureJson = rpcClient.execute(Commands.SIGN_MESSAGE.getName(), params);
+		String signature = rpcClient.getParser().parseString(signatureJson);
+		return signature;
+	}
+	
+	@Override
 	public String stop() {
 		String noticeMsgJson = rpcClient.execute(Commands.STOP.getName());
 		String noticeMsg = rpcClient.getParser().parseString(noticeMsgJson);
 		return noticeMsg;
+	}
+	
+	@Override
+	public AddressInfo validateAddress(String address) {
+		String addressInfoJson = rpcClient.execute(Commands.VALIDATE_ADDRESS.getName(), address);
+		AddressInfo addressInfo = rpcClient.getMapper().mapToEntity(addressInfoJson, 
+				AddressInfo.class);
+		return addressInfo;
+	}
+	
+	@Override
+	public Boolean verifyMessage(String address, String signature, String message) {
+		List<Object> params = CollectionUtils.asList(address, signature, message);
+		String isSigValidJson = rpcClient.execute(Commands.VERIFY_MESSAGE.getName(), params);
+		Boolean isSigValid = rpcClient.getParser().parseBoolean(isSigValidJson);
+		return isSigValid;
 	}
 	
 	@Override

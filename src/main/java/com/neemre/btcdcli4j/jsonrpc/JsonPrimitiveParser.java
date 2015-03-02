@@ -7,7 +7,7 @@ import org.apache.commons.lang3.StringEscapeUtils;
 import com.neemre.btcdcli4j.common.Constants;
 import com.neemre.btcdcli4j.common.Defaults;
 
-public class JsonParser {
+public class JsonPrimitiveParser {
 
 	public Integer parseInteger(String integerJson) {
 		try {

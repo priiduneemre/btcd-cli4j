@@ -14,6 +14,8 @@ import com.neemre.btcdcli4j.Commands;
 import com.neemre.btcdcli4j.client.BtcdClient;
 import com.neemre.btcdcli4j.client.BtcdClientImpl;
 import com.neemre.btcdcli4j.common.Defaults;
+import com.neemre.btcdcli4j.domain.AddressDetails;
+import com.neemre.btcdcli4j.domain.AddressInfo;
 import com.neemre.btcdcli4j.domain.Info;
 import com.neemre.btcdcli4j.domain.MemPoolInfo;
 import com.neemre.btcdcli4j.domain.MiningInfo;
@@ -33,7 +35,7 @@ public class ApiUsage {
 		ApiCalls supportedCalls = new ApiCalls(httpProvider, nodeConfig);
 
 		//		supportedCalls.backupWallet("G:\\bitplexus\\data\\wallet_backup_28022015.dat");
-		supportedCalls.dumpPrivKey("n2pr9RyfNQdQ6gSWZCX5DGHuHAnNjchAy7");
+		//		supportedCalls.dumpPrivKey("n2pr9RyfNQdQ6gSWZCX5DGHuHAnNjchAy7");
 		//		supportedCalls.dumpWallet("G:\\bitplexus\\data\\wallet_dump_28022015.txt");
 		//		supportedCalls.encryptWallet("strawberry");
 		//		supportedCalls.getAccount("15eXDukpi27y3WwZK7U23zQyTFQboLD2Qr");
@@ -66,19 +68,26 @@ public class ApiUsage {
 		//		supportedCalls.importAddress("mydXVfvTMgphEU8TnE5MCQ4oksqc4Xhari", "mantis");
 		//		supportedCalls.importAddress("mydXVfvTMgphEU8TnE5MCQ4oksqc4Xhari", "mongoose", false);
 		//		supportedCalls.importPrivKey("cU8Q2jGeX3GNKNa5etiC8mgEgFSeVUTRQfWE2ZCzszyqYNK4Mepy");
-		//		supportedCalls.importPrivKey("cU8Q2jGeX3GNKNa5etiC8mgEgFSeVUTRQfWE2ZCzszyqYNK4Mepy", "cricket");
-		//		supportedCalls.importPrivKey("cU8Q2jGeX3GNKNa5etiC8mgEgFSeVUTRQfWE2ZCzszyqYNK4Mepy", "jackal", true);
+		//		supportedCalls.importPrivKey("cU8Q2jGeX3GNKNa5etiC8mgEgFSeVUTRQfWE2ZCzszyqYNK4Mepy",
+		//			"cricket");
+		//		supportedCalls.importPrivKey("cU8Q2jGeX3GNKNa5etiC8mgEgFSeVUTRQfWE2ZCzszyqYNK4Mepy", 
+		//			"jackal", true);
 		//		supportedCalls.importWallet("G:\\bitplexus\\data\\wallet_dump_28022015.txt");
 		//		supportedCalls.keyPoolRefill();
 		//		supportedCalls.keyPoolRefill(115);
 		//		supportedCalls.listAccounts();
 		//		supportedCalls.listAccounts(6);
 		//		supportedCalls.listAccounts(6, true);
+		supportedCalls.listAddressGroupings();
 		//		supportedCalls.setAccount("1NRpYDf2GdAL4yLZEAww8uUSEGM7Df6KKc", "aardvark");
 		//		supportedCalls.setGenerate(false);
 		//		supportedCalls.setGenerate(false, 7);
 		//		supportedCalls.setTxFee(new BigDecimal("0.00004900"));
+		//		supportedCalls.signMessage("mixnciYh9dar2CwywYYZTHZqS4kyZWkvoV", "I like liquorice.");
 		//		supportedCalls.stop();
+		//		supportedCalls.validateAddress("2MyVxxgNBk5zHRPRY2iVjGRJHYZEp1pMCSq");
+		//		supportedCalls.verifyMessage("mixnciYh9dar2CwywYYZTHZqS4kyZWkvoV", "INXVUmzGIh+VnkiFAVgNiw1" 
+		//				+ "t35oSxxvwc6e53hrjMtBdVm/GoTyDY+TelMV64pVrdMY0s9fW5M1bWZl+kcnCQ0g=", "I like liquorice.");
 		//		supportedCalls.walletLock();
 		//		supportedCalls.walletPassphrase("strawberry", Defaults.WALLET_AUTH_TIMEOUT);
 		//		supportedCalls.walletPassphraseChange("strawberry", "raspberry");
@@ -306,7 +315,6 @@ public class ApiUsage {
 			printResult(Commands.KEY_POOL_REFILL.getName(), null, null, null);
 		}
 
-
 		public void keyPoolRefill(int keypoolSize) {
 			btcdClient.keyPoolRefill(keypoolSize);
 			printResult(Commands.KEY_POOL_REFILL.getName(), new String[]{"keypoolSize"}, 
@@ -328,6 +336,11 @@ public class ApiUsage {
 			Map<String, BigDecimal> accounts = btcdClient.listAccounts(confirmations, withWatchOnly);
 			printResult(Commands.LIST_ACCOUNTS.getName(), new String[]{"confirmations", 
 			"withWatchOnly"}, new Object[]{confirmations, withWatchOnly}, accounts);			
+		}
+		
+		public void listAddressGroupings() {
+			List<List<AddressDetails>> groupings = btcdClient.listAddressGroupings();
+			printResult(Commands.LIST_ADDRESS_GROUPINGS.getName(), null, null, groupings);
 		}
 
 		public void setAccount(String address, String account) {
@@ -353,12 +366,30 @@ public class ApiUsage {
 			printResult(Commands.SET_TX_FEE.getName(), new String[]{"txFee"}, new Object[]{txFee},
 					result);
 		}
+		
+		public void signMessage(String address, String message) {
+			String signature = btcdClient.signMessage(address, message);
+			printResult(Commands.SIGN_MESSAGE.getName(), new String[]{"address", "message"}, 
+					new Object[]{address, message}, signature);
+		}
 
 		private void stop() {
 			String noticeMsg = btcdClient.stop();
 			printResult(Commands.STOP.getName(), null, null, noticeMsg);
 		}
 
+		public void validateAddress(String address) {
+			AddressInfo addressInfo = btcdClient.validateAddress(address);
+			printResult(Commands.VALIDATE_ADDRESS.getName(), new String[]{"address"}, 
+					new Object[]{address}, addressInfo);
+		}
+		
+		public void verifyMessage(String address, String signature, String message) {
+			Boolean isSigValid = btcdClient.verifyMessage(address, signature, message);
+			printResult(Commands.VERIFY_MESSAGE.getName(), new String[]{"address", "signature", 
+				"message"}, new Object[]{address, signature, message}, isSigValid);
+		}
+		
 		private void walletLock() {
 			btcdClient.walletLock();
 			printResult(Commands.WALLET_LOCK.getName(), null, null, null);

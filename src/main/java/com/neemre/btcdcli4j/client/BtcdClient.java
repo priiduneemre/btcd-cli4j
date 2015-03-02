@@ -4,6 +4,8 @@ import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 
+import com.neemre.btcdcli4j.domain.AddressDetails;
+import com.neemre.btcdcli4j.domain.AddressInfo;
 import com.neemre.btcdcli4j.domain.Info;
 import com.neemre.btcdcli4j.domain.MemPoolInfo;
 import com.neemre.btcdcli4j.domain.MiningInfo;
@@ -96,6 +98,8 @@ public interface BtcdClient {
 	
 	Map<String, BigDecimal> listAccounts(Integer confirmations, Boolean withWatchOnly);
 	
+	List<List<AddressDetails>> listAddressGroupings();
+	
 	void setAccount(String address, String account);
 	
 	void setGenerate(Boolean isGenerate);
@@ -103,9 +107,15 @@ public interface BtcdClient {
 	void setGenerate(Boolean isGenerate, Integer processors);
 	
 	Boolean setTxFee(BigDecimal txFee);
+
+	String signMessage(String address, String message);
 	
 	String stop();
-		
+	
+	AddressInfo validateAddress(String address);
+	
+	Boolean verifyMessage(String address, String signature, String message);
+	
 	void walletLock();
 
 	void walletPassphrase(String passphrase, Integer authTimeout);

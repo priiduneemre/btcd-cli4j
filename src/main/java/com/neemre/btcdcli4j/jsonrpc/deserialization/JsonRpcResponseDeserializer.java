@@ -1,4 +1,4 @@
-package com.neemre.btcdcli4j.jsonrpc.misc;
+package com.neemre.btcdcli4j.jsonrpc.deserialization;
 
 import java.io.IOException;
 
@@ -27,7 +27,7 @@ public class JsonRpcResponseDeserializer extends JsonDeserializer<JsonRpcRespons
 		public String id;
 
 
-		JsonRpcResponse toJsonRpcResponse() {
+		private JsonRpcResponse toJsonRpcResponse() {
 			JsonRpcResponse rpcResponse = new JsonRpcResponse();
 			rpcResponse.setResult(result.toString());
 			rpcResponse.setError(error);

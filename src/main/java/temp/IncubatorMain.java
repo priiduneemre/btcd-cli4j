@@ -13,7 +13,7 @@ import com.neemre.btcdcli4j.Commands;
 import com.neemre.btcdcli4j.client.BtcdClient;
 import com.neemre.btcdcli4j.client.BtcdClientImpl;
 import com.neemre.btcdcli4j.domain.PeerNode;
-import com.neemre.btcdcli4j.jsonrpc.JsonParser;
+import com.neemre.btcdcli4j.jsonrpc.JsonPrimitiveParser;
 import com.neemre.btcdcli4j.jsonrpc.client.JsonRpcClient;
 import com.neemre.btcdcli4j.jsonrpc.client.JsonRpcClientImpl;
 import com.neemre.btcdcli4j.util.CollectionUtils;
@@ -21,7 +21,7 @@ import com.neemre.btcdcli4j.util.CollectionUtils;
 public class IncubatorMain {
 	
 	public static void main(String[] args) throws IOException {
-		JsonParser parser = new JsonParser();
+		JsonPrimitiveParser parser = new JsonPrimitiveParser();
 		System.out.println(parser.parseString("\"nul\"\""));
 		
 		String id = UUID.randomUUID().toString().replaceAll("-", "");

@@ -11,7 +11,7 @@ import org.apache.http.client.HttpClient;
 import com.neemre.btcdcli4j.http.client.SimpleHttpClient;
 import com.neemre.btcdcli4j.http.client.SimpleHttpClientImpl;
 import com.neemre.btcdcli4j.jsonrpc.JsonMapper;
-import com.neemre.btcdcli4j.jsonrpc.JsonParser;
+import com.neemre.btcdcli4j.jsonrpc.JsonPrimitiveParser;
 import com.neemre.btcdcli4j.jsonrpc.domain.JsonRpcError;
 import com.neemre.btcdcli4j.jsonrpc.domain.JsonRpcRequest;
 import com.neemre.btcdcli4j.jsonrpc.domain.JsonRpcResponse;
@@ -19,13 +19,13 @@ import com.neemre.btcdcli4j.jsonrpc.domain.JsonRpcResponse;
 public class JsonRpcClientImpl implements JsonRpcClient {
 
 	private SimpleHttpClient httpClient;
-	private JsonParser parser;
+	private JsonPrimitiveParser parser;
 	private JsonMapper mapper;
 
 
 	public JsonRpcClientImpl(HttpClient httpProvider, Properties nodeConfig) {
 		httpClient = new SimpleHttpClientImpl(httpProvider, nodeConfig);
-		parser = new JsonParser();
+		parser = new JsonPrimitiveParser();
 		mapper = new JsonMapper();
 	}
 
@@ -53,7 +53,7 @@ public class JsonRpcClientImpl implements JsonRpcClient {
 	}
 
 	@Override
-	public JsonParser getParser() {
+	public JsonPrimitiveParser getParser() {
 		return parser;
 	}
 

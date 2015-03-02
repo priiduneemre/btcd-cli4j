@@ -3,7 +3,7 @@ package com.neemre.btcdcli4j.jsonrpc.client;
 import java.util.List;
 
 import com.neemre.btcdcli4j.jsonrpc.JsonMapper;
-import com.neemre.btcdcli4j.jsonrpc.JsonParser;
+import com.neemre.btcdcli4j.jsonrpc.JsonPrimitiveParser;
 
 public interface JsonRpcClient {
 
@@ -13,7 +13,7 @@ public interface JsonRpcClient {
 	
 	<T> String execute(String method, List<T> params);
 	
-	JsonParser getParser();
+	JsonPrimitiveParser getParser();
 
 	JsonMapper getMapper();
 }
