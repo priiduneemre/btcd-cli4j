@@ -9,6 +9,7 @@ import com.neemre.btcdcli4j.domain.AddressInfo;
 import com.neemre.btcdcli4j.domain.Info;
 import com.neemre.btcdcli4j.domain.MemPoolInfo;
 import com.neemre.btcdcli4j.domain.MiningInfo;
+import com.neemre.btcdcli4j.domain.OutputDetails;
 import com.neemre.btcdcli4j.domain.PeerNode;
 import com.neemre.btcdcli4j.domain.WalletInfo;
 
@@ -99,6 +100,33 @@ public interface BtcdClient {
 	Map<String, BigDecimal> listAccounts(Integer confirmations, Boolean withWatchOnly);
 	
 	List<List<AddressDetails>> listAddressGroupings();
+	
+	Boolean lockUnspent(Boolean isLocked);
+
+	Boolean lockUnspent(boolean isLocked, List<OutputDetails> outputs);
+	
+	Boolean move(String fromAccount, String toAccount, BigDecimal amount);
+
+	Boolean move(String fromAccount, String toAccount, BigDecimal amount, Integer dummy, 
+			String comment);
+	
+	void ping();
+	
+	String sendFrom(String fromAccount, String toAddress, BigDecimal amount);
+
+	String sendFrom(String fromAccount, String toAddress, BigDecimal amount, Integer confirmations);
+
+	String sendFrom(String fromAccount, String toAddress, BigDecimal amount, Integer confirmations,
+			String comment);
+
+	String sendFrom(String fromAccount, String toAddress, BigDecimal amount, Integer confirmations,
+			String comment, String commentTo);
+	
+	String sendToAddress(String toAddress, BigDecimal amount);
+
+	String sendToAddress(String toAddress, BigDecimal amount, String comment);
+
+	String sendToAddress(String toAddress, BigDecimal amount, String comment, String commentTo);
 	
 	void setAccount(String address, String account);
 	

@@ -19,6 +19,7 @@ import com.neemre.btcdcli4j.domain.AddressInfo;
 import com.neemre.btcdcli4j.domain.Info;
 import com.neemre.btcdcli4j.domain.MemPoolInfo;
 import com.neemre.btcdcli4j.domain.MiningInfo;
+import com.neemre.btcdcli4j.domain.OutputDetails;
 import com.neemre.btcdcli4j.domain.PeerNode;
 import com.neemre.btcdcli4j.domain.WalletInfo;
 import com.neemre.btcdcli4j.util.CollectionUtils;
@@ -78,7 +79,28 @@ public class ApiUsage {
 		//		supportedCalls.listAccounts();
 		//		supportedCalls.listAccounts(6);
 		//		supportedCalls.listAccounts(6, true);
-		supportedCalls.listAddressGroupings();
+		//		supportedCalls.listAddressGroupings();
+		supportedCalls.lockUnspent(false);
+		supportedCalls.lockUnspent(true, Arrays.asList(new OutputDetails[]{
+				new OutputDetails("b6b4df6605a73f45a006a714dab6da6b5c8833b5512cb040957ee1dac885e1a9", 1),
+				new OutputDetails("2d117f97ab76777a195d503f39ade30047abd0b72738ee3cf15c335324051dbb", 0)}));
+		//		supportedCalls.move("accountA", "accountB", new BigDecimal("0.53006000"));
+		//		supportedCalls.move("accountA", "accountB", new BigDecimal("0.21000000"), 0, "Sample move: " 
+		//				+ "an off-chain transfer of 0.002 BTC from 'accountA' to 'accountB'.");
+		//		supportedCalls.ping();
+		//		supportedCalls.sendFrom("treasury", "mxahv57UR2zGXbsiL35kHWpiXkopAubMmi", new BigDecimal("0.002"));
+		//		supportedCalls.sendFrom("treasury", "mo81ruAwDZeQKhn7SiUkR6UjCAropBiCXF", new BigDecimal("0.001"), 2);
+		//		supportedCalls.sendFrom("treasury", "n3HBsBafTktAKMGi9Pjqey68HF42QjfwGz", new BigDecimal("0.003"),
+		//				3, "Sample transaction: a payment of 0.003 BTC to 'supplierE' for services rendered.");
+		//		supportedCalls.sendFrom("treasury", "mz6s3qBsifGLyJMcjxWabJ9z3Zf95Etods", new BigDecimal("0.007"),
+		//				4, "Sample transaction: a payment of 0.007 BTC to 'supplierF' for services rendered.",
+		//				"supplierF");
+		//		supportedCalls.sendToAddress("msrHoyN5Jw1EH7saGxMqJtTKt6qhmyPZMF", new BigDecimal("0.0005"));
+		//		supportedCalls.sendToAddress("n3y8BpckkDDGMtSq7d2Yx46EYenyUit3Jc", new BigDecimal("0.0035"), 
+		//				"Sample transaction: a payment of 0.0035 BTC to 'supplierB' for services rendered.");
+		//		supportedCalls.sendToAddress("mu9YMgJzJkoA6ZwhCFDkTjRfXF2BakTGw1", new BigDecimal("0.0045"), 
+		//				"Sample transaction: a payment of 0.0045 BTC to 'supplierC' for services rendered.", 
+		//				"supplierC");
 		//		supportedCalls.setAccount("1NRpYDf2GdAL4yLZEAww8uUSEGM7Df6KKc", "aardvark");
 		//		supportedCalls.setGenerate(false);
 		//		supportedCalls.setGenerate(false, 7);
@@ -342,6 +364,89 @@ public class ApiUsage {
 			List<List<AddressDetails>> groupings = btcdClient.listAddressGroupings();
 			printResult(Commands.LIST_ADDRESS_GROUPINGS.getName(), null, null, groupings);
 		}
+		
+		public void lockUnspent(Boolean isLocked) {
+			Boolean isSuccess = btcdClient.lockUnspent(isLocked);
+			printResult(Commands.LOCK_UNSPENT.getName(), new String[]{"isLocked"}, 
+					new Object[]{isLocked}, isSuccess);
+		}
+
+		public void lockUnspent(boolean isLocked, List<OutputDetails> outputs) {
+			Boolean isSuccess = btcdClient.lockUnspent(isLocked, outputs);
+			printResult(Commands.LOCK_UNSPENT.getName(), new String[]{"isLocked", "outputs"}, 
+					new Object[]{isLocked, outputs}, isSuccess);
+		}
+		
+		public void move(String fromAccount, String toAccount, BigDecimal amount) {
+			Boolean isSuccess = btcdClient.move(fromAccount, toAccount, amount);
+			printResult(Commands.MOVE.getName(), new String[]{"fromAccount", "toAccount", "amount"},
+					new Object[]{fromAccount, toAccount, amount}, isSuccess);
+		}
+		
+		public void move(String fromAccount, String toAccount, BigDecimal amount, Integer dummy,
+				String comment) {
+			Boolean isSuccess = btcdClient.move(fromAccount, toAccount, amount, dummy, comment);
+			printResult(Commands.MOVE.getName(), new String[]{"fromAccount", "toAccount", "amount", 
+				"dummy", "comment"}, new Object[]{fromAccount, toAccount, amount, dummy, comment},
+				isSuccess);
+		}
+		
+		public void ping() {
+			btcdClient.ping();
+			printResult(Commands.PING.getName(), null, null, null);
+		}
+		
+		public void sendFrom(String fromAccount, String toAddress, BigDecimal amount) {
+			String transactionId = btcdClient.sendFrom(fromAccount, toAddress, amount);
+			printResult(Commands.SEND_FROM.getName(), new String[]{"fromAccount", "toAddress", 
+				"amount"}, new Object[]{fromAccount, toAddress, amount}, transactionId);
+		}
+		
+		public void sendFrom(String fromAccount, String toAddress, BigDecimal amount, 
+				Integer confirmations) {
+			String transactionId = btcdClient.sendFrom(fromAccount, toAddress, amount, confirmations);
+			printResult(Commands.SEND_FROM.getName(), new String[]{"fromAccount", "toAddress", 
+				"amount", "confirmations"}, new Object[]{fromAccount, toAddress, amount, 
+				confirmations}, transactionId);
+		}
+		
+		public void sendFrom(String fromAccount, String toAddress, BigDecimal amount, 
+				Integer confirmations, String comment) {
+			String transactionId = btcdClient.sendFrom(fromAccount, toAddress, amount, confirmations,
+					comment);
+			printResult(Commands.SEND_FROM.getName(), new String[]{"fromAccount", "toAddress", 
+				"amount", "confirmations", "comment"}, new Object[]{fromAccount, toAddress, amount,
+				confirmations, comment}, transactionId);
+		}
+		
+		public void sendFrom(String fromAccount, String toAddress, BigDecimal amount, 
+				Integer confirmations, String comment, String commentTo) {
+			String transactionId = btcdClient.sendFrom(fromAccount, toAddress, amount, confirmations,
+					comment, commentTo);
+			printResult(Commands.SEND_FROM.getName(), new String[]{"fromAccount", "toAddress", 
+				"amount", "confirmations", "comment", "commentTo"}, new Object[]{fromAccount, 
+				toAddress, amount, confirmations, comment, commentTo}, transactionId);
+		}
+
+		public void sendToAddress(String toAddress, BigDecimal amount) {
+			String transactionId = btcdClient.sendToAddress(toAddress, amount);
+			printResult(Commands.SEND_TO_ADDRESS.getName(), new String[]{"toAddress", "amount"},
+					new Object[]{toAddress, amount}, transactionId);
+		}
+
+		public void sendToAddress(String toAddress, BigDecimal amount, String comment) {
+			String transactionId = btcdClient.sendToAddress(toAddress, amount, comment);
+			printResult(Commands.SEND_TO_ADDRESS.getName(), new String[]{"toAddress", "amount", 
+				"comment"}, new Object[]{toAddress, amount, comment}, transactionId);
+		}
+
+		public void sendToAddress(String toAddress, BigDecimal amount, String comment, 
+				String commentTo) {
+			String transactionId = btcdClient.sendToAddress(toAddress, amount, comment, commentTo);
+			printResult(Commands.SEND_TO_ADDRESS.getName(), new String[]{"toAddress", "amount",
+				"comment", "commentTo"}, new Object[]{toAddress, amount, comment, commentTo}, 
+				transactionId);
+		}
 
 		public void setAccount(String address, String account) {
 			btcdClient.setAccount(address, account);
@@ -362,9 +467,9 @@ public class ApiUsage {
 		}
 
 		private void setTxFee(BigDecimal txFee) {
-			Boolean result = btcdClient.setTxFee(txFee);
+			Boolean isSuccess = btcdClient.setTxFee(txFee);
 			printResult(Commands.SET_TX_FEE.getName(), new String[]{"txFee"}, new Object[]{txFee},
-					result);
+					isSuccess);
 		}
 		
 		public void signMessage(String address, String message) {

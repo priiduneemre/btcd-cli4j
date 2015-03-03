@@ -39,9 +39,14 @@ public enum Commands {
 	KEY_POOL_REFILL("keypoolrefill", 0, 1),
 	LIST_ACCOUNTS("listaccounts", 0, 2),
 	LIST_ADDRESS_GROUPINGS("listaddressgroupings", 0, 0),
+	LOCK_UNSPENT("lockunspent", 1, 2),
+	MOVE("move", 3, 5),
+	PING("ping", 0, 0),
 	SET_ACCOUNT("setaccount", 2, 2),
 	SET_GENERATE("setgenerate", 1, 2),
 	SET_TX_FEE("settxfee", 1, 1),
+	SEND_FROM("sendfrom", 3, 6),
+	SEND_TO_ADDRESS("sendtoaddress", 2, 4),
 	SIGN_MESSAGE("signmessage", 2, 2),
 	STOP("stop", 0, 0),
 	VALIDATE_ADDRESS("validateaddress", 1, 1),
@@ -50,21 +55,19 @@ public enum Commands {
 	WALLET_PASSPHRASE("walletpassphrase", 2, 2),
 	WALLET_PASSPHRASE_CHANGE("walletpassphrasechange", 2, 2),
 
+
+	SEND_MANY("sendmany", -1, -1),
+	GET_BLOCK("getblock", -1, -1),
+	GET_TRANSACTION("gettransaction", -1, -1),
 	
 	ADD_MULTI_SIG_ADDRESS("addmultisigaddress", -1, -1),
-	GET_TRANSACTION("gettransaction", -1, -1),
 	LIST_LOCK_UNSPENT("listlockunspent", -1, -1),
 	LIST_RECEIVED_BY_ACCOUNT("listreceivedbyaccount", -1, -1),
 	LIST_RECEIVED_BY_ADDRESS("listreceivedbyaddress", -1, -1),
 	LIST_SINCE_BLOCK("listsinceblock", -1, -1),
 	LIST_TRANSACTIONS("listtransactions", -1, -1),
-	LIST_UNSPENT("listunspent", -1, -1),
-	LOCK_UNSPENT("lockunspent", -1, -1),
-	MOVE("move", -1, -1),
-	SEND_FROM("sendfrom", -1, -1),
-	SEND_MANY("sendmany", -1, -1),
-	SEND_TO_ADDRESS("sendtoaddress", -1, -1),
-	GET_BLOCK("getblock", -1, -1);
+	LIST_UNSPENT("listunspent", -1, -1);
+
 	
 	@Getter
 	@Setter

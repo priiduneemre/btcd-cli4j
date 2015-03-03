@@ -7,7 +7,6 @@ import java.util.Properties;
 
 import org.apache.http.client.HttpClient;
 
-import com.fasterxml.jackson.databind.DeserializationConfig;
 import com.neemre.btcdcli4j.Commands;
 import com.neemre.btcdcli4j.common.Defaults;
 import com.neemre.btcdcli4j.domain.AddressDetails;
@@ -15,6 +14,7 @@ import com.neemre.btcdcli4j.domain.AddressInfo;
 import com.neemre.btcdcli4j.domain.Info;
 import com.neemre.btcdcli4j.domain.MemPoolInfo;
 import com.neemre.btcdcli4j.domain.MiningInfo;
+import com.neemre.btcdcli4j.domain.OutputDetails;
 import com.neemre.btcdcli4j.domain.PeerNode;
 import com.neemre.btcdcli4j.domain.WalletInfo;
 import com.neemre.btcdcli4j.jsonrpc.client.JsonRpcClient;
@@ -331,6 +331,105 @@ public class BtcdClientImpl implements BtcdClient {
 		List<List<AddressDetails>> groupings = rpcClient.getMapper().mapToNestedLists(1, groupingsJson, 
 				AddressDetails.class);
 		return groupings;
+	}
+	
+	@Override
+	public Boolean lockUnspent(Boolean isLocked) {
+		String isSuccessJson = rpcClient.execute(Commands.LOCK_UNSPENT.getName(), isLocked);
+		Boolean isSuccess = rpcClient.getParser().parseBoolean(isSuccessJson);
+		return isSuccess;
+	}
+
+	@Override
+	public Boolean lockUnspent(boolean isLocked, List<OutputDetails> outputs) {
+		List<Object> params = CollectionUtils.asList(isLocked, outputs);
+		String isSuccessJson = rpcClient.execute(Commands.LOCK_UNSPENT.getName(), params);
+		Boolean isSuccess = rpcClient.getParser().parseBoolean(isSuccessJson);
+		return isSuccess;
+	}
+	
+	@Override
+	public Boolean move(String fromAccount, String toAccount, BigDecimal amount) {
+		List<Object> params = CollectionUtils.asList(fromAccount, toAccount, amount);
+		String isSuccessJson = rpcClient.execute(Commands.MOVE.getName(), params);
+		Boolean isSuccess = rpcClient.getParser().parseBoolean(isSuccessJson);
+		return isSuccess;
+	}
+
+	@Override
+	public Boolean move(String fromAccount, String toAccount, BigDecimal amount, Integer dummy,
+			String comment) {
+		List<Object> params = CollectionUtils.asList(fromAccount, toAccount, amount, dummy, comment);
+		String isSuccessJson = rpcClient.execute(Commands.MOVE.getName(), params);
+		Boolean isSuccess = rpcClient.getParser().parseBoolean(isSuccessJson);
+		return isSuccess;
+	}
+	
+	@Override
+	public void ping() {
+		rpcClient.execute(Commands.PING.getName());
+	}
+	
+	@Override
+	public String sendFrom(String fromAccount, String toAddress, BigDecimal amount) {
+		List<Object> params = CollectionUtils.asList(fromAccount, toAddress, amount);
+		String transactionIdJson = rpcClient.execute(Commands.SEND_FROM.getName(), params);
+		String transactionId = rpcClient.getParser().parseString(transactionIdJson);
+		return transactionId;
+	}
+
+	@Override
+	public String sendFrom(String fromAccount, String toAddress, BigDecimal amount, 
+			Integer confirmations) {
+		List<Object> params = CollectionUtils.asList(fromAccount, toAddress, amount, confirmations);
+		String transactionIdJson = rpcClient.execute(Commands.SEND_FROM.getName(), params);
+		String transactionId = rpcClient.getParser().parseString(transactionIdJson);
+		return transactionId;
+	}
+
+	@Override
+	public String sendFrom(String fromAccount, String toAddress, BigDecimal amount, 
+			Integer confirmations, String comment) {
+		List<Object> params = CollectionUtils.asList(fromAccount, toAddress, amount, confirmations, 
+				comment);
+		String transactionIdJson = rpcClient.execute(Commands.SEND_FROM.getName(), params);
+		String transactionId = rpcClient.getParser().parseString(transactionIdJson);
+		return transactionId;
+	}
+
+	@Override
+	public String sendFrom(String fromAccount, String toAddress, BigDecimal amount, 
+			Integer confirmations, String comment, String commentTo) {
+		List<Object> params = CollectionUtils.asList(fromAccount, toAddress, amount, confirmations,
+				comment, commentTo);
+		String transactionIdJson = rpcClient.execute(Commands.SEND_FROM.getName(), params);
+		String transactionId = rpcClient.getParser().parseString(transactionIdJson);
+		return transactionId;
+	}
+	
+	@Override
+	public String sendToAddress(String toAddress, BigDecimal amount) {
+		List<Object> params = CollectionUtils.asList(toAddress, amount);
+		String transactionIdJson = rpcClient.execute(Commands.SEND_TO_ADDRESS.getName(), params);
+		String transactionId = rpcClient.getParser().parseString(transactionIdJson);
+		return transactionId;
+	}
+
+	@Override
+	public String sendToAddress(String toAddress, BigDecimal amount, String comment) {
+		List<Object> params = CollectionUtils.asList(toAddress, amount, comment);
+		String transactionIdJson = rpcClient.execute(Commands.SEND_TO_ADDRESS.getName(), params);
+		String transactionId = rpcClient.getParser().parseString(transactionIdJson);
+		return transactionId;
+	}
+
+	@Override
+	public String sendToAddress(String toAddress, BigDecimal amount, String comment, 
+			String commentTo) {
+		List<Object> params = CollectionUtils.asList(toAddress, amount, comment, commentTo);
+		String transactionIdJson = rpcClient.execute(Commands.SEND_TO_ADDRESS.getName(), params);
+		String transactionId = rpcClient.getParser().parseString(transactionIdJson);
+		return transactionId;
 	}
 	
 	@Override
