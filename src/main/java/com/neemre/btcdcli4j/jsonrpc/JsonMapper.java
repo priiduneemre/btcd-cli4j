@@ -35,6 +35,20 @@ public class JsonMapper {
 		return null;
 	}
 
+	public <T> List<String> mapToJson(List<T> entities) {
+		try {
+			List<String> entitiesJson = new ArrayList<String>();
+			for(T entity : entities) {
+				entitiesJson.add(rawWriter.writeValueAsString(entity));
+			}
+			return entitiesJson;
+		} catch (JsonProcessingException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+
 	public <T> T mapToEntity(String entityJson, Class<T> entityClass) {
 		try {
 			T entity = rawMapper.readValue(entityJson, entityClass);
@@ -80,7 +94,7 @@ public class JsonMapper {
 		}
 		return null;
 	}
-	
+
 	public <T, S> S mapToNestedLists(int depth, String entitiesJson, Class<T> entityClass) {
 		try {
 			CollectionType outmostListType = rawMapper.getTypeFactory().constructCollectionType(

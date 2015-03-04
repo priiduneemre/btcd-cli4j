@@ -18,6 +18,7 @@ public enum Commands {
 	GET_ADDRESSES_BY_ACCOUNT("getaddressesbyaccount", 1, 1),
 	GET_BALANCE("getbalance", 0, 3),
 	GET_BEST_BLOCK_HASH("getbestblockhash", 0, 0),
+	GET_BLOCK("getblock", 1, 2),
 	GET_BLOCK_COUNT("getblockcount", 0, 0),
 	GET_BLOCK_HASH("getblockhash", 1, 1),
 	GET_DIFFICULTY("getdifficulty", 0, 0),
@@ -39,6 +40,7 @@ public enum Commands {
 	KEY_POOL_REFILL("keypoolrefill", 0, 1),
 	LIST_ACCOUNTS("listaccounts", 0, 2),
 	LIST_ADDRESS_GROUPINGS("listaddressgroupings", 0, 0),
+	LIST_LOCK_UNSPENT("listlockunspent", 0, 0),
 	LOCK_UNSPENT("lockunspent", 1, 2),
 	MOVE("move", 3, 5),
 	PING("ping", 0, 0),
@@ -57,11 +59,9 @@ public enum Commands {
 
 
 	SEND_MANY("sendmany", -1, -1),
-	GET_BLOCK("getblock", -1, -1),
 	GET_TRANSACTION("gettransaction", -1, -1),
 	
 	ADD_MULTI_SIG_ADDRESS("addmultisigaddress", -1, -1),
-	LIST_LOCK_UNSPENT("listlockunspent", -1, -1),
 	LIST_RECEIVED_BY_ACCOUNT("listreceivedbyaccount", -1, -1),
 	LIST_RECEIVED_BY_ADDRESS("listreceivedbyaddress", -1, -1),
 	LIST_SINCE_BLOCK("listsinceblock", -1, -1),

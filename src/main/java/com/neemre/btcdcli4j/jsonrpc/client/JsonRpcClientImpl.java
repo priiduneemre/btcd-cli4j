@@ -47,7 +47,7 @@ public class JsonRpcClientImpl implements JsonRpcClient {
 		JsonRpcRequest<T> request = getNewRequest(method, params, requestUuid);
 		String responseJson = httpClient.execute(mapper.mapToJson(request));
 		JsonRpcResponse response = mapper.mapToEntity(responseJson, JsonRpcResponse.class);
-		response = validateResponse(request, response);
+		response = verifyResponse(request, response);
 		response = checkResponse(response);
 		return response.getResult();
 	}
@@ -82,7 +82,7 @@ public class JsonRpcClientImpl implements JsonRpcClient {
 		return UUID.randomUUID().toString().replaceAll("-", "");
 	}
 
-	private <T> JsonRpcResponse validateResponse(JsonRpcRequest<T> request, JsonRpcResponse response) {
+	private <T> JsonRpcResponse verifyResponse(JsonRpcRequest<T> request, JsonRpcResponse response) {
 		if(response == null) {
 			throw new IllegalArgumentException("I am broken."); //TODO
 		}

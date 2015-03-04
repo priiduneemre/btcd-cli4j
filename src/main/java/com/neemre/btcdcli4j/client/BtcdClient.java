@@ -6,6 +6,7 @@ import java.util.Map;
 
 import com.neemre.btcdcli4j.domain.AddressDetails;
 import com.neemre.btcdcli4j.domain.AddressInfo;
+import com.neemre.btcdcli4j.domain.Block;
 import com.neemre.btcdcli4j.domain.Info;
 import com.neemre.btcdcli4j.domain.MemPoolInfo;
 import com.neemre.btcdcli4j.domain.MiningInfo;
@@ -38,6 +39,10 @@ public interface BtcdClient {
 	BigDecimal getBalance(String account, Integer confirmations, Boolean withWatchOnly);
 	
 	String getBestBlockHash();
+	
+	Block getBlock(String headerHash);
+
+	Object getBlock(String headerHash, boolean isDecoded);
 	
 	Integer getBlockCount();
 	
@@ -100,10 +105,12 @@ public interface BtcdClient {
 	Map<String, BigDecimal> listAccounts(Integer confirmations, Boolean withWatchOnly);
 	
 	List<List<AddressDetails>> listAddressGroupings();
-	
-	Boolean lockUnspent(Boolean isLocked);
 
-	Boolean lockUnspent(boolean isLocked, List<OutputDetails> outputs);
+	List<OutputDetails> listLockUnspent();
+	
+	Boolean lockUnspent(Boolean isSpendable);
+
+	Boolean lockUnspent(boolean isSpendable, List<OutputDetails> outputs);
 	
 	Boolean move(String fromAccount, String toAccount, BigDecimal amount);
 

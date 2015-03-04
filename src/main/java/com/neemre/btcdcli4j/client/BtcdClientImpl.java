@@ -11,6 +11,7 @@ import com.neemre.btcdcli4j.Commands;
 import com.neemre.btcdcli4j.common.Defaults;
 import com.neemre.btcdcli4j.domain.AddressDetails;
 import com.neemre.btcdcli4j.domain.AddressInfo;
+import com.neemre.btcdcli4j.domain.Block;
 import com.neemre.btcdcli4j.domain.Info;
 import com.neemre.btcdcli4j.domain.MemPoolInfo;
 import com.neemre.btcdcli4j.domain.MiningInfo;
@@ -110,9 +111,29 @@ public class BtcdClientImpl implements BtcdClient {
 	
 	@Override
 	public String getBestBlockHash() {
-		String blockHashJson = rpcClient.execute(Commands.GET_BEST_BLOCK_HASH.getName());
-		String blockHash = rpcClient.getParser().parseString(blockHashJson);
-		return blockHash;
+		String headerHashJson = rpcClient.execute(Commands.GET_BEST_BLOCK_HASH.getName());
+		String headerHash = rpcClient.getParser().parseString(headerHashJson);
+		return headerHash;
+	}
+	
+	@Override
+	public Block getBlock(String headerHash) {
+		String blockJson = rpcClient.execute(Commands.GET_BLOCK.getName(), headerHash);
+		Block block = rpcClient.getMapper().mapToEntity(blockJson, Block.class);
+		return block;
+	}
+
+	@Override
+	public Object getBlock(String headerHash, boolean isDecoded) {
+		List<Object> params = CollectionUtils.asList(headerHash, isDecoded);
+		String blockJson = rpcClient.execute(Commands.GET_BLOCK.getName(), params);
+		if(isDecoded) {
+			Block block = rpcClient.getMapper().mapToEntity(blockJson, Block.class);
+			return block;
+		} else {
+			String block = rpcClient.getParser().parseString(blockJson);
+			return block;
+		}
 	}
 	
 	@Override
@@ -124,9 +145,9 @@ public class BtcdClientImpl implements BtcdClient {
 
 	@Override
 	public String getBlockHash(Integer blockHeight) {
-		String blockHashJson = rpcClient.execute(Commands.GET_BLOCK_HASH.getName(), blockHeight);
-		String blockHash = rpcClient.getParser().parseString(blockHashJson);
-		return blockHash;
+		String headerHashJson = rpcClient.execute(Commands.GET_BLOCK_HASH.getName(), blockHeight);
+		String headerHash = rpcClient.getParser().parseString(headerHashJson);
+		return headerHash;
 	}
 	
 	@Override
@@ -334,15 +355,23 @@ public class BtcdClientImpl implements BtcdClient {
 	}
 	
 	@Override
-	public Boolean lockUnspent(Boolean isLocked) {
-		String isSuccessJson = rpcClient.execute(Commands.LOCK_UNSPENT.getName(), isLocked);
+	public List<OutputDetails> listLockUnspent() {
+		String lockedOutputsJson = rpcClient.execute(Commands.LIST_LOCK_UNSPENT.getName());
+		List<OutputDetails> lockedOutputs = rpcClient.getMapper().mapToList(lockedOutputsJson, 
+				OutputDetails.class);
+		return lockedOutputs;
+	}
+	
+	@Override
+	public Boolean lockUnspent(Boolean isSpendable) {
+		String isSuccessJson = rpcClient.execute(Commands.LOCK_UNSPENT.getName(), isSpendable);
 		Boolean isSuccess = rpcClient.getParser().parseBoolean(isSuccessJson);
 		return isSuccess;
 	}
 
 	@Override
-	public Boolean lockUnspent(boolean isLocked, List<OutputDetails> outputs) {
-		List<Object> params = CollectionUtils.asList(isLocked, outputs);
+	public Boolean lockUnspent(boolean isSpendable, List<OutputDetails> outputs) {
+		List<Object> params = CollectionUtils.asList(isSpendable, outputs);
 		String isSuccessJson = rpcClient.execute(Commands.LOCK_UNSPENT.getName(), params);
 		Boolean isSuccess = rpcClient.getParser().parseBoolean(isSuccessJson);
 		return isSuccess;

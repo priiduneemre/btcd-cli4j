@@ -16,6 +16,7 @@ import com.neemre.btcdcli4j.client.BtcdClientImpl;
 import com.neemre.btcdcli4j.common.Defaults;
 import com.neemre.btcdcli4j.domain.AddressDetails;
 import com.neemre.btcdcli4j.domain.AddressInfo;
+import com.neemre.btcdcli4j.domain.Block;
 import com.neemre.btcdcli4j.domain.Info;
 import com.neemre.btcdcli4j.domain.MemPoolInfo;
 import com.neemre.btcdcli4j.domain.MiningInfo;
@@ -47,6 +48,9 @@ public class ApiUsage {
 		//		supportedCalls.getBalance("", 6);
 		//		supportedCalls.getBalance("", 6, true);
 		//		supportedCalls.getBestBlockHash();
+		//		supportedCalls.getBlock("00000000000000e8cf3d4fab91c642f5d5bb13339613aa915a42a7f1c91ab5ba");
+		//		supportedCalls.getBlock("00000000000000e8cf3d4fab91c642f5d5bb13339613aa915a42a7f1c91ab5ba",
+		//			true);
 		//		supportedCalls.getBlockCount();
 		//		supportedCalls.getBlockHash(345168);
 		//		supportedCalls.getDifficulty();
@@ -80,10 +84,11 @@ public class ApiUsage {
 		//		supportedCalls.listAccounts(6);
 		//		supportedCalls.listAccounts(6, true);
 		//		supportedCalls.listAddressGroupings();
-		supportedCalls.lockUnspent(false);
-		supportedCalls.lockUnspent(true, Arrays.asList(new OutputDetails[]{
-				new OutputDetails("b6b4df6605a73f45a006a714dab6da6b5c8833b5512cb040957ee1dac885e1a9", 1),
-				new OutputDetails("2d117f97ab76777a195d503f39ade30047abd0b72738ee3cf15c335324051dbb", 0)}));
+		//		supportedCalls.listLockUnspent();
+		//		supportedCalls.lockUnspent(true);
+		//		supportedCalls.lockUnspent(false, Arrays.asList(new OutputDetails[]{
+		//				new OutputDetails("ff534734f74fc4ecffe1588a6554898717bb5bbc58688ddcd9a0dede132bfd13", 1)}));
+
 		//		supportedCalls.move("accountA", "accountB", new BigDecimal("0.53006000"));
 		//		supportedCalls.move("accountA", "accountB", new BigDecimal("0.21000000"), 0, "Sample move: " 
 		//				+ "an off-chain transfer of 0.002 BTC from 'accountA' to 'accountB'.");
@@ -190,8 +195,20 @@ public class ApiUsage {
 		}
 
 		private void getBestBlockHash() {
-			String blockHash = btcdClient.getBestBlockHash();
-			printResult(Commands.GET_BEST_BLOCK_HASH.getName(), null, null, blockHash);
+			String headerHash = btcdClient.getBestBlockHash();
+			printResult(Commands.GET_BEST_BLOCK_HASH.getName(), null, null, headerHash);
+		}
+
+		public void getBlock(String headerHash) {
+			Block block = btcdClient.getBlock(headerHash);
+			printResult(Commands.GET_BLOCK.getName(), new String[]{"headerHash"}, 
+					new Object[]{headerHash}, block);
+		}
+		
+		public void getBlock(String headerHash, boolean isDecoded) {
+			Object block = btcdClient.getBlock(headerHash, isDecoded);
+			printResult(Commands.GET_BLOCK.getName(), new String[]{"headerHash", "isDecoded"}, 
+					new Object[]{headerHash, isDecoded}, block);
 		}
 
 		private void getBlockCount() {
@@ -200,9 +217,9 @@ public class ApiUsage {
 		}
 
 		private void getBlockHash(Integer blockHeight) {
-			String blockHash = btcdClient.getBlockHash(blockHeight);
+			String headerHash = btcdClient.getBlockHash(blockHeight);
 			printResult(Commands.GET_BLOCK_HASH.getName(), new String[]{"blockHeight"}, 
-					new Object[]{blockHeight}, blockHash);
+					new Object[]{blockHeight}, headerHash);
 		}
 
 		private void getDifficulty() {
@@ -365,16 +382,21 @@ public class ApiUsage {
 			printResult(Commands.LIST_ADDRESS_GROUPINGS.getName(), null, null, groupings);
 		}
 		
-		public void lockUnspent(Boolean isLocked) {
-			Boolean isSuccess = btcdClient.lockUnspent(isLocked);
-			printResult(Commands.LOCK_UNSPENT.getName(), new String[]{"isLocked"}, 
-					new Object[]{isLocked}, isSuccess);
+		public void listLockUnspent() {
+			List<OutputDetails> lockedOutputs = btcdClient.listLockUnspent();
+			printResult(Commands.LIST_LOCK_UNSPENT.getName(), null, null, lockedOutputs);
+		}
+		
+		public void lockUnspent(Boolean isSpendable) {
+			Boolean isSuccess = btcdClient.lockUnspent(isSpendable);
+			printResult(Commands.LOCK_UNSPENT.getName(), new String[]{"isSpendable"}, 
+					new Object[]{isSpendable}, isSuccess);
 		}
 
-		public void lockUnspent(boolean isLocked, List<OutputDetails> outputs) {
-			Boolean isSuccess = btcdClient.lockUnspent(isLocked, outputs);
-			printResult(Commands.LOCK_UNSPENT.getName(), new String[]{"isLocked", "outputs"}, 
-					new Object[]{isLocked, outputs}, isSuccess);
+		public void lockUnspent(boolean isSpendable, List<OutputDetails> outputs) {
+			Boolean isSuccess = btcdClient.lockUnspent(isSpendable, outputs);
+			printResult(Commands.LOCK_UNSPENT.getName(), new String[]{"isSpendable", "outputs"}, 
+					new Object[]{isSpendable, outputs}, isSuccess);
 		}
 		
 		public void move(String fromAccount, String toAccount, BigDecimal amount) {
