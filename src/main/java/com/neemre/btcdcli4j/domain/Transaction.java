@@ -1,5 +1,7 @@
 package com.neemre.btcdcli4j.domain;
 
+import java.math.BigDecimal;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -17,8 +19,6 @@ import com.fasterxml.jackson.annotation.JsonInclude.Include;
 @EqualsAndHashCode(callSuper = false)
 @JsonInclude(Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class MemPoolInfo extends Entity {
-	
-	private Integer size;
-	private Integer bytes;
+public class Transaction extends Entity {
+
 }

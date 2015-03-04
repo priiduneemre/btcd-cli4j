@@ -1,7 +1,10 @@
 package com.neemre.btcdcli4j.domain.enums;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonValue;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
 import lombok.AllArgsConstructor;
 import lombok.Setter;
@@ -9,6 +12,8 @@ import lombok.ToString;
 
 @ToString
 @AllArgsConstructor
+@JsonInclude(Include.NON_NULL)
+@JsonIgnoreProperties(ignoreUnknown = true)
 public enum ChainTypes {
 
 	MAINNET("main"),
@@ -16,19 +21,19 @@ public enum ChainTypes {
 	REGTEST("regtest");
 
 	@Setter
-	public String label;
+	public String name;
 
 
 	@JsonValue
-	public String getLabel() {
-		return label;
+	public String getName() {
+		return name;
 	}
 
 	@JsonCreator
-	public static ChainTypes forLabel(String label) {
-		if(label != null) {
+	public static ChainTypes forName(String name) {
+		if(name != null) {
 			for(ChainTypes chainType : ChainTypes.values()) {
-				if(label.toLowerCase().equals(chainType.getLabel())) {
+				if(name.toLowerCase().equals(chainType.getName())) {
 					return chainType;
 				}
 			}

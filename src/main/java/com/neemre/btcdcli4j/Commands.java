@@ -58,12 +58,13 @@ public enum Commands {
 	WALLET_PASSPHRASE_CHANGE("walletpassphrasechange", 2, 2),
 
 
+	LIST_RECEIVED_BY_ACCOUNT("listreceivedbyaccount", 0, 3),
+	LIST_RECEIVED_BY_ADDRESS("listreceivedbyaddress", 0, 3),
+	
 	SEND_MANY("sendmany", -1, -1),
 	GET_TRANSACTION("gettransaction", -1, -1),
 	
 	ADD_MULTI_SIG_ADDRESS("addmultisigaddress", -1, -1),
-	LIST_RECEIVED_BY_ACCOUNT("listreceivedbyaccount", -1, -1),
-	LIST_RECEIVED_BY_ADDRESS("listreceivedbyaddress", -1, -1),
 	LIST_SINCE_BLOCK("listsinceblock", -1, -1),
 	LIST_TRANSACTIONS("listtransactions", -1, -1),
 	LIST_UNSPENT("listunspent", -1, -1);
