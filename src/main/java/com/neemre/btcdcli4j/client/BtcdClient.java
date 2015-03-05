@@ -4,13 +4,15 @@ import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 
-import com.neemre.btcdcli4j.domain.AddressDetails;
+import com.neemre.btcdcli4j.domain.Account;
+import com.neemre.btcdcli4j.domain.Address;
+import com.neemre.btcdcli4j.domain.AddressOutline;
 import com.neemre.btcdcli4j.domain.AddressInfo;
 import com.neemre.btcdcli4j.domain.Block;
 import com.neemre.btcdcli4j.domain.Info;
 import com.neemre.btcdcli4j.domain.MemPoolInfo;
 import com.neemre.btcdcli4j.domain.MiningInfo;
-import com.neemre.btcdcli4j.domain.OutputDetails;
+import com.neemre.btcdcli4j.domain.Output;
 import com.neemre.btcdcli4j.domain.PeerNode;
 import com.neemre.btcdcli4j.domain.WalletInfo;
 
@@ -42,7 +44,7 @@ public interface BtcdClient {
 	
 	Block getBlock(String headerHash);
 
-	Object getBlock(String headerHash, boolean isDecoded);
+	Object getBlock(String headerHash, Boolean isDecoded);
 	
 	Integer getBlockCount();
 	
@@ -84,19 +86,19 @@ public interface BtcdClient {
 	
 	void importAddress(String address, String account);
 
-	void importAddress(String address, String account, boolean withRescan);
+	void importAddress(String address, String account, Boolean withRescan);
 	
 	void importPrivKey(String privateKey);
 
 	void importPrivKey(String privateKey, String account);
 
-	void importPrivKey(String privateKey, String account, boolean withRescan);
+	void importPrivKey(String privateKey, String account, Boolean withRescan);
 	
 	void importWallet(String filePath);
 	
 	void keyPoolRefill();
 
-	void keyPoolRefill(int keypoolSize);
+	void keyPoolRefill(Integer keypoolSize);
 	
 	Map<String, BigDecimal> listAccounts();
 	
@@ -104,13 +106,31 @@ public interface BtcdClient {
 	
 	Map<String, BigDecimal> listAccounts(Integer confirmations, Boolean withWatchOnly);
 	
-	List<List<AddressDetails>> listAddressGroupings();
+	List<List<AddressOutline>> listAddressGroupings();
 
-	List<OutputDetails> listLockUnspent();
+	List<Output> listLockUnspent();
 	
-	Boolean lockUnspent(Boolean isSpendable);
+	List<Account> listReceivedByAccount();
 
-	Boolean lockUnspent(boolean isSpendable, List<OutputDetails> outputs);
+	List<Account> listReceivedByAccount(Integer confirmations);
+
+	List<Account> listReceivedByAccount(Integer confirmations, Boolean withUnused);
+
+	List<Account> listReceivedByAccount(Integer confirmations, Boolean withUnused, 
+			Boolean withWatchOnly);
+	
+	List<Address> listReceivedByAddress();
+
+	List<Address> listReceivedByAddress(Integer confirmations);
+
+	List<Address> listReceivedByAddress(Integer confirmations, Boolean withUnused);
+
+	List<Address> listReceivedByAddress(Integer confirmations, Boolean withUnused,
+			Boolean withWatchOnly);
+	
+	Boolean lockUnspent(Boolean isUnlocked);
+
+	Boolean lockUnspent(Boolean isUnlocked, List<Output> outputs);
 	
 	Boolean move(String fromAccount, String toAccount, BigDecimal amount);
 

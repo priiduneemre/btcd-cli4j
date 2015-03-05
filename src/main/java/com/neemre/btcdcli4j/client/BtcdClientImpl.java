@@ -9,13 +9,15 @@ import org.apache.http.client.HttpClient;
 
 import com.neemre.btcdcli4j.Commands;
 import com.neemre.btcdcli4j.common.Defaults;
-import com.neemre.btcdcli4j.domain.AddressDetails;
+import com.neemre.btcdcli4j.domain.Account;
+import com.neemre.btcdcli4j.domain.Address;
+import com.neemre.btcdcli4j.domain.AddressOutline;
 import com.neemre.btcdcli4j.domain.AddressInfo;
 import com.neemre.btcdcli4j.domain.Block;
 import com.neemre.btcdcli4j.domain.Info;
 import com.neemre.btcdcli4j.domain.MemPoolInfo;
 import com.neemre.btcdcli4j.domain.MiningInfo;
-import com.neemre.btcdcli4j.domain.OutputDetails;
+import com.neemre.btcdcli4j.domain.Output;
 import com.neemre.btcdcli4j.domain.PeerNode;
 import com.neemre.btcdcli4j.domain.WalletInfo;
 import com.neemre.btcdcli4j.jsonrpc.client.JsonRpcClient;
@@ -124,7 +126,7 @@ public class BtcdClientImpl implements BtcdClient {
 	}
 
 	@Override
-	public Object getBlock(String headerHash, boolean isDecoded) {
+	public Object getBlock(String headerHash, Boolean isDecoded) {
 		List<Object> params = CollectionUtils.asList(headerHash, isDecoded);
 		String blockJson = rpcClient.execute(Commands.GET_BLOCK.getName(), params);
 		if(isDecoded) {
@@ -281,7 +283,7 @@ public class BtcdClientImpl implements BtcdClient {
 	}
 
 	@Override
-	public void importAddress(String address, String account, boolean withRescan) {
+	public void importAddress(String address, String account, Boolean withRescan) {
 		List<Object> params = CollectionUtils.asList(address, account, withRescan);
 		rpcClient.execute(Commands.IMPORT_ADDRESS.getName(), params);
 	}
@@ -298,7 +300,7 @@ public class BtcdClientImpl implements BtcdClient {
 	}
 
 	@Override
-	public void importPrivKey(String privateKey, String account, boolean withRescan) {
+	public void importPrivKey(String privateKey, String account, Boolean withRescan) {
 		List<Object> params = CollectionUtils.asList(privateKey, account, withRescan);
 		rpcClient.execute(Commands.IMPORT_PRIV_KEY.getName(), params);
 	}
@@ -314,7 +316,7 @@ public class BtcdClientImpl implements BtcdClient {
 	}
 
 	@Override
-	public void keyPoolRefill(int keypoolSize) {
+	public void keyPoolRefill(Integer keypoolSize) {
 		rpcClient.execute(Commands.KEY_POOL_REFILL.getName(), keypoolSize);
 	}
 	
@@ -347,31 +349,90 @@ public class BtcdClientImpl implements BtcdClient {
 	}
 	
 	@Override
-	public List<List<AddressDetails>> listAddressGroupings() {
+	public List<List<AddressOutline>> listAddressGroupings() {
 		String groupingsJson = rpcClient.execute(Commands.LIST_ADDRESS_GROUPINGS.getName());
-		List<List<AddressDetails>> groupings = rpcClient.getMapper().mapToNestedLists(1, groupingsJson, 
-				AddressDetails.class);
+		List<List<AddressOutline>> groupings = rpcClient.getMapper().mapToNestedLists(1, 
+				groupingsJson, AddressOutline.class);
 		return groupings;
 	}
 	
 	@Override
-	public List<OutputDetails> listLockUnspent() {
+	public List<Output> listLockUnspent() {
 		String lockedOutputsJson = rpcClient.execute(Commands.LIST_LOCK_UNSPENT.getName());
-		List<OutputDetails> lockedOutputs = rpcClient.getMapper().mapToList(lockedOutputsJson, 
-				OutputDetails.class);
+		List<Output> lockedOutputs = rpcClient.getMapper().mapToList(lockedOutputsJson, 
+				Output.class);
 		return lockedOutputs;
 	}
 	
 	@Override
-	public Boolean lockUnspent(Boolean isSpendable) {
-		String isSuccessJson = rpcClient.execute(Commands.LOCK_UNSPENT.getName(), isSpendable);
+	public List<Account> listReceivedByAccount() {
+		String accountsJson = rpcClient.execute(Commands.LIST_RECEIVED_BY_ACCOUNT.getName());
+		List<Account> accounts = rpcClient.getMapper().mapToList(accountsJson, Account.class);
+		return accounts;
+	}
+
+	@Override
+	public List<Account> listReceivedByAccount(Integer confirmations) {
+		String accountsJson = rpcClient.execute(Commands.LIST_RECEIVED_BY_ACCOUNT.getName(), 
+				confirmations);
+		List<Account> accounts = rpcClient.getMapper().mapToList(accountsJson, Account.class);
+		return accounts;
+	}
+
+	@Override
+	public List<Account> listReceivedByAccount(Integer confirmations, Boolean withUnused) {
+		List<Object> params = CollectionUtils.asList(confirmations, withUnused);
+		String accountsJson = rpcClient.execute(Commands.LIST_RECEIVED_BY_ACCOUNT.getName(), 
+				params);
+		List<Account> accounts = rpcClient.getMapper().mapToList(accountsJson, Account.class);
+		return accounts;
+	}
+
+	@Override
+	public List<Account> listReceivedByAccount(Integer confirmations, Boolean withUnused, 
+			Boolean withWatchOnly) {
+		List<Object> params = CollectionUtils.asList(confirmations, withUnused, withWatchOnly);
+		String accountsJson = rpcClient.execute(Commands.LIST_RECEIVED_BY_ACCOUNT.getName(), 
+				params);
+		List<Account> accounts = rpcClient.getMapper().mapToList(accountsJson, Account.class);
+		return accounts;
+	}
+	
+	@Override
+	public List<Address> listReceivedByAddress() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Address> listReceivedByAddress(Integer confirmations) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Address> listReceivedByAddress(Integer confirmations, Boolean withUnused) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Address> listReceivedByAddress(Integer confirmations, Boolean withUnused, 
+			Boolean withWatchOnly) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
+	@Override
+	public Boolean lockUnspent(Boolean isUnlocked) {
+		String isSuccessJson = rpcClient.execute(Commands.LOCK_UNSPENT.getName(), isUnlocked);
 		Boolean isSuccess = rpcClient.getParser().parseBoolean(isSuccessJson);
 		return isSuccess;
 	}
 
 	@Override
-	public Boolean lockUnspent(boolean isSpendable, List<OutputDetails> outputs) {
-		List<Object> params = CollectionUtils.asList(isSpendable, outputs);
+	public Boolean lockUnspent(Boolean isUnlocked, List<Output> outputs) {
+		List<Object> params = CollectionUtils.asList(isUnlocked, outputs);
 		String isSuccessJson = rpcClient.execute(Commands.LOCK_UNSPENT.getName(), params);
 		Boolean isSuccess = rpcClient.getParser().parseBoolean(isSuccessJson);
 		return isSuccess;

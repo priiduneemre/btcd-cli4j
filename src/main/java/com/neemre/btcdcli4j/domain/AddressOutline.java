@@ -25,7 +25,7 @@ import com.neemre.btcdcli4j.jsonrpc.deserialization.AddressDetailsDeserializer;
 @JsonInclude(Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonDeserialize(using = AddressDetailsDeserializer.class)
-public class AddressDetails extends Entity {
+public class AddressOutline extends Entity {
 	
 	private String address;
 	@Setter(AccessLevel.NONE)

@@ -13,14 +13,15 @@ import org.apache.http.client.HttpClient;
 import com.neemre.btcdcli4j.Commands;
 import com.neemre.btcdcli4j.client.BtcdClient;
 import com.neemre.btcdcli4j.client.BtcdClientImpl;
-import com.neemre.btcdcli4j.common.Defaults;
-import com.neemre.btcdcli4j.domain.AddressDetails;
+import com.neemre.btcdcli4j.domain.Account;
+import com.neemre.btcdcli4j.domain.Address;
+import com.neemre.btcdcli4j.domain.AddressOutline;
 import com.neemre.btcdcli4j.domain.AddressInfo;
 import com.neemre.btcdcli4j.domain.Block;
 import com.neemre.btcdcli4j.domain.Info;
 import com.neemre.btcdcli4j.domain.MemPoolInfo;
 import com.neemre.btcdcli4j.domain.MiningInfo;
-import com.neemre.btcdcli4j.domain.OutputDetails;
+import com.neemre.btcdcli4j.domain.Output;
 import com.neemre.btcdcli4j.domain.PeerNode;
 import com.neemre.btcdcli4j.domain.WalletInfo;
 import com.neemre.btcdcli4j.util.CollectionUtils;
@@ -86,8 +87,16 @@ public class ApiUsage {
 		//		supportedCalls.listAddressGroupings();
 		//		supportedCalls.listLockUnspent();
 		//		supportedCalls.lockUnspent(true);
-		//		supportedCalls.lockUnspent(false, Arrays.asList(new OutputDetails[]{
-		//				new OutputDetails("ff534734f74fc4ecffe1588a6554898717bb5bbc58688ddcd9a0dede132bfd13", 1)}));
+		//		supportedCalls.listReceivedByAccount();
+		//		supportedCalls.listReceivedByAccount(900);
+		//		supportedCalls.listReceivedByAccount(900, true);
+		//		supportedCalls.listReceivedByAccount(900, false, true);
+		supportedCalls.listReceivedByAddress();
+		supportedCalls.listReceivedByAddress(900);
+		supportedCalls.listReceivedByAddress(900, true);
+		supportedCalls.listReceivedByAddress(900, false, true);
+		//		supportedCalls.lockUnspent(false, Arrays.asList(new Output[]{
+		//				new Output("ff534734f74fc4ecffe1588a6554898717bb5bbc58688ddcd9a0dede132bfd13", 1)}));
 
 		//		supportedCalls.move("accountA", "accountB", new BigDecimal("0.53006000"));
 		//		supportedCalls.move("accountA", "accountB", new BigDecimal("0.21000000"), 0, "Sample move: " 
@@ -128,7 +137,7 @@ public class ApiUsage {
 		public ApiCalls(HttpClient httpProvider, Properties nodeConfig) {
 			btcdClient = new BtcdClientImpl(httpProvider, nodeConfig);
 		}
-
+		
 		public void backupWallet(String filePath) {
 			btcdClient.backupWallet(filePath);
 			printResult(Commands.BACKUP_WALLET.getName(), new String[]{"filePath"}, 
@@ -378,25 +387,77 @@ public class ApiUsage {
 		}
 		
 		public void listAddressGroupings() {
-			List<List<AddressDetails>> groupings = btcdClient.listAddressGroupings();
+			List<List<AddressOutline>> groupings = btcdClient.listAddressGroupings();
 			printResult(Commands.LIST_ADDRESS_GROUPINGS.getName(), null, null, groupings);
 		}
 		
 		public void listLockUnspent() {
-			List<OutputDetails> lockedOutputs = btcdClient.listLockUnspent();
+			List<Output> lockedOutputs = btcdClient.listLockUnspent();
 			printResult(Commands.LIST_LOCK_UNSPENT.getName(), null, null, lockedOutputs);
 		}
 		
-		public void lockUnspent(Boolean isSpendable) {
-			Boolean isSuccess = btcdClient.lockUnspent(isSpendable);
-			printResult(Commands.LOCK_UNSPENT.getName(), new String[]{"isSpendable"}, 
-					new Object[]{isSpendable}, isSuccess);
+		public void listReceivedByAccount() {
+			List<Account> accounts = btcdClient.listReceivedByAccount();
+			printResult(Commands.LIST_RECEIVED_BY_ACCOUNT.getName(), null, null, accounts);
+		}
+		
+		public void listReceivedByAccount(int confirmations) {
+			List<Account> accounts = btcdClient.listReceivedByAccount(confirmations);
+			printResult(Commands.LIST_RECEIVED_BY_ACCOUNT.getName(), new String[]{"confirmations"},
+					new Object[]{confirmations}, accounts);
+		}
+		
+		public void listReceivedByAccount(int confirmations, boolean withUnused) {
+			List<Account> accounts = btcdClient.listReceivedByAccount(confirmations, withUnused);
+			printResult(Commands.LIST_RECEIVED_BY_ACCOUNT.getName(), new String[]{"confirmations", 
+				"withUnused"}, new Object[]{confirmations, withUnused}, accounts);
+		}
+		
+		public void listReceivedByAccount(int confirmations, boolean withUnused, 
+				boolean withWatchOnly) {
+			List<Account> accounts = btcdClient.listReceivedByAccount(confirmations, withUnused, 
+					withWatchOnly);
+			printResult(Commands.LIST_RECEIVED_BY_ACCOUNT.getName(), new String[]{"confirmations", 
+				"withUnused", "withWatchOnly"}, new Object[]{confirmations, withUnused, 
+				withWatchOnly}, accounts);
+		}		
+		
+		public void listReceivedByAddress() {
+			List<Address> addresses = btcdClient.listReceivedByAddress();
+			printResult(Commands.LIST_RECEIVED_BY_ADDRESS.getName(), null, null, addresses);
 		}
 
-		public void lockUnspent(boolean isSpendable, List<OutputDetails> outputs) {
-			Boolean isSuccess = btcdClient.lockUnspent(isSpendable, outputs);
-			printResult(Commands.LOCK_UNSPENT.getName(), new String[]{"isSpendable", "outputs"}, 
-					new Object[]{isSpendable, outputs}, isSuccess);
+		public void listReceivedByAddress(int confirmations) {
+			List<Address> addresses = btcdClient.listReceivedByAddress(confirmations);
+			printResult(Commands.LIST_RECEIVED_BY_ADDRESS.getName(), new String[]{"confirmations"},
+					new Object[]{confirmations}, addresses);
+		}
+		
+		public void listReceivedByAddress(int confirmations, boolean withUnused) {
+			List<Address> addresses = btcdClient.listReceivedByAddress(confirmations, withUnused);
+			printResult(Commands.LIST_RECEIVED_BY_ADDRESS.getName(), new String[]{"confirmations",
+				"withUnused"}, new Object[]{confirmations, withUnused}, addresses);
+		}
+
+		public void listReceivedByAddress(int confirmations, boolean withUnused, 
+				boolean withWatchOnly) {
+			List<Address> addresses = btcdClient.listReceivedByAddress(confirmations, withUnused, 
+					withWatchOnly);
+			printResult(Commands.LIST_RECEIVED_BY_ADDRESS.getName(), new String[]{"confirmations", 
+				"withUnused", "withWatchOnly"}, new Object[]{confirmations, withUnused, 
+				withWatchOnly}, addresses);
+		}
+		
+		public void lockUnspent(Boolean isUnlocked) {
+			Boolean isSuccess = btcdClient.lockUnspent(isUnlocked);
+			printResult(Commands.LOCK_UNSPENT.getName(), new String[]{"isUnlocked"}, 
+					new Object[]{isUnlocked}, isSuccess);
+		}
+
+		public void lockUnspent(boolean isUnlocked, List<Output> outputs) {
+			Boolean isSuccess = btcdClient.lockUnspent(isUnlocked, outputs);
+			printResult(Commands.LOCK_UNSPENT.getName(), new String[]{"isUnlocked", "outputs"}, 
+					new Object[]{isUnlocked, outputs}, isSuccess);
 		}
 		
 		public void move(String fromAccount, String toAccount, BigDecimal amount) {

@@ -9,6 +9,7 @@ import lombok.ToString;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 @Data
 @NoArgsConstructor
@@ -17,6 +18,10 @@ import com.fasterxml.jackson.annotation.JsonInclude.Include;
 @EqualsAndHashCode(callSuper = false)
 @JsonInclude(Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class AddressHistory extends Entity {
-
+public class Output extends Entity {
+	
+	@JsonProperty("txid")
+	private String txId;
+	@JsonProperty("vout")
+	private Integer vOut;
 }

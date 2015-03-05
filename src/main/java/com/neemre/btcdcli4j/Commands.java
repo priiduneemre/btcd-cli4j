@@ -41,6 +41,8 @@ public enum Commands {
 	LIST_ACCOUNTS("listaccounts", 0, 2),
 	LIST_ADDRESS_GROUPINGS("listaddressgroupings", 0, 0),
 	LIST_LOCK_UNSPENT("listlockunspent", 0, 0),
+	LIST_RECEIVED_BY_ACCOUNT("listreceivedbyaccount", 0, 3),
+	LIST_RECEIVED_BY_ADDRESS("listreceivedbyaddress", 0, 3),
 	LOCK_UNSPENT("lockunspent", 1, 2),
 	MOVE("move", 3, 5),
 	PING("ping", 0, 0),
@@ -56,10 +58,6 @@ public enum Commands {
 	WALLET_LOCK("walletlock", 0, 0),
 	WALLET_PASSPHRASE("walletpassphrase", 2, 2),
 	WALLET_PASSPHRASE_CHANGE("walletpassphrasechange", 2, 2),
-
-
-	LIST_RECEIVED_BY_ACCOUNT("listreceivedbyaccount", 0, 3),
-	LIST_RECEIVED_BY_ADDRESS("listreceivedbyaddress", 0, 3),
 	
 	SEND_MANY("sendmany", -1, -1),
 	GET_TRANSACTION("gettransaction", -1, -1),
