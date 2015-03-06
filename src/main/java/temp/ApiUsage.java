@@ -91,10 +91,10 @@ public class ApiUsage {
 		//		supportedCalls.listReceivedByAccount(900);
 		//		supportedCalls.listReceivedByAccount(900, true);
 		//		supportedCalls.listReceivedByAccount(900, false, true);
-		supportedCalls.listReceivedByAddress();
-		supportedCalls.listReceivedByAddress(900);
-		supportedCalls.listReceivedByAddress(900, true);
-		supportedCalls.listReceivedByAddress(900, false, true);
+		//		supportedCalls.listReceivedByAddress();
+		//		supportedCalls.listReceivedByAddress(1100);
+		//		supportedCalls.listReceivedByAddress(1100, true);
+		//		supportedCalls.listReceivedByAddress(530, false, true);
 		//		supportedCalls.lockUnspent(false, Arrays.asList(new Output[]{
 		//				new Output("ff534734f74fc4ecffe1588a6554898717bb5bbc58688ddcd9a0dede132bfd13", 1)}));
 

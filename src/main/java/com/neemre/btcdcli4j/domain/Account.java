@@ -25,8 +25,8 @@ import com.neemre.btcdcli4j.common.Defaults;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Account extends Entity {
 
-	@JsonProperty("involvesWatchOnly")
-	private Boolean involvesWatchonly;
+	@JsonProperty("involvesWatchonly")
+	private Boolean involvesWatchOnly;
 	private String account;
 	@Setter(AccessLevel.NONE)
 	private BigDecimal amount;

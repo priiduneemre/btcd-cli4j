@@ -398,29 +398,39 @@ public class BtcdClientImpl implements BtcdClient {
 		return accounts;
 	}
 	
+
 	@Override
 	public List<Address> listReceivedByAddress() {
-		// TODO Auto-generated method stub
-		return null;
+		String addressesJson = rpcClient.execute(Commands.LIST_RECEIVED_BY_ADDRESS.getName());
+		List<Address> addresses = rpcClient.getMapper().mapToList(addressesJson, Address.class);
+		return addresses;
 	}
 
 	@Override
 	public List<Address> listReceivedByAddress(Integer confirmations) {
-		// TODO Auto-generated method stub
-		return null;
+		String addressesJson = rpcClient.execute(Commands.LIST_RECEIVED_BY_ADDRESS.getName(),
+				confirmations);
+		List<Address> addresses = rpcClient.getMapper().mapToList(addressesJson, Address.class);
+		return addresses;
 	}
 
 	@Override
 	public List<Address> listReceivedByAddress(Integer confirmations, Boolean withUnused) {
-		// TODO Auto-generated method stub
-		return null;
+		List<Object> params = CollectionUtils.asList(confirmations, withUnused);
+		String addressesJson = rpcClient.execute(Commands.LIST_RECEIVED_BY_ADDRESS.getName(),
+				params);
+		List<Address> addresses = rpcClient.getMapper().mapToList(addressesJson, Address.class);
+		return addresses;
 	}
 
 	@Override
 	public List<Address> listReceivedByAddress(Integer confirmations, Boolean withUnused, 
 			Boolean withWatchOnly) {
-		// TODO Auto-generated method stub
-		return null;
+		List<Object> params = CollectionUtils.asList(confirmations, withUnused, withWatchOnly);
+		String addressesJson = rpcClient.execute(Commands.LIST_RECEIVED_BY_ADDRESS.getName(),
+				params);
+		List<Address> addresses = rpcClient.getMapper().mapToList(addressesJson,  Address.class);
+		return addresses;
 	}
 	
 	@Override

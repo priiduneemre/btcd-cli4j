@@ -24,14 +24,14 @@ import com.neemre.btcdcli4j.common.Defaults;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Address extends Entity {
 	
-	@JsonProperty("involvesWatchOnly")
-	private Boolean involvesWatchonly;
+	@JsonProperty("involvesWatchonly")
+	private Boolean involvesWatchOnly;
 	private String address;
 	private String account;
 	private BigDecimal amount;
 	private Integer confirmations;
-	@JsonProperty("txIds")
-	private List<String> txids;
+	@JsonProperty("txids")
+	private List<String> txIds;
 
 	
 	public void setAmount(BigDecimal amount) {
