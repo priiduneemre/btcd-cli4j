@@ -14,6 +14,7 @@ import com.neemre.btcdcli4j.domain.Address;
 import com.neemre.btcdcli4j.domain.AddressOutline;
 import com.neemre.btcdcli4j.domain.AddressInfo;
 import com.neemre.btcdcli4j.domain.Block;
+import com.neemre.btcdcli4j.domain.DetailedTransaction;
 import com.neemre.btcdcli4j.domain.Info;
 import com.neemre.btcdcli4j.domain.MemPoolInfo;
 import com.neemre.btcdcli4j.domain.MiningInfo;
@@ -255,6 +256,23 @@ public class BtcdClientImpl implements BtcdClient {
 				params);
 		BigDecimal totalReceived = rpcClient.getParser().parseBigDecimal(totalReceivedJson);
 		return totalReceived;
+	}
+	
+	@Override
+	public DetailedTransaction getTransaction(String txId) {
+		String transactionJson = rpcClient.execute(Commands.GET_TRANSACTION.getName(), txId);
+		DetailedTransaction transaction = rpcClient.getMapper().mapToEntity(transactionJson,
+				DetailedTransaction.class);
+		return transaction;
+	}
+
+	@Override
+	public DetailedTransaction getTransaction(String txId, Boolean withWatchOnly) {
+		List<Object> params = CollectionUtils.asList(txId, withWatchOnly);
+		String transactionJson = rpcClient.execute(Commands.GET_TRANSACTION.getName(), params);
+		DetailedTransaction transaction = rpcClient.getMapper().mapToEntity(transactionJson,
+				DetailedTransaction.class);
+		return transaction;
 	}
 	
 	@Override

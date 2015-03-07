@@ -70,7 +70,6 @@ public class PeerNode extends Entity {
 		this.pingTime = pingTime.setScale(Defaults.DECIMAL_SCALE, Defaults.ROUNDING_MODE);
 	}
 
-
 	public void setPingWait(BigDecimal pingWait) {
 		this.pingWait = pingWait.setScale(Defaults.DECIMAL_SCALE, Defaults.ROUNDING_MODE);
 	}

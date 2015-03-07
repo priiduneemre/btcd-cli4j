@@ -15,6 +15,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.neemre.btcdcli4j.common.Defaults;
+import com.neemre.btcdcli4j.domain.enums.ChainTypes;
 
 @Data
 @NoArgsConstructor
@@ -40,7 +41,7 @@ public class MiningInfo extends Entity {
 	@JsonProperty("pooledtx")
 	private Integer pooledTx;
 	private Boolean testnet;
-	private String chain;
+	private ChainTypes chain;
 	private Boolean generate;
 	@JsonProperty("hashespersec")
 	private Long hashesPerSec;

@@ -8,9 +8,11 @@ import java.util.Map;
 
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
+import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.type.CollectionType;
 import com.fasterxml.jackson.databind.type.MapType;
 
@@ -23,6 +25,13 @@ public class JsonMapper {
 	public JsonMapper() {
 		rawMapper = new ObjectMapper();
 		rawWriter = rawMapper.writer().withDefaultPrettyPrinter();
+		configureMappingProvider();
+	}
+	
+	private void configureMappingProvider() {
+		rawMapper.configure(SerializationFeature.INDENT_OUTPUT, true);
+		rawMapper.configure(DeserializationFeature.FAIL_ON_NUMBERS_FOR_ENUMS, true);
+		rawMapper.configure(DeserializationFeature.USE_BIG_DECIMAL_FOR_FLOATS, true);
 	}
 
 	public <T> String mapToJson(T entity) {

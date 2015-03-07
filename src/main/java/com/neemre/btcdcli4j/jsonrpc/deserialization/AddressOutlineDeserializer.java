@@ -11,7 +11,7 @@ import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.neemre.btcdcli4j.domain.AddressOutline;
 import com.neemre.btcdcli4j.jsonrpc.JsonPrimitiveParser;
 
-public class AddressDetailsDeserializer extends JsonDeserializer<AddressOutline> {
+public class AddressOutlineDeserializer extends JsonDeserializer<AddressOutline> {
 	
 	private static final int ADDRESS_INDEX = 0;
 	private static final int BALANCE_INDEX = 1;
@@ -20,7 +20,7 @@ public class AddressDetailsDeserializer extends JsonDeserializer<AddressOutline>
 	private JsonPrimitiveParser parser;
 	
 	
-	public AddressDetailsDeserializer() {
+	public AddressOutlineDeserializer() {
 		parser = new JsonPrimitiveParser();
 	}
 	
@@ -29,14 +29,14 @@ public class AddressDetailsDeserializer extends JsonDeserializer<AddressOutline>
 			throws IOException, JsonProcessingException {
 		List<Object> propertyList = context.readValue(parser, context.getTypeFactory()
 				.constructCollectionType(ArrayList.class, Object.class));
-		return toAddressDetails(propertyList);
+		return toAddressOutline(propertyList);
 	}
 	
-	private AddressOutline toAddressDetails(List<Object> propertyList) {
-		AddressOutline addressDetails = new AddressOutline();
-		addressDetails.setAddress(parser.parseString(propertyList.get(ADDRESS_INDEX).toString()));
-		addressDetails.setBalance(parser.parseBigDecimal(propertyList.get(BALANCE_INDEX).toString()));
-		addressDetails.setAccount(parser.parseString(propertyList.get(ACCOUNT_INDEX).toString()));
-		return addressDetails;
+	private AddressOutline toAddressOutline(List<Object> propertyList) {
+		AddressOutline addressOutline = new AddressOutline();
+		addressOutline.setAddress(parser.parseString(propertyList.get(ADDRESS_INDEX).toString()));
+		addressOutline.setBalance(parser.parseBigDecimal(propertyList.get(BALANCE_INDEX).toString()));
+		addressOutline.setAccount(parser.parseString(propertyList.get(ACCOUNT_INDEX).toString()));
+		return addressOutline;
 	}
 }

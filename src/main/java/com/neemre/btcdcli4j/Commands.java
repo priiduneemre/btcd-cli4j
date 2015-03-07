@@ -32,6 +32,7 @@ public enum Commands {
 	GET_RAW_CHANGE_ADDRESS("getrawchangeaddress", 0, 0),
 	GET_RECEIVED_BY_ACCOUNT("getreceivedbyaccount", 1, 2),
 	GET_RECEIVED_BY_ADDRESS("getreceivedbyaddress", 1, 2),
+	GET_TRANSACTION("gettransaction", 1, 2),
 	GET_UNCONFIRMED_BALANCE("getunconfirmedbalance", 0, 0),
 	GET_WALLET_INFO("getwalletinfo", 0, 0),
 	IMPORT_ADDRESS("importaddress", 1, 3),
@@ -60,7 +61,6 @@ public enum Commands {
 	WALLET_PASSPHRASE_CHANGE("walletpassphrasechange", 2, 2),
 	
 	SEND_MANY("sendmany", -1, -1),
-	GET_TRANSACTION("gettransaction", -1, -1),
 	
 	ADD_MULTI_SIG_ADDRESS("addmultisigaddress", -1, -1),
 	LIST_SINCE_BLOCK("listsinceblock", -1, -1),

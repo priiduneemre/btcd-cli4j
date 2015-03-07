@@ -9,6 +9,7 @@ import com.neemre.btcdcli4j.domain.Address;
 import com.neemre.btcdcli4j.domain.AddressOutline;
 import com.neemre.btcdcli4j.domain.AddressInfo;
 import com.neemre.btcdcli4j.domain.Block;
+import com.neemre.btcdcli4j.domain.DetailedTransaction;
 import com.neemre.btcdcli4j.domain.Info;
 import com.neemre.btcdcli4j.domain.MemPoolInfo;
 import com.neemre.btcdcli4j.domain.MiningInfo;
@@ -77,6 +78,10 @@ public interface BtcdClient {
 	BigDecimal getReceivedByAddress(String address);
 
 	BigDecimal getReceivedByAddress(String address, Integer confirmations);
+	
+	DetailedTransaction getTransaction(String txId);
+
+	DetailedTransaction getTransaction(String txId, Boolean withWatchOnly);
 	
 	BigDecimal getUnconfirmedBalance();
 	

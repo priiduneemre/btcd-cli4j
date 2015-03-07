@@ -15,7 +15,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.neemre.btcdcli4j.common.Defaults;
-import com.neemre.btcdcli4j.jsonrpc.deserialization.AddressDetailsDeserializer;
+import com.neemre.btcdcli4j.jsonrpc.deserialization.AddressOutlineDeserializer;
 
 @Data
 @NoArgsConstructor
@@ -24,7 +24,7 @@ import com.neemre.btcdcli4j.jsonrpc.deserialization.AddressDetailsDeserializer;
 @EqualsAndHashCode(callSuper = false)
 @JsonInclude(Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
-@JsonDeserialize(using = AddressDetailsDeserializer.class)
+@JsonDeserialize(using = AddressOutlineDeserializer.class)
 public class AddressOutline extends Entity {
 	
 	private String address;

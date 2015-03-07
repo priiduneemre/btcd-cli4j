@@ -18,6 +18,7 @@ import com.neemre.btcdcli4j.domain.Address;
 import com.neemre.btcdcli4j.domain.AddressOutline;
 import com.neemre.btcdcli4j.domain.AddressInfo;
 import com.neemre.btcdcli4j.domain.Block;
+import com.neemre.btcdcli4j.domain.DetailedTransaction;
 import com.neemre.btcdcli4j.domain.Info;
 import com.neemre.btcdcli4j.domain.MemPoolInfo;
 import com.neemre.btcdcli4j.domain.MiningInfo;
@@ -68,6 +69,9 @@ public class ApiUsage {
 		//		supportedCalls.getReceivedByAccount("firefly", 6);
 		//		supportedCalls.getReceivedByAddress("1NroLTCuf15y2UYqmhbMgYoVGEfF8QVTA4");
 		//		supportedCalls.getReceivedByAddress("1NroLTCuf15y2UYqmhbMgYoVGEfF8QVTA4", 6);
+		//		supportedCalls.getTransaction("2d117f97ab76777a195d503f39ade30047abd0b72738ee3cf15c335324051dbb");
+		//		supportedCalls.getTransaction("9a3da847d3117374ccd930810c6db7fb37767ca9a1c969d980f99f475d2aa869",
+				true);
 		//		supportedCalls.getUnconfirmedBalance();
 		//		supportedCalls.getWalletInfo();
 		//		supportedCalls.importAddress("mydXVfvTMgphEU8TnE5MCQ4oksqc4Xhari");
@@ -304,6 +308,18 @@ public class ApiUsage {
 			BigDecimal totalReceived = btcdClient.getReceivedByAddress(address, confirmations);
 			printResult(Commands.GET_RECEIVED_BY_ADDRESS.getName(), new String[]{"address", 
 			"confirmations"}, new Object[]{address, confirmations}, totalReceived);
+		}
+
+		public void getTransaction(String txId) {
+			DetailedTransaction transaction = btcdClient.getTransaction(txId);
+			printResult(Commands.GET_TRANSACTION.getName(), new String[]{"txId"}, new Object[]{txId},
+					transaction);
+		}
+		
+		public void getTransaction(String txId, boolean withWatchOnly) {
+			DetailedTransaction transaction = btcdClient.getTransaction(txId, withWatchOnly);
+			printResult(Commands.GET_TRANSACTION.getName(), new String[]{"txId", "withWatchOnly"},
+					new Object[]{txId, withWatchOnly}, transaction);
 		}
 
 		public void getUnconfirmedBalance() {
