@@ -71,7 +71,7 @@ public class ApiUsage {
 		//		supportedCalls.getReceivedByAddress("1NroLTCuf15y2UYqmhbMgYoVGEfF8QVTA4", 6);
 		//		supportedCalls.getTransaction("2d117f97ab76777a195d503f39ade30047abd0b72738ee3cf15c335324051dbb");
 		//		supportedCalls.getTransaction("9a3da847d3117374ccd930810c6db7fb37767ca9a1c969d980f99f475d2aa869",
-				true);
+		//				true);
 		//		supportedCalls.getUnconfirmedBalance();
 		//		supportedCalls.getWalletInfo();
 		//		supportedCalls.importAddress("mydXVfvTMgphEU8TnE5MCQ4oksqc4Xhari");
@@ -90,6 +90,11 @@ public class ApiUsage {
 		//		supportedCalls.listAccounts(6, true);
 		//		supportedCalls.listAddressGroupings();
 		//		supportedCalls.listLockUnspent();
+		supportedCalls.listTransactions();
+		supportedCalls.listTransactions("jackal");
+		supportedCalls.listTransactions("jackal", 3);
+		supportedCalls.listTransactions("jackal", 3, 2);
+		supportedCalls.listTransactions("friendA", 3, 2, true);
 		//		supportedCalls.lockUnspent(true);
 		//		supportedCalls.listReceivedByAccount();
 		//		supportedCalls.listReceivedByAccount(900);
@@ -142,6 +147,26 @@ public class ApiUsage {
 			btcdClient = new BtcdClientImpl(httpProvider, nodeConfig);
 		}
 		
+		public void listTransactions() {
+			List<Transaction> transactions = 
+		}
+		
+		public void listTransactions(String account) {
+			
+		}
+
+		public void listTransactions(String account, int count) {
+			
+		}
+
+		public void listTransactions(String account, int count, int offset) {
+			
+		}
+
+		public void listTransactions(String account, int count, int offset, boolean withWatchOnly) {
+			
+		}
+
 		public void backupWallet(String filePath) {
 			btcdClient.backupWallet(filePath);
 			printResult(Commands.BACKUP_WALLET.getName(), new String[]{"filePath"}, 
