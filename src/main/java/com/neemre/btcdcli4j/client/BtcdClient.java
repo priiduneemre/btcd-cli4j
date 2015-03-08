@@ -9,12 +9,13 @@ import com.neemre.btcdcli4j.domain.Address;
 import com.neemre.btcdcli4j.domain.AddressOutline;
 import com.neemre.btcdcli4j.domain.AddressInfo;
 import com.neemre.btcdcli4j.domain.Block;
-import com.neemre.btcdcli4j.domain.DetailedTransaction;
+import com.neemre.btcdcli4j.domain.Transaction;
 import com.neemre.btcdcli4j.domain.Info;
 import com.neemre.btcdcli4j.domain.MemPoolInfo;
 import com.neemre.btcdcli4j.domain.MiningInfo;
 import com.neemre.btcdcli4j.domain.Output;
 import com.neemre.btcdcli4j.domain.PeerNode;
+import com.neemre.btcdcli4j.domain.Payment;
 import com.neemre.btcdcli4j.domain.WalletInfo;
 
 public interface BtcdClient {
@@ -79,9 +80,9 @@ public interface BtcdClient {
 
 	BigDecimal getReceivedByAddress(String address, Integer confirmations);
 	
-	DetailedTransaction getTransaction(String txId);
+	Transaction getTransaction(String txId);
 
-	DetailedTransaction getTransaction(String txId, Boolean withWatchOnly);
+	Transaction getTransaction(String txId, Boolean withWatchOnly);
 	
 	BigDecimal getUnconfirmedBalance();
 	
@@ -131,6 +132,17 @@ public interface BtcdClient {
 	List<Address> listReceivedByAddress(Integer confirmations, Boolean withUnused);
 
 	List<Address> listReceivedByAddress(Integer confirmations, Boolean withUnused,
+			Boolean withWatchOnly);
+	
+	List<Payment> listTransactions();
+
+	List<Payment> listTransactions(String account);
+
+	List<Payment> listTransactions(String account, Integer count);
+
+	List<Payment> listTransactions(String account, Integer count, Integer offset);
+
+	List<Payment> listTransactions(String account, Integer count, Integer offset, 
 			Boolean withWatchOnly);
 	
 	Boolean lockUnspent(Boolean isUnlocked);

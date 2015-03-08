@@ -18,12 +18,13 @@ import com.neemre.btcdcli4j.domain.Address;
 import com.neemre.btcdcli4j.domain.AddressOutline;
 import com.neemre.btcdcli4j.domain.AddressInfo;
 import com.neemre.btcdcli4j.domain.Block;
-import com.neemre.btcdcli4j.domain.DetailedTransaction;
+import com.neemre.btcdcli4j.domain.Transaction;
 import com.neemre.btcdcli4j.domain.Info;
 import com.neemre.btcdcli4j.domain.MemPoolInfo;
 import com.neemre.btcdcli4j.domain.MiningInfo;
 import com.neemre.btcdcli4j.domain.Output;
 import com.neemre.btcdcli4j.domain.PeerNode;
+import com.neemre.btcdcli4j.domain.Payment;
 import com.neemre.btcdcli4j.domain.WalletInfo;
 import com.neemre.btcdcli4j.util.CollectionUtils;
 
@@ -145,26 +146,6 @@ public class ApiUsage {
 
 		public ApiCalls(HttpClient httpProvider, Properties nodeConfig) {
 			btcdClient = new BtcdClientImpl(httpProvider, nodeConfig);
-		}
-		
-		public void listTransactions() {
-			List<Transaction> transactions = 
-		}
-		
-		public void listTransactions(String account) {
-			
-		}
-
-		public void listTransactions(String account, int count) {
-			
-		}
-
-		public void listTransactions(String account, int count, int offset) {
-			
-		}
-
-		public void listTransactions(String account, int count, int offset, boolean withWatchOnly) {
-			
 		}
 
 		public void backupWallet(String filePath) {
@@ -320,7 +301,7 @@ public class ApiUsage {
 		public void getReceivedByAccount(String account, int confirmations) {
 			BigDecimal totalReceived = btcdClient.getReceivedByAccount(account, confirmations);
 			printResult(Commands.GET_RECEIVED_BY_ACCOUNT.getName(), new String[]{"account", 
-			"confirmations"}, new Object[]{account, confirmations}, totalReceived);
+					"confirmations"}, new Object[]{account, confirmations}, totalReceived);
 		}
 
 		public void getReceivedByAddress(String address) {
@@ -332,17 +313,17 @@ public class ApiUsage {
 		public void getReceivedByAddress(String address, int confirmations) {
 			BigDecimal totalReceived = btcdClient.getReceivedByAddress(address, confirmations);
 			printResult(Commands.GET_RECEIVED_BY_ADDRESS.getName(), new String[]{"address", 
-			"confirmations"}, new Object[]{address, confirmations}, totalReceived);
+					"confirmations"}, new Object[]{address, confirmations}, totalReceived);
 		}
 
 		public void getTransaction(String txId) {
-			DetailedTransaction transaction = btcdClient.getTransaction(txId);
+			Transaction transaction = btcdClient.getTransaction(txId);
 			printResult(Commands.GET_TRANSACTION.getName(), new String[]{"txId"}, new Object[]{txId},
 					transaction);
 		}
 		
 		public void getTransaction(String txId, boolean withWatchOnly) {
-			DetailedTransaction transaction = btcdClient.getTransaction(txId, withWatchOnly);
+			Transaction transaction = btcdClient.getTransaction(txId, withWatchOnly);
 			printResult(Commands.GET_TRANSACTION.getName(), new String[]{"txId", "withWatchOnly"},
 					new Object[]{txId, withWatchOnly}, transaction);
 		}
@@ -372,7 +353,7 @@ public class ApiUsage {
 		public void importAddress(String address, String account, boolean withRescan) {
 			btcdClient.importAddress(address, account, withRescan);
 			printResult(Commands.IMPORT_ADDRESS.getName(), new String[]{"address", "account", 
-			"withRescan"}, new Object[]{address, account, withRescan}, null);
+					"withRescan"}, new Object[]{address, account, withRescan}, null);
 		}
 
 		public void importPrivKey(String privateKey) {
@@ -424,7 +405,7 @@ public class ApiUsage {
 		private void listAccounts(int confirmations, boolean withWatchOnly) {
 			Map<String, BigDecimal> accounts = btcdClient.listAccounts(confirmations, withWatchOnly);
 			printResult(Commands.LIST_ACCOUNTS.getName(), new String[]{"confirmations", 
-			"withWatchOnly"}, new Object[]{confirmations, withWatchOnly}, accounts);			
+					"withWatchOnly"}, new Object[]{confirmations, withWatchOnly}, accounts);			
 		}
 		
 		public void listAddressGroupings() {
@@ -451,7 +432,7 @@ public class ApiUsage {
 		public void listReceivedByAccount(int confirmations, boolean withUnused) {
 			List<Account> accounts = btcdClient.listReceivedByAccount(confirmations, withUnused);
 			printResult(Commands.LIST_RECEIVED_BY_ACCOUNT.getName(), new String[]{"confirmations", 
-				"withUnused"}, new Object[]{confirmations, withUnused}, accounts);
+					"withUnused"}, new Object[]{confirmations, withUnused}, accounts);
 		}
 		
 		public void listReceivedByAccount(int confirmations, boolean withUnused, 
@@ -459,8 +440,8 @@ public class ApiUsage {
 			List<Account> accounts = btcdClient.listReceivedByAccount(confirmations, withUnused, 
 					withWatchOnly);
 			printResult(Commands.LIST_RECEIVED_BY_ACCOUNT.getName(), new String[]{"confirmations", 
-				"withUnused", "withWatchOnly"}, new Object[]{confirmations, withUnused, 
-				withWatchOnly}, accounts);
+					"withUnused", "withWatchOnly"}, new Object[]{confirmations, withUnused, 
+					withWatchOnly}, accounts);
 		}		
 		
 		public void listReceivedByAddress() {
@@ -477,7 +458,7 @@ public class ApiUsage {
 		public void listReceivedByAddress(int confirmations, boolean withUnused) {
 			List<Address> addresses = btcdClient.listReceivedByAddress(confirmations, withUnused);
 			printResult(Commands.LIST_RECEIVED_BY_ADDRESS.getName(), new String[]{"confirmations",
-				"withUnused"}, new Object[]{confirmations, withUnused}, addresses);
+					"withUnused"}, new Object[]{confirmations, withUnused}, addresses);
 		}
 
 		public void listReceivedByAddress(int confirmations, boolean withUnused, 
@@ -485,8 +466,39 @@ public class ApiUsage {
 			List<Address> addresses = btcdClient.listReceivedByAddress(confirmations, withUnused, 
 					withWatchOnly);
 			printResult(Commands.LIST_RECEIVED_BY_ADDRESS.getName(), new String[]{"confirmations", 
-				"withUnused", "withWatchOnly"}, new Object[]{confirmations, withUnused, 
-				withWatchOnly}, addresses);
+					"withUnused", "withWatchOnly"}, new Object[]{confirmations, withUnused, 
+					withWatchOnly}, addresses);
+		}
+		
+		public void listTransactions() {
+			List<Payment> transactions = btcdClient.listTransactions();
+			printResult(Commands.LIST_TRANSACTIONS.getName(), null, null, transactions);
+		}
+
+		public void listTransactions(String account) {
+			List<Payment> transactions = btcdClient.listTransactions(account);
+			printResult(Commands.LIST_TRANSACTIONS.getName(), new String[]{"account"}, 
+					new Object[]{account}, transactions);
+		}
+
+		public void listTransactions(String account, int count) {
+			List<Payment> transactions = btcdClient.listTransactions(account, count);
+			printResult(Commands.LIST_TRANSACTIONS.getName(), new String[]{"account", "count"},
+					new Object[]{account, count}, transactions);
+		}
+
+		public void listTransactions(String account, int count, int offset) {
+			List<Payment> transactions = btcdClient.listTransactions(account, count, offset);
+			printResult(Commands.LIST_TRANSACTIONS.getName(), new String[]{"account", "count", 
+					"offset"}, new Object[]{account, count, offset}, transactions);
+		}
+
+		public void listTransactions(String account, int count, int offset, boolean withWatchOnly) {
+			List<Payment> transactions = btcdClient.listTransactions(account, count, offset,
+					withWatchOnly);
+			printResult(Commands.LIST_TRANSACTIONS.getName(), new String[]{"account", "count",
+					"offset", "withWatchOnly"}, new Object[]{account, count, offset, withWatchOnly},
+					transactions);
 		}
 		
 		public void lockUnspent(Boolean isUnlocked) {
@@ -511,8 +523,8 @@ public class ApiUsage {
 				String comment) {
 			Boolean isSuccess = btcdClient.move(fromAccount, toAccount, amount, dummy, comment);
 			printResult(Commands.MOVE.getName(), new String[]{"fromAccount", "toAccount", "amount", 
-				"dummy", "comment"}, new Object[]{fromAccount, toAccount, amount, dummy, comment},
-				isSuccess);
+					"dummy", "comment"}, new Object[]{fromAccount, toAccount, amount, dummy, comment},
+					isSuccess);
 		}
 		
 		public void ping() {
@@ -523,15 +535,15 @@ public class ApiUsage {
 		public void sendFrom(String fromAccount, String toAddress, BigDecimal amount) {
 			String transactionId = btcdClient.sendFrom(fromAccount, toAddress, amount);
 			printResult(Commands.SEND_FROM.getName(), new String[]{"fromAccount", "toAddress", 
-				"amount"}, new Object[]{fromAccount, toAddress, amount}, transactionId);
+					"amount"}, new Object[]{fromAccount, toAddress, amount}, transactionId);
 		}
 		
 		public void sendFrom(String fromAccount, String toAddress, BigDecimal amount, 
 				Integer confirmations) {
 			String transactionId = btcdClient.sendFrom(fromAccount, toAddress, amount, confirmations);
 			printResult(Commands.SEND_FROM.getName(), new String[]{"fromAccount", "toAddress", 
-				"amount", "confirmations"}, new Object[]{fromAccount, toAddress, amount, 
-				confirmations}, transactionId);
+					"amount", "confirmations"}, new Object[]{fromAccount, toAddress, amount, 
+					confirmations}, transactionId);
 		}
 		
 		public void sendFrom(String fromAccount, String toAddress, BigDecimal amount, 
@@ -539,8 +551,8 @@ public class ApiUsage {
 			String transactionId = btcdClient.sendFrom(fromAccount, toAddress, amount, confirmations,
 					comment);
 			printResult(Commands.SEND_FROM.getName(), new String[]{"fromAccount", "toAddress", 
-				"amount", "confirmations", "comment"}, new Object[]{fromAccount, toAddress, amount,
-				confirmations, comment}, transactionId);
+					"amount", "confirmations", "comment"}, new Object[]{fromAccount, toAddress, 
+					amount, confirmations, comment}, transactionId);
 		}
 		
 		public void sendFrom(String fromAccount, String toAddress, BigDecimal amount, 
@@ -548,8 +560,8 @@ public class ApiUsage {
 			String transactionId = btcdClient.sendFrom(fromAccount, toAddress, amount, confirmations,
 					comment, commentTo);
 			printResult(Commands.SEND_FROM.getName(), new String[]{"fromAccount", "toAddress", 
-				"amount", "confirmations", "comment", "commentTo"}, new Object[]{fromAccount, 
-				toAddress, amount, confirmations, comment, commentTo}, transactionId);
+					"amount", "confirmations", "comment", "commentTo"}, new Object[]{fromAccount, 
+					toAddress, amount, confirmations, comment, commentTo}, transactionId);
 		}
 
 		public void sendToAddress(String toAddress, BigDecimal amount) {
@@ -561,15 +573,15 @@ public class ApiUsage {
 		public void sendToAddress(String toAddress, BigDecimal amount, String comment) {
 			String transactionId = btcdClient.sendToAddress(toAddress, amount, comment);
 			printResult(Commands.SEND_TO_ADDRESS.getName(), new String[]{"toAddress", "amount", 
-				"comment"}, new Object[]{toAddress, amount, comment}, transactionId);
+					"comment"}, new Object[]{toAddress, amount, comment}, transactionId);
 		}
 
 		public void sendToAddress(String toAddress, BigDecimal amount, String comment, 
 				String commentTo) {
 			String transactionId = btcdClient.sendToAddress(toAddress, amount, comment, commentTo);
 			printResult(Commands.SEND_TO_ADDRESS.getName(), new String[]{"toAddress", "amount",
-				"comment", "commentTo"}, new Object[]{toAddress, amount, comment, commentTo}, 
-				transactionId);
+					"comment", "commentTo"}, new Object[]{toAddress, amount, comment, commentTo}, 
+					transactionId);
 		}
 
 		public void setAccount(String address, String account) {
@@ -616,7 +628,7 @@ public class ApiUsage {
 		public void verifyMessage(String address, String signature, String message) {
 			Boolean isSigValid = btcdClient.verifyMessage(address, signature, message);
 			printResult(Commands.VERIFY_MESSAGE.getName(), new String[]{"address", "signature", 
-				"message"}, new Object[]{address, signature, message}, isSigValid);
+					"message"}, new Object[]{address, signature, message}, isSigValid);
 		}
 		
 		private void walletLock() {
@@ -633,7 +645,7 @@ public class ApiUsage {
 		private void walletPassphraseChange(String curPassphrase, String newPassphrase) {
 			btcdClient.walletPassphraseChange(curPassphrase, newPassphrase);
 			printResult(Commands.WALLET_PASSPHRASE_CHANGE.getName(), new String[]{"curPassphrase", 
-			"newPassphrase"}, new Object[]{curPassphrase, newPassphrase}, null);
+					"newPassphrase"}, new Object[]{curPassphrase, newPassphrase}, null);
 		}	
 	}
 

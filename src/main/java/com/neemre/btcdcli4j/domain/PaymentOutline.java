@@ -15,7 +15,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.neemre.btcdcli4j.common.Defaults;
-import com.neemre.btcdcli4j.domain.enums.TransferCategories;
+import com.neemre.btcdcli4j.domain.enums.PaymentCategories;
 
 @Data
 @NoArgsConstructor
@@ -24,13 +24,13 @@ import com.neemre.btcdcli4j.domain.enums.TransferCategories;
 @EqualsAndHashCode(callSuper = false)
 @JsonInclude(Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class Transfer extends Entity {
+public class PaymentOutline extends Entity {
 
 	@JsonProperty("involvesWatchonly")
 	public Boolean involvesWatchOnly;
 	private String account;
 	private String address;
-	private TransferCategories category;
+	private PaymentCategories category;
 	@Setter(AccessLevel.NONE)
 	private BigDecimal amount;
 	@JsonProperty("vout")

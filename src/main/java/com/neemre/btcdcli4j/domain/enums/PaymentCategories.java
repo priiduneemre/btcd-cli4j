@@ -14,7 +14,7 @@ import com.fasterxml.jackson.annotation.JsonInclude.Include;
 @AllArgsConstructor
 @JsonInclude(Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
-public enum TransferCategories {
+public enum PaymentCategories {
 	
 	SEND("send"),
 	RECEIVE("receive"),
@@ -33,11 +33,11 @@ public enum TransferCategories {
 	}
 
 	@JsonCreator
-	public static TransferCategories forName(String name) {
+	public static PaymentCategories forName(String name) {
 		if(name != null) {
-			for(TransferCategories transferCategory : TransferCategories.values()) {
-				if(name.toLowerCase().equals(transferCategory.getName())) {
-					return transferCategory;
+			for(PaymentCategories paymentCategory : PaymentCategories.values()) {
+				if(name.toLowerCase().equals(paymentCategory.getName())) {
+					return paymentCategory;
 				}
 			}
 		}

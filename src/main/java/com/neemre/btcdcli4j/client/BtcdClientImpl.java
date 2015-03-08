@@ -14,12 +14,13 @@ import com.neemre.btcdcli4j.domain.Address;
 import com.neemre.btcdcli4j.domain.AddressOutline;
 import com.neemre.btcdcli4j.domain.AddressInfo;
 import com.neemre.btcdcli4j.domain.Block;
-import com.neemre.btcdcli4j.domain.DetailedTransaction;
+import com.neemre.btcdcli4j.domain.Transaction;
 import com.neemre.btcdcli4j.domain.Info;
 import com.neemre.btcdcli4j.domain.MemPoolInfo;
 import com.neemre.btcdcli4j.domain.MiningInfo;
 import com.neemre.btcdcli4j.domain.Output;
 import com.neemre.btcdcli4j.domain.PeerNode;
+import com.neemre.btcdcli4j.domain.Payment;
 import com.neemre.btcdcli4j.domain.WalletInfo;
 import com.neemre.btcdcli4j.jsonrpc.client.JsonRpcClient;
 import com.neemre.btcdcli4j.jsonrpc.client.JsonRpcClientImpl;
@@ -259,19 +260,19 @@ public class BtcdClientImpl implements BtcdClient {
 	}
 	
 	@Override
-	public DetailedTransaction getTransaction(String txId) {
+	public Transaction getTransaction(String txId) {
 		String transactionJson = rpcClient.execute(Commands.GET_TRANSACTION.getName(), txId);
-		DetailedTransaction transaction = rpcClient.getMapper().mapToEntity(transactionJson,
-				DetailedTransaction.class);
+		Transaction transaction = rpcClient.getMapper().mapToEntity(transactionJson,
+				Transaction.class);
 		return transaction;
 	}
 
 	@Override
-	public DetailedTransaction getTransaction(String txId, Boolean withWatchOnly) {
+	public Transaction getTransaction(String txId, Boolean withWatchOnly) {
 		List<Object> params = CollectionUtils.asList(txId, withWatchOnly);
 		String transactionJson = rpcClient.execute(Commands.GET_TRANSACTION.getName(), params);
-		DetailedTransaction transaction = rpcClient.getMapper().mapToEntity(transactionJson,
-				DetailedTransaction.class);
+		Transaction transaction = rpcClient.getMapper().mapToEntity(transactionJson,
+				Transaction.class);
 		return transaction;
 	}
 	
@@ -452,6 +453,50 @@ public class BtcdClientImpl implements BtcdClient {
 	}
 	
 	@Override
+	public List<Payment> listTransactions() {
+		String transactionsJson = rpcClient.execute(Commands.LIST_TRANSACTIONS.getName());
+		List<Payment> transactions = rpcClient.getMapper().mapToList(transactionsJson, 
+				Payment.class);
+		return transactions;
+	}
+
+	@Override
+	public List<Payment> listTransactions(String account) {
+		String transactionsJson = rpcClient.execute(Commands.LIST_TRANSACTIONS.getName(), account);
+		List<Payment> transactions = rpcClient.getMapper().mapToList(transactionsJson, 
+				Payment.class);
+		return transactions;
+	}
+
+	@Override
+	public List<Payment> listTransactions(String account, Integer count) {
+		List<Object> params = CollectionUtils.asList(account, count);
+		String transactionsJson = rpcClient.execute(Commands.LIST_TRANSACTIONS.getName(), params);
+		List<Payment> transactions = rpcClient.getMapper().mapToList(transactionsJson, 
+				Payment.class);
+		return transactions;
+	}
+
+	@Override
+	public List<Payment> listTransactions(String account, Integer count, Integer offset) {
+		List<Object> params = CollectionUtils.asList(account, count, offset);
+		String transactionsJson = rpcClient.execute(Commands.LIST_TRANSACTIONS.getName(), params);
+		List<Payment> transactions = rpcClient.getMapper().mapToList(transactionsJson,
+				Payment.class);
+		return transactions;
+	}
+
+	@Override
+	public List<Payment> listTransactions(String account, Integer count, Integer offset, 
+			Boolean withWatchOnly) {
+		List<Object> params = CollectionUtils.asList(account, count, offset, withWatchOnly);
+		String transactionsJson = rpcClient.execute(Commands.LIST_TRANSACTIONS.getName(), params);
+		List<Payment> transactions = rpcClient.getMapper().mapToList(transactionsJson,
+				Payment.class);
+		return transactions;
+	}
+	
+	@Override
 	public Boolean lockUnspent(Boolean isUnlocked) {
 		String isSuccessJson = rpcClient.execute(Commands.LOCK_UNSPENT.getName(), isUnlocked);
 		Boolean isSuccess = rpcClient.getParser().parseBoolean(isSuccessJson);
@@ -621,4 +666,6 @@ public class BtcdClientImpl implements BtcdClient {
 		List<Object> params = CollectionUtils.asList(curPassphrase, newPassphrase);
 		rpcClient.execute(Commands.WALLET_PASSPHRASE_CHANGE.getName(), params);
 	}
+
+
 }
