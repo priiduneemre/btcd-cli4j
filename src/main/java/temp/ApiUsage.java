@@ -15,9 +15,10 @@ import com.neemre.btcdcli4j.client.BtcdClient;
 import com.neemre.btcdcli4j.client.BtcdClientImpl;
 import com.neemre.btcdcli4j.domain.Account;
 import com.neemre.btcdcli4j.domain.Address;
-import com.neemre.btcdcli4j.domain.AddressOutline;
+import com.neemre.btcdcli4j.domain.AddressOverview;
 import com.neemre.btcdcli4j.domain.AddressInfo;
 import com.neemre.btcdcli4j.domain.Block;
+import com.neemre.btcdcli4j.domain.SinceBlock;
 import com.neemre.btcdcli4j.domain.Transaction;
 import com.neemre.btcdcli4j.domain.Info;
 import com.neemre.btcdcli4j.domain.MemPoolInfo;
@@ -25,6 +26,7 @@ import com.neemre.btcdcli4j.domain.MiningInfo;
 import com.neemre.btcdcli4j.domain.Output;
 import com.neemre.btcdcli4j.domain.PeerNode;
 import com.neemre.btcdcli4j.domain.Payment;
+import com.neemre.btcdcli4j.domain.UnspentOutput;
 import com.neemre.btcdcli4j.domain.WalletInfo;
 import com.neemre.btcdcli4j.util.CollectionUtils;
 
@@ -91,12 +93,6 @@ public class ApiUsage {
 		//		supportedCalls.listAccounts(6, true);
 		//		supportedCalls.listAddressGroupings();
 		//		supportedCalls.listLockUnspent();
-		supportedCalls.listTransactions();
-		supportedCalls.listTransactions("jackal");
-		supportedCalls.listTransactions("jackal", 3);
-		supportedCalls.listTransactions("jackal", 3, 2);
-		supportedCalls.listTransactions("friendA", 3, 2, true);
-		//		supportedCalls.lockUnspent(true);
 		//		supportedCalls.listReceivedByAccount();
 		//		supportedCalls.listReceivedByAccount(900);
 		//		supportedCalls.listReceivedByAccount(900, true);
@@ -105,6 +101,20 @@ public class ApiUsage {
 		//		supportedCalls.listReceivedByAddress(1100);
 		//		supportedCalls.listReceivedByAddress(1100, true);
 		//		supportedCalls.listReceivedByAddress(530, false, true);
+		supportedCalls.listSinceBlock();
+		supportedCalls.listSinceBlock("00000000a16b820aa9e2139ad6598ad76f2f146580a6039c738e9b7d3e6d908d");
+		supportedCalls.listSinceBlock("00000000a16b820aa9e2139ad6598ad76f2f146580a6039c738e9b7d3e6d908d", 100);
+		supportedCalls.listSinceBlock("00000000a16b820aa9e2139ad6598ad76f2f146580a6039c738e9b7d3e6d908d", 100, true);
+		//		supportedCalls.listTransactions();
+		//		supportedCalls.listTransactions("jackal");
+		//		supportedCalls.listTransactions("jackal", 3);
+		//		supportedCalls.listTransactions("jackal", 3, 2);
+		supportedCalls.listTransactions("friendA", 3, 2, true);
+		supportedCalls.listUnspent();
+		supportedCalls.listUnspent(900);
+		supportedCalls.listUnspent(900, 1500);
+		supportedCalls.listUnspent(900, 1500, Arrays.asList(new String[]{"msrHoyN5Jw1EH7saGxMqJtTKt6qhmyPZMF"}));
+		//		supportedCalls.lockUnspent(true);
 		//		supportedCalls.lockUnspent(false, Arrays.asList(new Output[]{
 		//				new Output("ff534734f74fc4ecffe1588a6554898717bb5bbc58688ddcd9a0dede132bfd13", 1)}));
 
@@ -391,25 +401,25 @@ public class ApiUsage {
 					new Object[]{keypoolSize}, null);
 		}
 
-		private void listAccounts() {
+		public void listAccounts() {
 			Map<String, BigDecimal> accounts = btcdClient.listAccounts();
 			printResult(Commands.LIST_ACCOUNTS.getName(), null, null, accounts);
 		}
 
-		private void listAccounts(int confirmations) {
+		public void listAccounts(int confirmations) {
 			Map<String, BigDecimal> accounts = btcdClient.listAccounts(confirmations);
 			printResult(Commands.LIST_ACCOUNTS.getName(), new String[]{"confirmations"}, 
 					new Object[]{confirmations}, accounts);
 		}
 
-		private void listAccounts(int confirmations, boolean withWatchOnly) {
+		public void listAccounts(int confirmations, boolean withWatchOnly) {
 			Map<String, BigDecimal> accounts = btcdClient.listAccounts(confirmations, withWatchOnly);
 			printResult(Commands.LIST_ACCOUNTS.getName(), new String[]{"confirmations", 
 					"withWatchOnly"}, new Object[]{confirmations, withWatchOnly}, accounts);			
 		}
 		
 		public void listAddressGroupings() {
-			List<List<AddressOutline>> groupings = btcdClient.listAddressGroupings();
+			List<List<AddressOverview>> groupings = btcdClient.listAddressGroupings();
 			printResult(Commands.LIST_ADDRESS_GROUPINGS.getName(), null, null, groupings);
 		}
 		
@@ -463,42 +473,94 @@ public class ApiUsage {
 
 		public void listReceivedByAddress(int confirmations, boolean withUnused, 
 				boolean withWatchOnly) {
-			List<Address> addresses = btcdClient.listReceivedByAddress(confirmations, withUnused, 
+			List<Address> addresses = btcdClient.listReceivedByAddress(confirmations, withUnused,
 					withWatchOnly);
 			printResult(Commands.LIST_RECEIVED_BY_ADDRESS.getName(), new String[]{"confirmations", 
 					"withUnused", "withWatchOnly"}, new Object[]{confirmations, withUnused, 
 					withWatchOnly}, addresses);
 		}
 		
+		public void listSinceBlock() {
+			SinceBlock sinceBlock = btcdClient.listSinceBlock();
+			printResult(Commands.LIST_SINCE_BLOCK.getName(), null, null, sinceBlock);
+		}
+		
+		public void listSinceBlock(String headerHash) {
+			SinceBlock sinceBlock = btcdClient.listSinceBlock(headerHash);
+			printResult(Commands.LIST_SINCE_BLOCK.getName(), new String[]{"headerHash"}, 
+					new Object[]{headerHash}, sinceBlock);
+		}
+		
+		public void listSinceBlock(String headerHash, int confirmations) {
+			SinceBlock sinceBlock = btcdClient.listSinceBlock(headerHash, confirmations);
+			printResult(Commands.LIST_SINCE_BLOCK.getName(), new String[]{"headerHash", 
+					"confirmations"}, new Object[]{headerHash, confirmations}, sinceBlock);
+		}
+		
+		public void listSinceBlock(String headerHash, int confirmations, boolean withWatchOnly) {
+			SinceBlock sinceBlock = btcdClient.listSinceBlock(headerHash, confirmations, 
+					withWatchOnly);
+			printResult(Commands.LIST_SINCE_BLOCK.getName(), new String[]{"headerHash", 
+					"confirmations", "withWatchOnly"}, new Object[]{headerHash, confirmations, 
+					withWatchOnly}, sinceBlock);
+		}
+	
 		public void listTransactions() {
-			List<Payment> transactions = btcdClient.listTransactions();
-			printResult(Commands.LIST_TRANSACTIONS.getName(), null, null, transactions);
+			List<Payment> payments = btcdClient.listTransactions();
+			printResult(Commands.LIST_TRANSACTIONS.getName(), null, null, payments);
 		}
 
 		public void listTransactions(String account) {
-			List<Payment> transactions = btcdClient.listTransactions(account);
+			List<Payment> payments = btcdClient.listTransactions(account);
 			printResult(Commands.LIST_TRANSACTIONS.getName(), new String[]{"account"}, 
-					new Object[]{account}, transactions);
+					new Object[]{account}, payments);
 		}
 
 		public void listTransactions(String account, int count) {
-			List<Payment> transactions = btcdClient.listTransactions(account, count);
+			List<Payment> payments = btcdClient.listTransactions(account, count);
 			printResult(Commands.LIST_TRANSACTIONS.getName(), new String[]{"account", "count"},
-					new Object[]{account, count}, transactions);
+					new Object[]{account, count}, payments);
 		}
 
 		public void listTransactions(String account, int count, int offset) {
-			List<Payment> transactions = btcdClient.listTransactions(account, count, offset);
+			List<Payment> payments = btcdClient.listTransactions(account, count, offset);
 			printResult(Commands.LIST_TRANSACTIONS.getName(), new String[]{"account", "count", 
-					"offset"}, new Object[]{account, count, offset}, transactions);
+					"offset"}, new Object[]{account, count, offset}, payments);
 		}
 
 		public void listTransactions(String account, int count, int offset, boolean withWatchOnly) {
-			List<Payment> transactions = btcdClient.listTransactions(account, count, offset,
+			List<Payment> payments = btcdClient.listTransactions(account, count, offset,
 					withWatchOnly);
 			printResult(Commands.LIST_TRANSACTIONS.getName(), new String[]{"account", "count",
 					"offset", "withWatchOnly"}, new Object[]{account, count, offset, withWatchOnly},
-					transactions);
+					payments);
+		}
+		
+		public void listUnspent() {
+			List<UnspentOutput> unspentOutputs = btcdClient.listUnspent();
+			printResult(Commands.LIST_UNSPENT.getName(), null, null, unspentOutputs);
+		}
+
+		public void listUnspent(int minConfirmations) {
+			List<UnspentOutput> unspentOutputs = btcdClient.listUnspent(minConfirmations);
+			printResult(Commands.LIST_UNSPENT.getName(), new String[]{"minConfirmations"}, 
+					new Object[]{minConfirmations}, unspentOutputs);
+		}
+
+		public void listUnspent(int minConfirmations, int maxConfirmations) {
+			List<UnspentOutput> unspentOutputs = btcdClient.listUnspent(minConfirmations, 
+					maxConfirmations);
+			printResult(Commands.LIST_UNSPENT.getName(), new String[]{"minConfirmations", 
+					"maxConfirmations"}, new Object[]{minConfirmations, maxConfirmations}, 
+					unspentOutputs);
+		}
+
+		public void listUnspent(int minConfirmations, int maxConfirmations, List<String> addresses) {
+			List<UnspentOutput> unspentOutputs = btcdClient.listUnspent(minConfirmations,
+					maxConfirmations, addresses);
+			printResult(Commands.LIST_UNSPENT.getName(), new String[]{"minConfirmations",
+					"maxConfirmations", "addresses"}, new Object[]{minConfirmations, 
+					maxConfirmations, addresses}, unspentOutputs);
 		}
 		
 		public void lockUnspent(Boolean isUnlocked) {

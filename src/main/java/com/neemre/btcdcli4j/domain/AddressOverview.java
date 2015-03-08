@@ -2,20 +2,20 @@ package com.neemre.btcdcli4j.domain;
 
 import java.math.BigDecimal;
 
+import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
-import lombok.AccessLevel;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.neemre.btcdcli4j.common.Defaults;
-import com.neemre.btcdcli4j.domain.enums.PaymentCategories;
+import com.neemre.btcdcli4j.jsonrpc.deserialization.AddressOverviewDeserializer;
 
 @Data
 @NoArgsConstructor
@@ -24,26 +24,16 @@ import com.neemre.btcdcli4j.domain.enums.PaymentCategories;
 @EqualsAndHashCode(callSuper = false)
 @JsonInclude(Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class PaymentOutline extends Entity {
-
-	@JsonProperty("involvesWatchonly")
-	public Boolean involvesWatchOnly;
-	private String account;
+@JsonDeserialize(using = AddressOverviewDeserializer.class)
+public class AddressOverview extends Entity {
+	
 	private String address;
-	private PaymentCategories category;
 	@Setter(AccessLevel.NONE)
-	private BigDecimal amount;
-	@JsonProperty("vout")
-	private Integer vOut;
-	@Setter(AccessLevel.NONE)
-	private BigDecimal fee;
+	private BigDecimal balance;
+	private String account;
 	
 	
-	public void setAmount(BigDecimal amount) {
-		this.amount = amount.setScale(Defaults.DECIMAL_SCALE, Defaults.ROUNDING_MODE);
-	}
-
-	public void setFee(BigDecimal fee) {
-		this.fee = fee.setScale(Defaults.DECIMAL_SCALE, Defaults.ROUNDING_MODE);
+	public void setBalance(BigDecimal balance) {
+		this.balance = balance.setScale(Defaults.DECIMAL_SCALE, Defaults.ROUNDING_MODE);
 	}
 }

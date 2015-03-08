@@ -6,9 +6,10 @@ import java.util.Map;
 
 import com.neemre.btcdcli4j.domain.Account;
 import com.neemre.btcdcli4j.domain.Address;
-import com.neemre.btcdcli4j.domain.AddressOutline;
+import com.neemre.btcdcli4j.domain.AddressOverview;
 import com.neemre.btcdcli4j.domain.AddressInfo;
 import com.neemre.btcdcli4j.domain.Block;
+import com.neemre.btcdcli4j.domain.SinceBlock;
 import com.neemre.btcdcli4j.domain.Transaction;
 import com.neemre.btcdcli4j.domain.Info;
 import com.neemre.btcdcli4j.domain.MemPoolInfo;
@@ -16,6 +17,7 @@ import com.neemre.btcdcli4j.domain.MiningInfo;
 import com.neemre.btcdcli4j.domain.Output;
 import com.neemre.btcdcli4j.domain.PeerNode;
 import com.neemre.btcdcli4j.domain.Payment;
+import com.neemre.btcdcli4j.domain.UnspentOutput;
 import com.neemre.btcdcli4j.domain.WalletInfo;
 
 public interface BtcdClient {
@@ -47,7 +49,7 @@ public interface BtcdClient {
 	Block getBlock(String headerHash);
 
 	Object getBlock(String headerHash, Boolean isDecoded);
-	
+
 	Integer getBlockCount();
 	
 	String getBlockHash(Integer blockHeight);
@@ -112,7 +114,7 @@ public interface BtcdClient {
 	
 	Map<String, BigDecimal> listAccounts(Integer confirmations, Boolean withWatchOnly);
 	
-	List<List<AddressOutline>> listAddressGroupings();
+	List<List<AddressOverview>> listAddressGroupings();
 
 	List<Output> listLockUnspent();
 	
@@ -134,6 +136,14 @@ public interface BtcdClient {
 	List<Address> listReceivedByAddress(Integer confirmations, Boolean withUnused,
 			Boolean withWatchOnly);
 	
+	SinceBlock listSinceBlock();
+
+	SinceBlock listSinceBlock(String headerHash);
+
+	SinceBlock listSinceBlock(String headerHash, Integer confirmations);
+
+	SinceBlock listSinceBlock(String headerHash, Integer confirmations, Boolean withWatchOnly);
+	
 	List<Payment> listTransactions();
 
 	List<Payment> listTransactions(String account);
@@ -144,6 +154,15 @@ public interface BtcdClient {
 
 	List<Payment> listTransactions(String account, Integer count, Integer offset, 
 			Boolean withWatchOnly);
+	
+	List<UnspentOutput> listUnspent();
+
+	List<UnspentOutput> listUnspent(Integer minConfirmations);
+
+	List<UnspentOutput> listUnspent(Integer minConfirmations, Integer maxConfirmations);
+
+	List<UnspentOutput> listUnspent(Integer minConfirmations, Integer maxConfirmations,
+			List<String> addresses);
 	
 	Boolean lockUnspent(Boolean isUnlocked);
 

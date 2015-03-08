@@ -1,6 +1,5 @@
 package com.neemre.btcdcli4j.domain;
 
-
 import java.util.List;
 
 import lombok.AllArgsConstructor;
@@ -21,25 +20,10 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 @EqualsAndHashCode(callSuper = false)
 @JsonInclude(Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class Payment extends PaymentOverview {
+public class SinceBlock extends Entity {
 
-	private Integer confirmations;
-	private Boolean generated;
-	@JsonProperty("blockhash")
-	private String blockHash;
-	@JsonProperty("blockindex")
-	private Integer blockIndex;
-	@JsonProperty("blocktime")
-	private Long blockTime;
-	@JsonProperty("txid")
-	private String txId;
-	@JsonProperty("walletconflicts")
-	private List<String> walletConflicts;
-	private Long time;
-	@JsonProperty("timereceived")
-	private Long timeReceived;
-	private String comment;
-	private String to;
-	@JsonProperty("otheraccount")
-	private String otherAccount;
+	@JsonProperty("transactions")
+	private List<Payment> payments;
+	@JsonProperty("lastblock")
+	private String lastBlock;
 }

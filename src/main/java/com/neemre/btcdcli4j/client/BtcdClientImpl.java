@@ -11,9 +11,10 @@ import com.neemre.btcdcli4j.Commands;
 import com.neemre.btcdcli4j.common.Defaults;
 import com.neemre.btcdcli4j.domain.Account;
 import com.neemre.btcdcli4j.domain.Address;
-import com.neemre.btcdcli4j.domain.AddressOutline;
+import com.neemre.btcdcli4j.domain.AddressOverview;
 import com.neemre.btcdcli4j.domain.AddressInfo;
 import com.neemre.btcdcli4j.domain.Block;
+import com.neemre.btcdcli4j.domain.SinceBlock;
 import com.neemre.btcdcli4j.domain.Transaction;
 import com.neemre.btcdcli4j.domain.Info;
 import com.neemre.btcdcli4j.domain.MemPoolInfo;
@@ -21,6 +22,7 @@ import com.neemre.btcdcli4j.domain.MiningInfo;
 import com.neemre.btcdcli4j.domain.Output;
 import com.neemre.btcdcli4j.domain.PeerNode;
 import com.neemre.btcdcli4j.domain.Payment;
+import com.neemre.btcdcli4j.domain.UnspentOutput;
 import com.neemre.btcdcli4j.domain.WalletInfo;
 import com.neemre.btcdcli4j.jsonrpc.client.JsonRpcClient;
 import com.neemre.btcdcli4j.jsonrpc.client.JsonRpcClientImpl;
@@ -46,7 +48,6 @@ public class BtcdClientImpl implements BtcdClient {
 		String privateKeyJson = rpcClient.execute(Commands.DUMP_PRIV_KEY.getName(), address);
 		String privateKey = rpcClient.getParser().parseString(privateKeyJson);
 		return privateKey;
-		
 	}
 	
 	@Override
@@ -368,10 +369,10 @@ public class BtcdClientImpl implements BtcdClient {
 	}
 	
 	@Override
-	public List<List<AddressOutline>> listAddressGroupings() {
+	public List<List<AddressOverview>> listAddressGroupings() {
 		String groupingsJson = rpcClient.execute(Commands.LIST_ADDRESS_GROUPINGS.getName());
-		List<List<AddressOutline>> groupings = rpcClient.getMapper().mapToNestedLists(1, 
-				groupingsJson, AddressOutline.class);
+		List<List<AddressOverview>> groupings = rpcClient.getMapper().mapToNestedLists(1, 
+				groupingsJson, AddressOverview.class);
 		return groupings;
 	}
 	
@@ -453,47 +454,109 @@ public class BtcdClientImpl implements BtcdClient {
 	}
 	
 	@Override
+	public SinceBlock listSinceBlock() {
+		String sinceBlockJson = rpcClient.execute(Commands.LIST_SINCE_BLOCK.getName());
+		SinceBlock sinceBlock = rpcClient.getMapper().mapToEntity(sinceBlockJson, SinceBlock.class);
+		return sinceBlock;
+	}
+
+	@Override
+	public SinceBlock listSinceBlock(String headerHash) {
+		String sinceBlockJson = rpcClient.execute(Commands.LIST_SINCE_BLOCK.getName(), headerHash);
+		SinceBlock sinceBlock = rpcClient.getMapper().mapToEntity(sinceBlockJson, SinceBlock.class);
+		return sinceBlock;
+	}
+
+	@Override
+	public SinceBlock listSinceBlock(String headerHash, Integer confirmations) {
+		List<Object> params = CollectionUtils.asList(headerHash, confirmations);
+		String sinceBlockJson = rpcClient.execute(Commands.LIST_SINCE_BLOCK.getName(), params);
+		SinceBlock sinceBlock = rpcClient.getMapper().mapToEntity(sinceBlockJson, SinceBlock.class);
+		return sinceBlock;
+	}
+
+	@Override
+	public SinceBlock listSinceBlock(String headerHash, Integer confirmations, 
+			Boolean withWatchOnly) {
+		List<Object> params = CollectionUtils.asList(headerHash, confirmations, withWatchOnly);
+		String sinceBlockJson = rpcClient.execute(Commands.LIST_SINCE_BLOCK.getName(), params);
+		SinceBlock sinceBlock = rpcClient.getMapper().mapToEntity(sinceBlockJson, SinceBlock.class);
+		return sinceBlock;
+	}
+	
+	@Override
 	public List<Payment> listTransactions() {
-		String transactionsJson = rpcClient.execute(Commands.LIST_TRANSACTIONS.getName());
-		List<Payment> transactions = rpcClient.getMapper().mapToList(transactionsJson, 
-				Payment.class);
-		return transactions;
+		String paymentsJson = rpcClient.execute(Commands.LIST_TRANSACTIONS.getName());
+		List<Payment> payments = rpcClient.getMapper().mapToList(paymentsJson, Payment.class);
+		return payments;
 	}
 
 	@Override
 	public List<Payment> listTransactions(String account) {
-		String transactionsJson = rpcClient.execute(Commands.LIST_TRANSACTIONS.getName(), account);
-		List<Payment> transactions = rpcClient.getMapper().mapToList(transactionsJson, 
-				Payment.class);
-		return transactions;
+		String paymentsJson = rpcClient.execute(Commands.LIST_TRANSACTIONS.getName(), account);
+		List<Payment> payments = rpcClient.getMapper().mapToList(paymentsJson, Payment.class);
+		return payments;
 	}
 
 	@Override
 	public List<Payment> listTransactions(String account, Integer count) {
 		List<Object> params = CollectionUtils.asList(account, count);
-		String transactionsJson = rpcClient.execute(Commands.LIST_TRANSACTIONS.getName(), params);
-		List<Payment> transactions = rpcClient.getMapper().mapToList(transactionsJson, 
-				Payment.class);
-		return transactions;
+		String paymentsJson = rpcClient.execute(Commands.LIST_TRANSACTIONS.getName(), params);
+		List<Payment> payments = rpcClient.getMapper().mapToList(paymentsJson, Payment.class);
+		return payments;
 	}
 
 	@Override
 	public List<Payment> listTransactions(String account, Integer count, Integer offset) {
 		List<Object> params = CollectionUtils.asList(account, count, offset);
-		String transactionsJson = rpcClient.execute(Commands.LIST_TRANSACTIONS.getName(), params);
-		List<Payment> transactions = rpcClient.getMapper().mapToList(transactionsJson,
-				Payment.class);
-		return transactions;
+		String paymentsJson = rpcClient.execute(Commands.LIST_TRANSACTIONS.getName(), params);
+		List<Payment> payments = rpcClient.getMapper().mapToList(paymentsJson, Payment.class);
+		return payments;
 	}
 
 	@Override
 	public List<Payment> listTransactions(String account, Integer count, Integer offset, 
 			Boolean withWatchOnly) {
 		List<Object> params = CollectionUtils.asList(account, count, offset, withWatchOnly);
-		String transactionsJson = rpcClient.execute(Commands.LIST_TRANSACTIONS.getName(), params);
-		List<Payment> transactions = rpcClient.getMapper().mapToList(transactionsJson,
-				Payment.class);
-		return transactions;
+		String paymentsJson = rpcClient.execute(Commands.LIST_TRANSACTIONS.getName(), params);
+		List<Payment> payments = rpcClient.getMapper().mapToList(paymentsJson, Payment.class);
+		return payments;
+	}
+	
+	@Override
+	public List<UnspentOutput> listUnspent() {
+		String unspentOutputsJson = rpcClient.execute(Commands.LIST_UNSPENT.getName());
+		List<UnspentOutput> unspentOutputs = rpcClient.getMapper().mapToList(unspentOutputsJson,
+				UnspentOutput.class);
+		return unspentOutputs;
+	}
+
+	@Override
+	public List<UnspentOutput> listUnspent(Integer minConfirmations) {
+		String unspentOutputsJson = rpcClient.execute(Commands.LIST_UNSPENT.getName(), 
+				minConfirmations);
+		List<UnspentOutput> unspentOutputs = rpcClient.getMapper().mapToList(unspentOutputsJson,
+				UnspentOutput.class);
+		return unspentOutputs;
+	}
+
+	@Override
+	public List<UnspentOutput> listUnspent(Integer minConfirmations, Integer maxConfirmations) {
+		List<Object> params = CollectionUtils.asList(minConfirmations, maxConfirmations);
+		String unspentOutputsJson = rpcClient.execute(Commands.LIST_UNSPENT.getName(), params);
+		List<UnspentOutput> unspentOutputs = rpcClient.getMapper().mapToList(unspentOutputsJson,
+				UnspentOutput.class);
+		return unspentOutputs;
+	}
+
+	@Override
+	public List<UnspentOutput> listUnspent(Integer minConfirmations, Integer maxConfirmations, 
+			List<String> addresses) {
+		List<Object> params = CollectionUtils.asList(minConfirmations, maxConfirmations, addresses);
+		String unspentOutputsJson = rpcClient.execute(Commands.LIST_UNSPENT.getName(), params);
+		List<UnspentOutput> unspentOutputs = rpcClient.getMapper().mapToList(unspentOutputsJson,
+				UnspentOutput.class);
+		return unspentOutputs;
 	}
 	
 	@Override
@@ -666,6 +729,4 @@ public class BtcdClientImpl implements BtcdClient {
 		List<Object> params = CollectionUtils.asList(curPassphrase, newPassphrase);
 		rpcClient.execute(Commands.WALLET_PASSPHRASE_CHANGE.getName(), params);
 	}
-
-
 }

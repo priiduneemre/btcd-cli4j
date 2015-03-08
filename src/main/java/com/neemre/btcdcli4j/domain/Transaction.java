@@ -47,7 +47,7 @@ public class Transaction extends Entity {
 	private Long timeReceived;
 	private String comment;
 	private String to;
-	private List<PaymentOutline> details;
+	private List<PaymentOverview> details;
 	private String hex;
 	
 	

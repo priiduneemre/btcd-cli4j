@@ -44,7 +44,9 @@ public enum Commands {
 	LIST_LOCK_UNSPENT("listlockunspent", 0, 0),
 	LIST_RECEIVED_BY_ACCOUNT("listreceivedbyaccount", 0, 3),
 	LIST_RECEIVED_BY_ADDRESS("listreceivedbyaddress", 0, 3),
+	LIST_SINCE_BLOCK("listsinceblock", 0, 3),
 	LIST_TRANSACTIONS("listtransactions", 0, 4),
+	LIST_UNSPENT("listunspent", 0, 3),
 	LOCK_UNSPENT("lockunspent", 1, 2),
 	MOVE("move", 3, 5),
 	PING("ping", 0, 0),
@@ -63,9 +65,8 @@ public enum Commands {
 	
 	SEND_MANY("sendmany", -1, -1),
 	
-	ADD_MULTI_SIG_ADDRESS("addmultisigaddress", -1, -1),
-	LIST_SINCE_BLOCK("listsinceblock", -1, -1),
-	LIST_UNSPENT("listunspent", -1, -1);
+	CREATE_MULTI_SIG_ADDRESS("createmultisigaddress", -1, -1),
+	ADD_MULTI_SIG_ADDRESS("addmultisigaddress", -1, -1);
 
 	
 	@Getter
