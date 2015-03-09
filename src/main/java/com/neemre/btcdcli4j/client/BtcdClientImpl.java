@@ -8,6 +8,7 @@ import java.util.Properties;
 import org.apache.http.client.HttpClient;
 
 import com.neemre.btcdcli4j.Commands;
+import com.neemre.btcdcli4j.common.DataFormats;
 import com.neemre.btcdcli4j.common.Defaults;
 import com.neemre.btcdcli4j.domain.Account;
 import com.neemre.btcdcli4j.domain.Address;
@@ -15,6 +16,7 @@ import com.neemre.btcdcli4j.domain.AddressOverview;
 import com.neemre.btcdcli4j.domain.AddressInfo;
 import com.neemre.btcdcli4j.domain.Block;
 import com.neemre.btcdcli4j.domain.MultiSigAddress;
+import com.neemre.btcdcli4j.domain.RawTransaction;
 import com.neemre.btcdcli4j.domain.SinceBlock;
 import com.neemre.btcdcli4j.domain.Transaction;
 import com.neemre.btcdcli4j.domain.Info;
@@ -70,6 +72,15 @@ public class BtcdClientImpl implements BtcdClient {
 		MultiSigAddress multiSigAddress = rpcClient.getMapper().mapToEntity(multiSigAddressJson, 
 				MultiSigAddress.class);
 		return multiSigAddress;
+	}
+
+	@Override
+	public String createRawTransaction(List<Output> outputs, Map<String, BigDecimal> toAddresses) {
+		List<Object> params = CollectionUtils.asList(outputs, toAddresses);
+		String hexTransactionJson = rpcClient.execute(Commands.CREATE_RAW_TRANSACTION.getName(), 
+				params);
+		String hexTransaction = rpcClient.getParser().parseString(hexTransactionJson);
+		return hexTransaction;
 	}
 	
 	@Override
@@ -253,6 +264,27 @@ public class BtcdClientImpl implements BtcdClient {
 		String addressJson = rpcClient.execute(Commands.GET_RAW_CHANGE_ADDRESS.getName());
 		String address = rpcClient.getParser().parseString(addressJson);
 		return address;
+	}
+	
+	@Override
+	public String getRawTransaction(String txId) {
+		String hexTransactionJson = rpcClient.execute(Commands.GET_RAW_TRANSACTION.getName(), txId);
+		String hexTransaction = rpcClient.getParser().parseString(hexTransactionJson);
+		return hexTransaction;
+	}
+
+	@Override
+	public Object getRawTransaction(String txId, Integer verbosity) {
+		List<Object> params = CollectionUtils.asList(txId, verbosity);
+		String transactionJson = rpcClient.execute(Commands.GET_RAW_TRANSACTION.getName(), params);
+		if(verbosity == DataFormats.HEX.getCode()) {
+			String hexTransaction = rpcClient.getParser().parseString(transactionJson);
+			return hexTransaction;
+		} else {
+			RawTransaction rawTransaction = rpcClient.getMapper().mapToEntity(transactionJson, 
+					RawTransaction.class);
+			return rawTransaction;
+		}
 	}
 	
 	@Override
@@ -685,6 +717,23 @@ public class BtcdClientImpl implements BtcdClient {
 		List<Object> params = CollectionUtils.asList(fromAccount, toAddresses, confirmations,
 				comment);
 		String transactionIdJson = rpcClient.execute(Commands.SEND_MANY.getName(), params);
+		String transactionId = rpcClient.getParser().parseString(transactionIdJson);
+		return transactionId;
+	}
+	
+	@Override
+	public String sendRawTransaction(String hexTransaction) {
+		String transactionIdJson = rpcClient.execute(Commands.SEND_RAW_TRANSACTION.getName(), 
+				hexTransaction);
+		String transactionId = rpcClient.getParser().parseString(transactionIdJson);
+		return transactionId;
+	}
+
+	@Override
+	public String sendRawTransaction(String hexTransaction, Boolean withHighFees) {
+		List<Object> params = CollectionUtils.asList(hexTransaction, withHighFees);
+		String transactionIdJson = rpcClient.execute(Commands.SEND_RAW_TRANSACTION.getName(), 
+				params);
 		String transactionId = rpcClient.getParser().parseString(transactionIdJson);
 		return transactionId;
 	}

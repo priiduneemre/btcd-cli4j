@@ -1,19 +1,15 @@
 package com.neemre.btcdcli4j.domain;
 
-import java.math.BigDecimal;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 import lombok.ToString;
-import lombok.AccessLevel;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
-import com.neemre.btcdcli4j.common.Defaults;
 
 @Data
 @NoArgsConstructor
@@ -22,19 +18,13 @@ import com.neemre.btcdcli4j.common.Defaults;
 @EqualsAndHashCode(callSuper = false)
 @JsonInclude(Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class UnspentOutput extends Output {
+public class RawInput extends Entity {
 	
-	private String address;
-	private String account;
-	private String scriptPubKey;
-	private String redeemScript;
-	@Setter(AccessLevel.NONE)
-	private BigDecimal amount;
-	private Integer confirmations;
-	private Boolean spendable;
-
-	
-	public void setAmount(BigDecimal amount) {
-		this.amount = amount.setScale(Defaults.DECIMAL_SCALE, Defaults.ROUNDING_MODE);
-	}
+	@JsonProperty("txid")
+	private String txId;
+	@JsonProperty("vout")
+	private Integer vOut;
+	private SignatureScript scriptSig;
+	private String coinbase;
+	private Integer sequence;
 }

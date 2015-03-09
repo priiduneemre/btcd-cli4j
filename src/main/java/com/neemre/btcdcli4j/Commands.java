@@ -12,6 +12,8 @@ public enum Commands {
 	ADD_MULTI_SIG_ADDRESS("addmultisigaddress", 2, 3),
 	BACKUP_WALLET("backupwallet", 1, 1),
 	CREATE_MULTI_SIG("createmultisig", 2, 2),
+	CREATE_RAW_TRANSACTION("createrawtransaction", 2, 2),
+	DECODE_RAW_TRANSACTION("decoderawtransaction", -1, -1),
 	DUMP_PRIV_KEY("dumpprivkey", 1, 1),
 	DUMP_WALLET("dumpwallet", 1, 1),
 	ENCRYPT_WALLET("encryptwallet", 1, 1),
@@ -32,6 +34,7 @@ public enum Commands {
 	GET_NEW_ADDRESS("getnewaddress", 0, 1),
 	GET_PEER_INFO("getpeerinfo", 0, 0),
 	GET_RAW_CHANGE_ADDRESS("getrawchangeaddress", 0, 0),
+	GET_RAW_TRANSACTION("getrawtransaction", 1, 2),
 	GET_RECEIVED_BY_ACCOUNT("getreceivedbyaccount", 1, 2),
 	GET_RECEIVED_BY_ADDRESS("getreceivedbyaddress", 1, 2),
 	GET_TRANSACTION("gettransaction", 1, 2),
@@ -57,6 +60,7 @@ public enum Commands {
 	SET_TX_FEE("settxfee", 1, 1),
 	SEND_FROM("sendfrom", 3, 6),
 	SEND_MANY("sendmany", 2, 4),
+	SEND_RAW_TRANSACTION("sendrawtransaction", 1, 2),
 	SEND_TO_ADDRESS("sendtoaddress", 2, 4),
 	SIGN_MESSAGE("signmessage", 2, 2),
 	STOP("stop", 0, 0),
@@ -64,7 +68,10 @@ public enum Commands {
 	VERIFY_MESSAGE("verifymessage", 3, 3),
 	WALLET_LOCK("walletlock", 0, 0),
 	WALLET_PASSPHRASE("walletpassphrase", 2, 2),
-	WALLET_PASSPHRASE_CHANGE("walletpassphrasechange", 2, 2);
+	WALLET_PASSPHRASE_CHANGE("walletpassphrasechange", 2, 2),
+	
+	DECODE_SCRIPT("decodescript", -1, -1),
+	SIGN_RAW_TRANSACTION("signrawtransaction", -1, -1);
 	
 	@Getter
 	@Setter

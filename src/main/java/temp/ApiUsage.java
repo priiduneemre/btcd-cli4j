@@ -50,6 +50,10 @@ public class ApiUsage {
 		//		supportedCalls.backupWallet("G:\\bitplexus\\data\\wallet_backup_28022015.dat");
 		supportedCalls.createMultiSig(2, Arrays.asList(new String[]{"mmfPHrvaoqqQLGkStcYgrbgiBFTvsjFzgx",
 				"mhgPHX4kmzV8NgfoUtfhUwWEMZHQEZeMbH", "mxPop5NWu8ok5wbGv46wsASPKyC7yKYix3"}));
+		supportedCalls.createRawTransaction(Arrays.asList(new Output[]{ 
+				new Output("656fd6e21867bfda44d33d62e464f7994ebcbf8e7de329c107aa6e856fe45198", 0)}), 
+				new HashMap<String, BigDecimal>(){{put("mrenwZx2eMy1F7KPuBfyDdHqwkF4VcgSNX", 
+						new BigDecimal("0,0035"));}});
 		//		supportedCalls.dumpPrivKey("n2pr9RyfNQdQ6gSWZCX5DGHuHAnNjchAy7");
 		//		supportedCalls.dumpWallet("G:\\bitplexus\\data\\wallet_dump_28022015.txt");
 		//		supportedCalls.encryptWallet("strawberry");
@@ -76,6 +80,8 @@ public class ApiUsage {
 		//		supportedCalls.getNewAddress("firefly");
 		//		supportedCalls.getPeerInfo();
 		//		supportedCalls.getRawChangeAddress();
+		supportedCalls.getRawTransaction("656fd6e21867bfda44d33d62e464f7994ebcbf8e7de329c107aa6e856fe45198");
+		supportedCalls.getRawTransaction("656fd6e21867bfda44d33d62e464f7994ebcbf8e7de329c107aa6e856fe45198", 1);
 		//		supportedCalls.getReceivedByAccount("firefly");
 		//		supportedCalls.getReceivedByAccount("firefly", 6);
 		//		supportedCalls.getReceivedByAddress("1NroLTCuf15y2UYqmhbMgYoVGEfF8QVTA4");
@@ -146,7 +152,9 @@ public class ApiUsage {
 		supportedCalls.sendMany("treasury", new HashMap<String, BigDecimal>(){{
 				put("msrHoyN5Jw1EH7saGxMqJtTKt6qhmyPZMF", new BigDecimal("0.0015"));
 				put("n3y8BpckkDDGMtSq7d2Yx46EYenyUit3Jc", new BigDecimal("0.0015"));}}, 10, "Sample transaction: " +
-				"a payment of 0.0015 BTC to both 'supplierA' and 'supplierB' for services rendered.");		
+				"a payment of 0.0015 BTC to both 'supplierA' and 'supplierB' for services rendered.");
+		supportedCalls.sendRawTransaction("");
+		supportedCalls.sendRawTransaction("", false);
 		//		supportedCalls.sendToAddress("msrHoyN5Jw1EH7saGxMqJtTKt6qhmyPZMF", new BigDecimal("0.0005"));
 		//		supportedCalls.sendToAddress("n3y8BpckkDDGMtSq7d2Yx46EYenyUit3Jc", new BigDecimal("0.0035"), 
 		//				"Sample transaction: a payment of 0.0035 BTC to 'supplierB' for services rendered.");
@@ -200,6 +208,12 @@ public class ApiUsage {
 			MultiSigAddress multiSigAddress = btcdClient.createMultiSig(minSignatures, addresses);
 			printResult(Commands.CREATE_MULTI_SIG.getName(), new String[]{"minSignatures", 
 					"addresses"}, new Object[]{minSignatures, addresses}, multiSigAddress);
+		}
+		
+		public void createRawTransaction(List<Output> outputs, Map<String, BigDecimal> toAddresses) {
+			String hexTransaction = btcdClient.createRawTransaction(outputs, toAddresses);
+			printResult(Commands.CREATE_RAW_TRANSACTION.getName(), new String[]{"outputs", 
+				"toAddresses"}, new Object[]{outputs, toAddresses}, hexTransaction);
 		}
 		
 		public void dumpPrivKey(String address) {
@@ -338,6 +352,18 @@ public class ApiUsage {
 		public void getRawChangeAddress() {
 			String address = btcdClient.getRawChangeAddress();
 			printResult(Commands.GET_RAW_CHANGE_ADDRESS.getName(), null, null, address);
+		}
+		
+		public void getRawTransaction(String txId) {
+			String hexTransaction = btcdClient.getRawTransaction(txId);
+			printResult(Commands.GET_RAW_TRANSACTION.getName(), new String[]{"txId"}, 
+					new Object[]{txId}, hexTransaction);
+		}
+		
+		public void getRawTransaction(String txId, int verbosity) {
+			Object transaction = btcdClient.getRawTransaction(txId, verbosity);
+			printResult(Commands.GET_RAW_TRANSACTION.getName(), new String[]{"txId", "verbosity"}, 
+					new Object[]{txId, verbosity}, transaction);
 		}
 
 		public void getReceivedByAccount(String account) {
@@ -685,6 +711,18 @@ public class ApiUsage {
 			printResult(Commands.SEND_MANY.getName(), new String[]{"fromAccount", "toAddresses", 
 				"confirmations", "comment"}, new Object[]{fromAccount, toAddresses, confirmations, 
 				comment}, transactionId);
+		}
+		
+		public void sendRawTransaction(String hexTransaction) {
+			String transactionId = btcdClient.sendRawTransaction(hexTransaction);
+			printResult(Commands.SEND_RAW_TRANSACTION.getName(), new String[]{"hexTransaction"}, 
+					new Object[]{hexTransaction}, transactionId);
+		}
+
+		public void sendRawTransaction(String hexTransaction, boolean withHighFees) {
+			String transactionId = btcdClient.sendRawTransaction(hexTransaction, withHighFees);
+			printResult(Commands.SEND_RAW_TRANSACTION.getName(), new String[]{"hexTransaction", 
+					"withHighFees"}, new Object[]{hexTransaction, withHighFees}, transactionId);
 		}
 		
 		public void sendToAddress(String toAddress, BigDecimal amount) {

@@ -31,6 +31,8 @@ public interface BtcdClient {
 	
 	MultiSigAddress createMultiSig(Integer minSignatures, List<String> addresses);
 	
+	String createRawTransaction(List<Output> outputs, Map<String, BigDecimal> toAddresses);
+	
 	String dumpPrivKey(String address);
 	
 	void dumpWallet(String filePath);
@@ -80,6 +82,10 @@ public interface BtcdClient {
 	List<PeerNode> getPeerInfo();
 	
 	String getRawChangeAddress();
+	
+	String getRawTransaction(String txId);
+
+	Object getRawTransaction(String txId, Integer verbosity);
 	
 	BigDecimal getReceivedByAccount(String account);
 
@@ -198,6 +204,10 @@ public interface BtcdClient {
 
 	String sendMany(String fromAccount, Map<String, BigDecimal> toAddresses, Integer confirmations, 
 			String comment);
+	
+	String sendRawTransaction(String hexTransaction);
+
+	String sendRawTransaction(String hexTransaction, Boolean withHighFees);
 	
 	String sendToAddress(String toAddress, BigDecimal amount);
 

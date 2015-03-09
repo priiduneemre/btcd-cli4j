@@ -33,11 +33,11 @@ public enum ScriptTypes {
 	}	
 
 	@JsonCreator
-	public static ChainTypes forName(String name) {
+	public static ScriptTypes forName(String name) {
 		if(name != null) {
-			for(ChainTypes chainType : ChainTypes.values()) {
-				if(name.toLowerCase().equals(chainType.getName())) {
-					return chainType;
+			for(ScriptTypes scriptType : ScriptTypes.values()) {
+				if(name.toLowerCase().equals(scriptType.getName())) {
+					return scriptType;
 				}
 			}
 		}
