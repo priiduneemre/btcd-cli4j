@@ -1,6 +1,7 @@
 package temp;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -77,5 +78,12 @@ public class IncubatorMain {
 				+ "[345109,345110,34511],\"whitelisted\":false}]";
 		List<PeerNode> peerInfo = rpcClient.getMapper().mapToList(peerInfoJson, PeerNode.class);
 		System.out.println("Test 'peerInfo': " + peerInfo);
+		
+		//System.out.println("Testing 'CollectionUtils.asMap(..)' #1: " + CollectionUtils.asMap(
+		//		"addressA", new BigDecimal("0.03"), "addressB", new BigDecimal("0.05"), "addressC"));
+		System.out.println("Testing 'CollectionUtils.asMap(..)' #2: " + CollectionUtils.asMap(
+				"addressA", new BigDecimal("0.03"), "addressB", new BigDecimal("0.05"), "addressC", 
+				new BigDecimal("0.09")));
+		
 	}
 }

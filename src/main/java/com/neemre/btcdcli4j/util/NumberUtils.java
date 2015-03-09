@@ -8,6 +8,14 @@ import com.neemre.btcdcli4j.common.Defaults;
 
 public class NumberUtils {
 
+	public static boolean isEven(int integer) {
+		if(integer % 2 == 0) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
 	public static <T> Map<T, BigDecimal> setValueScale(Map<T, BigDecimal> pairs, int newScale) {
 		Iterator<Map.Entry<T, BigDecimal>> iterator = pairs.entrySet().iterator();
 		while(iterator.hasNext()) {

@@ -3,6 +3,7 @@ package temp;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
@@ -18,6 +19,7 @@ import com.neemre.btcdcli4j.domain.Address;
 import com.neemre.btcdcli4j.domain.AddressOverview;
 import com.neemre.btcdcli4j.domain.AddressInfo;
 import com.neemre.btcdcli4j.domain.Block;
+import com.neemre.btcdcli4j.domain.MultiSigAddress;
 import com.neemre.btcdcli4j.domain.SinceBlock;
 import com.neemre.btcdcli4j.domain.Transaction;
 import com.neemre.btcdcli4j.domain.Info;
@@ -41,7 +43,13 @@ public class ApiUsage {
 		Properties nodeConfig = ExampleUtils.getNodeConfig();
 		ApiCalls supportedCalls = new ApiCalls(httpProvider, nodeConfig);
 
+		supportedCalls.addMultiSigAddress(2, Arrays.asList(new String[]{"myN6xmzRVHvsAEXv4MRzoNsoqNeuispybG",
+				"mpgyUpBSBvVrPewGz26LmXSfRkVpq1tGV3", "mwMpStsPJUfhRX5FFs8ppU7fWWfhjuKvL4"}));
+		supportedCalls.addMultiSigAddress(2, Arrays.asList(new String[]{"myN6xmzRVHvsAEXv4MRzoNsoqNeuispybG",
+				"mpgyUpBSBvVrPewGz26LmXSfRkVpq1tGV3", "mwMpStsPJUfhRX5FFs8ppU7fWWfhjuKvL4"}), "jointAccountB");
 		//		supportedCalls.backupWallet("G:\\bitplexus\\data\\wallet_backup_28022015.dat");
+		supportedCalls.createMultiSig(2, Arrays.asList(new String[]{"mmfPHrvaoqqQLGkStcYgrbgiBFTvsjFzgx",
+				"mhgPHX4kmzV8NgfoUtfhUwWEMZHQEZeMbH", "mxPop5NWu8ok5wbGv46wsASPKyC7yKYix3"}));
 		//		supportedCalls.dumpPrivKey("n2pr9RyfNQdQ6gSWZCX5DGHuHAnNjchAy7");
 		//		supportedCalls.dumpWallet("G:\\bitplexus\\data\\wallet_dump_28022015.txt");
 		//		supportedCalls.encryptWallet("strawberry");
@@ -129,6 +137,16 @@ public class ApiUsage {
 		//		supportedCalls.sendFrom("treasury", "mz6s3qBsifGLyJMcjxWabJ9z3Zf95Etods", new BigDecimal("0.007"),
 		//				4, "Sample transaction: a payment of 0.007 BTC to 'supplierF' for services rendered.",
 		//				"supplierF");
+		supportedCalls.sendMany("treasury", new HashMap<String, BigDecimal>(){{ 
+				put("msrHoyN5Jw1EH7saGxMqJtTKt6qhmyPZMF", new BigDecimal("0.004")); 
+				put("n3y8BpckkDDGMtSq7d2Yx46EYenyUit3Jc", new BigDecimal("0.005"));}});
+		supportedCalls.sendMany("treasury", new HashMap<String, BigDecimal>(){{
+				put("msrHoyN5Jw1EH7saGxMqJtTKt6qhmyPZMF", new BigDecimal("0.006")); 
+				put("n3y8BpckkDDGMtSq7d2Yx46EYenyUit3Jc", new BigDecimal("0.007"));}}, 10);
+		supportedCalls.sendMany("treasury", new HashMap<String, BigDecimal>(){{
+				put("msrHoyN5Jw1EH7saGxMqJtTKt6qhmyPZMF", new BigDecimal("0.0015"));
+				put("n3y8BpckkDDGMtSq7d2Yx46EYenyUit3Jc", new BigDecimal("0.0015"));}}, 10, "Sample transaction: " +
+				"a payment of 0.0015 BTC to both 'supplierA' and 'supplierB' for services rendered.");		
 		//		supportedCalls.sendToAddress("msrHoyN5Jw1EH7saGxMqJtTKt6qhmyPZMF", new BigDecimal("0.0005"));
 		//		supportedCalls.sendToAddress("n3y8BpckkDDGMtSq7d2Yx46EYenyUit3Jc", new BigDecimal("0.0035"), 
 		//				"Sample transaction: a payment of 0.0035 BTC to 'supplierB' for services rendered.");
@@ -158,12 +176,32 @@ public class ApiUsage {
 			btcdClient = new BtcdClientImpl(httpProvider, nodeConfig);
 		}
 
+		public void addMultiSigAddress(int minSignatures, List<String> addresses) {
+			String multiSigAddress = btcdClient.addMultiSigAddress(minSignatures, addresses);
+			printResult(Commands.ADD_MULTI_SIG_ADDRESS.getName(), new String[]{"minSignatures",
+				"addresses"}, new Object[]{minSignatures, addresses}, multiSigAddress);
+		}
+		
+		public void addMultiSigAddress(int minSignatures, List<String> addresses, String account) {
+			String multiSigAddress = btcdClient.addMultiSigAddress(minSignatures, addresses, 
+					account);
+			printResult(Commands.ADD_MULTI_SIG_ADDRESS.getName(), new String[]{"minSignatures",
+				"addresses", "account"}, new Object[]{minSignatures, addresses, account}, 
+				multiSigAddress);
+		}
+		
 		public void backupWallet(String filePath) {
 			btcdClient.backupWallet(filePath);
 			printResult(Commands.BACKUP_WALLET.getName(), new String[]{"filePath"}, 
 					new Object[]{filePath}, null);
 		}
-
+		
+		public void createMultiSig(int minSignatures, List<String> addresses) {
+			MultiSigAddress multiSigAddress = btcdClient.createMultiSig(minSignatures, addresses);
+			printResult(Commands.CREATE_MULTI_SIG.getName(), new String[]{"minSignatures", 
+					"addresses"}, new Object[]{minSignatures, addresses}, multiSigAddress);
+		}
+		
 		public void dumpPrivKey(String address) {
 			String privateKey = btcdClient.dumpPrivKey(address);
 			printResult(Commands.DUMP_PRIV_KEY.getName(), new String[]{"address"}, 
@@ -176,13 +214,13 @@ public class ApiUsage {
 					new Object[]{filePath}, null);
 		}
 		
-		private void encryptWallet(String passphrase) {
+		public void encryptWallet(String passphrase) {
 			String noticeMsg = btcdClient.encryptWallet(passphrase);
 			printResult(Commands.ENCRYPT_WALLET.getName(), new String[]{"passphrase"}, 
 					new Object[]{passphrase}, noticeMsg);
 		}	
 
-		private void getAccount(String address) {
+		public void getAccount(String address) {
 			String account = btcdClient.getAccount(address);
 			printResult(Commands.GET_ACCOUNT.getName(), new String[]{"address"}, 
 					new Object[]{address}, account);
@@ -200,30 +238,30 @@ public class ApiUsage {
 					new Object[]{account}, addresses);
 		}
 
-		private void getBalance() {
+		public void getBalance() {
 			BigDecimal balance = btcdClient.getBalance();
 			printResult(Commands.GET_BALANCE.getName(), null, null, balance);
 		}
 
-		private void getBalance(String account) {
+		public void getBalance(String account) {
 			BigDecimal balance = btcdClient.getBalance(account);
-			printResult(Commands.GET_BALANCE.getName(), new String[]{"account"}, new Object[]{account},
-					balance);
+			printResult(Commands.GET_BALANCE.getName(), new String[]{"account"}, new Object[]{
+					account}, balance);
 		}
 
-		private void getBalance(String account, int confirmations) {
+		public void getBalance(String account, int confirmations) {
 			BigDecimal balance = btcdClient.getBalance(account, confirmations);
 			printResult(Commands.GET_BALANCE.getName(), new String[]{"account", "confirmations"}, 
 					new Object[]{account, confirmations}, balance);
 		}
 
-		private void getBalance(String account, int confirmations, boolean withWatchOnly) {
+		public void getBalance(String account, int confirmations, boolean withWatchOnly) {
 			BigDecimal balance = btcdClient.getBalance(account, confirmations, withWatchOnly);
 			printResult(Commands.GET_BALANCE.getName(), new String[]{"account", "confirmations", 
 			"withWatchOnly"}, new Object[]{account, confirmations, withWatchOnly}, balance);
 		}
 
-		private void getBestBlockHash() {
+		public void getBestBlockHash() {
 			String headerHash = btcdClient.getBestBlockHash();
 			printResult(Commands.GET_BEST_BLOCK_HASH.getName(), null, null, headerHash);
 		}
@@ -240,43 +278,43 @@ public class ApiUsage {
 					new Object[]{headerHash, isDecoded}, block);
 		}
 
-		private void getBlockCount() {
+		public void getBlockCount() {
 			Integer blockHeight = btcdClient.getBlockCount();
 			printResult(Commands.GET_BLOCK_COUNT.getName(), null, null, blockHeight);
 		}
 
-		private void getBlockHash(Integer blockHeight) {
+		public void getBlockHash(Integer blockHeight) {
 			String headerHash = btcdClient.getBlockHash(blockHeight);
 			printResult(Commands.GET_BLOCK_HASH.getName(), new String[]{"blockHeight"}, 
 					new Object[]{blockHeight}, headerHash);
 		}
 
-		private void getDifficulty() {
+		public void getDifficulty() {
 			BigDecimal difficulty = btcdClient.getDifficulty();
 			printResult(Commands.GET_DIFFICULTY.getName(), null, null, difficulty);
 		}
 
-		private void getGenerate() {
+		public void getGenerate() {
 			Boolean isGenerate = btcdClient.getGenerate();
 			printResult(Commands.GET_GENERATE.getName(), null, null, isGenerate);
 		}
 
-		private void getHashesPerSec() {
+		public void getHashesPerSec() {
 			Long hashesPerSec = btcdClient.getHashesPerSec();
 			printResult(Commands.GET_HASHES_PER_SEC.getName(), null, null, hashesPerSec);
 		}
 
-		private void getInfo() {
+		public void getInfo() {
 			Info info = btcdClient.getInfo();
 			printResult(Commands.GET_INFO.getName(), null, null, info);
 		}
 
-		private void getMemPoolInfo() {
+		public void getMemPoolInfo() {
 			MemPoolInfo memPoolInfo = btcdClient.getMemPoolInfo();
 			printResult(Commands.GET_MEM_POOL_INFO.getName(), null, null, memPoolInfo);
 		}
 
-		private void getMiningInfo() {
+		public void getMiningInfo() {
 			MiningInfo miningInfo = btcdClient.getMiningInfo();
 			printResult(Commands.GET_MINING_INFO.getName(), null, null, miningInfo);
 		}
@@ -626,6 +664,29 @@ public class ApiUsage {
 					toAddress, amount, confirmations, comment, commentTo}, transactionId);
 		}
 
+		public void sendMany(String fromAccount, Map<String, BigDecimal> toAddresses) {
+			String transactionId = btcdClient.sendMany(fromAccount, toAddresses);
+			printResult(Commands.SEND_MANY.getName(), new String[]{"fromAccount", "toAddresses"}, 
+					new Object[]{fromAccount, toAddresses}, transactionId);
+		}
+		
+		public void sendMany(String fromAccount, Map<String, BigDecimal> toAddresses, 
+				int confirmations) {
+			String transactionId = btcdClient.sendMany(fromAccount, toAddresses, confirmations);
+			printResult(Commands.SEND_MANY.getName(), new String[]{"fromAccount", "toAddresses", 
+				"confirmations"}, new Object[]{fromAccount, toAddresses, confirmations},
+				transactionId);
+		}
+		
+		public void sendMany(String fromAccount, Map<String, BigDecimal> toAddresses, 
+				int confirmations, String comment) {
+			String transactionId = btcdClient.sendMany(fromAccount, toAddresses, confirmations, 
+					comment);
+			printResult(Commands.SEND_MANY.getName(), new String[]{"fromAccount", "toAddresses", 
+				"confirmations", "comment"}, new Object[]{fromAccount, toAddresses, confirmations, 
+				comment}, transactionId);
+		}
+		
 		public void sendToAddress(String toAddress, BigDecimal amount) {
 			String transactionId = btcdClient.sendToAddress(toAddress, amount);
 			printResult(Commands.SEND_TO_ADDRESS.getName(), new String[]{"toAddress", "amount"},
@@ -652,19 +713,19 @@ public class ApiUsage {
 					new Object[]{address, account}, null);
 		}
 
-		private void setGenerate(boolean isGenerate) {
+		public void setGenerate(boolean isGenerate) {
 			btcdClient.setGenerate(isGenerate);
 			printResult(Commands.SET_GENERATE.getName(), new String[]{"isGenerate"}, 
 					new Object[]{isGenerate}, null);
 		}
 
-		private void setGenerate(boolean isGenerate, int processors) {
+		public void setGenerate(boolean isGenerate, int processors) {
 			btcdClient.setGenerate(isGenerate, processors);
 			printResult(Commands.SET_GENERATE.getName(), new String[]{"isGenerate", "processors"},
 					new Object[]{isGenerate, processors}, null);
 		}
 
-		private void setTxFee(BigDecimal txFee) {
+		public void setTxFee(BigDecimal txFee) {
 			Boolean isSuccess = btcdClient.setTxFee(txFee);
 			printResult(Commands.SET_TX_FEE.getName(), new String[]{"txFee"}, new Object[]{txFee},
 					isSuccess);
@@ -676,7 +737,7 @@ public class ApiUsage {
 					new Object[]{address, message}, signature);
 		}
 
-		private void stop() {
+		public void stop() {
 			String noticeMsg = btcdClient.stop();
 			printResult(Commands.STOP.getName(), null, null, noticeMsg);
 		}
@@ -693,18 +754,18 @@ public class ApiUsage {
 					"message"}, new Object[]{address, signature, message}, isSigValid);
 		}
 		
-		private void walletLock() {
+		public void walletLock() {
 			btcdClient.walletLock();
 			printResult(Commands.WALLET_LOCK.getName(), null, null, null);
 		}
 
-		private void walletPassphrase(String passphrase, int authTimeout) {
+		public void walletPassphrase(String passphrase, int authTimeout) {
 			btcdClient.walletPassphrase(passphrase, authTimeout);
 			printResult(Commands.WALLET_PASSPHRASE.getName(), new String[]{"passphrase", "authTimeout"},
 					new Object[]{passphrase, authTimeout}, null);
 		}
 
-		private void walletPassphraseChange(String curPassphrase, String newPassphrase) {
+		public void walletPassphraseChange(String curPassphrase, String newPassphrase) {
 			btcdClient.walletPassphraseChange(curPassphrase, newPassphrase);
 			printResult(Commands.WALLET_PASSPHRASE_CHANGE.getName(), new String[]{"curPassphrase", 
 					"newPassphrase"}, new Object[]{curPassphrase, newPassphrase}, null);

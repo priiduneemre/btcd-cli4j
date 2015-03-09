@@ -5,7 +5,7 @@
 	<groupId>com.neemre</groupId>
 	<artifactId>btcd-cli4j</artifactId>
 	<packaging>jar</packaging>
-	<version>0.2.5</version>
+	<version>0.2.6</version>
 	<name>btcd-cli4j</name>
 	<description>A simple Java wrapper around Bitcoin Core's JSON-RPC (via HTTP) interface</description>
 
@@ -56,20 +56,15 @@
 			<version>2.5.0</version>
 		</dependency>
 		<dependency>
-			<groupId>org.apache.commons</groupId>
-			<artifactId>commons-lang3</artifactId>
-			<version>3.3.2</version>
-		</dependency>
-		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
 			<version>1.16.2</version>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-			<version>4.12</version>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-lang3</artifactId>
+			<version>3.3.2</version>
 		</dependency>
 	</dependencies>
 </project>

@@ -9,7 +9,9 @@ import lombok.ToString;
 @AllArgsConstructor
 public enum Commands {
 	
+	ADD_MULTI_SIG_ADDRESS("addmultisigaddress", 2, 3),
 	BACKUP_WALLET("backupwallet", 1, 1),
+	CREATE_MULTI_SIG("createmultisig", 2, 2),
 	DUMP_PRIV_KEY("dumpprivkey", 1, 1),
 	DUMP_WALLET("dumpwallet", 1, 1),
 	ENCRYPT_WALLET("encryptwallet", 1, 1),
@@ -54,6 +56,7 @@ public enum Commands {
 	SET_GENERATE("setgenerate", 1, 2),
 	SET_TX_FEE("settxfee", 1, 1),
 	SEND_FROM("sendfrom", 3, 6),
+	SEND_MANY("sendmany", 2, 4),
 	SEND_TO_ADDRESS("sendtoaddress", 2, 4),
 	SIGN_MESSAGE("signmessage", 2, 2),
 	STOP("stop", 0, 0),
@@ -61,13 +64,7 @@ public enum Commands {
 	VERIFY_MESSAGE("verifymessage", 3, 3),
 	WALLET_LOCK("walletlock", 0, 0),
 	WALLET_PASSPHRASE("walletpassphrase", 2, 2),
-	WALLET_PASSPHRASE_CHANGE("walletpassphrasechange", 2, 2),
-	
-	SEND_MANY("sendmany", -1, -1),
-	
-	CREATE_MULTI_SIG_ADDRESS("createmultisigaddress", -1, -1),
-	ADD_MULTI_SIG_ADDRESS("addmultisigaddress", -1, -1);
-
+	WALLET_PASSPHRASE_CHANGE("walletpassphrasechange", 2, 2);
 	
 	@Getter
 	@Setter

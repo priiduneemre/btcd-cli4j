@@ -2,21 +2,33 @@ package com.neemre.btcdcli4j.util;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 public final class CollectionUtils {
 
 	private CollectionUtils() {}
-
-
+	
 	public static List<Object> asList(Object... items) {
 		List<Object> itemsList = new ArrayList<Object>(items.length);
 		for(Object item : items) {
 			itemsList.add(item);
 		}
 		return itemsList;
+	}
+	
+	public static Map<Object, Object> asMap(Object... items) {
+		if(!NumberUtils.isEven(items.length)) {
+			throw new IllegalArgumentException("I am broken."); //TODO
+		}
+		Map<Object, Object> pairsMap = new HashMap<Object, Object>(items.length / 2);
+		for(int i = 0; i < items.length; i = i + 2) {
+			pairsMap.put(items[i], items[i + 1]);
+		}
+		return pairsMap;
 	}
 
 	@SafeVarargs

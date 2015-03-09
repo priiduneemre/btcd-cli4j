@@ -14,6 +14,7 @@ import com.neemre.btcdcli4j.domain.Address;
 import com.neemre.btcdcli4j.domain.AddressOverview;
 import com.neemre.btcdcli4j.domain.AddressInfo;
 import com.neemre.btcdcli4j.domain.Block;
+import com.neemre.btcdcli4j.domain.MultiSigAddress;
 import com.neemre.btcdcli4j.domain.SinceBlock;
 import com.neemre.btcdcli4j.domain.Transaction;
 import com.neemre.btcdcli4j.domain.Info;
@@ -39,8 +40,36 @@ public class BtcdClientImpl implements BtcdClient {
 	}
 	
 	@Override
+	public String addMultiSigAddress(Integer minSignatures, List<String> addresses) {
+		List<Object> params = CollectionUtils.asList(minSignatures, addresses);
+		String multiSigAddressJson = rpcClient.execute(Commands.ADD_MULTI_SIG_ADDRESS.getName(), 
+				params);
+		String multiSigAddress = rpcClient.getParser().parseString(multiSigAddressJson);
+		return multiSigAddress;		
+	}
+
+	@Override
+	public String addMultiSigAddress(Integer minSignatures, List<String> addresses, 
+			String account) {
+		List<Object> params = CollectionUtils.asList(minSignatures, addresses, account);
+		String multiSigAddressJson = rpcClient.execute(Commands.ADD_MULTI_SIG_ADDRESS.getName(),
+				params);
+		String multiSigAddress = rpcClient.getParser().parseString(multiSigAddressJson);
+		return multiSigAddress;
+	}
+	
+	@Override
 	public void backupWallet(String filePath) {
 		rpcClient.execute(Commands.BACKUP_WALLET.getName(), filePath);
+	}
+	
+	@Override
+	public MultiSigAddress createMultiSig(Integer minSignatures, List<String> addresses) {
+		List<Object> params = CollectionUtils.asList(minSignatures, addresses);
+		String multiSigAddressJson = rpcClient.execute(Commands.CREATE_MULTI_SIG.getName(), params);
+		MultiSigAddress multiSigAddress = rpcClient.getMapper().mapToEntity(multiSigAddressJson, 
+				MultiSigAddress.class);
+		return multiSigAddress;
 	}
 	
 	@Override
@@ -629,6 +658,33 @@ public class BtcdClientImpl implements BtcdClient {
 		List<Object> params = CollectionUtils.asList(fromAccount, toAddress, amount, confirmations,
 				comment, commentTo);
 		String transactionIdJson = rpcClient.execute(Commands.SEND_FROM.getName(), params);
+		String transactionId = rpcClient.getParser().parseString(transactionIdJson);
+		return transactionId;
+	}
+	
+	@Override
+	public String sendMany(String fromAccount, Map<String, BigDecimal> toAddresses) {
+		List<Object> params = CollectionUtils.asList(fromAccount, toAddresses);
+		String transactionIdJson = rpcClient.execute(Commands.SEND_MANY.getName(), params);
+		String transactionId = rpcClient.getParser().parseString(transactionIdJson);
+		return transactionId;
+	}
+
+	@Override
+	public String sendMany(String fromAccount, Map<String, BigDecimal> toAddresses,	
+			Integer confirmations) {
+		List<Object> params = CollectionUtils.asList(fromAccount, toAddresses, confirmations);
+		String transactionIdJson = rpcClient.execute(Commands.SEND_MANY.getName(), params);
+		String transactionId = rpcClient.getParser().parseString(transactionIdJson);
+		return transactionId;
+	}
+
+	@Override
+	public String sendMany(String fromAccount, Map<String, BigDecimal> toAddresses,
+			Integer confirmations, String comment) {
+		List<Object> params = CollectionUtils.asList(fromAccount, toAddresses, confirmations,
+				comment);
+		String transactionIdJson = rpcClient.execute(Commands.SEND_MANY.getName(), params);
 		String transactionId = rpcClient.getParser().parseString(transactionIdJson);
 		return transactionId;
 	}

@@ -9,6 +9,7 @@ import com.neemre.btcdcli4j.domain.Address;
 import com.neemre.btcdcli4j.domain.AddressOverview;
 import com.neemre.btcdcli4j.domain.AddressInfo;
 import com.neemre.btcdcli4j.domain.Block;
+import com.neemre.btcdcli4j.domain.MultiSigAddress;
 import com.neemre.btcdcli4j.domain.SinceBlock;
 import com.neemre.btcdcli4j.domain.Transaction;
 import com.neemre.btcdcli4j.domain.Info;
@@ -22,7 +23,13 @@ import com.neemre.btcdcli4j.domain.WalletInfo;
 
 public interface BtcdClient {
 	
+	String addMultiSigAddress(Integer minSignatures, List<String> addresses);
+
+	String addMultiSigAddress(Integer minSignatures, List<String> addresses, String account);
+	
 	void backupWallet(String filePath);
+	
+	MultiSigAddress createMultiSig(Integer minSignatures, List<String> addresses);
 	
 	String dumpPrivKey(String address);
 	
@@ -184,6 +191,13 @@ public interface BtcdClient {
 
 	String sendFrom(String fromAccount, String toAddress, BigDecimal amount, Integer confirmations,
 			String comment, String commentTo);
+	
+	String sendMany(String fromAccount, Map<String, BigDecimal> toAddresses);
+
+	String sendMany(String fromAccount, Map<String, BigDecimal> toAddresses, Integer confirmations);
+
+	String sendMany(String fromAccount, Map<String, BigDecimal> toAddresses, Integer confirmations, 
+			String comment);
 	
 	String sendToAddress(String toAddress, BigDecimal amount);
 
