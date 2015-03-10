@@ -3,10 +3,12 @@ package com.neemre.btcdcli4j.domain;
 import java.math.BigDecimal;
 import java.util.List;
 
+import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import lombok.ToString;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -28,6 +30,7 @@ public class Address extends Entity {
 	private Boolean involvesWatchOnly;
 	private String address;
 	private String account;
+	@Setter(AccessLevel.NONE)
 	private BigDecimal amount;
 	private Integer confirmations;
 	@JsonProperty("txids")

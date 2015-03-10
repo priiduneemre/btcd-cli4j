@@ -17,15 +17,16 @@ import com.neemre.btcdcli4j.domain.AddressInfo;
 import com.neemre.btcdcli4j.domain.Block;
 import com.neemre.btcdcli4j.domain.MultiSigAddress;
 import com.neemre.btcdcli4j.domain.RawTransaction;
+import com.neemre.btcdcli4j.domain.RedeemScript;
 import com.neemre.btcdcli4j.domain.SinceBlock;
 import com.neemre.btcdcli4j.domain.Transaction;
 import com.neemre.btcdcli4j.domain.Info;
 import com.neemre.btcdcli4j.domain.MemPoolInfo;
 import com.neemre.btcdcli4j.domain.MiningInfo;
-import com.neemre.btcdcli4j.domain.Output;
+import com.neemre.btcdcli4j.domain.OutputOverview;
 import com.neemre.btcdcli4j.domain.PeerNode;
 import com.neemre.btcdcli4j.domain.Payment;
-import com.neemre.btcdcli4j.domain.UnspentOutput;
+import com.neemre.btcdcli4j.domain.Output;
 import com.neemre.btcdcli4j.domain.WalletInfo;
 import com.neemre.btcdcli4j.jsonrpc.client.JsonRpcClient;
 import com.neemre.btcdcli4j.jsonrpc.client.JsonRpcClientImpl;
@@ -75,12 +76,30 @@ public class BtcdClientImpl implements BtcdClient {
 	}
 
 	@Override
-	public String createRawTransaction(List<Output> outputs, Map<String, BigDecimal> toAddresses) {
+	public String createRawTransaction(List<OutputOverview> outputs, Map<String, BigDecimal> toAddresses) {
 		List<Object> params = CollectionUtils.asList(outputs, toAddresses);
 		String hexTransactionJson = rpcClient.execute(Commands.CREATE_RAW_TRANSACTION.getName(), 
 				params);
 		String hexTransaction = rpcClient.getParser().parseString(hexTransactionJson);
 		return hexTransaction;
+	}
+
+	@Override
+	public RawTransaction decodeRawTransaction(String hexTransaction) {
+		String rawTransactionJson = rpcClient.execute(Commands.DECODE_RAW_TRANSACTION.getName(), 
+				hexTransaction);
+		RawTransaction rawTransaction = rpcClient.getMapper().mapToEntity(rawTransactionJson, 
+				RawTransaction.class);
+		return rawTransaction;
+	}
+	
+	@Override
+	public RedeemScript decodeScript(String hexRedeemScript) {
+		String redeemScriptJson = rpcClient.execute(Commands.DECODE_SCRIPT.getName(), 
+				hexRedeemScript);
+		RedeemScript redeemScript = rpcClient.getMapper().mapToEntity(redeemScriptJson, 
+				RedeemScript.class);
+		return redeemScript;
 	}
 	
 	@Override
@@ -438,10 +457,10 @@ public class BtcdClientImpl implements BtcdClient {
 	}
 	
 	@Override
-	public List<Output> listLockUnspent() {
+	public List<OutputOverview> listLockUnspent() {
 		String lockedOutputsJson = rpcClient.execute(Commands.LIST_LOCK_UNSPENT.getName());
-		List<Output> lockedOutputs = rpcClient.getMapper().mapToList(lockedOutputsJson, 
-				Output.class);
+		List<OutputOverview> lockedOutputs = rpcClient.getMapper().mapToList(lockedOutputsJson, 
+				OutputOverview.class);
 		return lockedOutputs;
 	}
 	
@@ -585,38 +604,38 @@ public class BtcdClientImpl implements BtcdClient {
 	}
 	
 	@Override
-	public List<UnspentOutput> listUnspent() {
+	public List<Output> listUnspent() {
 		String unspentOutputsJson = rpcClient.execute(Commands.LIST_UNSPENT.getName());
-		List<UnspentOutput> unspentOutputs = rpcClient.getMapper().mapToList(unspentOutputsJson,
-				UnspentOutput.class);
+		List<Output> unspentOutputs = rpcClient.getMapper().mapToList(unspentOutputsJson,
+				Output.class);
 		return unspentOutputs;
 	}
 
 	@Override
-	public List<UnspentOutput> listUnspent(Integer minConfirmations) {
+	public List<Output> listUnspent(Integer minConfirmations) {
 		String unspentOutputsJson = rpcClient.execute(Commands.LIST_UNSPENT.getName(), 
 				minConfirmations);
-		List<UnspentOutput> unspentOutputs = rpcClient.getMapper().mapToList(unspentOutputsJson,
-				UnspentOutput.class);
+		List<Output> unspentOutputs = rpcClient.getMapper().mapToList(unspentOutputsJson,
+				Output.class);
 		return unspentOutputs;
 	}
 
 	@Override
-	public List<UnspentOutput> listUnspent(Integer minConfirmations, Integer maxConfirmations) {
+	public List<Output> listUnspent(Integer minConfirmations, Integer maxConfirmations) {
 		List<Object> params = CollectionUtils.asList(minConfirmations, maxConfirmations);
 		String unspentOutputsJson = rpcClient.execute(Commands.LIST_UNSPENT.getName(), params);
-		List<UnspentOutput> unspentOutputs = rpcClient.getMapper().mapToList(unspentOutputsJson,
-				UnspentOutput.class);
+		List<Output> unspentOutputs = rpcClient.getMapper().mapToList(unspentOutputsJson,
+				Output.class);
 		return unspentOutputs;
 	}
 
 	@Override
-	public List<UnspentOutput> listUnspent(Integer minConfirmations, Integer maxConfirmations, 
+	public List<Output> listUnspent(Integer minConfirmations, Integer maxConfirmations, 
 			List<String> addresses) {
 		List<Object> params = CollectionUtils.asList(minConfirmations, maxConfirmations, addresses);
 		String unspentOutputsJson = rpcClient.execute(Commands.LIST_UNSPENT.getName(), params);
-		List<UnspentOutput> unspentOutputs = rpcClient.getMapper().mapToList(unspentOutputsJson,
-				UnspentOutput.class);
+		List<Output> unspentOutputs = rpcClient.getMapper().mapToList(unspentOutputsJson,
+				Output.class);
 		return unspentOutputs;
 	}
 	
@@ -628,7 +647,7 @@ public class BtcdClientImpl implements BtcdClient {
 	}
 
 	@Override
-	public Boolean lockUnspent(Boolean isUnlocked, List<Output> outputs) {
+	public Boolean lockUnspent(Boolean isUnlocked, List<OutputOverview> outputs) {
 		List<Object> params = CollectionUtils.asList(isUnlocked, outputs);
 		String isSuccessJson = rpcClient.execute(Commands.LOCK_UNSPENT.getName(), params);
 		Boolean isSuccess = rpcClient.getParser().parseBoolean(isSuccessJson);

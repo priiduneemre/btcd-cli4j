@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
+/** An enumeration specifying the <i>bitcoind</i> API commands currently supported by btcd-cli4j.**/
 @ToString
 @AllArgsConstructor
 public enum Commands {
@@ -13,7 +14,8 @@ public enum Commands {
 	BACKUP_WALLET("backupwallet", 1, 1),
 	CREATE_MULTI_SIG("createmultisig", 2, 2),
 	CREATE_RAW_TRANSACTION("createrawtransaction", 2, 2),
-	DECODE_RAW_TRANSACTION("decoderawtransaction", -1, -1),
+	DECODE_RAW_TRANSACTION("decoderawtransaction", 1, 1),
+	DECODE_SCRIPT("decodescript", 1, 1),
 	DUMP_PRIV_KEY("dumpprivkey", 1, 1),
 	DUMP_WALLET("dumpwallet", 1, 1),
 	ENCRYPT_WALLET("encryptwallet", 1, 1),
@@ -63,15 +65,13 @@ public enum Commands {
 	SEND_RAW_TRANSACTION("sendrawtransaction", 1, 2),
 	SEND_TO_ADDRESS("sendtoaddress", 2, 4),
 	SIGN_MESSAGE("signmessage", 2, 2),
+	SIGN_RAW_TRANSACTION("signrawtransaction", 1, 4),
 	STOP("stop", 0, 0),
 	VALIDATE_ADDRESS("validateaddress", 1, 1),
 	VERIFY_MESSAGE("verifymessage", 3, 3),
 	WALLET_LOCK("walletlock", 0, 0),
 	WALLET_PASSPHRASE("walletpassphrase", 2, 2),
-	WALLET_PASSPHRASE_CHANGE("walletpassphrasechange", 2, 2),
-	
-	DECODE_SCRIPT("decodescript", -1, -1),
-	SIGN_RAW_TRANSACTION("signrawtransaction", -1, -1);
+	WALLET_PASSPHRASE_CHANGE("walletpassphrasechange", 2, 2);
 	
 	@Getter
 	@Setter

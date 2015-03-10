@@ -22,7 +22,7 @@ import com.neemre.btcdcli4j.common.Defaults;
 @EqualsAndHashCode(callSuper = false)
 @JsonInclude(Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class RawOutput {
+public class RawOutput extends Entity {
 	
 	@Setter(AccessLevel.NONE)
 	private BigDecimal value;

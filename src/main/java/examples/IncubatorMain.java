@@ -1,4 +1,4 @@
-package temp;
+package examples;
 
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -10,14 +10,13 @@ import java.util.UUID;
 
 import org.apache.http.client.HttpClient;
 
-import com.neemre.btcdcli4j.Commands;
-import com.neemre.btcdcli4j.client.BtcdClient;
-import com.neemre.btcdcli4j.client.BtcdClientImpl;
 import com.neemre.btcdcli4j.domain.PeerNode;
 import com.neemre.btcdcli4j.jsonrpc.JsonPrimitiveParser;
 import com.neemre.btcdcli4j.jsonrpc.client.JsonRpcClient;
 import com.neemre.btcdcli4j.jsonrpc.client.JsonRpcClientImpl;
 import com.neemre.btcdcli4j.util.CollectionUtils;
+
+import examples.util.ExampleUtils;
 
 public class IncubatorMain {
 	

@@ -1,0 +1,46 @@
+package com.neemre.btcdcli4j.domain.enums;
+
+import lombok.AllArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
+
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonValue;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
+
+@ToString
+@AllArgsConstructor
+@JsonInclude(Include.NON_NULL)
+@JsonIgnoreProperties(ignoreUnknown = true)
+public enum SigHashTypes {
+
+	ALL("ALL"),
+	NONE("NONE"),
+	SINGLE("SINGLE"),
+	ALL_ACP("ALL|ANYONECANPAY"),
+	NONE_ACP("NONE|ANYONECANPAY"),
+	SINGLE_ACP("SINGLE|ANYONECANPAY");
+	
+	@Setter
+	private String name;
+
+	
+	@JsonValue
+	public String getName() {
+		return name;
+	}
+
+	@JsonCreator
+	public static SigHashTypes forName(String name) {
+		if(name != null) {
+			for(SigHashTypes sigHashType : SigHashTypes.values()) {
+				if(name.toLowerCase().equals(sigHashType.getName())) {
+					return sigHashType;
+				}
+			}
+		}
+		return null;
+	}
+}

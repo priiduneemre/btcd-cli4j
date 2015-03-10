@@ -10,15 +10,17 @@ import com.neemre.btcdcli4j.domain.AddressOverview;
 import com.neemre.btcdcli4j.domain.AddressInfo;
 import com.neemre.btcdcli4j.domain.Block;
 import com.neemre.btcdcli4j.domain.MultiSigAddress;
+import com.neemre.btcdcli4j.domain.RawTransaction;
+import com.neemre.btcdcli4j.domain.RedeemScript;
 import com.neemre.btcdcli4j.domain.SinceBlock;
 import com.neemre.btcdcli4j.domain.Transaction;
 import com.neemre.btcdcli4j.domain.Info;
 import com.neemre.btcdcli4j.domain.MemPoolInfo;
 import com.neemre.btcdcli4j.domain.MiningInfo;
-import com.neemre.btcdcli4j.domain.Output;
+import com.neemre.btcdcli4j.domain.OutputOverview;
 import com.neemre.btcdcli4j.domain.PeerNode;
 import com.neemre.btcdcli4j.domain.Payment;
-import com.neemre.btcdcli4j.domain.UnspentOutput;
+import com.neemre.btcdcli4j.domain.Output;
 import com.neemre.btcdcli4j.domain.WalletInfo;
 
 public interface BtcdClient {
@@ -31,7 +33,11 @@ public interface BtcdClient {
 	
 	MultiSigAddress createMultiSig(Integer minSignatures, List<String> addresses);
 	
-	String createRawTransaction(List<Output> outputs, Map<String, BigDecimal> toAddresses);
+	String createRawTransaction(List<OutputOverview> outputs, Map<String, BigDecimal> toAddresses);
+	
+	RawTransaction decodeRawTransaction(String hexTransaction);
+	
+	RedeemScript decodeScript(String hexRedeemScript);
 	
 	String dumpPrivKey(String address);
 	
@@ -129,7 +135,7 @@ public interface BtcdClient {
 	
 	List<List<AddressOverview>> listAddressGroupings();
 
-	List<Output> listLockUnspent();
+	List<OutputOverview> listLockUnspent();
 	
 	List<Account> listReceivedByAccount();
 
@@ -168,18 +174,18 @@ public interface BtcdClient {
 	List<Payment> listTransactions(String account, Integer count, Integer offset, 
 			Boolean withWatchOnly);
 	
-	List<UnspentOutput> listUnspent();
+	List<Output> listUnspent();
 
-	List<UnspentOutput> listUnspent(Integer minConfirmations);
+	List<Output> listUnspent(Integer minConfirmations);
 
-	List<UnspentOutput> listUnspent(Integer minConfirmations, Integer maxConfirmations);
+	List<Output> listUnspent(Integer minConfirmations, Integer maxConfirmations);
 
-	List<UnspentOutput> listUnspent(Integer minConfirmations, Integer maxConfirmations,
+	List<Output> listUnspent(Integer minConfirmations, Integer maxConfirmations,
 			List<String> addresses);
 	
 	Boolean lockUnspent(Boolean isUnlocked);
 
-	Boolean lockUnspent(Boolean isUnlocked, List<Output> outputs);
+	Boolean lockUnspent(Boolean isUnlocked, List<OutputOverview> outputs);
 	
 	Boolean move(String fromAccount, String toAccount, BigDecimal amount);
 
