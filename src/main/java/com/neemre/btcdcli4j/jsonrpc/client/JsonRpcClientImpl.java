@@ -8,8 +8,10 @@ import java.util.UUID;
 
 import org.apache.http.client.HttpClient;
 
+import com.neemre.btcdcli4j.http.HttpLayerException;
 import com.neemre.btcdcli4j.http.client.SimpleHttpClient;
 import com.neemre.btcdcli4j.http.client.SimpleHttpClientImpl;
+import com.neemre.btcdcli4j.jsonrpc.JsonRpcLayerException;
 import com.neemre.btcdcli4j.jsonrpc.JsonMapper;
 import com.neemre.btcdcli4j.jsonrpc.JsonPrimitiveParser;
 import com.neemre.btcdcli4j.jsonrpc.domain.JsonRpcError;
@@ -35,14 +37,14 @@ public class JsonRpcClientImpl implements JsonRpcClient {
 	}
 
 	@Override
-	public <T> String execute(String method, T param) {
+	public <T> String execute(String method, T param) throws HttpLayerException {
 		List<T> params = new ArrayList<T>();
 		params.add(param);
 		return execute(method, params);
 	}
 
 	@Override
-	public <T> String execute(String method, List<T> params) {
+	public <T> String execute(String method, List<T> params) throws HttpLayerException {
 		String requestUuid = getNewUuid();
 		JsonRpcRequest<T> request = getNewRequest(method, params, requestUuid);
 		String responseJson = httpClient.execute(mapper.mapToJson(request));
@@ -84,13 +86,13 @@ public class JsonRpcClientImpl implements JsonRpcClient {
 
 	private <T> JsonRpcResponse verifyResponse(JsonRpcRequest<T> request, JsonRpcResponse response) {
 		if(response == null) {
-			throw new IllegalArgumentException("I am broken."); //TODO
+			throw new JsonRpcLayerException("I am broken."); //TODO
 		}
 		if(response.getId() == null) {
-			throw new IllegalArgumentException("I am broken."); //TODO
+			throw new JsonRpcLayerException("I am broken."); //TODO
 		}
 		if(!response.getId().equals(request.getId())) {
-			throw new IllegalArgumentException("I am broken.");	//TODO
+			throw new JsonRpcLayerException("I am broken.");	//TODO
 		}
 		return response;
 	}

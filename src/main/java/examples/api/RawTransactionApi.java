@@ -27,7 +27,7 @@ public class RawTransactionApi {
 		supportedCalls.createRawTransaction(Arrays.asList(new OutputOverview[]{ 
 				new OutputOverview("656fd6e21867bfda44d33d62e464f7994ebcbf8e7de329c107aa6e856fe45198", 0)}), 
 				new HashMap<String, BigDecimal>(){{put("mrenwZx2eMy1F7KPuBfyDdHqwkF4VcgSNX", 
-						new BigDecimal("0,0035"));}});
+						new BigDecimal("0.0035"));}});
 		supportedCalls.decodeRawTransaction("");
 		supportedCalls.decodeScript("");
 		supportedCalls.getRawTransaction("656fd6e21867bfda44d33d62e464f7994ebcbf8e7de329c107aa6e856fe45198");

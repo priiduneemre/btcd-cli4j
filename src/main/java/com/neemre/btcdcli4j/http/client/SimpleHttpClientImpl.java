@@ -19,7 +19,8 @@ import org.apache.http.util.EntityUtils;
 
 import com.neemre.btcdcli4j.NodeProperties;
 import com.neemre.btcdcli4j.common.Constants;
-import com.neemre.btcdcli4j.http.HttpConst;
+import com.neemre.btcdcli4j.http.HttpConstants;
+import com.neemre.btcdcli4j.http.HttpLayerException;
 
 public class SimpleHttpClientImpl implements SimpleHttpClient {
 	
@@ -32,9 +33,9 @@ public class SimpleHttpClientImpl implements SimpleHttpClient {
 		this.nodeConfig = nodeConfig;
 	}
 	
-	public String execute(String reqPayload) {
+	public String execute(String reqPayload) throws HttpLayerException {
 		try {
-			HttpResponse response = provider.execute(getNewRequest(HttpConst.REQ_METHOD_POST, 
+			HttpResponse response = provider.execute(getNewRequest(HttpConstants.REQ_METHOD_POST, 
 					reqPayload));
 			HttpEntity respPayloadEntity = response.getEntity();
 			if(respPayloadEntity != null) {
@@ -43,18 +44,18 @@ public class SimpleHttpClientImpl implements SimpleHttpClient {
 			}
 			return Constants.STRING_EMPTY;
 		} catch (ClientProtocolException e) {
-			e.printStackTrace();
+			throw new HttpLayerException("blablabla", e);
 		} catch (IOException e) {
-			e.printStackTrace();
+			throw new HttpLayerException("blablabla", e);
 		} catch (URISyntaxException e) {
-			e.printStackTrace();
+			throw new HttpLayerException("blablabla", e);
 		}
 		return null;
 	}
 	
 	private HttpRequestBase getNewRequest(String reqMethod, String reqPayload) 
 			throws URISyntaxException, ClientProtocolException, IOException {
-		if(reqMethod.equals(HttpConst.REQ_METHOD_POST)) {
+		if(reqMethod.equals(HttpConstants.REQ_METHOD_POST)) {
 				HttpPost request = new HttpPost(new URI(String.format("%s://%s:%s/", 
 						nodeConfig.get(NodeProperties.RPC_PROTOCOL.getKey()), 
 						nodeConfig.get(NodeProperties.RPC_HOST.getKey()), 
@@ -69,20 +70,20 @@ public class SimpleHttpClientImpl implements SimpleHttpClient {
 	}
 	
 	private Header resolveAuthHeader(String authScheme) {
-		if(authScheme.equals(HttpConst.AUTH_SCHEME_NONE)) {
+		if(authScheme.equals(HttpConstants.AUTH_SCHEME_NONE)) {
 			return null;
 		}
-		if(authScheme.equals(HttpConst.AUTH_SCHEME_BASIC)) {
-			return new BasicHeader(HttpConst.REQ_HEADER_AUTH, HttpConst.AUTH_SCHEME_BASIC + " " 
-					+ getCredentials(HttpConst.AUTH_SCHEME_BASIC));
+		if(authScheme.equals(HttpConstants.AUTH_SCHEME_BASIC)) {
+			return new BasicHeader(HttpConstants.REQ_HEADER_AUTH, HttpConstants.AUTH_SCHEME_BASIC 
+					+ " " + getCredentials(HttpConstants.AUTH_SCHEME_BASIC));
 		}
 		return null;
 	}
 	
 	private String getCredentials(String authScheme) {
-		if(authScheme.equals(HttpConst.AUTH_SCHEME_NONE)){
+		if(authScheme.equals(HttpConstants.AUTH_SCHEME_NONE)){
 			return Constants.STRING_EMPTY;
-		} else if(authScheme.equals(HttpConst.AUTH_SCHEME_BASIC)) {
+		} else if(authScheme.equals(HttpConstants.AUTH_SCHEME_BASIC)) {
 			return Base64.encodeBase64String((nodeConfig.get(NodeProperties.RPC_USER.getKey()) 
 					+ ":" + nodeConfig.get(NodeProperties.RPC_PASSWORD.getKey())).getBytes());
 		}

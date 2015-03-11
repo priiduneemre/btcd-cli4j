@@ -27,6 +27,7 @@ Core dependencies:
 * Lombok 1.16.2
 
 Other dependencies:
+* SLF4J 1.7.10
 * Apache Commons Lang 3.3.2
 
 ##Getting started
