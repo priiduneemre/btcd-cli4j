@@ -15,8 +15,8 @@ import com.neemre.btcdcli4j.domain.enums.SigHashTypes;
 import examples.util.ExampleUtils;
 
 /**A list of examples demonstrating the use of <i>bitcoind</i>'s 'Raw Transaction API' commands 
- * currently supported by btcd-cli4j (as of 0.2.8). Calling any of the methods below will cause a
- * short overview (<i>i.e.</i> of the results of the operation) to be written to {@code stdout}.*/
+ * currently supported by btcd-cli4j. Calling any of the methods below will cause a short overview 
+ * (<i>i.e.</i> of the results of the operation) to be written to {@code stdout}.*/
 public class RawTransactionApi {
 
 	public static void main(String[] args) throws IOException {

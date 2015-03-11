@@ -12,6 +12,7 @@ import com.neemre.btcdcli4j.domain.Block;
 import com.neemre.btcdcli4j.domain.MultiSigAddress;
 import com.neemre.btcdcli4j.domain.RawTransaction;
 import com.neemre.btcdcli4j.domain.RedeemScript;
+import com.neemre.btcdcli4j.domain.SignatureResult;
 import com.neemre.btcdcli4j.domain.SinceBlock;
 import com.neemre.btcdcli4j.domain.Transaction;
 import com.neemre.btcdcli4j.domain.Info;
@@ -230,6 +231,16 @@ public interface BtcdClient {
 	Boolean setTxFee(BigDecimal txFee);
 
 	String signMessage(String address, String message);
+	
+	SignatureResult signRawTransaction(String hexTransaction);
+
+	SignatureResult signRawTransaction(String hexTransaction, List<Output> outputs);
+
+	SignatureResult signRawTransaction(String hexTransaction, List<Output> outputs, 
+			List<String> privateKeys);
+
+	SignatureResult signRawTransaction(String hexTransaction, List<Output> outputs, 
+			List<String> privateKeys, String sigHashType);
 	
 	String stop();
 	

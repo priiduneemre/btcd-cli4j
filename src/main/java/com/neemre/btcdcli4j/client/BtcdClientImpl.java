@@ -18,6 +18,7 @@ import com.neemre.btcdcli4j.domain.Block;
 import com.neemre.btcdcli4j.domain.MultiSigAddress;
 import com.neemre.btcdcli4j.domain.RawTransaction;
 import com.neemre.btcdcli4j.domain.RedeemScript;
+import com.neemre.btcdcli4j.domain.SignatureResult;
 import com.neemre.btcdcli4j.domain.SinceBlock;
 import com.neemre.btcdcli4j.domain.Transaction;
 import com.neemre.btcdcli4j.domain.Info;
@@ -812,6 +813,48 @@ public class BtcdClientImpl implements BtcdClient {
 		String signatureJson = rpcClient.execute(Commands.SIGN_MESSAGE.getName(), params);
 		String signature = rpcClient.getParser().parseString(signatureJson);
 		return signature;
+	}
+	
+	@Override
+	public SignatureResult signRawTransaction(String hexTransaction) {
+		String signatureResultJson = rpcClient.execute(Commands.SIGN_RAW_TRANSACTION.getName(), 
+				hexTransaction);
+		SignatureResult signatureResult = rpcClient.getMapper().mapToEntity(signatureResultJson, 
+				SignatureResult.class);
+		return signatureResult;
+	}
+
+	@Override
+	public SignatureResult signRawTransaction(String hexTransaction, List<Output> outputs) {
+		List<Object> params = CollectionUtils.asList(hexTransaction, outputs);
+		String signatureResultJson = rpcClient.execute(Commands.SIGN_RAW_TRANSACTION.getName(), 
+				params);
+		SignatureResult signatureResult = rpcClient.getMapper().mapToEntity(signatureResultJson, 
+				SignatureResult.class);
+		return signatureResult;
+	}
+
+	@Override
+	public SignatureResult signRawTransaction(String hexTransaction, List<Output> outputs, 
+			List<String> privateKeys) {
+		List<Object> params = CollectionUtils.asList(hexTransaction, outputs, privateKeys);
+		String signatureResultJson = rpcClient.execute(Commands.SIGN_RAW_TRANSACTION.getName(),
+				params);
+		SignatureResult signatureResult = rpcClient.getMapper().mapToEntity(signatureResultJson, 
+				SignatureResult.class);
+		return signatureResult;
+	}
+
+	@Override
+	public SignatureResult signRawTransaction(String hexTransaction, List<Output> outputs, 
+			List<String> privateKeys, String sigHashType) {
+		List<Object> params = CollectionUtils.asList(hexTransaction, outputs, privateKeys, 
+				sigHashType);
+		String signatureResultJson = rpcClient.execute(Commands.SIGN_RAW_TRANSACTION.getName(), 
+				params);
+		SignatureResult signatureResult = rpcClient.getMapper().mapToEntity(signatureResultJson,
+				SignatureResult.class);
+		return signatureResult;
 	}
 	
 	@Override

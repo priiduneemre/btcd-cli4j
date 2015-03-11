@@ -25,6 +25,7 @@ import com.neemre.btcdcli4j.domain.Payment;
 import com.neemre.btcdcli4j.domain.PeerNode;
 import com.neemre.btcdcli4j.domain.RawTransaction;
 import com.neemre.btcdcli4j.domain.RedeemScript;
+import com.neemre.btcdcli4j.domain.SignatureResult;
 import com.neemre.btcdcli4j.domain.SinceBlock;
 import com.neemre.btcdcli4j.domain.Transaction;
 import com.neemre.btcdcli4j.domain.WalletInfo;
@@ -43,15 +44,15 @@ public class ApiCalls {
 	public void addMultiSigAddress(int minSignatures, List<String> addresses) {
 		String multiSigAddress = btcdClient.addMultiSigAddress(minSignatures, addresses);
 		printResult(Commands.ADD_MULTI_SIG_ADDRESS.getName(), new String[]{"minSignatures",
-			"addresses"}, new Object[]{minSignatures, addresses}, multiSigAddress);
+				"addresses"}, new Object[]{minSignatures, addresses}, multiSigAddress);
 	}
 	
 	public void addMultiSigAddress(int minSignatures, List<String> addresses, String account) {
 		String multiSigAddress = btcdClient.addMultiSigAddress(minSignatures, addresses, 
 				account);
 		printResult(Commands.ADD_MULTI_SIG_ADDRESS.getName(), new String[]{"minSignatures",
-			"addresses", "account"}, new Object[]{minSignatures, addresses, account}, 
-			multiSigAddress);
+				"addresses", "account"}, new Object[]{minSignatures, addresses, account}, 
+				multiSigAddress);
 	}
 	
 	public void backupWallet(String filePath) {
@@ -70,7 +71,7 @@ public class ApiCalls {
 			Map<String, BigDecimal> toAddresses) {
 		String hexTransaction = btcdClient.createRawTransaction(outputs, toAddresses);
 		printResult(Commands.CREATE_RAW_TRANSACTION.getName(), new String[]{"outputs", 
-			"toAddresses"}, new Object[]{outputs, toAddresses}, hexTransaction);
+				"toAddresses"}, new Object[]{outputs, toAddresses}, hexTransaction);
 	}
 	
 	public void decodeRawTransaction(String hexTransaction) {
@@ -141,7 +142,7 @@ public class ApiCalls {
 	public void getBalance(String account, int confirmations, boolean withWatchOnly) {
 		BigDecimal balance = btcdClient.getBalance(account, confirmations, withWatchOnly);
 		printResult(Commands.GET_BALANCE.getName(), new String[]{"account", "confirmations", 
-		"withWatchOnly"}, new Object[]{account, confirmations, withWatchOnly}, balance);
+				"withWatchOnly"}, new Object[]{account, confirmations, withWatchOnly}, balance);
 	}
 
 	public void getBestBlockHash() {
@@ -568,8 +569,8 @@ public class ApiCalls {
 			int confirmations) {
 		String transactionId = btcdClient.sendMany(fromAccount, toAddresses, confirmations);
 		printResult(Commands.SEND_MANY.getName(), new String[]{"fromAccount", "toAddresses", 
-			"confirmations"}, new Object[]{fromAccount, toAddresses, confirmations},
-			transactionId);
+				"confirmations"}, new Object[]{fromAccount, toAddresses, confirmations},
+				transactionId);
 	}
 	
 	public void sendMany(String fromAccount, Map<String, BigDecimal> toAddresses, 
@@ -577,8 +578,8 @@ public class ApiCalls {
 		String transactionId = btcdClient.sendMany(fromAccount, toAddresses, confirmations, 
 				comment);
 		printResult(Commands.SEND_MANY.getName(), new String[]{"fromAccount", "toAddresses", 
-			"confirmations", "comment"}, new Object[]{fromAccount, toAddresses, confirmations, 
-			comment}, transactionId);
+				"confirmations", "comment"}, new Object[]{fromAccount, toAddresses, confirmations, 
+				comment}, transactionId);
 	}
 	
 	public void sendRawTransaction(String hexTransaction) {
@@ -644,25 +645,33 @@ public class ApiCalls {
 	}
 	
 	public void signRawTransaction(String hexTransaction) {
-		// TODO Auto-generated method stub
-		
+		SignatureResult signatureResult = btcdClient.signRawTransaction(hexTransaction);
+		printResult(Commands.SIGN_RAW_TRANSACTION.getName(), new String[]{"hexTransaction"},
+				new Object[]{hexTransaction}, signatureResult);
 	}
 
 	public void signRawTransaction(String hexTransaction, List<Output> outputs) {
-		// TODO Auto-generated method stub
-		
+		SignatureResult signatureResult = btcdClient.signRawTransaction(hexTransaction, outputs);
+		printResult(Commands.SIGN_RAW_TRANSACTION.getName(), new String[]{"hexTransaction", "outputs"}, 
+				new Object[]{hexTransaction, outputs}, signatureResult);
 	}
 
 	public void signRawTransaction(String hexTransaction, List<Output> outputs, 
 			List<String> privateKeys) {
-		// TODO Auto-generated method stub
-		
+		SignatureResult signatureResult = btcdClient.signRawTransaction(hexTransaction, outputs, 
+				privateKeys);
+		printResult(Commands.SIGN_RAW_TRANSACTION.getName(), new String[]{"hexTransaction", 
+				"outputs", "privateKeys"}, new Object[]{hexTransaction, outputs, privateKeys}, 
+				signatureResult);		
 	}
 
 	public void signRawTransaction(String hexTransaction, List<Output> outputs, 
 			List<String> privateKeys, String sigHashType) {
-		// TODO Auto-generated method stub
-		
+		SignatureResult signatureResult = btcdClient.signRawTransaction(hexTransaction, outputs, 
+				privateKeys, sigHashType);
+		printResult(Commands.SIGN_RAW_TRANSACTION.getName(), new String[]{"hexTransaction", 
+				"outputs", "privateKeys", "sigHashType"}, new Object[]{hexTransaction, outputs, 
+				privateKeys, sigHashType}, signatureResult);
 	}
 	
 	public void stop() {
