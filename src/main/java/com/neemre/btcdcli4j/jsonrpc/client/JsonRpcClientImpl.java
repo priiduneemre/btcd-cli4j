@@ -1,14 +1,16 @@
 package com.neemre.btcdcli4j.jsonrpc.client;
 
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 import java.util.UUID;
 
-import org.apache.http.client.HttpClient;
+import org.apache.http.impl.client.CloseableHttpClient;
 
-import com.neemre.btcdcli4j.http.HttpLayerException;
+import com.neemre.btcdcli4j.BitcoindException;
+import com.neemre.btcdcli4j.CommunicationException;
+import com.neemre.btcdcli4j.common.Errors;
+import com.neemre.btcdcli4j.http.HttpConstants;
 import com.neemre.btcdcli4j.http.client.SimpleHttpClient;
 import com.neemre.btcdcli4j.http.client.SimpleHttpClientImpl;
 import com.neemre.btcdcli4j.jsonrpc.JsonRpcLayerException;
@@ -25,29 +27,32 @@ public class JsonRpcClientImpl implements JsonRpcClient {
 	private JsonMapper mapper;
 
 
-	public JsonRpcClientImpl(HttpClient httpProvider, Properties nodeConfig) {
+	public JsonRpcClientImpl(CloseableHttpClient httpProvider, Properties nodeConfig) {
 		httpClient = new SimpleHttpClientImpl(httpProvider, nodeConfig);
 		parser = new JsonPrimitiveParser();
 		mapper = new JsonMapper();
 	}
 
 	@Override
-	public String execute(String method) {
+	public String execute(String method) throws BitcoindException, CommunicationException {
 		return execute(method, null);
 	}
 
 	@Override
-	public <T> String execute(String method, T param) throws HttpLayerException {
+	public <T> String execute(String method, T param) throws BitcoindException, 
+			CommunicationException {
 		List<T> params = new ArrayList<T>();
 		params.add(param);
 		return execute(method, params);
 	}
 
 	@Override
-	public <T> String execute(String method, List<T> params) throws HttpLayerException {
+	public <T> String execute(String method, List<T> params) throws BitcoindException, 
+			CommunicationException {
 		String requestUuid = getNewUuid();
 		JsonRpcRequest<T> request = getNewRequest(method, params, requestUuid);
-		String responseJson = httpClient.execute(mapper.mapToJson(request));
+		String responseJson = httpClient.execute(HttpConstants.REQ_METHOD_POST, mapper.mapToJson(
+				request));
 		JsonRpcResponse response = mapper.mapToEntity(responseJson, JsonRpcResponse.class);
 		response = verifyResponse(request, response);
 		response = checkResponse(response);
@@ -84,23 +89,25 @@ public class JsonRpcClientImpl implements JsonRpcClient {
 		return UUID.randomUUID().toString().replaceAll("-", "");
 	}
 
-	private <T> JsonRpcResponse verifyResponse(JsonRpcRequest<T> request, JsonRpcResponse response) {
+	private <T> JsonRpcResponse verifyResponse(JsonRpcRequest<T> request, JsonRpcResponse response) 
+			throws JsonRpcLayerException {
 		if(response == null) {
-			throw new JsonRpcLayerException("I am broken."); //TODO
+			throw new JsonRpcLayerException(Errors.RESPONSE_JSONRPC_NULL);
 		}
 		if(response.getId() == null) {
-			throw new JsonRpcLayerException("I am broken."); //TODO
+			throw new JsonRpcLayerException(Errors.RESPONSE_JSONRPC_NULL_ID);
 		}
 		if(!response.getId().equals(request.getId())) {
-			throw new JsonRpcLayerException("I am broken.");	//TODO
+			throw new JsonRpcLayerException(Errors.RESPONSE_JSONRPC_UNEQUAL_IDS);
 		}
 		return response;
 	}
 
-	private <T> JsonRpcResponse checkResponse(JsonRpcResponse response) {
+	private <T> JsonRpcResponse checkResponse(JsonRpcResponse response) throws BitcoindException {
 		if(!(response.getError() == null)) {
-			//throw new IllegalArgumentException("I am broken.");	//TODO
-			System.out.println("A non-null error object was returned: " + response.getError());
+			JsonRpcError bitcoindError = response.getError();
+			throw new BitcoindException(bitcoindError.getCode(), String.format("Error #%s: %s", 
+					bitcoindError.getCode(), bitcoindError.getMessage()));
 		}
 		return response;
 	}

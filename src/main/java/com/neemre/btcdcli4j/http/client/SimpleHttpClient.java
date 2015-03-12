@@ -4,5 +4,5 @@ import com.neemre.btcdcli4j.http.HttpLayerException;
 
 public interface SimpleHttpClient {
 	
-	String execute(String reqPayload) throws HttpLayerException;
+	String execute(String reqMethod, String reqPayload) throws HttpLayerException;
 }

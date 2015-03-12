@@ -24,7 +24,7 @@ public final class CollectionUtils {
 	
 	public static Map<Object, Object> asMap(Object... items) {
 		if(!NumberUtils.isEven(items.length)) {
-			throw new IllegalArgumentException(Errors.ARGS_COUNT_UNEVEN.getMessage());
+			throw new IllegalArgumentException(Errors.ARGS_COUNT_UNEVEN.getDescription());
 		}
 		Map<Object, Object> pairsMap = new HashMap<Object, Object>(items.length / 2);
 		for(int i = 0; i < items.length; i = i + 2) {
@@ -36,7 +36,7 @@ public final class CollectionUtils {
 	@SafeVarargs
 	public static List<Object> merge(List<? extends Object>... lists) {
 		if(containsNull(lists)) {
-			throw new IllegalArgumentException(Errors.ARGS_CONTAIN_NULL.getMessage());
+			throw new IllegalArgumentException(Errors.ARGS_CONTAIN_NULL.getDescription());
 		}
 		List<Object> mergedList = new ArrayList<Object>();
 		for(List<? extends Object> list : lists) {
@@ -48,10 +48,10 @@ public final class CollectionUtils {
 	@SafeVarargs
 	public static List<Object> mergeInterlaced(List<? extends Object>... lists) {
 		if(containsNull(lists)) {
-			throw new IllegalArgumentException(Errors.ARGS_CONTAIN_NULL.getMessage());
+			throw new IllegalArgumentException(Errors.ARGS_CONTAIN_NULL.getDescription());
 		}
 		if(!equalsSize(lists)) {
-			throw new IllegalArgumentException(Errors.ARGS_COUNT_UNEQUAL.getMessage());
+			throw new IllegalArgumentException(Errors.ARGS_COUNT_UNEQUAL.getDescription());
 		}
 		List<Object> mergedList = new ArrayList<Object>();
 		if(lists.length > 0) {
@@ -84,7 +84,7 @@ public final class CollectionUtils {
 
 	public static Object[] asLists(Object[]... arrays) {
 		if(containsNull(arrays)) {
-			throw new IllegalArgumentException(Errors.ARGS_CONTAIN_NULL.getMessage());
+			throw new IllegalArgumentException(Errors.ARGS_CONTAIN_NULL.getDescription());
 		}
 		Object[] lists = new Object[arrays.length];
 		for(int i = 0; i < arrays.length; i++) {

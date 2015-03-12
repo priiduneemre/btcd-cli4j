@@ -1,12 +1,11 @@
 package examples.api;
 
-import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Properties;
 
-import org.apache.http.client.HttpClient;
+import org.apache.http.impl.client.CloseableHttpClient;
 
 import examples.util.ExampleUtils;
 
@@ -15,8 +14,8 @@ import examples.util.ExampleUtils;
  * (<i>i.e.</i> of the results of the operation) to be written to {@code stdout}.*/
 public class WalletApi {
 
-	public static void main(String[] args) throws IOException {
-		HttpClient httpProvider = ExampleUtils.getHttpProvider();
+	public static void main(String[] args) throws Exception {
+		CloseableHttpClient httpProvider = ExampleUtils.getHttpProvider();
 		Properties nodeConfig = ExampleUtils.getNodeConfig();
 		ApiCalls supportedCalls = new ApiCalls(httpProvider, nodeConfig);
 		

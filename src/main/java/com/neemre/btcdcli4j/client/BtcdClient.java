@@ -4,6 +4,8 @@ import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 
+import com.neemre.btcdcli4j.BitcoindException;
+import com.neemre.btcdcli4j.CommunicationException;
 import com.neemre.btcdcli4j.domain.Account;
 import com.neemre.btcdcli4j.domain.Address;
 import com.neemre.btcdcli4j.domain.AddressOverview;
@@ -26,231 +28,283 @@ import com.neemre.btcdcli4j.domain.WalletInfo;
 
 public interface BtcdClient {
 	
-	String addMultiSigAddress(Integer minSignatures, List<String> addresses);
+	String addMultiSigAddress(Integer minSignatures, List<String> addresses) 
+			throws BitcoindException, CommunicationException;
 
-	String addMultiSigAddress(Integer minSignatures, List<String> addresses, String account);
+	String addMultiSigAddress(Integer minSignatures, List<String> addresses, String account) 
+			throws BitcoindException, CommunicationException;
 	
-	void backupWallet(String filePath);
+	void backupWallet(String filePath) throws BitcoindException, CommunicationException;
 	
-	MultiSigAddress createMultiSig(Integer minSignatures, List<String> addresses);
+	MultiSigAddress createMultiSig(Integer minSignatures, List<String> addresses) 
+			throws BitcoindException, CommunicationException;
 	
-	String createRawTransaction(List<OutputOverview> outputs, Map<String, BigDecimal> toAddresses);
+	String createRawTransaction(List<OutputOverview> outputs, Map<String, BigDecimal> toAddresses) 
+			throws BitcoindException, CommunicationException;
 	
-	RawTransaction decodeRawTransaction(String hexTransaction);
+	RawTransaction decodeRawTransaction(String hexTransaction) throws BitcoindException, 
+			CommunicationException;
 	
-	RedeemScript decodeScript(String hexRedeemScript);
+	RedeemScript decodeScript(String hexRedeemScript) throws BitcoindException, 
+			CommunicationException;
 	
-	String dumpPrivKey(String address);
+	String dumpPrivKey(String address) throws BitcoindException, CommunicationException;
 	
-	void dumpWallet(String filePath);
+	void dumpWallet(String filePath) throws BitcoindException, CommunicationException;
 	
-	String encryptWallet(String passphrase);
+	String encryptWallet(String passphrase) throws BitcoindException, CommunicationException;
 
-	String getAccount(String address);
+	String getAccount(String address) throws BitcoindException, CommunicationException;
 	
-	String getAccountAddress(String account);
+	String getAccountAddress(String account) throws BitcoindException, CommunicationException;
 	
-	List<String> getAddressesByAccount(String account);
+	List<String> getAddressesByAccount(String account) throws BitcoindException, 
+			CommunicationException;
 	
-	BigDecimal getBalance();
+	BigDecimal getBalance() throws BitcoindException, CommunicationException;
 	
-	BigDecimal getBalance(String account);
+	BigDecimal getBalance(String account) throws BitcoindException, CommunicationException;
 	
-	BigDecimal getBalance(String account, Integer confirmations);
+	BigDecimal getBalance(String account, Integer confirmations) throws BitcoindException, 
+			CommunicationException;
 
-	BigDecimal getBalance(String account, Integer confirmations, Boolean withWatchOnly);
+	BigDecimal getBalance(String account, Integer confirmations, Boolean withWatchOnly) 
+			throws BitcoindException, CommunicationException;
 	
-	String getBestBlockHash();
+	String getBestBlockHash() throws BitcoindException, CommunicationException;
 	
-	Block getBlock(String headerHash);
+	Block getBlock(String headerHash) throws BitcoindException, CommunicationException;
 
-	Object getBlock(String headerHash, Boolean isDecoded);
+	Object getBlock(String headerHash, Boolean isDecoded) throws BitcoindException, 
+			CommunicationException;
 
-	Integer getBlockCount();
+	Integer getBlockCount() throws BitcoindException, CommunicationException;
 	
-	String getBlockHash(Integer blockHeight);
+	String getBlockHash(Integer blockHeight) throws BitcoindException, CommunicationException;
 	
-	BigDecimal getDifficulty();
+	BigDecimal getDifficulty() throws BitcoindException, CommunicationException;
 	
-	Boolean getGenerate();
+	Boolean getGenerate() throws BitcoindException, CommunicationException;
 	
-	Long getHashesPerSec();
+	Long getHashesPerSec() throws BitcoindException, CommunicationException;
 	
-	Info getInfo();
+	Info getInfo() throws BitcoindException, CommunicationException;
 	
-	MemPoolInfo getMemPoolInfo();
+	MemPoolInfo getMemPoolInfo() throws BitcoindException, CommunicationException;
 	
-	MiningInfo getMiningInfo();
+	MiningInfo getMiningInfo() throws BitcoindException, CommunicationException;
 
-	String getNewAddress();
+	String getNewAddress() throws BitcoindException, CommunicationException;
 	
-	String getNewAddress(String account);
+	String getNewAddress(String account) throws BitcoindException, CommunicationException;
 	
-	List<PeerNode> getPeerInfo();
+	List<PeerNode> getPeerInfo() throws BitcoindException, CommunicationException;
 	
-	String getRawChangeAddress();
+	String getRawChangeAddress() throws BitcoindException, CommunicationException;
 	
-	String getRawTransaction(String txId);
+	String getRawTransaction(String txId) throws BitcoindException, CommunicationException;
 
-	Object getRawTransaction(String txId, Integer verbosity);
+	Object getRawTransaction(String txId, Integer verbosity) throws BitcoindException, 
+			CommunicationException;
 	
-	BigDecimal getReceivedByAccount(String account);
+	BigDecimal getReceivedByAccount(String account) throws BitcoindException, 
+			CommunicationException;
 
-	BigDecimal getReceivedByAccount(String account, Integer confirmations);
+	BigDecimal getReceivedByAccount(String account, Integer confirmations) throws BitcoindException, 
+			CommunicationException;
 
-	BigDecimal getReceivedByAddress(String address);
+	BigDecimal getReceivedByAddress(String address) throws BitcoindException, CommunicationException;
 
-	BigDecimal getReceivedByAddress(String address, Integer confirmations);
+	BigDecimal getReceivedByAddress(String address, Integer confirmations) throws BitcoindException,
+			CommunicationException;
 	
-	Transaction getTransaction(String txId);
+	Transaction getTransaction(String txId) throws BitcoindException, CommunicationException;
 
-	Transaction getTransaction(String txId, Boolean withWatchOnly);
+	Transaction getTransaction(String txId, Boolean withWatchOnly) throws BitcoindException, 
+			CommunicationException;
 	
-	BigDecimal getUnconfirmedBalance();
+	BigDecimal getUnconfirmedBalance() throws BitcoindException, CommunicationException;
 	
-	WalletInfo getWalletInfo();
+	WalletInfo getWalletInfo() throws BitcoindException, CommunicationException;
 	
-	void importAddress(String address);
+	void importAddress(String address) throws BitcoindException, CommunicationException;
 	
-	void importAddress(String address, String account);
+	void importAddress(String address, String account) throws BitcoindException, 
+			CommunicationException;
 
-	void importAddress(String address, String account, Boolean withRescan);
+	void importAddress(String address, String account, Boolean withRescan) throws BitcoindException,
+			CommunicationException;
 	
-	void importPrivKey(String privateKey);
+	void importPrivKey(String privateKey) throws BitcoindException, CommunicationException;
 
-	void importPrivKey(String privateKey, String account);
+	void importPrivKey(String privateKey, String account) throws BitcoindException, 
+			CommunicationException;
 
-	void importPrivKey(String privateKey, String account, Boolean withRescan);
+	void importPrivKey(String privateKey, String account, Boolean withRescan) 
+			throws BitcoindException, CommunicationException;
 	
-	void importWallet(String filePath);
+	void importWallet(String filePath) throws BitcoindException, CommunicationException;
 	
-	void keyPoolRefill();
+	void keyPoolRefill() throws BitcoindException, CommunicationException;
 
-	void keyPoolRefill(Integer keypoolSize);
+	void keyPoolRefill(Integer keypoolSize) throws BitcoindException, CommunicationException;
 	
-	Map<String, BigDecimal> listAccounts();
+	Map<String, BigDecimal> listAccounts() throws BitcoindException, CommunicationException;
 	
-	Map<String, BigDecimal> listAccounts(Integer confirmations);
+	Map<String, BigDecimal> listAccounts(Integer confirmations) throws BitcoindException, 
+			CommunicationException;
 	
-	Map<String, BigDecimal> listAccounts(Integer confirmations, Boolean withWatchOnly);
+	Map<String, BigDecimal> listAccounts(Integer confirmations, Boolean withWatchOnly) 
+			throws BitcoindException, CommunicationException;
 	
-	List<List<AddressOverview>> listAddressGroupings();
+	List<List<AddressOverview>> listAddressGroupings() throws BitcoindException, 
+			CommunicationException;
 
-	List<OutputOverview> listLockUnspent();
+	List<OutputOverview> listLockUnspent() throws BitcoindException, CommunicationException;
 	
-	List<Account> listReceivedByAccount();
+	List<Account> listReceivedByAccount() throws BitcoindException, CommunicationException;
 
-	List<Account> listReceivedByAccount(Integer confirmations);
+	List<Account> listReceivedByAccount(Integer confirmations) throws BitcoindException, 
+			CommunicationException;
 
-	List<Account> listReceivedByAccount(Integer confirmations, Boolean withUnused);
+	List<Account> listReceivedByAccount(Integer confirmations, Boolean withUnused) 
+			throws BitcoindException, CommunicationException;
 
 	List<Account> listReceivedByAccount(Integer confirmations, Boolean withUnused, 
-			Boolean withWatchOnly);
+			Boolean withWatchOnly) throws BitcoindException, CommunicationException;
 	
-	List<Address> listReceivedByAddress();
+	List<Address> listReceivedByAddress() throws BitcoindException, CommunicationException;
 
-	List<Address> listReceivedByAddress(Integer confirmations);
+	List<Address> listReceivedByAddress(Integer confirmations) throws BitcoindException, 
+			CommunicationException;
 
-	List<Address> listReceivedByAddress(Integer confirmations, Boolean withUnused);
+	List<Address> listReceivedByAddress(Integer confirmations, Boolean withUnused) 
+			throws BitcoindException, CommunicationException;
 
 	List<Address> listReceivedByAddress(Integer confirmations, Boolean withUnused,
-			Boolean withWatchOnly);
+			Boolean withWatchOnly) throws BitcoindException, CommunicationException;
 	
-	SinceBlock listSinceBlock();
+	SinceBlock listSinceBlock() throws BitcoindException, CommunicationException;
 
-	SinceBlock listSinceBlock(String headerHash);
+	SinceBlock listSinceBlock(String headerHash) throws BitcoindException, CommunicationException;
 
-	SinceBlock listSinceBlock(String headerHash, Integer confirmations);
+	SinceBlock listSinceBlock(String headerHash, Integer confirmations) throws BitcoindException, 
+			CommunicationException;
 
-	SinceBlock listSinceBlock(String headerHash, Integer confirmations, Boolean withWatchOnly);
+	SinceBlock listSinceBlock(String headerHash, Integer confirmations, Boolean withWatchOnly) 
+			throws BitcoindException, CommunicationException;
 	
-	List<Payment> listTransactions();
+	List<Payment> listTransactions() throws BitcoindException, CommunicationException;
 
-	List<Payment> listTransactions(String account);
+	List<Payment> listTransactions(String account) throws BitcoindException, CommunicationException;
 
-	List<Payment> listTransactions(String account, Integer count);
+	List<Payment> listTransactions(String account, Integer count) throws BitcoindException, 
+			CommunicationException;
 
-	List<Payment> listTransactions(String account, Integer count, Integer offset);
+	List<Payment> listTransactions(String account, Integer count, Integer offset) 
+			throws BitcoindException, CommunicationException;
 
 	List<Payment> listTransactions(String account, Integer count, Integer offset, 
-			Boolean withWatchOnly);
+			Boolean withWatchOnly) throws BitcoindException, CommunicationException;
 	
-	List<Output> listUnspent();
+	List<Output> listUnspent() throws BitcoindException, CommunicationException;
 
-	List<Output> listUnspent(Integer minConfirmations);
+	List<Output> listUnspent(Integer minConfirmations) throws BitcoindException, 
+			CommunicationException;
 
-	List<Output> listUnspent(Integer minConfirmations, Integer maxConfirmations);
+	List<Output> listUnspent(Integer minConfirmations, Integer maxConfirmations) 
+			throws BitcoindException, CommunicationException;
 
 	List<Output> listUnspent(Integer minConfirmations, Integer maxConfirmations,
-			List<String> addresses);
+			List<String> addresses) throws BitcoindException, CommunicationException;
 	
-	Boolean lockUnspent(Boolean isUnlocked);
+	Boolean lockUnspent(Boolean isUnlocked) throws BitcoindException, CommunicationException;
 
-	Boolean lockUnspent(Boolean isUnlocked, List<OutputOverview> outputs);
+	Boolean lockUnspent(Boolean isUnlocked, List<OutputOverview> outputs) throws BitcoindException,
+			CommunicationException;
 	
-	Boolean move(String fromAccount, String toAccount, BigDecimal amount);
+	Boolean move(String fromAccount, String toAccount, BigDecimal amount) throws BitcoindException, 
+			CommunicationException;
 
 	Boolean move(String fromAccount, String toAccount, BigDecimal amount, Integer dummy, 
-			String comment);
+			String comment) throws BitcoindException, CommunicationException;
 	
-	void ping();
+	void ping() throws BitcoindException, CommunicationException;
 	
-	String sendFrom(String fromAccount, String toAddress, BigDecimal amount);
+	String sendFrom(String fromAccount, String toAddress, BigDecimal amount) 
+			throws BitcoindException, CommunicationException;
 
-	String sendFrom(String fromAccount, String toAddress, BigDecimal amount, Integer confirmations);
+	String sendFrom(String fromAccount, String toAddress, BigDecimal amount, Integer confirmations) 
+			throws BitcoindException, CommunicationException;
 
 	String sendFrom(String fromAccount, String toAddress, BigDecimal amount, Integer confirmations,
-			String comment);
+			String comment) throws BitcoindException, CommunicationException;
 
 	String sendFrom(String fromAccount, String toAddress, BigDecimal amount, Integer confirmations,
-			String comment, String commentTo);
+			String comment, String commentTo) throws BitcoindException, CommunicationException;
 	
-	String sendMany(String fromAccount, Map<String, BigDecimal> toAddresses);
+	String sendMany(String fromAccount, Map<String, BigDecimal> toAddresses) 
+			throws BitcoindException, CommunicationException;
 
-	String sendMany(String fromAccount, Map<String, BigDecimal> toAddresses, Integer confirmations);
+	String sendMany(String fromAccount, Map<String, BigDecimal> toAddresses, Integer confirmations) 
+			throws BitcoindException, CommunicationException;
 
 	String sendMany(String fromAccount, Map<String, BigDecimal> toAddresses, Integer confirmations, 
-			String comment);
+			String comment) throws BitcoindException, CommunicationException;
 	
-	String sendRawTransaction(String hexTransaction);
+	String sendRawTransaction(String hexTransaction) throws BitcoindException, 
+			CommunicationException;
 
-	String sendRawTransaction(String hexTransaction, Boolean withHighFees);
+	String sendRawTransaction(String hexTransaction, Boolean withHighFees) throws BitcoindException, 
+			CommunicationException;
 	
-	String sendToAddress(String toAddress, BigDecimal amount);
+	String sendToAddress(String toAddress, BigDecimal amount) throws BitcoindException, 
+			CommunicationException;
 
-	String sendToAddress(String toAddress, BigDecimal amount, String comment);
+	String sendToAddress(String toAddress, BigDecimal amount, String comment) 
+			throws BitcoindException, CommunicationException;
 
-	String sendToAddress(String toAddress, BigDecimal amount, String comment, String commentTo);
+	String sendToAddress(String toAddress, BigDecimal amount, String comment, String commentTo) 
+			throws BitcoindException, CommunicationException;
 	
-	void setAccount(String address, String account);
+	void setAccount(String address, String account) throws BitcoindException, 
+			CommunicationException;
 	
-	void setGenerate(Boolean isGenerate);
+	void setGenerate(Boolean isGenerate) throws BitcoindException, CommunicationException;
 	
-	void setGenerate(Boolean isGenerate, Integer processors);
+	void setGenerate(Boolean isGenerate, Integer processors) throws BitcoindException, 
+			CommunicationException;
 	
-	Boolean setTxFee(BigDecimal txFee);
+	Boolean setTxFee(BigDecimal txFee) throws BitcoindException, CommunicationException;
 
-	String signMessage(String address, String message);
+	String signMessage(String address, String message) throws BitcoindException, 
+			CommunicationException;
 	
-	SignatureResult signRawTransaction(String hexTransaction);
+	SignatureResult signRawTransaction(String hexTransaction) throws BitcoindException, 
+			CommunicationException;
 
-	SignatureResult signRawTransaction(String hexTransaction, List<Output> outputs);
+	SignatureResult signRawTransaction(String hexTransaction, List<Output> outputs) 
+			throws BitcoindException, CommunicationException;
 
 	SignatureResult signRawTransaction(String hexTransaction, List<Output> outputs, 
-			List<String> privateKeys);
+			List<String> privateKeys) throws BitcoindException, CommunicationException;
 
 	SignatureResult signRawTransaction(String hexTransaction, List<Output> outputs, 
-			List<String> privateKeys, String sigHashType);
+			List<String> privateKeys, String sigHashType) throws BitcoindException, 
+			CommunicationException;
 	
-	String stop();
+	String stop() throws BitcoindException, CommunicationException;
 	
-	AddressInfo validateAddress(String address);
+	AddressInfo validateAddress(String address) throws BitcoindException, CommunicationException;
 	
-	Boolean verifyMessage(String address, String signature, String message);
+	Boolean verifyMessage(String address, String signature, String message) 
+			throws BitcoindException, CommunicationException;
 	
-	void walletLock();
+	void walletLock() throws BitcoindException, CommunicationException;
 
-	void walletPassphrase(String passphrase, Integer authTimeout);
+	void walletPassphrase(String passphrase, Integer authTimeout) throws BitcoindException, 
+			CommunicationException;
 
-	void walletPassphraseChange(String curPassphrase, String newPassphrase);
+	void walletPassphraseChange(String curPassphrase, String newPassphrase) 
+			throws BitcoindException, CommunicationException;
 }

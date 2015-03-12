@@ -1,6 +1,5 @@
 package examples;
 
-import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -8,7 +7,7 @@ import java.util.List;
 import java.util.Properties;
 import java.util.UUID;
 
-import org.apache.http.client.HttpClient;
+import org.apache.http.impl.client.CloseableHttpClient;
 
 import com.neemre.btcdcli4j.domain.PeerNode;
 import com.neemre.btcdcli4j.jsonrpc.JsonPrimitiveParser;
@@ -20,7 +19,7 @@ import examples.util.ExampleUtils;
 
 public class IncubatorMain {
 	
-	public static void main(String[] args) throws IOException {
+	public static void main(String[] args) throws Exception {
 		JsonPrimitiveParser parser = new JsonPrimitiveParser();
 		System.out.println(parser.parseString("\"nul\"\""));
 		
@@ -59,7 +58,7 @@ public class IncubatorMain {
 		arrayB[2] = "up? (B)";
 		System.out.println(CollectionUtils.mergeInterlaced(Arrays.asList(arrayA), Arrays.asList(arrayB)));
 		
-		HttpClient httpProvider = ExampleUtils.getHttpProvider();
+		CloseableHttpClient httpProvider = ExampleUtils.getHttpProvider();
 		Properties nodeConfig = ExampleUtils.getNodeConfig();
 		JsonRpcClient rpcClient = new JsonRpcClientImpl(httpProvider, nodeConfig);
 		String peerInfoJson = "[{\"id\":1093,\"addr\":"

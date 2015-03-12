@@ -10,15 +10,15 @@ import java.util.List;
 import java.util.Properties;
 
 import org.apache.commons.lang3.StringUtils;
-import org.apache.http.client.HttpClient;
-import org.apache.http.impl.client.HttpClientBuilder;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClients;
 
 import com.neemre.btcdcli4j.util.CollectionUtils;
 
 public class ExampleUtils {
 	
-	public static HttpClient getHttpProvider() {
-		HttpClient httpProvider = HttpClientBuilder.create().build();
+	public static CloseableHttpClient getHttpProvider() {
+		CloseableHttpClient httpProvider = HttpClients.createDefault();
 		return httpProvider;
 	}
 	
