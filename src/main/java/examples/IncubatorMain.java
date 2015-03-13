@@ -20,6 +20,8 @@ import com.neemre.btcdcli4j.util.CollectionUtils;
 
 import examples.util.ResourceUtils;
 
+/**Please ignore this class - it's just a quick mock-up {@code main} for trying out bugs/new 
+ * features.*/
 public class IncubatorMain {
 	
 	public static void main(String[] args) throws Exception {
@@ -52,13 +54,13 @@ public class IncubatorMain {
 				CollectionUtils.mergeInterlaced(listA, listB, listC, listD));
 		
 		String[] arrayA = new String[3];
-		arrayA[0] = "Hey, (A)";
-		arrayA[1] = "what's (A)";
-		arrayA[2] = "up? (A)";
+		arrayA[0] = "I, (A)";
+		arrayA[1] = "love (A)";
+		arrayA[2] = "liquorice! (A)";
 		String[] arrayB = new String[3];
-		arrayB[0] = "Hey, (B)";
-		arrayB[1] = "what's (B)";
-		arrayB[2] = "up? (B)";
+		arrayB[0] = "I, (B)";
+		arrayB[1] = "love (B)";
+		arrayB[2] = "liquorice! (B)";
 		System.out.println(CollectionUtils.mergeInterlaced(Arrays.asList(arrayA), Arrays.asList(arrayB)));
 		
 		CloseableHttpClient httpProvider = ResourceUtils.getHttpProvider();
@@ -87,6 +89,6 @@ public class IncubatorMain {
 				new BigDecimal("0.09")));
 		
 		SimpleHttpClient httpClient = new SimpleHttpClientImpl(httpProvider, nodeConfig);
-		httpClient.execute(HttpConstants.REQ_METHOD_GET, "lols");
+		httpClient.execute(HttpConstants.REQ_METHOD_GET, "This should not get sent by HTTP GET.");
 	}
 }
