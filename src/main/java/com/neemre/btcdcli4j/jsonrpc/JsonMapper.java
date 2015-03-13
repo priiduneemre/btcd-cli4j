@@ -6,6 +6,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
@@ -18,14 +21,18 @@ import com.fasterxml.jackson.databind.type.MapType;
 import com.neemre.btcdcli4j.common.Errors;
 
 public class JsonMapper {
-
+	
+	private static final Logger LOG = LoggerFactory.getLogger(JsonMapper.class);
+	
 	private ObjectMapper rawMapper;
 	private ObjectWriter rawWriter;
 
 
 	public JsonMapper() {
+		LOG.info("** JsonMapper(): initiating & configuring external JSON processor (Jackson"
+				+ " ObjectMapper)");
 		rawMapper = new ObjectMapper();
-		rawWriter = rawMapper.writer().withDefaultPrettyPrinter();
+		rawWriter = rawMapper.writer();
 		configureMappingProvider();
 	}
 	

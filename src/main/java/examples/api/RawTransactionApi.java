@@ -11,7 +11,7 @@ import com.neemre.btcdcli4j.domain.Output;
 import com.neemre.btcdcli4j.domain.OutputOverview;
 import com.neemre.btcdcli4j.domain.enums.SigHashTypes;
 
-import examples.util.ExampleUtils;
+import examples.util.ResourceUtils;
 
 /**A list of examples demonstrating the use of <i>bitcoind</i>'s 'Raw Transaction API' commands 
  * currently supported by btcd-cli4j. Calling any of the methods below will cause a short overview 
@@ -19,8 +19,8 @@ import examples.util.ExampleUtils;
 public class RawTransactionApi {
 
 	public static void main(String[] args) throws Exception {
-		CloseableHttpClient httpProvider = ExampleUtils.getHttpProvider();
-		Properties nodeConfig = ExampleUtils.getNodeConfig();
+		CloseableHttpClient httpProvider = ResourceUtils.getHttpProvider();
+		Properties nodeConfig = ResourceUtils.getNodeConfig();
 		ApiCalls supportedCalls = new ApiCalls(httpProvider, nodeConfig);
 		
 		supportedCalls.createRawTransaction(Arrays.asList(new OutputOverview[]{ 

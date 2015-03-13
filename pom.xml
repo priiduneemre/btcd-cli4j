@@ -5,7 +5,7 @@
 	<groupId>com.neemre</groupId>
 	<artifactId>btcd-cli4j</artifactId>
 	<packaging>jar</packaging>
-	<version>0.2.9</version>
+	<version>0.3.1</version>
 	<name>btcd-cli4j</name>
 	<description>A simple Java wrapper around Bitcoin Core's JSON-RPC (via HTTP) interface</description>
 
@@ -69,13 +69,13 @@
 			<artifactId>slf4j-api</artifactId>
 			<version>${slf4j.version}</version>
 		</dependency>
-		<!--[START] Temporary: for development-time use -->
+		<!--[START] Temporary: for development-time use only -->
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-simple</artifactId>
 			<version>${slf4j.version}</version>
 		</dependency>
-		<!--[END] Temporary: for development-time use -->
+		<!--[END] Temporary: for development-time use only -->
 		<dependency>
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-lang3</artifactId>

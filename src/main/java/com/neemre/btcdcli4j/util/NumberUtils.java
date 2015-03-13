@@ -6,8 +6,10 @@ import java.util.Map;
 
 import com.neemre.btcdcli4j.common.Defaults;
 
-public class NumberUtils {
-
+public final class NumberUtils {
+	
+	private NumberUtils() {}
+	
 	public static boolean isEven(int integer) {
 		if(integer % 2 == 0) {
 			return true;

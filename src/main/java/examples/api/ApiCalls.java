@@ -32,7 +32,7 @@ import com.neemre.btcdcli4j.domain.SinceBlock;
 import com.neemre.btcdcli4j.domain.Transaction;
 import com.neemre.btcdcli4j.domain.WalletInfo;
 
-import static examples.util.ExampleUtils.printResult;
+import static examples.util.OutputUtils.printResult;
 
 public class ApiCalls {
 

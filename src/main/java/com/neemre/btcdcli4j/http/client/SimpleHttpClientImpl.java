@@ -17,6 +17,8 @@ import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.message.BasicHeader;
 import org.apache.http.util.EntityUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.neemre.btcdcli4j.NodeProperties;
 import com.neemre.btcdcli4j.common.Constants;
@@ -25,7 +27,9 @@ import com.neemre.btcdcli4j.http.HttpConstants;
 import com.neemre.btcdcli4j.http.HttpLayerException;
 
 public class SimpleHttpClientImpl implements SimpleHttpClient {
-
+	
+	private static final Logger LOG = LoggerFactory.getLogger(SimpleHttpClientImpl.class);
+	
 	private CloseableHttpClient provider;
 	private Properties nodeConfig;
 
@@ -44,10 +48,13 @@ public class SimpleHttpClientImpl implements SimpleHttpClient {
 			if(respPayloadEntity != null) {
 				respPayload = EntityUtils.toString(respPayloadEntity);
 			}
+			LOG.debug("-- execute(..): '{}' response payload received for HTTP '{}' request with" 
+					+ " status line '{}'", ((respPayloadEntity == null) ? "null" : "non-null"), 
+					reqMethod, response.getStatusLine());
 			EntityUtils.consume(respPayloadEntity);
 			return respPayload;
 		} catch (ClientProtocolException e) {
-			throw new HttpLayerException(Errors.REQUEST_HTTP_FAILED, e);
+			throw new HttpLayerException(Errors.REQUEST_HTTP_FAULT, e);
 		} catch (IOException e) {
 			throw new HttpLayerException(Errors.IO_UNKNOWN, e);
 		} catch (URISyntaxException e) {
@@ -55,6 +62,9 @@ public class SimpleHttpClientImpl implements SimpleHttpClient {
 		} finally {
 			try {
 				if(response != null) {
+					LOG.debug("-- execute(..): attempting to recycle old HTTP response (reply to a "
+							+ "'{}' request) with status line '{}'", reqMethod, response
+							.getStatusLine());
 					response.close();
 				}
 			} catch (IOException e) {
@@ -66,13 +76,16 @@ public class SimpleHttpClientImpl implements SimpleHttpClient {
 	private HttpRequestBase getNewRequest(String reqMethod, String reqPayload) 
 			throws URISyntaxException, UnsupportedEncodingException {
 		if(reqMethod.equals(HttpConstants.REQ_METHOD_POST)) {
-			HttpPost request = new HttpPost(new URI(String.format("%s://%s:%s/", 
+			URI endpointUri = new URI(String.format("%s://%s:%s/", 
 					nodeConfig.get(NodeProperties.RPC_PROTOCOL.getKey()), 
 					nodeConfig.get(NodeProperties.RPC_HOST.getKey()), 
-					nodeConfig.get(NodeProperties.RPC_PORT.getKey()))));
+					nodeConfig.get(NodeProperties.RPC_PORT.getKey())));
+			HttpPost request = new HttpPost(endpointUri);
 			String authScheme = nodeConfig.get(NodeProperties.HTTP_AUTH_SCHEME.getKey()).toString();
 			request.setHeader(resolveAuthHeader(authScheme));
 			request.setEntity(new StringEntity(reqPayload));
+			LOG.debug("<< getNewRequest(..): returning a new HTTP '{}' request with target endpoint"
+					+ " '{}' and auth header '{}'", reqMethod, endpointUri, authScheme);
 			return request;			
 		}
 		return null;

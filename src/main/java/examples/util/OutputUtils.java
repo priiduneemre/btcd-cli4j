@@ -1,35 +1,16 @@
 package examples.util;
 
-import java.io.BufferedInputStream;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Properties;
 
 import org.apache.commons.lang3.StringUtils;
-import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.HttpClients;
 
 import com.neemre.btcdcli4j.util.CollectionUtils;
 
-public class ExampleUtils {
+public final class OutputUtils {
 	
-	public static CloseableHttpClient getHttpProvider() {
-		CloseableHttpClient httpProvider = HttpClients.createDefault();
-		return httpProvider;
-	}
-	
-	public static Properties getNodeConfig() throws IOException {
-		Properties nodeConfig = new Properties();
-		InputStream inputStream = new BufferedInputStream(new FileInputStream(
-				"src/main/resources/node_config.properties"));
-		nodeConfig.load(inputStream);
-		inputStream.close();
-		return nodeConfig;
-	}
+	private OutputUtils() {}
 	
 	public static void printResult(String methodName, String[] paramNames, Object[] paramValues,
 			Object result) {

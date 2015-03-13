@@ -7,7 +7,7 @@ import java.util.Properties;
 
 import org.apache.http.impl.client.CloseableHttpClient;
 
-import examples.util.ExampleUtils;
+import examples.util.ResourceUtils;
 
 /**A list of examples demonstrating the use of <i>bitcoind</i>'s 'Wallet API' commands 
  * currently supported by btcd-cli4j. Calling any of the methods below will cause a short overview 
@@ -15,8 +15,8 @@ import examples.util.ExampleUtils;
 public class WalletApi {
 
 	public static void main(String[] args) throws Exception {
-		CloseableHttpClient httpProvider = ExampleUtils.getHttpProvider();
-		Properties nodeConfig = ExampleUtils.getNodeConfig();
+		CloseableHttpClient httpProvider = ResourceUtils.getHttpProvider();
+		Properties nodeConfig = ResourceUtils.getNodeConfig();
 		ApiCalls supportedCalls = new ApiCalls(httpProvider, nodeConfig);
 		
 		supportedCalls.addMultiSigAddress(2, Arrays.asList(new String[]{"myN6xmzRVHvsAEXv4MRzoNsoqNeuispybG",

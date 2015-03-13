@@ -15,7 +15,7 @@ import com.neemre.btcdcli4j.jsonrpc.client.JsonRpcClient;
 import com.neemre.btcdcli4j.jsonrpc.client.JsonRpcClientImpl;
 import com.neemre.btcdcli4j.util.CollectionUtils;
 
-import examples.util.ExampleUtils;
+import examples.util.ResourceUtils;
 
 public class IncubatorMain {
 	
@@ -58,8 +58,8 @@ public class IncubatorMain {
 		arrayB[2] = "up? (B)";
 		System.out.println(CollectionUtils.mergeInterlaced(Arrays.asList(arrayA), Arrays.asList(arrayB)));
 		
-		CloseableHttpClient httpProvider = ExampleUtils.getHttpProvider();
-		Properties nodeConfig = ExampleUtils.getNodeConfig();
+		CloseableHttpClient httpProvider = ResourceUtils.getHttpProvider();
+		Properties nodeConfig = ResourceUtils.getNodeConfig();
 		JsonRpcClient rpcClient = new JsonRpcClientImpl(httpProvider, nodeConfig);
 		String peerInfoJson = "[{\"id\":1093,\"addr\":"
 				+ "\"194.71.109.94:8333\",\"addrlocal\":\"46.166.161.166:37578\",\"services\":"
@@ -82,6 +82,5 @@ public class IncubatorMain {
 		System.out.println("Testing 'CollectionUtils.asMap(..)' #2: " + CollectionUtils.asMap(
 				"addressA", new BigDecimal("0.03"), "addressB", new BigDecimal("0.05"), "addressC", 
 				new BigDecimal("0.09")));
-		
 	}
 }

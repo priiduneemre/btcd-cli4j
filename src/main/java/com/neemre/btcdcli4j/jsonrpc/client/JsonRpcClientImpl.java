@@ -6,6 +6,8 @@ import java.util.Properties;
 import java.util.UUID;
 
 import org.apache.http.impl.client.CloseableHttpClient;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.neemre.btcdcli4j.BitcoindException;
 import com.neemre.btcdcli4j.CommunicationException;
@@ -21,7 +23,9 @@ import com.neemre.btcdcli4j.jsonrpc.domain.JsonRpcRequest;
 import com.neemre.btcdcli4j.jsonrpc.domain.JsonRpcResponse;
 
 public class JsonRpcClientImpl implements JsonRpcClient {
-
+	
+	private static final Logger LOG = LoggerFactory.getLogger(JsonRpcClientImpl.class);
+	
 	private SimpleHttpClient httpClient;
 	private JsonPrimitiveParser parser;
 	private JsonMapper mapper;
@@ -49,13 +53,19 @@ public class JsonRpcClientImpl implements JsonRpcClient {
 	@Override
 	public <T> String execute(String method, List<T> params) throws BitcoindException, 
 			CommunicationException {
+		LOG.info(">> execute(..): invoking 'bitcoind' API command '{}' with params '{}'", method,
+				params);
 		String requestUuid = getNewUuid();
 		JsonRpcRequest<T> request = getNewRequest(method, params, requestUuid);
-		String responseJson = httpClient.execute(HttpConstants.REQ_METHOD_POST, mapper.mapToJson(
-				request));
+		String requestJson = mapper.mapToJson(request);
+		LOG.debug("-- execute(..): sending JSON-RPC request (raw): '{}'", requestJson);
+		String responseJson = httpClient.execute(HttpConstants.REQ_METHOD_POST, requestJson);
+		LOG.debug("-- execute(..): received JSON-RPC response (raw): '{}'", responseJson);
 		JsonRpcResponse response = mapper.mapToEntity(responseJson, JsonRpcResponse.class);
 		response = verifyResponse(request, response);
 		response = checkResponse(response);
+		LOG.info("<< execute(..): returning result for 'bitcoind' API command '{}' as: '{}'", 
+				method, response.getResult());
 		return response.getResult();
 	}
 
@@ -91,6 +101,7 @@ public class JsonRpcClientImpl implements JsonRpcClient {
 
 	private <T> JsonRpcResponse verifyResponse(JsonRpcRequest<T> request, JsonRpcResponse response) 
 			throws JsonRpcLayerException {
+		LOG.debug(">> verifyResponse(..): verifying JSON-RPC response for protocol conformance");
 		if(response == null) {
 			throw new JsonRpcLayerException(Errors.RESPONSE_JSONRPC_NULL);
 		}
@@ -104,6 +115,7 @@ public class JsonRpcClientImpl implements JsonRpcClient {
 	}
 
 	private <T> JsonRpcResponse checkResponse(JsonRpcResponse response) throws BitcoindException {
+		LOG.debug(">> checkResponse(..): checking JSON-RPC response for nested 'bitcoind' errors");
 		if(!(response.getError() == null)) {
 			JsonRpcError bitcoindError = response.getError();
 			throw new BitcoindException(bitcoindError.getCode(), String.format("Error #%s: %s", 
