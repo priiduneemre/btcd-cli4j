@@ -10,6 +10,9 @@ import java.util.UUID;
 import org.apache.http.impl.client.CloseableHttpClient;
 
 import com.neemre.btcdcli4j.domain.PeerNode;
+import com.neemre.btcdcli4j.http.HttpConstants;
+import com.neemre.btcdcli4j.http.client.SimpleHttpClient;
+import com.neemre.btcdcli4j.http.client.SimpleHttpClientImpl;
 import com.neemre.btcdcli4j.jsonrpc.JsonPrimitiveParser;
 import com.neemre.btcdcli4j.jsonrpc.client.JsonRpcClient;
 import com.neemre.btcdcli4j.jsonrpc.client.JsonRpcClientImpl;
@@ -82,5 +85,8 @@ public class IncubatorMain {
 		System.out.println("Testing 'CollectionUtils.asMap(..)' #2: " + CollectionUtils.asMap(
 				"addressA", new BigDecimal("0.03"), "addressB", new BigDecimal("0.05"), "addressC", 
 				new BigDecimal("0.09")));
+		
+		SimpleHttpClient httpClient = new SimpleHttpClientImpl(httpProvider, nodeConfig);
+		httpClient.execute(HttpConstants.REQ_METHOD_GET, "lols");
 	}
 }

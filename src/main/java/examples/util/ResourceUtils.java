@@ -8,13 +8,16 @@ import java.util.Properties;
 
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
+import org.apache.http.impl.conn.PoolingHttpClientConnectionManager;
 
 public final class ResourceUtils {
 	
 	private ResourceUtils() {}
 	
 	public static CloseableHttpClient getHttpProvider() {
-		CloseableHttpClient httpProvider = HttpClients.createDefault();
+		PoolingHttpClientConnectionManager connManager = new PoolingHttpClientConnectionManager();
+		CloseableHttpClient httpProvider = HttpClients.custom().setConnectionManager(connManager)
+				.build();
 		return httpProvider;
 	}
 	

@@ -16,6 +16,7 @@ import org.apache.http.client.methods.HttpRequestBase;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.message.BasicHeader;
+import org.apache.http.protocol.BasicHttpContext;
 import org.apache.http.util.EntityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -35,6 +36,7 @@ public class SimpleHttpClientImpl implements SimpleHttpClient {
 
 
 	public SimpleHttpClientImpl(CloseableHttpClient provider, Properties nodeConfig) {
+		LOG.info("** SimpleHttpClientImpl(): initiating the HTTP communication layer");
 		this.provider = provider;
 		this.nodeConfig = nodeConfig;
 	}
@@ -42,16 +44,16 @@ public class SimpleHttpClientImpl implements SimpleHttpClient {
 	public String execute(String reqMethod, String reqPayload) throws HttpLayerException {
 		CloseableHttpResponse response = null;
 		try {
-			response = provider.execute(getNewRequest(reqMethod, reqPayload));
+			response = provider.execute(getNewRequest(reqMethod, reqPayload), new BasicHttpContext());
 			HttpEntity respPayloadEntity = response.getEntity();
 			String respPayload = Constants.STRING_EMPTY;
 			if(respPayloadEntity != null) {
 				respPayload = EntityUtils.toString(respPayloadEntity);
+				EntityUtils.consume(respPayloadEntity);
 			}
 			LOG.debug("-- execute(..): '{}' response payload received for HTTP '{}' request with" 
 					+ " status line '{}'", ((respPayloadEntity == null) ? "null" : "non-null"), 
 					reqMethod, response.getStatusLine());
-			EntityUtils.consume(respPayloadEntity);
 			return respPayload;
 		} catch (ClientProtocolException e) {
 			throw new HttpLayerException(Errors.REQUEST_HTTP_FAULT, e);
@@ -88,7 +90,7 @@ public class SimpleHttpClientImpl implements SimpleHttpClient {
 					+ " '{}' and auth header '{}'", reqMethod, endpointUri, authScheme);
 			return request;			
 		}
-		return null;
+		throw new IllegalArgumentException(Errors.ARGS_HTTP_METHOD_UNSUPPORTED.getDescription());
 	}
 
 	private Header resolveAuthHeader(String authScheme) {
@@ -109,6 +111,6 @@ public class SimpleHttpClientImpl implements SimpleHttpClient {
 			return Base64.encodeBase64String((nodeConfig.get(NodeProperties.RPC_USER.getKey()) 
 					+ ":" + nodeConfig.get(NodeProperties.RPC_PASSWORD.getKey())).getBytes());
 		}
-		return null;
+		throw new IllegalArgumentException(Errors.ARGS_HTTP_AUTHSCHEME_UNSUPPORTED.getDescription());
 	}
 }

@@ -5,7 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
-/** An enumeration specifying the <i>bitcoind</i> API commands currently supported by btcd-cli4j.**/
+/**An enumeration specifying the <i>bitcoind</i> API commands currently supported by btcd-cli4j.**/
 @ToString
 @AllArgsConstructor
 public enum Commands {

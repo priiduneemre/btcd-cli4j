@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
+/**An enumeration specifying the <i>bitcoind</i> node properties currently required by btcd-cli4j.*/
 @ToString
 @AllArgsConstructor
 public enum NodeProperties {
