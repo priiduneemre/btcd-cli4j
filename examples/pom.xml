@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>com.neemre.btcd-cli4j</groupId>
+		<artifactId>btcd-cli4j-parent</artifactId>
+		<version>0.3.3</version>
+	</parent>
+	<artifactId>btcd-cli4j-examples</artifactId>
+	<packaging>jar</packaging>
+
+	<name>btcd-cli4j Examples</name>
+	<description>A list of examples demonstrating the use of btcd-cli4j</description>
+	<url>https://github.com/priiduneemre/btcd-cli4j/</url>
+
+	<dependencies>
+		<dependency>
+			<groupId>com.neemre.btcd-cli4j</groupId>
+			<artifactId>btcd-cli4j-core</artifactId>
+			<version>${project.parent.version}</version>
+		</dependency>
+	</dependencies>
+</project>

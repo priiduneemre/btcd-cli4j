@@ -1,6 +1,7 @@
-/bin
-/target
-/out
-/.settings
+bin/
+target/
+out/
+.settings/
 .classpath
 .project
+log4j.properties
