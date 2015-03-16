@@ -5,7 +5,7 @@ import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
 @Data
-@ToString(callSuper = false)
+@ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = false)
 public class BitcoindException extends Exception {
 

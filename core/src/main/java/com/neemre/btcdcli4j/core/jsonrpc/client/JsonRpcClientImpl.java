@@ -59,9 +59,9 @@ public class JsonRpcClientImpl implements JsonRpcClient {
 		String requestUuid = getNewUuid();
 		JsonRpcRequest<T> request = getNewRequest(method, params, requestUuid);
 		String requestJson = mapper.mapToJson(request);
-		LOG.debug("-- execute(..): sending JSON-RPC request (raw): '{}'", requestJson);
+		LOG.debug("-- execute(..): sending JSON-RPC request as (raw): '{}'", requestJson.trim());
 		String responseJson = httpClient.execute(HttpConstants.REQ_METHOD_POST, requestJson);
-		LOG.debug("-- execute(..): received JSON-RPC response (raw): '{}'", responseJson);
+		LOG.debug("-- execute(..): received JSON-RPC response as (raw): '{}'", responseJson.trim());
 		JsonRpcResponse response = mapper.mapToEntity(responseJson, JsonRpcResponse.class);
 		response = verifyResponse(request, response);
 		response = checkResponse(response);
@@ -102,7 +102,7 @@ public class JsonRpcClientImpl implements JsonRpcClient {
 
 	private <T> JsonRpcResponse verifyResponse(JsonRpcRequest<T> request, JsonRpcResponse response) 
 			throws JsonRpcLayerException {
-		LOG.debug(">> verifyResponse(..): verifying JSON-RPC response for protocol conformance");
+		LOG.debug(">> verifyResponse(..): verifying JSON-RPC response for basic protocol conformance");
 		if(response == null) {
 			throw new JsonRpcLayerException(Errors.RESPONSE_JSONRPC_NULL);
 		}

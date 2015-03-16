@@ -5,7 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
-/**An enumeration specifying the <i>bitcoind</i> node properties currently used for 
+/**An enumeration specifying the <i>bitcoind</i> node properties currently required for 
  * constructing a {@code BtcdClient} instance.*/
 @ToString
 @AllArgsConstructor

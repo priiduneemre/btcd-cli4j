@@ -9,6 +9,7 @@ import java.util.UUID;
 
 import org.apache.http.impl.client.CloseableHttpClient;
 
+import com.neemre.btcdcli4j.core.BitcoindException;
 import com.neemre.btcdcli4j.core.domain.PeerNode;
 import com.neemre.btcdcli4j.core.http.HttpConstants;
 import com.neemre.btcdcli4j.core.http.client.SimpleHttpClient;
@@ -88,6 +89,8 @@ public class IncubatorMain {
 				new BigDecimal("0.09")));
 		
 		SimpleHttpClient httpClient = new SimpleHttpClientImpl(httpProvider, nodeConfig);
-		httpClient.execute(HttpConstants.REQ_METHOD_GET, "This should not get sent by HTTP GET.");
+		//httpClient.execute(HttpConstants.REQ_METHOD_GET, "This should not get sent by HTTP GET.");
+		
+		System.out.println(new BitcoindException(334, "'I am a Bitcoin-specific exception!'"));
 	}
 }

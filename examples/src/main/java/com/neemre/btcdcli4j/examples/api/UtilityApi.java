@@ -17,8 +17,8 @@ public class UtilityApi {
 		Properties nodeConfig = ResourceUtils.getNodeConfig();
 		ApiCalls supportedCalls = new ApiCalls(httpProvider, nodeConfig);
 		
-		supportedCalls.createMultiSig(2, Arrays.asList(new String[]{"mmfPHrvaoqqQLGkStcYgrbgiBFTvsjFzgx",
-				"mhgPHX4kmzV8NgfoUtfhUwWEMZHQEZeMbH", "mxPop5NWu8ok5wbGv46wsASPKyC7yKYix3"}));
+//		supportedCalls.createMultiSig(2, Arrays.asList(new String[]{"mhgPHX4kmzV8NgfoUtfhUwWEMZHQEZeMbH",
+//				"mmfPHrvaoqqQLGkStcYgrbgiBFTvsjFzgx", "mxPop5NWu8ok5wbGv46wsASPKyC7yKYix3"}));
 //		supportedCalls.validateAddress("2MyVxxgNBk5zHRPRY2iVjGRJHYZEp1pMCSq");
 //		supportedCalls.verifyMessage("mixnciYh9dar2CwywYYZTHZqS4kyZWkvoV", "INXVUmzGIh+VnkiFAVgNiw1" 
 //				+ "t35oSxxvwc6e53hrjMtBdVm/GoTyDY+TelMV64pVrdMY0s9fW5M1bWZl+kcnCQ0g=", "I love liquorice.");

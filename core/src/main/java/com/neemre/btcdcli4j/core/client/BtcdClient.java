@@ -215,7 +215,7 @@ public interface BtcdClient {
 	List<Output> listUnspent(Integer minConfirmations, Integer maxConfirmations) 
 			throws BitcoindException, CommunicationException;
 
-	List<Output> listUnspent(Integer minConfirmations, Integer maxConfirmations,
+	List<Output> listUnspent(Integer minConfirmations, Integer maxConfirmations, 
 			List<String> addresses) throws BitcoindException, CommunicationException;
 	
 	Boolean lockUnspent(Boolean isUnlocked) throws BitcoindException, CommunicationException;

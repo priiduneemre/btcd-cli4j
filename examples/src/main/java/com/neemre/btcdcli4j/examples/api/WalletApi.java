@@ -19,10 +19,10 @@ public class WalletApi {
 		Properties nodeConfig = ResourceUtils.getNodeConfig();
 		ApiCalls supportedCalls = new ApiCalls(httpProvider, nodeConfig);
 		
-		supportedCalls.addMultiSigAddress(2, Arrays.asList(new String[]{"myN6xmzRVHvsAEXv4MRzoNsoqNeuispybG",
-				"mpgyUpBSBvVrPewGz26LmXSfRkVpq1tGV3", "mwMpStsPJUfhRX5FFs8ppU7fWWfhjuKvL4"}));
-		supportedCalls.addMultiSigAddress(2, Arrays.asList(new String[]{"myN6xmzRVHvsAEXv4MRzoNsoqNeuispybG",
-				"mpgyUpBSBvVrPewGz26LmXSfRkVpq1tGV3", "mwMpStsPJUfhRX5FFs8ppU7fWWfhjuKvL4"}), "jointAccountB");
+//		supportedCalls.addMultiSigAddress(2, Arrays.asList(new String[]{"mwMpStsPJUfhRX5FFs8ppU7fWWfhjuKvL4", 
+//				"myN6xmzRVHvsAEXv4MRzoNsoqNeuispybG", "mpgyUpBSBvVrPewGz26LmXSfRkVpq1tGV3"}));
+//		supportedCalls.addMultiSigAddress(3, Arrays.asList(new String[]{"mwMpStsPJUfhRX5FFs8ppU7fWWfhjuKvL4",
+//				"myN6xmzRVHvsAEXv4MRzoNsoqNeuispybG", "mpgyUpBSBvVrPewGz26LmXSfRkVpq1tGV3"}), "jointAccountB");
 //		supportedCalls.backupWallet("G:\\bitplexus\\data\\wallet_backup_28022015.dat");
 //		supportedCalls.dumpPrivKey("n2pr9RyfNQdQ6gSWZCX5DGHuHAnNjchAy7");
 //		supportedCalls.dumpWallet("G:\\bitplexus\\data\\wallet_dump_28022015.txt");
@@ -70,19 +70,19 @@ public class WalletApi {
 //		supportedCalls.listReceivedByAddress(1100);
 //		supportedCalls.listReceivedByAddress(1100, true);
 //		supportedCalls.listReceivedByAddress(530, false, true);
-		supportedCalls.listSinceBlock();
-		supportedCalls.listSinceBlock("00000000a16b820aa9e2139ad6598ad76f2f146580a6039c738e9b7d3e6d908d");
-		supportedCalls.listSinceBlock("00000000a16b820aa9e2139ad6598ad76f2f146580a6039c738e9b7d3e6d908d", 100);
-		supportedCalls.listSinceBlock("00000000a16b820aa9e2139ad6598ad76f2f146580a6039c738e9b7d3e6d908d", 100, true);
+//		supportedCalls.listSinceBlock();
+//		supportedCalls.listSinceBlock("00000000000001e811e611af984d97237ce218cfb5e238ec2c73fa1113a4b865");
+//		supportedCalls.listSinceBlock("00000000000001e811e611af984d97237ce218cfb5e238ec2c73fa1113a4b865", 100);
+//		supportedCalls.listSinceBlock("00000000a5bc619e8caffc2cc61c2658e389be6b30a5681200745d8c7fffb512", 100, true);
 //		supportedCalls.listTransactions();
 //		supportedCalls.listTransactions("jackal");
 //		supportedCalls.listTransactions("jackal", 3);
 //		supportedCalls.listTransactions("jackal", 3, 2);
-		supportedCalls.listTransactions("friendA", 3, 2, true);
-		supportedCalls.listUnspent();
-		supportedCalls.listUnspent(900);
-		supportedCalls.listUnspent(900, 1500);
-		supportedCalls.listUnspent(900, 1500, Arrays.asList(new String[]{"msrHoyN5Jw1EH7saGxMqJtTKt6qhmyPZMF"}));
+//		supportedCalls.listTransactions("friendB", 3, 2, true);
+//		supportedCalls.listUnspent();
+//		supportedCalls.listUnspent(3100);
+//		supportedCalls.listUnspent(3100, 5000);
+//		supportedCalls.listUnspent(3100, 20000, Arrays.asList(new String[]{"msrHoyN5Jw1EH7saGxMqJtTKt6qhmyPZMF"}));
 //		supportedCalls.lockUnspent(true);
 //		supportedCalls.lockUnspent(false, Arrays.asList(new Output[]{
 //				new Output("ff534734f74fc4ecffe1588a6554898717bb5bbc58688ddcd9a0dede132bfd13", 1)}));
@@ -96,16 +96,16 @@ public class WalletApi {
 //		supportedCalls.sendFrom("treasury", "mz6s3qBsifGLyJMcjxWabJ9z3Zf95Etods", new BigDecimal("0.007"),
 //				4, "Sample transaction: a payment of 0.007 BTC to 'supplierF' for services rendered.",
 //				"supplierF");
-		supportedCalls.sendMany("treasury", new HashMap<String, BigDecimal>(){{ 
-				put("msrHoyN5Jw1EH7saGxMqJtTKt6qhmyPZMF", new BigDecimal("0.004")); 
-				put("n3y8BpckkDDGMtSq7d2Yx46EYenyUit3Jc", new BigDecimal("0.005"));}});
-		supportedCalls.sendMany("treasury", new HashMap<String, BigDecimal>(){{
-				put("msrHoyN5Jw1EH7saGxMqJtTKt6qhmyPZMF", new BigDecimal("0.006")); 
-				put("n3y8BpckkDDGMtSq7d2Yx46EYenyUit3Jc", new BigDecimal("0.007"));}}, 10);
-		supportedCalls.sendMany("treasury", new HashMap<String, BigDecimal>(){{
-				put("msrHoyN5Jw1EH7saGxMqJtTKt6qhmyPZMF", new BigDecimal("0.0015"));
-				put("n3y8BpckkDDGMtSq7d2Yx46EYenyUit3Jc", new BigDecimal("0.0015"));}}, 10, "Sample transaction: " +
-				"a payment of 0.0015 BTC to both 'supplierA' and 'supplierB' for services rendered.");
+//		supportedCalls.sendMany("treasury", new HashMap<String, BigDecimal>(){{ 
+//				put("msrHoyN5Jw1EH7saGxMqJtTKt6qhmyPZMF", new BigDecimal("0.004")); 
+//				put("n3y8BpckkDDGMtSq7d2Yx46EYenyUit3Jc", new BigDecimal("0.005"));}});
+//		supportedCalls.sendMany("treasury", new HashMap<String, BigDecimal>(){{
+//				put("msrHoyN5Jw1EH7saGxMqJtTKt6qhmyPZMF", new BigDecimal("0.006")); 
+//				put("n3y8BpckkDDGMtSq7d2Yx46EYenyUit3Jc", new BigDecimal("0.007"));}}, 100);
+//		supportedCalls.sendMany("treasury", new HashMap<String, BigDecimal>(){{
+//				put("msrHoyN5Jw1EH7saGxMqJtTKt6qhmyPZMF", new BigDecimal("0.0015"));
+//				put("n3y8BpckkDDGMtSq7d2Yx46EYenyUit3Jc", new BigDecimal("0.0015"));}}, 100, "Sample transaction: " +
+//				"a payment of 0.0015 BTC to both 'supplierA' and 'supplierB' for services rendered.");
 //		supportedCalls.sendToAddress("msrHoyN5Jw1EH7saGxMqJtTKt6qhmyPZMF", new BigDecimal("0.0005"));
 //		supportedCalls.sendToAddress("n3y8BpckkDDGMtSq7d2Yx46EYenyUit3Jc", new BigDecimal("0.0035"), 
 //				"Sample transaction: a payment of 0.0035 BTC to 'supplierB' for services rendered.");

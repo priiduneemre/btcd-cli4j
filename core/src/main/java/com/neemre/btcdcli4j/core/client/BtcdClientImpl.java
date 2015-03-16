@@ -112,6 +112,7 @@ public class BtcdClientImpl implements BtcdClient {
 				hexRedeemScript);
 		RedeemScript redeemScript = rpcClient.getMapper().mapToEntity(redeemScriptJson, 
 				RedeemScript.class);
+		redeemScript.setHex(hexRedeemScript);
 		return redeemScript;
 	}
 	

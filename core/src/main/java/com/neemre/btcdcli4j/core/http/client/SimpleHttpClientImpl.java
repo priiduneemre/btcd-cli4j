@@ -41,6 +41,7 @@ public class SimpleHttpClientImpl implements SimpleHttpClient {
 		this.nodeConfig = nodeConfig;
 	}
 
+	@Override
 	public String execute(String reqMethod, String reqPayload) throws HttpLayerException {
 		CloseableHttpResponse response = null;
 		try {
@@ -84,10 +85,11 @@ public class SimpleHttpClientImpl implements SimpleHttpClient {
 					nodeConfig.get(NodeProperties.RPC_PORT.getKey())));
 			HttpPost request = new HttpPost(endpointUri);
 			String authScheme = nodeConfig.get(NodeProperties.HTTP_AUTH_SCHEME.getKey()).toString();
-			request.setHeader(resolveAuthHeader(authScheme));
+			Header authHeader = resolveAuthHeader(authScheme);
+			request.setHeader(authHeader);
 			request.setEntity(new StringEntity(reqPayload));
 			LOG.debug("<< getNewRequest(..): returning a new HTTP '{}' request with target endpoint"
-					+ " '{}' and auth header '{}'", reqMethod, endpointUri, authScheme);
+					+ " '{}' and auth header '{}'", reqMethod, endpointUri, authHeader);
 			return request;			
 		}
 		throw new IllegalArgumentException(Errors.ARGS_HTTP_METHOD_UNSUPPORTED.getDescription());
