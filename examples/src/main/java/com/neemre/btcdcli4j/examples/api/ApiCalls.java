@@ -119,8 +119,8 @@ public class ApiCalls {
 	
 	public void getAccount(String address) throws BitcoindException, CommunicationException {
 		String account = btcdClient.getAccount(address);
-		printResult(Commands.GET_ACCOUNT.getName(), new String[]{"address"}, 
-				new Object[]{address}, account);
+		printResult(Commands.GET_ACCOUNT.getName(), new String[]{"address"}, new Object[]{address},
+				account);
 	}
 
 	public void getAccountAddress(String account) throws BitcoindException, CommunicationException {
@@ -184,7 +184,7 @@ public class ApiCalls {
 		printResult(Commands.GET_BLOCK_COUNT.getName(), null, null, blockHeight);
 	}
 
-	public void getBlockHash(Integer blockHeight) throws BitcoindException, CommunicationException {
+	public void getBlockHash(int blockHeight) throws BitcoindException, CommunicationException {
 		String headerHash = btcdClient.getBlockHash(blockHeight);
 		printResult(Commands.GET_BLOCK_HASH.getName(), new String[]{"blockHeight"}, 
 				new Object[]{blockHeight}, headerHash);
@@ -466,8 +466,7 @@ public class ApiCalls {
 	
 	public void listSinceBlock(String headerHash, int confirmations, boolean withWatchOnly) 
 			throws BitcoindException, CommunicationException {
-		SinceBlock sinceBlock = btcdClient.listSinceBlock(headerHash, confirmations, 
-				withWatchOnly);
+		SinceBlock sinceBlock = btcdClient.listSinceBlock(headerHash, confirmations, withWatchOnly);
 		printResult(Commands.LIST_SINCE_BLOCK.getName(), new String[]{"headerHash", 
 				"confirmations", "withWatchOnly"}, new Object[]{headerHash, confirmations, 
 				withWatchOnly}, sinceBlock);
@@ -500,8 +499,7 @@ public class ApiCalls {
 
 	public void listTransactions(String account, int count, int offset, boolean withWatchOnly) 
 			throws BitcoindException, CommunicationException {
-		List<Payment> payments = btcdClient.listTransactions(account, count, offset,
-				withWatchOnly);
+		List<Payment> payments = btcdClient.listTransactions(account, count, offset, withWatchOnly);
 		printResult(Commands.LIST_TRANSACTIONS.getName(), new String[]{"account", "count",
 				"offset", "withWatchOnly"}, new Object[]{account, count, offset, withWatchOnly},
 				payments);
@@ -535,7 +533,7 @@ public class ApiCalls {
 				maxConfirmations, addresses}, unspentOutputs);
 	}
 	
-	public void lockUnspent(Boolean isUnlocked) throws BitcoindException, CommunicationException {
+	public void lockUnspent(boolean isUnlocked) throws BitcoindException, CommunicationException {
 		Boolean isSuccess = btcdClient.lockUnspent(isUnlocked);
 		printResult(Commands.LOCK_UNSPENT.getName(), new String[]{"isUnlocked"}, 
 				new Object[]{isUnlocked}, isSuccess);
@@ -555,7 +553,7 @@ public class ApiCalls {
 				new Object[]{fromAccount, toAccount, amount}, isSuccess);
 	}
 	
-	public void move(String fromAccount, String toAccount, BigDecimal amount, Integer dummy,
+	public void move(String fromAccount, String toAccount, BigDecimal amount, int dummy,
 			String comment) throws BitcoindException, CommunicationException {
 		Boolean isSuccess = btcdClient.move(fromAccount, toAccount, amount, dummy, comment);
 		printResult(Commands.MOVE.getName(), new String[]{"fromAccount", "toAccount", "amount", 
@@ -575,17 +573,16 @@ public class ApiCalls {
 				"amount"}, new Object[]{fromAccount, toAddress, amount}, transactionId);
 	}
 	
-	public void sendFrom(String fromAccount, String toAddress, BigDecimal amount, 
-			Integer confirmations) throws BitcoindException, CommunicationException {
+	public void sendFrom(String fromAccount, String toAddress, BigDecimal amount, int confirmations)
+			throws BitcoindException, CommunicationException {
 		String transactionId = btcdClient.sendFrom(fromAccount, toAddress, amount, confirmations);
 		printResult(Commands.SEND_FROM.getName(), new String[]{"fromAccount", "toAddress", 
 				"amount", "confirmations"}, new Object[]{fromAccount, toAddress, amount, 
 				confirmations}, transactionId);
 	}
 	
-	public void sendFrom(String fromAccount, String toAddress, BigDecimal amount, 
-			Integer confirmations, String comment) throws BitcoindException, 
-			CommunicationException {
+	public void sendFrom(String fromAccount, String toAddress, BigDecimal amount, int confirmations,
+			String comment) throws BitcoindException, CommunicationException {
 		String transactionId = btcdClient.sendFrom(fromAccount, toAddress, amount, confirmations,
 				comment);
 		printResult(Commands.SEND_FROM.getName(), new String[]{"fromAccount", "toAddress", 
@@ -593,9 +590,8 @@ public class ApiCalls {
 				amount, confirmations, comment}, transactionId);
 	}
 	
-	public void sendFrom(String fromAccount, String toAddress, BigDecimal amount, 
-			Integer confirmations, String comment, String commentTo) throws BitcoindException, 
-			CommunicationException {
+	public void sendFrom(String fromAccount, String toAddress, BigDecimal amount, int confirmations,
+			String comment, String commentTo) throws BitcoindException, CommunicationException {
 		String transactionId = btcdClient.sendFrom(fromAccount, toAddress, amount, confirmations,
 				comment, commentTo);
 		printResult(Commands.SEND_FROM.getName(), new String[]{"fromAccount", "toAddress", 
@@ -707,7 +703,7 @@ public class ApiCalls {
 			throws BitcoindException, CommunicationException {
 		SignatureResult signatureResult = btcdClient.signRawTransaction(hexTransaction, outputs);
 		printResult(Commands.SIGN_RAW_TRANSACTION.getName(), new String[]{"hexTransaction", 
-			"outputs"}, new Object[]{hexTransaction, outputs}, signatureResult);
+				"outputs"}, new Object[]{hexTransaction, outputs}, signatureResult);
 	}
 
 	public void signRawTransaction(String hexTransaction, List<Output> outputs, 

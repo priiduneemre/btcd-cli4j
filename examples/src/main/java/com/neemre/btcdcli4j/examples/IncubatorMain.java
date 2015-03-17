@@ -11,7 +11,6 @@ import org.apache.http.impl.client.CloseableHttpClient;
 
 import com.neemre.btcdcli4j.core.BitcoindException;
 import com.neemre.btcdcli4j.core.domain.PeerNode;
-import com.neemre.btcdcli4j.core.http.HttpConstants;
 import com.neemre.btcdcli4j.core.http.client.SimpleHttpClient;
 import com.neemre.btcdcli4j.core.http.client.SimpleHttpClientImpl;
 import com.neemre.btcdcli4j.core.jsonrpc.JsonPrimitiveParser;
@@ -54,11 +53,11 @@ public class IncubatorMain {
 				CollectionUtils.mergeInterlaced(listA, listB, listC, listD));
 		
 		String[] arrayA = new String[3];
-		arrayA[0] = "I, (A)";
+		arrayA[0] = "I (A)";
 		arrayA[1] = "love (A)";
 		arrayA[2] = "liquorice! (A)";
 		String[] arrayB = new String[3];
-		arrayB[0] = "I, (B)";
+		arrayB[0] = "I (B)";
 		arrayB[1] = "love (B)";
 		arrayB[2] = "liquorice! (B)";
 		System.out.println(CollectionUtils.mergeInterlaced(Arrays.asList(arrayA), Arrays.asList(arrayB)));
@@ -80,7 +79,7 @@ public class IncubatorMain {
 				+ "345108,\"banscore\":0,\"synced_headers\":345114,\"synced_blocks\":345114,\"inflight\":"
 				+ "[345109,345110,34511],\"whitelisted\":false}]";
 		List<PeerNode> peerInfo = rpcClient.getMapper().mapToList(peerInfoJson, PeerNode.class);
-		System.out.println("Test 'peerInfo': " + peerInfo);
+		System.out.println("Sample 'peerInfo': " + peerInfo);
 		
 		//System.out.println("Testing 'CollectionUtils.asMap(..)' #1: " + CollectionUtils.asMap(
 		//		"addressA", new BigDecimal("0.03"), "addressB", new BigDecimal("0.05"), "addressC"));
@@ -89,7 +88,8 @@ public class IncubatorMain {
 				new BigDecimal("0.09")));
 		
 		SimpleHttpClient httpClient = new SimpleHttpClientImpl(httpProvider, nodeConfig);
-		//httpClient.execute(HttpConstants.REQ_METHOD_GET, "This should not get sent by HTTP GET.");
+		//httpClient.execute(HttpConstants.REQ_METHOD_GET, "This should not get sent because it's a"
+		//		+ " HTTP 'GET' request.");
 		
 		System.out.println(new BitcoindException(334, "'I am a Bitcoin-specific exception!'"));
 	}

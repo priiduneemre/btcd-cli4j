@@ -6,10 +6,12 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
+/**This is a common superclass for all exceptions thrown by the underlying communication 
+ * infrastructure (<i>i.e.</i> the HTTP layer + the JSON-RPC layer).*/
 @Data
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = false)
-public class CommunicationException extends Exception {
+public abstract class CommunicationException extends Exception {
 
 	private static final long serialVersionUID = 00000001L;
 

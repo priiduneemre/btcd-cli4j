@@ -24,7 +24,8 @@ public class WalletApi {
 		supportedCalls.addMultiSigAddress(2, Arrays.asList(new String[]{"mwMpStsPJUfhRX5FFs8ppU7fWWfhjuKvL4", 
 				"myN6xmzRVHvsAEXv4MRzoNsoqNeuispybG", "mpgyUpBSBvVrPewGz26LmXSfRkVpq1tGV3"}));
 		supportedCalls.addMultiSigAddress(3, Arrays.asList(new String[]{"mwMpStsPJUfhRX5FFs8ppU7fWWfhjuKvL4",
-				"myN6xmzRVHvsAEXv4MRzoNsoqNeuispybG", "mpgyUpBSBvVrPewGz26LmXSfRkVpq1tGV3"}), "jointAccountB");
+				"myN6xmzRVHvsAEXv4MRzoNsoqNeuispybG", "mpgyUpBSBvVrPewGz26LmXSfRkVpq1tGV3"}), 
+				"jointAccountB");
 		supportedCalls.backupWallet("G:\\bitplexus\\data\\wallet_backup_28022015.dat");
 		supportedCalls.dumpPrivKey("n2pr9RyfNQdQ6gSWZCX5DGHuHAnNjchAy7");
 		supportedCalls.dumpWallet("G:\\bitplexus\\data\\wallet_dump_28022015.txt");
@@ -72,19 +73,20 @@ public class WalletApi {
 		supportedCalls.listSinceBlock();
 		supportedCalls.listSinceBlock("00000000000001e811e611af984d97237ce218cfb5e238ec2c73fa1113a4b865");
 		supportedCalls.listSinceBlock("00000000000001e811e611af984d97237ce218cfb5e238ec2c73fa1113a4b865", 100);
-		supportedCalls.listSinceBlock("00000000a5bc619e8caffc2cc61c2658e389be6b30a5681200745d8c7fffb512", 100, true);
+		supportedCalls.listSinceBlock("00000000a5bc619e8caffc2cc61c2658e389be6b30a5681200745d8c7fffb512", 100, 
+				true);
 		supportedCalls.listTransactions();
 		supportedCalls.listTransactions("jackal");
 		supportedCalls.listTransactions("jackal", 3);
 		supportedCalls.listTransactions("jackal", 3, 2);
 		supportedCalls.listTransactions("friendB", 3, 2, true);
 		supportedCalls.listUnspent();
-		supportedCalls.listUnspent(3100);
-		supportedCalls.listUnspent(3100, 5000);
-		supportedCalls.listUnspent(3100, 20000, Arrays.asList(new String[]{"msrHoyN5Jw1EH7saGxMqJtTKt6qhmyPZMF"}));
+		supportedCalls.listUnspent(310);
+		supportedCalls.listUnspent(310, 500);
+		supportedCalls.listUnspent(310, 900, Arrays.asList(new String[]{"msrHoyN5Jw1EH7saGxMqJtTKt6qhmyPZMF"}));
 		supportedCalls.lockUnspent(true);
-		supportedCalls.lockUnspent(false, Arrays.asList(new OutputOverview[]{
-				new OutputOverview("ff534734f74fc4ecffe1588a6554898717bb5bbc58688ddcd9a0dede132bfd13", 1)}));
+		supportedCalls.lockUnspent(false, Arrays.asList(new OutputOverview[]{new OutputOverview(
+				"ff534734f74fc4ecffe1588a6554898717bb5bbc58688ddcd9a0dede132bfd13", 1)}));
 		supportedCalls.move("accountA", "accountB", new BigDecimal("0.53006000"));
 		supportedCalls.move("accountA", "accountB", new BigDecimal("0.21000000"), 0, "Sample move: " 
 				+ "an off-chain transfer of 0.002 BTC from 'accountA' to 'accountB'.");
@@ -93,7 +95,8 @@ public class WalletApi {
 		supportedCalls.sendFrom("treasury", "n3HBsBafTktAKMGi9Pjqey68HF42QjfwGz", new BigDecimal("0.003"),
 				3, "Sample transaction: a payment of 0.003 BTC to 'supplierE' for services rendered.");
 		supportedCalls.sendFrom("treasury", "mz6s3qBsifGLyJMcjxWabJ9z3Zf95Etods", new BigDecimal("0.007"),
-				4, "Sample transaction: a payment of 0.007 BTC to 'supplierF' for services rendered.", "supplierF");
+				4, "Sample transaction: a payment of 0.007 BTC to 'supplierF' for services rendered.", 
+				"supplierF");
 		supportedCalls.sendMany("treasury", new HashMap<String, BigDecimal>(){{ 
 				put("msrHoyN5Jw1EH7saGxMqJtTKt6qhmyPZMF", new BigDecimal("0.004")); 
 				put("n3y8BpckkDDGMtSq7d2Yx46EYenyUit3Jc", new BigDecimal("0.005"));}});
@@ -102,13 +105,15 @@ public class WalletApi {
 				put("n3y8BpckkDDGMtSq7d2Yx46EYenyUit3Jc", new BigDecimal("0.007"));}}, 100);
 		supportedCalls.sendMany("treasury", new HashMap<String, BigDecimal>(){{
 				put("msrHoyN5Jw1EH7saGxMqJtTKt6qhmyPZMF", new BigDecimal("0.0015"));
-				put("n3y8BpckkDDGMtSq7d2Yx46EYenyUit3Jc", new BigDecimal("0.0015"));}}, 100, "Sample transaction: " +
-				"a payment of 0.0015 BTC to both 'supplierA' and 'supplierB' for services rendered.");
+				put("n3y8BpckkDDGMtSq7d2Yx46EYenyUit3Jc", new BigDecimal("0.0015"));}}, 100, 
+				"Sample transaction: a payment of 0.0015 BTC to both 'supplierA' and 'supplierB' for services "
+				+ "rendered.");
 		supportedCalls.sendToAddress("msrHoyN5Jw1EH7saGxMqJtTKt6qhmyPZMF", new BigDecimal("0.0005"));
 		supportedCalls.sendToAddress("n3y8BpckkDDGMtSq7d2Yx46EYenyUit3Jc", new BigDecimal("0.0035"), 
 				"Sample transaction: a payment of 0.0035 BTC to 'supplierB' for services rendered.");
 		supportedCalls.sendToAddress("mu9YMgJzJkoA6ZwhCFDkTjRfXF2BakTGw1", new BigDecimal("0.0045"), 
-				"Sample transaction: a payment of 0.0045 BTC to 'supplierC' for services rendered.", "supplierC");
+				"Sample transaction: a payment of 0.0045 BTC to 'supplierC' for services rendered.", 
+				"supplierC");
 		supportedCalls.setAccount("1NRpYDf2GdAL4yLZEAww8uUSEGM7Df6KKc", "aardvark");
 		supportedCalls.setTxFee(new BigDecimal("0.00004900"));
 		supportedCalls.signMessage("mixnciYh9dar2CwywYYZTHZqS4kyZWkvoV", "I like liquorice.");

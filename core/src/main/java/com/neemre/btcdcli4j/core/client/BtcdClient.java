@@ -19,7 +19,6 @@ import com.neemre.btcdcli4j.core.domain.Output;
 import com.neemre.btcdcli4j.core.domain.OutputOverview;
 import com.neemre.btcdcli4j.core.domain.Payment;
 import com.neemre.btcdcli4j.core.domain.PeerNode;
-import com.neemre.btcdcli4j.core.domain.RawTransaction;
 import com.neemre.btcdcli4j.core.domain.RawTransactionOverview;
 import com.neemre.btcdcli4j.core.domain.RedeemScript;
 import com.neemre.btcdcli4j.core.domain.SignatureResult;

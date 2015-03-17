@@ -4,12 +4,12 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.neemre.btcd-cli4j</groupId>
 	<artifactId>btcd-cli4j-parent</artifactId>
-	<version>0.3.4</version>
+	<version>0.3.5</version>
 	<packaging>pom</packaging>
 
 	<name>btcd-cli4j Parent</name>
 	<description>A simple Java wrapper around Bitcoin Core's JSON-RPC (via HTTP) interface</description>
-	<url>https://github.com/priiduneemre/btcd-cli4j/</url>
+	<url>http://btcd-cli4j.neemre.com/</url>
 
 	<modules>
 		<module>core</module>

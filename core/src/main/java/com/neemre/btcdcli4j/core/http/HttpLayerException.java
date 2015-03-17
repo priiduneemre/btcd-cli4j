@@ -7,6 +7,8 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
+/**This exception is thrown to indicate a HTTP-specific error in the underlying communication
+ * infrastructure.*/
 @Data
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = false)

@@ -9,9 +9,9 @@ import org.apache.commons.lang3.StringUtils;
 import com.neemre.btcdcli4j.core.util.CollectionUtils;
 
 public final class OutputUtils {
-	
+
 	private OutputUtils() {}
-	
+
 	public static void printResult(String methodName, String[] paramNames, Object[] paramValues,
 			Object result) {
 		List<Object> printables = new ArrayList<Object>();

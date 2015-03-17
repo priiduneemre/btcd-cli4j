@@ -1,9 +1,9 @@
-#Universal patterns
+# Universal patterns
 bin/
 target/
 .settings/
 .classpath
 .project
 
-#Project-specific patterns
+# Project-specific patterns
 logs/
