@@ -16,7 +16,7 @@ public class NetworkApi {
 		Properties nodeConfig = ResourceUtils.getNodeConfig();
 		ApiCalls supportedCalls = new ApiCalls(httpProvider, nodeConfig);
 		
-//		supportedCalls.getPeerInfo();
-//		supportedCalls.ping();
+		supportedCalls.getPeerInfo();
+		supportedCalls.ping();
 	}
 }

@@ -1,5 +1,7 @@
 package com.neemre.btcdcli4j.core.domain;
 
+import java.util.List;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -18,13 +20,15 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 @EqualsAndHashCode(callSuper = false)
 @JsonInclude(Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class RawTransaction extends RawTransactionOverview {
+public class RawTransactionOverview extends Entity {
 	
-	@JsonProperty("blockhash")
-	private String blockHash;
-	private Integer confirmations;
-	private Long time;
-	@JsonProperty("blocktime")
-	private Long blockTime;
-	private String hex;
+	@JsonProperty("txid")
+	private String txId;
+	private Integer version;
+	@JsonProperty("locktime")
+	private Long lockTime;
+	@JsonProperty("vin")
+	private List<RawInput> vIn;
+	@JsonProperty("vout")
+	private List<RawOutput> vOut;
 }

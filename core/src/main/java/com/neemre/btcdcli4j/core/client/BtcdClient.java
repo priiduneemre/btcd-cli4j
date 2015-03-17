@@ -20,6 +20,7 @@ import com.neemre.btcdcli4j.core.domain.OutputOverview;
 import com.neemre.btcdcli4j.core.domain.Payment;
 import com.neemre.btcdcli4j.core.domain.PeerNode;
 import com.neemre.btcdcli4j.core.domain.RawTransaction;
+import com.neemre.btcdcli4j.core.domain.RawTransactionOverview;
 import com.neemre.btcdcli4j.core.domain.RedeemScript;
 import com.neemre.btcdcli4j.core.domain.SignatureResult;
 import com.neemre.btcdcli4j.core.domain.SinceBlock;
@@ -42,7 +43,7 @@ public interface BtcdClient {
 	String createRawTransaction(List<OutputOverview> outputs, Map<String, BigDecimal> toAddresses) 
 			throws BitcoindException, CommunicationException;
 	
-	RawTransaction decodeRawTransaction(String hexTransaction) throws BitcoindException, 
+	RawTransactionOverview decodeRawTransaction(String hexTransaction) throws BitcoindException, 
 			CommunicationException;
 	
 	RedeemScript decodeScript(String hexRedeemScript) throws BitcoindException, 
@@ -54,6 +55,8 @@ public interface BtcdClient {
 	
 	String encryptWallet(String passphrase) throws BitcoindException, CommunicationException;
 
+	BigDecimal estimateFee(Integer maxBlocks) throws BitcoindException, CommunicationException;
+	
 	String getAccount(String address) throws BitcoindException, CommunicationException;
 	
 	String getAccountAddress(String account) throws BitcoindException, CommunicationException;

@@ -26,5 +26,5 @@ public class RawInput extends Entity {
 	private Integer vOut;
 	private SignatureScript scriptSig;
 	private String coinbase;
-	private Integer sequence;
+	private Long sequence;
 }

@@ -1,7 +1,9 @@
+#Universal patterns
 bin/
 target/
-out/
 .settings/
 .classpath
 .project
-log4j.properties
+
+#Project-specific patterns
+logs/

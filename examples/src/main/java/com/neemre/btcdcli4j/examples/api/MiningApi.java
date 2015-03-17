@@ -16,9 +16,9 @@ public class MiningApi {
 		Properties nodeConfig = ResourceUtils.getNodeConfig();
 		ApiCalls supportedCalls = new ApiCalls(httpProvider, nodeConfig);
 		
-//		supportedCalls.getGenerate();
-//		supportedCalls.getMiningInfo();
-//		supportedCalls.setGenerate(false);
-//		supportedCalls.setGenerate(false, 7);
+		supportedCalls.getGenerate();
+		supportedCalls.getMiningInfo();
+		supportedCalls.setGenerate(false);
+		supportedCalls.setGenerate(false, 7);
 	}
 }

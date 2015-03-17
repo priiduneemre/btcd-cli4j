@@ -16,6 +16,6 @@ public class DeprecatedApi {
 		Properties nodeConfig = ResourceUtils.getNodeConfig();
 		ApiCalls supportedCalls = new ApiCalls(httpProvider, nodeConfig);
 		
-//		supportedCalls.getHashesPerSec();
+		supportedCalls.getHashesPerSec();
 	}
 }

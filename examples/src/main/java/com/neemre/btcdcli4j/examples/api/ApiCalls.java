@@ -25,7 +25,7 @@ import com.neemre.btcdcli4j.core.domain.Output;
 import com.neemre.btcdcli4j.core.domain.OutputOverview;
 import com.neemre.btcdcli4j.core.domain.Payment;
 import com.neemre.btcdcli4j.core.domain.PeerNode;
-import com.neemre.btcdcli4j.core.domain.RawTransaction;
+import com.neemre.btcdcli4j.core.domain.RawTransactionOverview;
 import com.neemre.btcdcli4j.core.domain.RedeemScript;
 import com.neemre.btcdcli4j.core.domain.SignatureResult;
 import com.neemre.btcdcli4j.core.domain.SinceBlock;
@@ -81,7 +81,7 @@ public class ApiCalls {
 	
 	public void decodeRawTransaction(String hexTransaction) throws BitcoindException, 
 			CommunicationException {
-		RawTransaction rawTransaction = btcdClient.decodeRawTransaction(hexTransaction);
+		RawTransactionOverview rawTransaction = btcdClient.decodeRawTransaction(hexTransaction);
 		printResult(Commands.DECODE_RAW_TRANSACTION.getName(), new String[]{"hexTransaction"},
 				new Object[]{hexTransaction}, rawTransaction);
 	}
@@ -111,6 +111,12 @@ public class ApiCalls {
 				new Object[]{passphrase}, noticeMsg);
 	}	
 
+	public void estimateFee(int maxBlocks) throws BitcoindException, CommunicationException {
+		BigDecimal estimatedFee = btcdClient.estimateFee(maxBlocks);
+		printResult(Commands.ESTIMATE_FEE.getName(), new String[]{"maxBlocks"}, 
+				new Object[]{maxBlocks}, estimatedFee);
+	}	
+	
 	public void getAccount(String address) throws BitcoindException, CommunicationException {
 		String account = btcdClient.getAccount(address);
 		printResult(Commands.GET_ACCOUNT.getName(), new String[]{"address"}, 
@@ -700,8 +706,8 @@ public class ApiCalls {
 	public void signRawTransaction(String hexTransaction, List<Output> outputs) 
 			throws BitcoindException, CommunicationException {
 		SignatureResult signatureResult = btcdClient.signRawTransaction(hexTransaction, outputs);
-		printResult(Commands.SIGN_RAW_TRANSACTION.getName(), new String[]{"hexTransaction", "outputs"}, 
-				new Object[]{hexTransaction, outputs}, signatureResult);
+		printResult(Commands.SIGN_RAW_TRANSACTION.getName(), new String[]{"hexTransaction", 
+			"outputs"}, new Object[]{hexTransaction, outputs}, signatureResult);
 	}
 
 	public void signRawTransaction(String hexTransaction, List<Output> outputs, 
@@ -758,5 +764,5 @@ public class ApiCalls {
 		btcdClient.walletPassphraseChange(curPassphrase, newPassphrase);
 		printResult(Commands.WALLET_PASSPHRASE_CHANGE.getName(), new String[]{"curPassphrase", 
 				"newPassphrase"}, new Object[]{curPassphrase, newPassphrase}, null);
-	}	
+	}
 }

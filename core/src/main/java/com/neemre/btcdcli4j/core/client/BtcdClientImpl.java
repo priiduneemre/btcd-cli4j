@@ -28,6 +28,7 @@ import com.neemre.btcdcli4j.core.domain.OutputOverview;
 import com.neemre.btcdcli4j.core.domain.Payment;
 import com.neemre.btcdcli4j.core.domain.PeerNode;
 import com.neemre.btcdcli4j.core.domain.RawTransaction;
+import com.neemre.btcdcli4j.core.domain.RawTransactionOverview;
 import com.neemre.btcdcli4j.core.domain.RedeemScript;
 import com.neemre.btcdcli4j.core.domain.SignatureResult;
 import com.neemre.btcdcli4j.core.domain.SinceBlock;
@@ -96,12 +97,12 @@ public class BtcdClientImpl implements BtcdClient {
 	}
 
 	@Override
-	public RawTransaction decodeRawTransaction(String hexTransaction) throws BitcoindException, 
-			CommunicationException {
+	public RawTransactionOverview decodeRawTransaction(String hexTransaction) 
+			throws BitcoindException, CommunicationException {
 		String rawTransactionJson = rpcClient.execute(Commands.DECODE_RAW_TRANSACTION.getName(), 
 				hexTransaction);
-		RawTransaction rawTransaction = rpcClient.getMapper().mapToEntity(rawTransactionJson, 
-				RawTransaction.class);
+		RawTransactionOverview rawTransaction = rpcClient.getMapper().mapToEntity(rawTransactionJson, 
+				RawTransactionOverview.class);
 		return rawTransaction;
 	}
 	
@@ -134,6 +135,14 @@ public class BtcdClientImpl implements BtcdClient {
 		String noticeMsgJson = rpcClient.execute(Commands.ENCRYPT_WALLET.getName(), passphrase);
 		String noticeMsg = rpcClient.getParser().parseString(noticeMsgJson);
 		return noticeMsg;
+	}
+	
+	@Override
+	public BigDecimal estimateFee(Integer maxBlocks) throws BitcoindException, 
+			CommunicationException {
+		String estimatedFeeJson = rpcClient.execute(Commands.ESTIMATE_FEE.getName(), maxBlocks);
+		BigDecimal estimatedFee = rpcClient.getParser().parseBigDecimal(estimatedFeeJson);
+		return estimatedFee;
 	}
 	
 	@Override

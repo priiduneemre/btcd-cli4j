@@ -4,7 +4,7 @@ The btcd-cli4j library is a simple Java wrapper around Bitcoin Core's JSON-RPC (
 
 * **Latest release:** 0.3.4
 * **Compatibility:** Bitcoin Core 0.10.0
-* **API coverage:** 62 of 81 commands (fully) implemented
+* **API coverage:** 63 of 81 commands (fully) implemented
 * **License:** GNU GPL v3.0 (see [LICENSE.md](https://github.com/priiduneemre/btcd-cli4j/blob/master/LICENSE.md))
 * **Readme updated:** 2015-03-16 21:22:55
 
@@ -52,7 +52,7 @@ Next, modify your `pom.xml` to include `btcd-cli4j-core` as a dependency:
 		<version>0.3.4</version>
 	</dependency>
 
-In order to communicate with `bitcoind`, btcd-cli4j has to be aware of your node's exact configuration. The recommended way of providing this information is via a `node_config.properties` file, for example:
+In order to communicate with `bitcoind`, btcd-cli4j needs to be aware of your node's exact configuration. The easiest way of providing this information is via a `node_config.properties` file, for example:
 
 	node.bitcoind.rpc.protocol = http
 	node.bitcoind.rpc.user = falcon-pc
@@ -61,14 +61,13 @@ In order to communicate with `bitcoind`, btcd-cli4j has to be aware of your node
 	node.bitcoind.rpc.port = 8332
 	node.bitcoind.http.auth_scheme = Basic
 
-Finally, to begin using the wrapper, create an instance of `ClosableHttpClient` (the default HTTP provider), load up the properties file created in the previous step and pass the two into a fresh `BtcdClientImpl` instance: 
+Finally, to begin using the wrapper, create an instance of `CloseableHttpClient` (the default HTTP provider), load up the properties file created in the previous step and pass the two into a new `BtcdClientImpl` instance: 
 
 	PoolingHttpClientConnectionManager cm = new PoolingHttpClientConnectionManager();
 	CloseableHttpClient httpProvider = HttpClients.custom().setConnectionManager(cm)
-		.build();
+			.build();
 	Properties nodeConfig = new Properties();
-	InputStream is = new BufferedInputStream(new FileInputStream(
-	"resources/node_config.properties"));
+	InputStream is = new BufferedInputStream(new FileInputStream("node_config.properties"));
 	nodeConfig.load(is);
 	is.close();
 	
@@ -78,7 +77,7 @@ That's it!
 	
 	MiningInfo miningInfo = client.getMiningInfo();
 	
-*PS. To learn more about the default HTTP provider (e.g. performance tuning of* `CloseableHttpClient` *instances and use of SSL/TLS layering (i.e. HTTPS) (untested!)), see the official HttpComponents Client docs* [here](http://hc.apache.org/httpcomponents-client-ga/tutorial/html/connmgmt.html#d5e380) *and* [here](http://hc.apache.org/httpcomponents-client-ga/tutorial/html/connmgmt.html#d5e436)*. Additionally, check out the related code samples:* [1](http://hc.apache.org/httpcomponents-client-4.4.x/httpclient/examples/org/apache/http/examples/client/ClientConfiguration.java) *and* [2](http://hc.apache.org/httpcomponents-client-4.4.x/httpclient/examples/org/apache/http/examples/client/ClientCustomSSL.java)*.* 
+*PS. To learn more about the default HTTP provider (e.g. performance tuning of* `CloseableHttpClient` *instances and/or use of SSL/TLS layering (i.e. HTTPS) (untested!)), see the official HttpComponents Client documentation* [here](http://hc.apache.org/httpcomponents-client-ga/tutorial/html/connmgmt.html#d5e380) *and* [here](http://hc.apache.org/httpcomponents-client-ga/tutorial/html/connmgmt.html#d5e436)*. Additionally, check out the related code samples:* [1](http://hc.apache.org/httpcomponents-client-4.4.x/httpclient/examples/org/apache/http/examples/client/ClientConfiguration.java) *and* [2](http://hc.apache.org/httpcomponents-client-4.4.x/httpclient/examples/org/apache/http/examples/client/ClientCustomSSL.java)*.* 
 
 
 ##Examples

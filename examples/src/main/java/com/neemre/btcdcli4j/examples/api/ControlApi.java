@@ -16,7 +16,7 @@ public class ControlApi {
 		Properties nodeConfig = ResourceUtils.getNodeConfig();
 		ApiCalls supportedCalls = new ApiCalls(httpProvider, nodeConfig);
 		
-//		supportedCalls.getInfo();
-//		supportedCalls.stop();
+		supportedCalls.getInfo();
+		supportedCalls.stop();
 	}
 }
