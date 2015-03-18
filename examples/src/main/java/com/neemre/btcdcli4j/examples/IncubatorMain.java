@@ -65,19 +65,18 @@ public class IncubatorMain {
 		CloseableHttpClient httpProvider = ResourceUtils.getHttpProvider();
 		Properties nodeConfig = ResourceUtils.getNodeConfig();
 		JsonRpcClient rpcClient = new JsonRpcClientImpl(httpProvider, nodeConfig);
-		String peerInfoJson = "[{\"id\":1093,\"addr\":"
-				+ "\"194.71.109.94:8333\",\"addrlocal\":\"46.166.161.166:37578\",\"services\":"
-				+ "\"0000000000000001\",\"lastsend\":1424883192,\"lastrecv\":1424883192,\"bytessent\":"
-				+ "284293,\"bytesrecv\":10845237,\"conntime\":1424878706,\"pingtime\":0.24801400,"
-				+ "\"version\":70001,\"subver\":\"/Satoshi:0.8.5/\",\"inbound\":false,\"startingheight\":"
-				+ "345108,\"banscore\":0,\"synced_headers\":345116,\"synced_blocks\":345116,\"inflight\":"
-				+ "[345112,345113,345114],\"whitelisted\":false},{\"id\":1094,\"addr\":"
-				+ "\"128.199.254.244:8333\",\"addrlocal\":\"46.166.161.166:37662\",\"services\":"
-				+ "\"0000000000000001\",\"lastsend\":1424883192,\"lastrecv\":1424883192,\"bytessent\":"
-				+ "280158,\"bytesrecv\":10365354,\"conntime\":1424878774,\"pingtime\":0.58703400,"
-				+ "\"version\":70002,\"subver\":\"/Satoshi:0.10.0/\",\"inbound\":false,\"startingheight\":"
-				+ "345108,\"banscore\":0,\"synced_headers\":345114,\"synced_blocks\":345114,\"inflight\":"
-				+ "[345109,345110,34511],\"whitelisted\":false}]";
+		String peerInfoJson = "[{\"id\":1093,\"addr\":\"194.71.109.94:8333\",\"addrlocal\":\"46.166." 
+				+ "161.166:37578\",\"services\":\"0000000000000001\",\"lastsend\":1424883192,\"lastre"
+				+ "cv\":1424883192,\"bytessent\":284293,\"bytesrecv\":10845237,\"conntime\":142487870"
+				+ "6,\"pingtime\":0.24801400,\"version\":70001,\"subver\":\"/Satoshi:0.8.5/\",\"inbou"
+				+ "nd\":false,\"startingheight\":345108,\"banscore\":0,\"synced_headers\":345116,\"sy"
+				+ "nced_blocks\":345116,\"inflight\":[345112,345113,345114],\"whitelisted\":false},{"
+				+ "\"id\":1094,\"addr\":\"128.199.254.244:8333\",\"addrlocal\":\"46.166.161.166:37662"
+				+ "\",\"services\":\"0000000000000001\",\"lastsend\":1424883192,\"lastrecv\":14248831"
+				+ "92,\"bytessent\":280158,\"bytesrecv\":10365354,\"conntime\":1424878774,\"pingtime"
+				+ "\":0.58703400,\"version\":70002,\"subver\":\"/Satoshi:0.10.0/\",\"inbound\":false,"
+				+ "\"startingheight\":345108,\"banscore\":0,\"synced_headers\":345114,\"synced_blocks"
+				+ "\":345114,\"inflight\":[345109,345110,34511],\"whitelisted\":false}]";
 		List<PeerNode> peerInfo = rpcClient.getMapper().mapToList(peerInfoJson, PeerNode.class);
 		System.out.println("Sample 'peerInfo': " + peerInfo);
 		

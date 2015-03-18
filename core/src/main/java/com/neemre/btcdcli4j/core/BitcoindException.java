@@ -4,8 +4,8 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
-/**This exception is thrown when a non-null error object (<i>i.e.</i> originating from 
- * <i>bitcoind</i>) is found to be present in a returning JSON-RPC response.*/
+/**This exception is thrown when a non-null error object (originating from <i>bitcoind</i>) is 
+ *detected in a returning JSON-RPC response.*/
 @Data
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = false)

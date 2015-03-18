@@ -52,7 +52,7 @@ Next, modify your `pom.xml` to include `btcd-cli4j-core` as a dependency:
 		<version>0.3.5</version>
 	</dependency>
 
-In order to communicate with `bitcoind`, btcd-cli4j has to be aware of your node's exact configuration. The easiest way of providing this information is via a `node_config.properties` file, for example:
+In order to communicate with `bitcoind`, btcd-cli4j needs to be aware of your node's exact configuration. The easiest way of providing this information is via a `node_config.properties` file, for example:
 
 	node.bitcoind.rpc.protocol = http
 	node.bitcoind.rpc.user = falcon-pc
