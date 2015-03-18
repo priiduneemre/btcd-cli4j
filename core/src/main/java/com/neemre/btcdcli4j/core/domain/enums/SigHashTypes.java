@@ -1,7 +1,6 @@
 package com.neemre.btcdcli4j.core.domain.enums;
 
 import lombok.AllArgsConstructor;
-import lombok.Setter;
 import lombok.ToString;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -23,8 +22,7 @@ public enum SigHashTypes {
 	NONE_ACP("NONE|ANYONECANPAY"),
 	SINGLE_ACP("SINGLE|ANYONECANPAY");
 	
-	@Setter
-	private String name;
+	private final String name;
 
 	
 	@JsonValue

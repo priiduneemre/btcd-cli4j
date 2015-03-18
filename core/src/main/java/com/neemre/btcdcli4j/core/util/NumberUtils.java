@@ -4,11 +4,13 @@ import java.math.BigDecimal;
 import java.util.Iterator;
 import java.util.Map;
 
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
+
 import com.neemre.btcdcli4j.core.common.Defaults;
 
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class NumberUtils {
-	
-	private NumberUtils() {}
 	
 	public static boolean isEven(int integer) {
 		if(integer % 2 == 0) {

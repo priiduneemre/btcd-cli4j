@@ -8,11 +8,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
+
 import com.neemre.btcdcli4j.core.common.Errors;
 
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class CollectionUtils {
-
-	private CollectionUtils() {}
 	
 	public static List<Object> asList(Object... items) {
 		List<Object> itemsList = new ArrayList<Object>(items.length);

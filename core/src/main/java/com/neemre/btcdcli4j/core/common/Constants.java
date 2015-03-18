@@ -1,6 +1,10 @@
 package com.neemre.btcdcli4j.core.common;
 
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
+
 /**A set of universally accepted, component-agnostic constants.*/
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class Constants {
 	
 	public static final String STRING_EMPTY = "";
@@ -11,7 +15,4 @@ public final class Constants {
 
 	public static final String UNIX_NEWLINE = "\n";
 	public static final String WINDOWS_NEWLINE ="\r\n";
-	
-	
-	private Constants() {}
 }

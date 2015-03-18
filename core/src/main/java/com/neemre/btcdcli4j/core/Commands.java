@@ -2,10 +2,10 @@ package com.neemre.btcdcli4j.core;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.Setter;
 import lombok.ToString;
 
 /**An enumeration specifying the <i>bitcoind</i> API commands currently supported by btcd-cli4j.**/
+@Getter
 @ToString
 @AllArgsConstructor
 public enum Commands {
@@ -74,13 +74,7 @@ public enum Commands {
 	WALLET_PASSPHRASE("walletpassphrase", 2, 2),
 	WALLET_PASSPHRASE_CHANGE("walletpassphrasechange", 2, 2);
 	
-	@Getter
-	@Setter
-	private String name;
-	@Getter
-	@Setter
-	private int minParams;
-	@Getter
-	@Setter
-	private int maxParams;
+	private final String name;
+	private final int minParams;
+	private final int maxParams;
 }

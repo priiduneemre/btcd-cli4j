@@ -2,9 +2,9 @@ package com.neemre.btcdcli4j.core.common;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.Setter;
 import lombok.ToString;
 
+@Getter
 @ToString
 @AllArgsConstructor
 public enum Errors {
@@ -29,12 +29,8 @@ public enum Errors {
 	PARSE_JSON_MALFORMED(1005003, "Unable to parse the specified JSON content (malformed syntax detected)."),
 	MAP_JSON_UNKNOWN(1006001, "An unknown exception ocurred while mapping the JSON content.");
 	
-	@Getter
-	@Setter
-	private int code;
-	@Getter
-	@Setter
-	private String message;
+	private final int code;
+	private final String message;
 	
 	
 	public String getDescription() {

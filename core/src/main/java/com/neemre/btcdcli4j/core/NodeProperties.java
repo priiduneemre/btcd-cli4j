@@ -2,11 +2,11 @@ package com.neemre.btcdcli4j.core;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.Setter;
 import lombok.ToString;
 
 /**An enumeration specifying the <i>bitcoind</i> node properties currently required for 
  * constructing a {@code BtcdClient} instance.*/
+@Getter
 @ToString
 @AllArgsConstructor
 public enum NodeProperties {
@@ -18,7 +18,5 @@ public enum NodeProperties {
 	RPC_PORT("node.bitcoind.rpc.port"),
 	HTTP_AUTH_SCHEME("node.bitcoind.http.auth_scheme");
 	
-	@Getter
-	@Setter
-	private String key;
+	private final String key;
 }

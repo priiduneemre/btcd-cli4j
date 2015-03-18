@@ -7,7 +7,6 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
 import lombok.AllArgsConstructor;
-import lombok.Setter;
 import lombok.ToString;
 
 @ToString
@@ -20,8 +19,7 @@ public enum ChainTypes {
 	TESTNET("test"),
 	REGTEST("regtest");
 
-	@Setter
-	public String name;
+	private final String name;
 
 
 	@JsonValue

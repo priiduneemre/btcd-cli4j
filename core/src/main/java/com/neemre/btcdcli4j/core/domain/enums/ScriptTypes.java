@@ -7,7 +7,6 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
 import lombok.AllArgsConstructor;
-import lombok.Setter;
 import lombok.ToString;
 
 @ToString
@@ -23,8 +22,7 @@ public enum ScriptTypes {
 	NULL_DATA("nulldata"),
 	NONSTANDARD("nonstandard");
 	
-	@Setter
-	private String name;
+	private final String name;
 
 	
 	@JsonValue
