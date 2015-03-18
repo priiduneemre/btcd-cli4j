@@ -76,23 +76,7 @@ public class JsonMapper {
 		}
 	}
 
-	public <T, S> Map<T, S> mapToMap(String entitiesJson, Class<T> keyClass, Class<S> valueClass) 
-			throws JsonRpcLayerException {
-		try {
-			MapType mapType = rawMapper.getTypeFactory().constructMapType(HashMap.class, keyClass,
-					valueClass);
-			Map<T, S> entities = rawMapper.readValue(entitiesJson, mapType);
-			return entities;
-		} catch (JsonParseException e) {
-			throw new JsonRpcLayerException(Errors.PARSE_JSON_MALFORMED, e);
-		} catch (JsonMappingException e) {
-			throw new JsonRpcLayerException(Errors.MAP_JSON_UNKNOWN, e);
-		} catch (IOException e) {
-			throw new JsonRpcLayerException(Errors.IO_UNKNOWN, e);
-		}
-	}
-
-	public <T> List<T> mapToList(String entitiesJson, Class<T> entityClass) 
+	public <T> List<T> mapToList(String entitiesJson, Class<T> entityClass)	
 			throws JsonRpcLayerException {
 		try {
 			CollectionType listType = rawMapper.getTypeFactory().constructCollectionType(
@@ -118,6 +102,22 @@ public class JsonMapper {
 						ArrayList.class, outmostListType);
 			}
 			S entities = rawMapper.readValue(entitiesJson, outmostListType);
+			return entities;
+		} catch (JsonParseException e) {
+			throw new JsonRpcLayerException(Errors.PARSE_JSON_MALFORMED, e);
+		} catch (JsonMappingException e) {
+			throw new JsonRpcLayerException(Errors.MAP_JSON_UNKNOWN, e);
+		} catch (IOException e) {
+			throw new JsonRpcLayerException(Errors.IO_UNKNOWN, e);
+		}
+	}
+	
+	public <T, S> Map<T, S> mapToMap(String entitiesJson, Class<T> keyClass, Class<S> valueClass) 
+			throws JsonRpcLayerException {
+		try {
+			MapType mapType = rawMapper.getTypeFactory().constructMapType(HashMap.class, keyClass,
+					valueClass);
+			Map<T, S> entities = rawMapper.readValue(entitiesJson, mapType);
 			return entities;
 		} catch (JsonParseException e) {
 			throw new JsonRpcLayerException(Errors.PARSE_JSON_MALFORMED, e);

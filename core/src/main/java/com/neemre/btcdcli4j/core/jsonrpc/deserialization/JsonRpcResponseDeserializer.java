@@ -13,7 +13,7 @@ import com.neemre.btcdcli4j.core.jsonrpc.domain.JsonRpcResponse;
 public class JsonRpcResponseDeserializer extends JsonDeserializer<JsonRpcResponse> {
 
 	@Override
-	public JsonRpcResponse deserialize(JsonParser parser, DeserializationContext context)
+	public JsonRpcResponse deserialize(JsonParser parser, DeserializationContext context)	
 			throws IOException, JsonProcessingException {
 		RawJsonRpcResponse rawRpcResponse = parser.readValueAs(RawJsonRpcResponse.class);
 

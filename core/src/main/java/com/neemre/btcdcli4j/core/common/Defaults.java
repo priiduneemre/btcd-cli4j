@@ -2,6 +2,7 @@ package com.neemre.btcdcli4j.core.common;
 
 import java.math.RoundingMode;
 
+/**A set of default values for commonly used call parameters.*/
 public final class Defaults {
 	
 	public static final int DECIMAL_SCALE = 8;

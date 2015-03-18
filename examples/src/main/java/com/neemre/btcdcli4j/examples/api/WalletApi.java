@@ -106,8 +106,8 @@ public class WalletApi {
 		supportedCalls.sendMany("treasury", new HashMap<String, BigDecimal>(){{
 				put("msrHoyN5Jw1EH7saGxMqJtTKt6qhmyPZMF", new BigDecimal("0.0015"));
 				put("n3y8BpckkDDGMtSq7d2Yx46EYenyUit3Jc", new BigDecimal("0.0015"));}}, 100, 
-				"Sample transaction: a payment of 0.0015 BTC to both 'supplierA' and 'supplierB' for services "
-				+ "rendered.");
+				"Sample transaction: a payment of 0.0015 BTC to both 'supplierA' and 'supplierB' for"
+						+ " services rendered.");
 		supportedCalls.sendToAddress("msrHoyN5Jw1EH7saGxMqJtTKt6qhmyPZMF", new BigDecimal("0.0005"));
 		supportedCalls.sendToAddress("n3y8BpckkDDGMtSq7d2Yx46EYenyUit3Jc", new BigDecimal("0.0035"), 
 				"Sample transaction: a payment of 0.0035 BTC to 'supplierB' for services rendered.");

@@ -1,5 +1,6 @@
 package com.neemre.btcdcli4j.core.common;
 
+/**A set of universally accepted, component-agnostic constants.*/
 public final class Constants {
 	
 	public static final String STRING_EMPTY = "";

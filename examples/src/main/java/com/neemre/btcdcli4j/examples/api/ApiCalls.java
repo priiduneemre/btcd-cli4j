@@ -377,7 +377,7 @@ public class ApiCalls {
 			CommunicationException {
 		Map<String, BigDecimal> accounts = btcdClient.listAccounts(confirmations, withWatchOnly);
 		printResult(Commands.LIST_ACCOUNTS.getName(), new String[]{"confirmations", 
-				"withWatchOnly"}, new Object[]{confirmations, withWatchOnly}, accounts);			
+				"withWatchOnly"}, new Object[]{confirmations, withWatchOnly}, accounts);
 	}
 	
 	public void listAddressGroupings() throws BitcoindException, CommunicationException {
@@ -712,7 +712,7 @@ public class ApiCalls {
 				privateKeys);
 		printResult(Commands.SIGN_RAW_TRANSACTION.getName(), new String[]{"hexTransaction", 
 				"outputs", "privateKeys"}, new Object[]{hexTransaction, outputs, privateKeys}, 
-				signatureResult);		
+				signatureResult);
 	}
 
 	public void signRawTransaction(String hexTransaction, List<Output> outputs, 
@@ -724,7 +724,7 @@ public class ApiCalls {
 				"outputs", "privateKeys", "sigHashType"}, new Object[]{hexTransaction, outputs, 
 				privateKeys, sigHashType}, signatureResult);
 	}
-	
+
 	public void stop() throws BitcoindException, CommunicationException {
 		String noticeMsg = btcdClient.stop();
 		printResult(Commands.STOP.getName(), null, null, noticeMsg);

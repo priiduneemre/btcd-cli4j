@@ -101,8 +101,8 @@ public class BtcdClientImpl implements BtcdClient {
 			throws BitcoindException, CommunicationException {
 		String rawTransactionJson = rpcClient.execute(Commands.DECODE_RAW_TRANSACTION.getName(), 
 				hexTransaction);
-		RawTransactionOverview rawTransaction = rpcClient.getMapper().mapToEntity(rawTransactionJson, 
-				RawTransactionOverview.class);
+		RawTransactionOverview rawTransaction = rpcClient.getMapper().mapToEntity(
+				rawTransactionJson, RawTransactionOverview.class);
 		return rawTransaction;
 	}
 	
@@ -385,7 +385,7 @@ public class BtcdClientImpl implements BtcdClient {
 	}
 
 	@Override
-	public Transaction getTransaction(String txId, Boolean withWatchOnly) throws BitcoindException, 
+	public Transaction getTransaction(String txId, Boolean withWatchOnly) throws BitcoindException,
 			CommunicationException {
 		List<Object> params = CollectionUtils.asList(txId, withWatchOnly);
 		String transactionJson = rpcClient.execute(Commands.GET_TRANSACTION.getName(), params);
@@ -457,7 +457,7 @@ public class BtcdClientImpl implements BtcdClient {
 	}
 
 	@Override
-	public void keyPoolRefill(Integer keypoolSize) throws BitcoindException,
+	public void keyPoolRefill(Integer keypoolSize) throws BitcoindException, 
 			CommunicationException {
 		rpcClient.execute(Commands.KEY_POOL_REFILL.getName(), keypoolSize);
 	}
@@ -871,9 +871,9 @@ public class BtcdClientImpl implements BtcdClient {
 	
 	@Override
 	public Boolean setTxFee(BigDecimal txFee) throws BitcoindException, CommunicationException {
-		String resultJson = rpcClient.execute(Commands.SET_TX_FEE.getName(), txFee);
-		Boolean result = rpcClient.getParser().parseBoolean(resultJson);
-		return result;
+		String isSuccessJson = rpcClient.execute(Commands.SET_TX_FEE.getName(), txFee);
+		Boolean isSuccess = rpcClient.getParser().parseBoolean(isSuccessJson);
+		return isSuccess;
 	}
 	
 	@Override

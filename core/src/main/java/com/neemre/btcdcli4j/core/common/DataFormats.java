@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
+/**An enumeration specifying the data formats recognized by btcd-cli4j.*/
 @ToString
 @AllArgsConstructor
 public enum DataFormats {

@@ -1,7 +1,8 @@
 package com.neemre.btcdcli4j.core.http;
 
+/**A set of common constants used by the HTTP protocol.*/
 public final class HttpConstants {
-	
+
 	public static final String REQ_METHOD_GET = "GET";
 	public static final String REQ_METHOD_POST = "POST";
 	

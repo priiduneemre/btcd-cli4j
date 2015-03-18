@@ -6,7 +6,7 @@ The btcd-cli4j library is a simple Java wrapper around Bitcoin Core's JSON-RPC (
 * **Compatibility:** Bitcoin Core 0.10.0
 * **API coverage:** 63 of 81 commands (fully) implemented
 * **License:** GNU GPL v3.0 (see [LICENSE.md](https://github.com/priiduneemre/btcd-cli4j/blob/master/LICENSE.md))
-* **Readme updated:** 2015-03-17 20:48:11
+* **Readme updated:** 2015-03-18 15:39:10
 
 A list of all *bitcoind* API commands currently supported by btcd-cli4j can be found in the `Commands` enum (see [here](https://github.com/priiduneemre/btcd-cli4j/blob/master/core/src/main/java/com/neemre/btcdcli4j/core/Commands.java) for more details).
 

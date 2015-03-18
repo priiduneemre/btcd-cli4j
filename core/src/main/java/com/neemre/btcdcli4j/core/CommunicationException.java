@@ -6,7 +6,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
-/**This is a common superclass for all exceptions thrown by the underlying communication 
+/**This is an abstract superclass for all exceptions thrown by the underlying communication 
  * infrastructure (<i>i.e.</i> the HTTP layer + the JSON-RPC layer).*/
 @Data
 @ToString(callSuper = true)

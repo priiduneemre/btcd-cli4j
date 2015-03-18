@@ -76,11 +76,11 @@ public enum Commands {
 	
 	@Getter
 	@Setter
-	String name;
+	private String name;
 	@Getter
 	@Setter
-	int minParams;
+	private int minParams;
 	@Getter
 	@Setter
-	int maxParams;
+	private int maxParams;
 }
