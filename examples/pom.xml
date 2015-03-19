@@ -5,14 +5,13 @@
 	<parent>
 		<groupId>com.neemre.btcd-cli4j</groupId>
 		<artifactId>btcd-cli4j-parent</artifactId>
-		<version>0.3.5</version>
+		<version>0.3.6</version>
 	</parent>
 	<artifactId>btcd-cli4j-examples</artifactId>
 	<packaging>jar</packaging>
 
 	<name>btcd-cli4j Examples</name>
 	<description>A list of examples demonstrating the use of btcd-cli4j</description>
-	<url>http://btcd-cli4j.neemre.com/</url>
 
 	<dependencies>
 		<dependency>

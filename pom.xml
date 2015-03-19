@@ -4,12 +4,20 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.neemre.btcd-cli4j</groupId>
 	<artifactId>btcd-cli4j-parent</artifactId>
-	<version>0.3.5</version>
+	<version>0.3.6</version>
 	<packaging>pom</packaging>
 
 	<name>btcd-cli4j Parent</name>
 	<description>A simple Java wrapper around Bitcoin Core's JSON-RPC (via HTTP) interface</description>
 	<url>http://btcd-cli4j.neemre.com/</url>
+
+	<licenses>
+		<license>
+			<name>The Apache Software License, Version 2.0</name>
+			<url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+			<distribution>repo</distribution>
+		</license>
+	</licenses>
 
 	<modules>
 		<module>core</module>
@@ -80,6 +88,11 @@
 						</goals>
 					</execution>
 				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-project-info-reports-plugin</artifactId>
+				<version>2.8</version>
 			</plugin>
 		</plugins>
 	</build>

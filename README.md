@@ -2,11 +2,11 @@
 
 The btcd-cli4j library is a simple Java wrapper around Bitcoin Core's JSON-RPC (via HTTP) interface. 
 
-* **Latest release:** 0.3.5 ([.zip](https://github.com/priiduneemre/btcd-cli4j/archive/0.3.5.zip); [.tar.gz](https://github.com/priiduneemre/btcd-cli4j/archive/0.3.5.tar.gz))
+* **Latest release:** 0.3.6 ([.zip](https://github.com/priiduneemre/btcd-cli4j/archive/0.3.6.zip); [.tar.gz](https://github.com/priiduneemre/btcd-cli4j/archive/0.3.6.tar.gz))
 * **Compatibility:** Bitcoin Core 0.10.0
 * **API coverage:** 63 of 81 commands (fully) implemented
-* **License:** GNU GPL v3.0 (see [LICENSE.md](https://github.com/priiduneemre/btcd-cli4j/blob/master/LICENSE.md))
-* **Readme updated:** 2015-03-18 15:39:10
+* **License:** Apache License 2.0 (see [LICENSE.md](https://github.com/priiduneemre/btcd-cli4j/blob/master/LICENSE.md))
+* **Readme updated:** 2015-03-19 14:13:49
 
 A list of all *bitcoind* API commands currently supported by btcd-cli4j can be found in the `Commands` enum (see [here](https://github.com/priiduneemre/btcd-cli4j/blob/master/core/src/main/java/com/neemre/btcdcli4j/core/Commands.java) for more details).
 
@@ -49,7 +49,7 @@ Next, modify your `pom.xml` to include `btcd-cli4j-core` as a dependency:
 	<dependency>
 		<groupId>com.neemre.btcd-cli4j</groupId>
 		<artifactId>btcd-cli4j-core</artifactId>
-		<version>0.3.5</version>
+		<version>0.3.6</version>
 	</dependency>
 
 In order to communicate with `bitcoind`, btcd-cli4j needs to be aware of your node's exact configuration. The easiest way of providing this information is via a `node_config.properties` file, for example:
