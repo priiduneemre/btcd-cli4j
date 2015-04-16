@@ -7,7 +7,6 @@ import java.util.Properties;
 
 import org.apache.http.impl.client.CloseableHttpClient;
 
-import com.neemre.btcdcli4j.core.common.Defaults;
 import com.neemre.btcdcli4j.core.domain.OutputOverview;
 import com.neemre.btcdcli4j.examples.util.ResourceUtils;
 

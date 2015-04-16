@@ -24,6 +24,7 @@ import org.slf4j.LoggerFactory;
 import com.neemre.btcdcli4j.core.NodeProperties;
 import com.neemre.btcdcli4j.core.common.Constants;
 import com.neemre.btcdcli4j.core.common.DataFormats;
+import com.neemre.btcdcli4j.core.common.Defaults;
 import com.neemre.btcdcli4j.core.common.Errors;
 import com.neemre.btcdcli4j.core.http.HttpConstants;
 import com.neemre.btcdcli4j.core.http.HttpLayerException;
@@ -47,6 +48,7 @@ public class SimpleHttpClientImpl implements SimpleHttpClient {
 		CloseableHttpResponse response = null;
 		try {
 			response = provider.execute(getNewRequest(reqMethod, reqPayload), new BasicHttpContext());
+			response = verifyResponse(response);
 			HttpEntity respPayloadEntity = response.getEntity();
 			String respPayload = Constants.STRING_EMPTY;
 			if(respPayloadEntity != null) {
@@ -118,5 +120,17 @@ public class SimpleHttpClientImpl implements SimpleHttpClient {
 					+ ":" + nodeConfig.get(NodeProperties.RPC_PASSWORD.getKey())).getBytes());
 		}
 		throw new IllegalArgumentException(Errors.ARGS_HTTP_AUTHSCHEME_UNSUPPORTED.getDescription());
+	}
+	
+	private CloseableHttpResponse verifyResponse(CloseableHttpResponse response) {
+		Header serverHeader = response.getFirstHeader(HttpConstants.HEADER_SERVER);
+		if((serverHeader != null) && (serverHeader.getValue() != null)) {
+			String serverVersion = serverHeader.getValue();
+			if(!serverVersion.equals(Defaults.SERVER_VERSION)) {
+				LOG.warn("-- verifyResponse(..): server version mismatch (library optimized for '{}'"
+						+", node reported '{}' instead)", Defaults.SERVER_VERSION, serverVersion);
+			}
+		}
+		return response;
 	}
 }

@@ -12,6 +12,7 @@ public final class HttpConstants {
 	
 	public static final String HEADER_AUTH = "Authorization";
 	public static final String HEADER_CONTENT_TYPE = "Content-Type";
+	public static final String HEADER_SERVER = "Server";
 	
 	public static final String AUTH_SCHEME_NONE = "";
 	public static final String AUTH_SCHEME_BASIC = "Basic";
