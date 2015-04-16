@@ -15,5 +15,6 @@ import lombok.NoArgsConstructor;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public abstract class JsonRpcMessage {
 	
+	private String jsonrpc;
 	private String id;
 }

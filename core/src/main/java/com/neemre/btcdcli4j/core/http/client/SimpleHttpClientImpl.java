@@ -128,7 +128,7 @@ public class SimpleHttpClientImpl implements SimpleHttpClient {
 			String serverVersion = serverHeader.getValue();
 			if(!serverVersion.equals(Defaults.SERVER_VERSION)) {
 				LOG.warn("-- verifyResponse(..): server version mismatch (library optimized for '{}'"
-						+", node reported '{}' instead)", Defaults.SERVER_VERSION, serverVersion);
+						+ ", node responded with '{}')", Defaults.SERVER_VERSION, serverVersion);
 			}
 		}
 		return response;

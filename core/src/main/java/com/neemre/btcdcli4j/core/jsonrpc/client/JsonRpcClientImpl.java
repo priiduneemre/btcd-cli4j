@@ -11,6 +11,7 @@ import org.slf4j.LoggerFactory;
 
 import com.neemre.btcdcli4j.core.BitcoindException;
 import com.neemre.btcdcli4j.core.CommunicationException;
+import com.neemre.btcdcli4j.core.common.Defaults;
 import com.neemre.btcdcli4j.core.common.Errors;
 import com.neemre.btcdcli4j.core.http.HttpConstants;
 import com.neemre.btcdcli4j.core.http.client.SimpleHttpClient;
@@ -82,6 +83,7 @@ public class JsonRpcClientImpl implements JsonRpcClient {
 
 	private <T> JsonRpcRequest<T> getNewRequest(String method, List<T> params, String id) {
 		JsonRpcRequest<T> rpcRequest = new JsonRpcRequest<T>();
+		rpcRequest.setJsonrpc(Defaults.JSON_RPC_VERSION);
 		rpcRequest.setMethod(method);
 		rpcRequest.setParams(params);
 		rpcRequest.setId(id);
@@ -90,6 +92,7 @@ public class JsonRpcClientImpl implements JsonRpcClient {
 
 	private JsonRpcResponse getNewResponse(String result, JsonRpcError error, String id) {
 		JsonRpcResponse rpcResponse = new JsonRpcResponse();
+		rpcResponse.setJsonrpc(Defaults.JSON_RPC_VERSION);
 		rpcResponse.setResult(result);
 		rpcResponse.setError(error);
 		rpcResponse.setId(id);
@@ -111,6 +114,11 @@ public class JsonRpcClientImpl implements JsonRpcClient {
 		}
 		if(!response.getId().equals(request.getId())) {
 			throw new JsonRpcLayerException(Errors.RESPONSE_JSONRPC_UNEQUAL_IDS);
+		}
+		if((response.getJsonrpc() != null) && (!response.getJsonrpc().equals(
+				Defaults.JSON_RPC_VERSION))) {
+			LOG.warn("-- verifyResponse(..): JSON-RPC version mismatch (library optimized for '{}'"
+					+ ", node responded in '{}')", Defaults.JSON_RPC_VERSION, response.getJsonrpc());
 		}
 		return response;
 	}
