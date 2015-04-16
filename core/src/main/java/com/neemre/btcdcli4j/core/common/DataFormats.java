@@ -10,10 +10,10 @@ import lombok.ToString;
 @AllArgsConstructor
 public enum DataFormats {
 	
-	HEX(0),
-	JSON(1),
-	PLAIN_TEXT(2),
-	OBJECT(3);
+	HEX(0, "text/plain"),
+	JSON(1, "application/json"), 
+	PLAIN_TEXT(2, "text/plain");
 	
 	private final int code;
+	private final String mediaType;
 }

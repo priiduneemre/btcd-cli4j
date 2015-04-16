@@ -23,6 +23,7 @@ import org.slf4j.LoggerFactory;
 
 import com.neemre.btcdcli4j.core.NodeProperties;
 import com.neemre.btcdcli4j.core.common.Constants;
+import com.neemre.btcdcli4j.core.common.DataFormats;
 import com.neemre.btcdcli4j.core.common.Errors;
 import com.neemre.btcdcli4j.core.http.HttpConstants;
 import com.neemre.btcdcli4j.core.http.HttpLayerException;
@@ -52,8 +53,8 @@ public class SimpleHttpClientImpl implements SimpleHttpClient {
 				respPayload = EntityUtils.toString(respPayloadEntity);
 				EntityUtils.consume(respPayloadEntity);
 			}
-			LOG.debug("-- execute(..): '{}' response payload received for HTTP '{}' request with" 
-					+ " status line '{}'", ((respPayloadEntity == null) ? "null" : "non-null"), 
+			LOG.debug("-- execute(..): '{}' response payload received for HTTP '{}' request with " 
+					+ "status line '{}'", ((respPayloadEntity == null) ? "null" : "non-null"), 
 					reqMethod, response.getStatusLine());
 			return respPayload;
 		} catch (ClientProtocolException e) {
@@ -78,21 +79,24 @@ public class SimpleHttpClientImpl implements SimpleHttpClient {
 
 	private HttpRequestBase getNewRequest(String reqMethod, String reqPayload) 
 			throws URISyntaxException, UnsupportedEncodingException {
+		HttpRequestBase request;
 		if(reqMethod.equals(HttpConstants.REQ_METHOD_POST)) {
-			URI endpointUri = new URI(String.format("%s://%s:%s/", 
+			HttpPost postRequest = new HttpPost();
+			postRequest.setHeader(HttpConstants.HEADER_CONTENT_TYPE, DataFormats.JSON.getMediaType());
+			postRequest.setEntity(new StringEntity(reqPayload));
+			request = postRequest;
+		} else {
+			throw new IllegalArgumentException(Errors.ARGS_HTTP_METHOD_UNSUPPORTED.getDescription());
+		}
+		request.setURI(new URI(String.format("%s://%s:%s/", 
 					nodeConfig.get(NodeProperties.RPC_PROTOCOL.getKey()), 
 					nodeConfig.get(NodeProperties.RPC_HOST.getKey()), 
-					nodeConfig.get(NodeProperties.RPC_PORT.getKey())));
-			HttpPost request = new HttpPost(endpointUri);
-			String authScheme = nodeConfig.get(NodeProperties.HTTP_AUTH_SCHEME.getKey()).toString();
-			Header authHeader = resolveAuthHeader(authScheme);
-			request.setHeader(authHeader);
-			request.setEntity(new StringEntity(reqPayload));
-			LOG.debug("<< getNewRequest(..): returning a new HTTP '{}' request with target endpoint"
-					+ " '{}' and auth header '{}'", reqMethod, endpointUri, authHeader);
-			return request;			
-		}
-		throw new IllegalArgumentException(Errors.ARGS_HTTP_METHOD_UNSUPPORTED.getDescription());
+					nodeConfig.get(NodeProperties.RPC_PORT.getKey()))));
+		String authScheme = nodeConfig.get(NodeProperties.HTTP_AUTH_SCHEME.getKey()).toString();
+		request.setHeader(resolveAuthHeader(authScheme));
+		LOG.debug("<< getNewRequest(..): returning a new HTTP '{}' request with target endpoint "
+				+ "'{}' and headers '{}'", reqMethod, request.getURI(), request.getAllHeaders());
+		return request;
 	}
 
 	private Header resolveAuthHeader(String authScheme) {
@@ -100,7 +104,7 @@ public class SimpleHttpClientImpl implements SimpleHttpClient {
 			return null;
 		}
 		if(authScheme.equals(HttpConstants.AUTH_SCHEME_BASIC)) {
-			return new BasicHeader(HttpConstants.REQ_HEADER_AUTH, HttpConstants.AUTH_SCHEME_BASIC 
+			return new BasicHeader(HttpConstants.HEADER_AUTH, HttpConstants.AUTH_SCHEME_BASIC 
 					+ " " + getCredentials(HttpConstants.AUTH_SCHEME_BASIC));
 		}
 		return null;

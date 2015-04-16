@@ -12,10 +12,10 @@ import lombok.ToString;
 public enum NodeProperties {
 	
 	RPC_PROTOCOL("node.bitcoind.rpc.protocol"),
-	RPC_USER("node.bitcoind.rpc.user"),
-	RPC_PASSWORD("node.bitcoind.rpc.password"),
 	RPC_HOST("node.bitcoind.rpc.host"),
 	RPC_PORT("node.bitcoind.rpc.port"),
+	RPC_USER("node.bitcoind.rpc.user"),
+	RPC_PASSWORD("node.bitcoind.rpc.password"),
 	HTTP_AUTH_SCHEME("node.bitcoind.http.auth_scheme");
 	
 	private final String key;

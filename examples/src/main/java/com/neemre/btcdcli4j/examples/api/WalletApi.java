@@ -118,7 +118,7 @@ public class WalletApi {
 		supportedCalls.setTxFee(new BigDecimal("0.00004900"));
 		supportedCalls.signMessage("mixnciYh9dar2CwywYYZTHZqS4kyZWkvoV", "I like liquorice.");
 		supportedCalls.walletLock();
-		supportedCalls.walletPassphrase("strawberry", Defaults.WALLET_AUTH_TIMEOUT);
+		supportedCalls.walletPassphrase("strawberry", 60);
 		supportedCalls.walletPassphraseChange("strawberry", "raspberry");
 	}
 }

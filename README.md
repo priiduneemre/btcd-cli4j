@@ -55,10 +55,10 @@ Next, modify your `pom.xml` to include `btcd-cli4j-core` as a dependency:
 In order to communicate with `bitcoind`, btcd-cli4j needs to be aware of your node's exact configuration. The easiest way of providing this information is via a `node_config.properties` file, for example:
 
 	node.bitcoind.rpc.protocol = http
-	node.bitcoind.rpc.user = falcon-pc
-	node.bitcoind.rpc.password = 3F4DN9QGqWrB4DCdfYMXp8xdDYL4HDFzpaS9r76DbNhw
 	node.bitcoind.rpc.host = 127.0.0.1
 	node.bitcoind.rpc.port = 8332
+	node.bitcoind.rpc.user = falcon-pc
+	node.bitcoind.rpc.password = 3F4DN9QGqWrB4DCdfYMXp8xdDYL4HDFzpaS9r76DbNhw
 	node.bitcoind.http.auth_scheme = Basic
 
 Finally, to begin using the wrapper, create an instance of `CloseableHttpClient` (the default HTTP provider), load up the properties file created in the previous step and pass the two into a new `BtcdClientImpl` instance: 

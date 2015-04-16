@@ -578,7 +578,7 @@ public class BtcdClientImpl implements BtcdClient {
 		List<Object> params = CollectionUtils.asList(confirmations, withUnused, withWatchOnly);
 		String addressesJson = rpcClient.execute(Commands.LIST_RECEIVED_BY_ADDRESS.getName(),
 				params);
-		List<Address> addresses = rpcClient.getMapper().mapToList(addressesJson,  Address.class);
+		List<Address> addresses = rpcClient.getMapper().mapToList(addressesJson, Address.class);
 		return addresses;
 	}
 	
