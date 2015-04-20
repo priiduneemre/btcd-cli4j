@@ -117,7 +117,7 @@ public class JsonRpcClientImpl implements JsonRpcClient {
 		}
 		if((response.getJsonrpc() != null) && (!response.getJsonrpc().equals(
 				Defaults.JSON_RPC_VERSION))) {
-			LOG.warn("-- verifyResponse(..): JSON-RPC version mismatch (library optimized for '{}'"
+			LOG.warn("-- verifyResponse(..): JSON-RPC version mismatch (client optimized for '{}'"
 					+ ", node responded in '{}')", Defaults.JSON_RPC_VERSION, response.getJsonrpc());
 		}
 		return response;

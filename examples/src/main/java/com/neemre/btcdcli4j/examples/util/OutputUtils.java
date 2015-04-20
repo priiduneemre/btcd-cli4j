@@ -4,13 +4,15 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import lombok.NoArgsConstructor;
+import lombok.AccessLevel;
+
 import org.apache.commons.lang3.StringUtils;
 
 import com.neemre.btcdcli4j.core.util.CollectionUtils;
 
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class OutputUtils {
-
-	private OutputUtils() {}
 
 	public static void printResult(String methodName, String[] paramNames, Object[] paramValues,
 			Object result) {

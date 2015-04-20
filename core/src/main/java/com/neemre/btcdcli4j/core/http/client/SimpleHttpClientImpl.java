@@ -9,6 +9,7 @@ import java.util.Properties;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.http.Header;
 import org.apache.http.HttpEntity;
+import org.apache.http.StatusLine;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpPost;
@@ -24,7 +25,6 @@ import org.slf4j.LoggerFactory;
 import com.neemre.btcdcli4j.core.NodeProperties;
 import com.neemre.btcdcli4j.core.common.Constants;
 import com.neemre.btcdcli4j.core.common.DataFormats;
-import com.neemre.btcdcli4j.core.common.Defaults;
 import com.neemre.btcdcli4j.core.common.Errors;
 import com.neemre.btcdcli4j.core.http.HttpConstants;
 import com.neemre.btcdcli4j.core.http.HttpLayerException;
@@ -48,7 +48,7 @@ public class SimpleHttpClientImpl implements SimpleHttpClient {
 		CloseableHttpResponse response = null;
 		try {
 			response = provider.execute(getNewRequest(reqMethod, reqPayload), new BasicHttpContext());
-			response = verifyResponse(response);
+			response = checkResponse(response);
 			HttpEntity respPayloadEntity = response.getEntity();
 			String respPayload = Constants.STRING_EMPTY;
 			if(respPayloadEntity != null) {
@@ -122,15 +122,17 @@ public class SimpleHttpClientImpl implements SimpleHttpClient {
 		throw new IllegalArgumentException(Errors.ARGS_HTTP_AUTHSCHEME_UNSUPPORTED.getDescription());
 	}
 	
-	private CloseableHttpResponse verifyResponse(CloseableHttpResponse response) {
-		Header serverHeader = response.getFirstHeader(HttpConstants.HEADER_SERVER);
-		if((serverHeader != null) && (serverHeader.getValue() != null)) {
-			String serverVersion = serverHeader.getValue();
-			if(!serverVersion.equals(Defaults.SERVER_VERSION)) {
-				LOG.warn("-- verifyResponse(..): server version mismatch (library optimized for '{}'"
-						+ ", node responded with '{}')", Defaults.SERVER_VERSION, serverVersion);
-			}
+	private CloseableHttpResponse checkResponse(CloseableHttpResponse response) 
+			throws HttpLayerException {
+		LOG.debug(">> checkResponse(..): checking HTTP response for non-OK status codes & "
+				+ "unexpected header values");
+		StatusLine statusLine = response.getStatusLine();
+		if((statusLine.getStatusCode() >= 400) && (statusLine.getStatusCode() <= 499)) {
+			throw new HttpLayerException(Errors.RESPONSE_HTTP_CLIENT_FAULT, statusLine.toString());
 		}
+		if((statusLine.getStatusCode() >= 500) && (statusLine.getStatusCode() <= 599)) {
+			throw new HttpLayerException(Errors.RESPONSE_HTTP_SERVER_FAULT, statusLine.toString());
+		}	
 		return response;
 	}
 }

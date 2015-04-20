@@ -6,13 +6,15 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
+
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.impl.conn.PoolingHttpClientConnectionManager;
 
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class ResourceUtils {
-	
-	private ResourceUtils() {}
 	
 	public static CloseableHttpClient getHttpProvider() {
 		PoolingHttpClientConnectionManager connManager = new PoolingHttpClientConnectionManager();

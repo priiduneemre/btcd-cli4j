@@ -1,5 +1,6 @@
 package com.neemre.btcdcli4j.core;
 
+import com.neemre.btcdcli4j.core.common.Constants;
 import com.neemre.btcdcli4j.core.common.Errors;
 
 import lombok.Data;
@@ -18,12 +19,12 @@ public abstract class CommunicationException extends Exception {
 	private int code;
 	
 	
-	public CommunicationException(Exception cause) {
-		super(cause);
+	public CommunicationException(Errors error) {
+		this(error, Constants.STRING_EMPTY);
 	}
 	
-	public CommunicationException(Errors error) {
-		super(error.getDescription());
+	public CommunicationException(Errors error, String additionalMsg) {
+		super(error.getDescription() + additionalMsg);
 		code = error.getCode();
 	}
 	

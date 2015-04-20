@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>com.neemre.btcd-cli4j</groupId>
 		<artifactId>btcd-cli4j-parent</artifactId>
-		<version>0.3.6</version>
+		<version>0.3.7</version>
 	</parent>
 	<artifactId>btcd-cli4j-core</artifactId>
 	<packaging>jar</packaging>
@@ -37,7 +37,7 @@
 		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
-			<version>1.16.2</version>
+			<version>${lombok.version}</version>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>

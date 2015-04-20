@@ -18,9 +18,13 @@ public enum Errors {
 	ARGS_HTTP_AUTHSCHEME_UNSUPPORTED(1001006, "Expected the argument to be a valid HTTP auth scheme, but "
 			+ "was invalid/unsupported instead."),
 	REQUEST_HTTP_FAULT(1002001, "Request execution failed due an error in the HTTP protocol."),
-	RESPONSE_JSONRPC_NULL(1003001, "Expected a non-null JSON-RPC response object, but got 'null' instead."),
-	RESPONSE_JSONRPC_NULL_ID(1003002, "Expected a non-null JSON-RPC response id, but got 'null' instead."),
-	RESPONSE_JSONRPC_UNEQUAL_IDS(1003003, "Expected the JSON-RPC request and response ids to be 'equal', "
+	RESPONSE_HTTP_CLIENT_FAULT(1003001, "The server responded with a non-OK (4xx) HTTP status code. "
+			+ "Status line: "),
+	RESPONSE_HTTP_SERVER_FAULT(1003002, "The server responded with a non-OK (5xx) HTTP status code. "
+			+ "Status line: "),
+	RESPONSE_JSONRPC_NULL(1003003, "Expected a non-null JSON-RPC response object, but got 'null' instead."),
+	RESPONSE_JSONRPC_NULL_ID(1003004, "Expected a non-null JSON-RPC response id, but got 'null' instead."),
+	RESPONSE_JSONRPC_UNEQUAL_IDS(1003005, "Expected the JSON-RPC request and response ids to be 'equal', "
 			+ "but were 'unequal' instead."),
 	IO_STREAM_UNCLOSED(1004001, "Unable to close the specified stream."),
 	IO_UNKNOWN(1004002, "The operation failed due to an unknown IO exception."),

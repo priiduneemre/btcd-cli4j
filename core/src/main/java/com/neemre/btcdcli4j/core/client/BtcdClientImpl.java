@@ -12,7 +12,6 @@ import org.slf4j.LoggerFactory;
 import com.neemre.btcdcli4j.core.BitcoindException;
 import com.neemre.btcdcli4j.core.Commands;
 import com.neemre.btcdcli4j.core.CommunicationException;
-import com.neemre.btcdcli4j.core.NodeProperties;
 import com.neemre.btcdcli4j.core.common.DataFormats;
 import com.neemre.btcdcli4j.core.common.Defaults;
 import com.neemre.btcdcli4j.core.domain.Account;
@@ -44,12 +43,17 @@ public class BtcdClientImpl implements BtcdClient {
 	
 	private static final Logger LOG = LoggerFactory.getLogger(BtcdClientImpl.class);
 	
+	private ClientConfigurator configurator;
 	private JsonRpcClient rpcClient;
+	private String nodeVersion;
 	
 	
-	public BtcdClientImpl(CloseableHttpClient httpProvider, Properties nodeConfig) {
+	public BtcdClientImpl(CloseableHttpClient httpProvider, Properties nodeConfig) 
+			throws BitcoindException, CommunicationException {
 		LOG.info("** BtcdClientImpl(): initiating the 'bitcoind' core wrapper");
-		rpcClient = new JsonRpcClientImpl(httpProvider, verifyNodeConfig(nodeConfig));
+		configurator = new ClientConfigurator();
+		rpcClient = new JsonRpcClientImpl(httpProvider, configurator.verifyNodeConfig(nodeConfig));
+		nodeVersion = configurator.checkNodeVersion(getInfo().getVersion());
 	}
 	
 	@Override
@@ -973,16 +977,5 @@ public class BtcdClientImpl implements BtcdClient {
 			throws BitcoindException, CommunicationException {
 		List<Object> params = CollectionUtils.asList(curPassphrase, newPassphrase);
 		rpcClient.execute(Commands.WALLET_PASSPHRASE_CHANGE.getName(), params);
-	}
-	
-	private Properties verifyNodeConfig(Properties nodeConfig) {
-		for(NodeProperties property : NodeProperties.values()) {
-			if(nodeConfig.getProperty(property.getKey()) == null) {
-				LOG.warn("-- verifyNodeConfig(..): node property '{}' not set; reverting to "
-						+ "default value '{}'", property.getKey(), property.getDefaultValue());
-				nodeConfig.setProperty(property.getKey(), property.getDefaultValue());
-			}
-		}
-		return nodeConfig;
 	}
 }

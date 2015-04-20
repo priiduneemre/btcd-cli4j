@@ -17,6 +17,7 @@ import com.neemre.btcdcli4j.core.jsonrpc.JsonPrimitiveParser;
 import com.neemre.btcdcli4j.core.jsonrpc.client.JsonRpcClient;
 import com.neemre.btcdcli4j.core.jsonrpc.client.JsonRpcClientImpl;
 import com.neemre.btcdcli4j.core.util.CollectionUtils;
+import com.neemre.btcdcli4j.core.util.StringUtils;
 import com.neemre.btcdcli4j.examples.util.ResourceUtils;
 
 /**Please ignore this class - it's just a quick mock-up {@code main} for ironing out bugs/trying 
@@ -91,5 +92,18 @@ public class IncubatorMain {
 		//		+ " HTTP 'GET' request.");
 		
 		System.out.println(new BitcoindException(334, "'I am a Bitcoin-specific exception!'"));
+		
+		String nodeVersion = "60200"; //0.6.14
+		String nodeVersion1 = "80400"; //0.8.4
+		String nodeVersion2 = "100000"; //0.10.0
+		String nodeVersion3 = "1010500"; //1.1.5
+
+		System.out.println("'" + new StringBuilder().toString() + "'");
+		System.out.printf("'%s'\n", StringUtils.pad(nodeVersion, 8, '0', true));
+		System.out.printf("'%s'\n", StringUtils.split("0123456789abcdef", 3));
+		String decodedVersion = StringUtils.join(CollectionUtils.mergeInterlaced(
+				StringUtils.split(StringUtils.pad(nodeVersion2, 8, '0', true), 2), 
+				CollectionUtils.duplicate(".", 4)));
+		System.out.printf("decodedVersion: '%s'\n", decodedVersion);
 	}
 }
