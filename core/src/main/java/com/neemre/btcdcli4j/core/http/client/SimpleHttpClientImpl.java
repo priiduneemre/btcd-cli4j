@@ -14,6 +14,7 @@ import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpRequestBase;
+import org.apache.http.entity.ContentType;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.message.BasicHeader;
@@ -94,8 +95,8 @@ public class SimpleHttpClientImpl implements SimpleHttpClient {
 		HttpRequestBase request;
 		if(reqMethod.equals(HttpConstants.REQ_METHOD_POST)) {
 			HttpPost postRequest = new HttpPost();
-			postRequest.setHeader(HttpConstants.HEADER_CONTENT_TYPE, DataFormats.JSON.getMediaType());
-			postRequest.setEntity(new StringEntity(reqPayload));
+			postRequest.setEntity(new StringEntity(reqPayload, ContentType.create(
+					DataFormats.JSON.getMediaType(), Constants.UTF_8)));
 			request = postRequest;
 		} else {
 			throw new IllegalArgumentException(Errors.ARGS_HTTP_METHOD_UNSUPPORTED.getDescription());
@@ -105,7 +106,7 @@ public class SimpleHttpClientImpl implements SimpleHttpClient {
 					nodeConfig.get(NodeProperties.RPC_HOST.getKey()), 
 					nodeConfig.get(NodeProperties.RPC_PORT.getKey()))));
 		String authScheme = nodeConfig.get(NodeProperties.HTTP_AUTH_SCHEME.getKey()).toString();
-		request.setHeader(resolveAuthHeader(authScheme));
+		request.addHeader(resolveAuthHeader(authScheme));
 		LOG.debug("<< getNewRequest(..): returning a new HTTP '{}' request with target endpoint "
 				+ "'{}' and headers '{}'", reqMethod, request.getURI(), request.getAllHeaders());
 		return request;
