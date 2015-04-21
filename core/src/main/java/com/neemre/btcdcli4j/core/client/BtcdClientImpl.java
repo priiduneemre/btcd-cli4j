@@ -47,12 +47,37 @@ public class BtcdClientImpl implements BtcdClient {
 	private JsonRpcClient rpcClient;
 	private String nodeVersion;
 	
-	
-	public BtcdClientImpl(CloseableHttpClient httpProvider, Properties nodeConfig) 
-			throws BitcoindException, CommunicationException {
+
+	private BtcdClientImpl() {
 		LOG.info("** BtcdClientImpl(): initiating the 'bitcoind' core wrapper");
 		configurator = new ClientConfigurator();
-		rpcClient = new JsonRpcClientImpl(httpProvider, configurator.verifyNodeConfig(nodeConfig));
+	}
+
+	public BtcdClientImpl(Properties nodeConfig) throws BitcoindException, CommunicationException {
+		this(null, nodeConfig);
+	}
+
+	public BtcdClientImpl(CloseableHttpClient httpProvider, Properties nodeConfig) 
+			throws BitcoindException, CommunicationException {
+		this();
+		rpcClient = new JsonRpcClientImpl(configurator.checkHttpProvider(httpProvider), 
+				configurator.checkNodeConfig(nodeConfig));
+		nodeVersion = configurator.checkNodeVersion(getInfo().getVersion());
+	}
+
+	public BtcdClientImpl(String rpcProtocol, String rpcHost, Integer rpcPort, String rpcUser, 
+			String rpcPassword, String httpAuthScheme) throws BitcoindException, 
+			CommunicationException {
+		this(null, rpcProtocol, rpcHost, rpcPort, rpcUser, rpcPassword, httpAuthScheme);
+	}
+
+	public BtcdClientImpl(CloseableHttpClient httpProvider, String rpcProtocol, String rpcHost,
+			Integer rpcPort, String rpcUser, String rpcPassword, String httpAuthScheme) 
+					throws BitcoindException, CommunicationException {
+		this();
+		rpcClient = new JsonRpcClientImpl(configurator.checkHttpProvider(httpProvider), 
+				configurator.checkNodeConfig(rpcProtocol, rpcHost, rpcPort, rpcUser, rpcPassword,
+						httpAuthScheme));
 		nodeVersion = configurator.checkNodeVersion(getInfo().getVersion());
 	}
 	
@@ -977,5 +1002,10 @@ public class BtcdClientImpl implements BtcdClient {
 			throws BitcoindException, CommunicationException {
 		List<Object> params = CollectionUtils.asList(curPassphrase, newPassphrase);
 		rpcClient.execute(Commands.WALLET_PASSPHRASE_CHANGE.getName(), params);
+	}
+
+	@Override
+	public void close() throws CommunicationException {
+		rpcClient.close();
 	}
 }

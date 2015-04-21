@@ -309,4 +309,6 @@ public interface BtcdClient {
 
 	void walletPassphraseChange(String curPassphrase, String newPassphrase) 
 			throws BitcoindException, CommunicationException;
+	
+	void close() throws CommunicationException;
 }

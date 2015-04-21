@@ -19,4 +19,6 @@ public interface JsonRpcClient {
 	JsonPrimitiveParser getParser();
 
 	JsonMapper getMapper();
+	
+	void close() throws CommunicationException;
 }

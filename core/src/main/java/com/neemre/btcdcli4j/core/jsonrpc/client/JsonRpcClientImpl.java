@@ -81,6 +81,11 @@ public class JsonRpcClientImpl implements JsonRpcClient {
 		return mapper;
 	}
 
+	@Override
+	public void close() throws CommunicationException {
+		httpClient.close();
+	}
+	
 	private <T> JsonRpcRequest<T> getNewRequest(String method, List<T> params, String id) {
 		JsonRpcRequest<T> rpcRequest = new JsonRpcRequest<T>();
 		rpcRequest.setJsonrpc(Defaults.JSON_RPC_VERSION);

@@ -78,6 +78,16 @@ public class SimpleHttpClientImpl implements SimpleHttpClient {
 			}
 		}
 	}
+	
+	@Override
+	public void close() throws HttpLayerException {
+		try {
+			LOG.info(">> close(..): attempting to shut down the underlying HTTP provider");
+			provider.close();
+		} catch (IOException e) {
+			throw new HttpLayerException(Errors.IO_UNKNOWN, e);
+		}
+	}
 
 	private HttpRequestBase getNewRequest(String reqMethod, String reqPayload) 
 			throws URISyntaxException, UnsupportedEncodingException {
