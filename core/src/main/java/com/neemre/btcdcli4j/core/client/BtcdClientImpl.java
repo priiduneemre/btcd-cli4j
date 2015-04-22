@@ -65,6 +65,37 @@ public class BtcdClientImpl implements BtcdClient {
 		nodeVersion = configurator.checkNodeVersion(getInfo().getVersion());
 	}
 
+	public BtcdClientImpl(String rpcUser, String rpcPassword) throws BitcoindException, 
+			CommunicationException {
+		this(null, null, rpcUser, rpcPassword);
+	}
+	
+	public BtcdClientImpl(CloseableHttpClient httpProvider, String rpcUser, String rpcPassword) 
+			throws BitcoindException, CommunicationException {
+		this(httpProvider, null, null, rpcUser, rpcPassword);
+	}
+	
+	public BtcdClientImpl(String rpcHost, Integer rpcPort, String rpcUser, String rpcPassword) 
+			throws BitcoindException, CommunicationException {
+		this((String)null, rpcHost, rpcPort, rpcUser, rpcPassword);
+	}
+	
+	public BtcdClientImpl(CloseableHttpClient httpProvider, String rpcHost, Integer rpcPort, 
+			String rpcUser, String rpcPassword) throws BitcoindException, CommunicationException {
+		this(httpProvider, null, rpcHost, rpcPort, rpcUser, rpcPassword);
+	}
+	
+	public BtcdClientImpl(String rpcProtocol, String rpcHost, Integer rpcPort, String rpcUser,
+			String rpcPassword) throws BitcoindException, CommunicationException {
+		this(rpcProtocol, rpcHost, rpcPort, rpcUser, rpcPassword, null);
+	}
+	
+	public BtcdClientImpl(CloseableHttpClient httpProvider, String rpcProtocol, String rpcHost,
+			Integer rpcPort, String rpcUser, String rpcPassword) throws BitcoindException, 
+			CommunicationException {
+		this(httpProvider, rpcProtocol, rpcHost, rpcPort, rpcUser, rpcPassword, null);
+	}
+
 	public BtcdClientImpl(String rpcProtocol, String rpcHost, Integer rpcPort, String rpcUser, 
 			String rpcPassword, String httpAuthScheme) throws BitcoindException, 
 			CommunicationException {
@@ -73,7 +104,7 @@ public class BtcdClientImpl implements BtcdClient {
 
 	public BtcdClientImpl(CloseableHttpClient httpProvider, String rpcProtocol, String rpcHost,
 			Integer rpcPort, String rpcUser, String rpcPassword, String httpAuthScheme) 
-					throws BitcoindException, CommunicationException {
+			throws BitcoindException, CommunicationException {
 		this();
 		rpcClient = new JsonRpcClientImpl(configurator.checkHttpProvider(httpProvider), 
 				configurator.checkNodeConfig(rpcProtocol, rpcHost, rpcPort, rpcUser, rpcPassword,
