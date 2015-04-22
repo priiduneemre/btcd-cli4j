@@ -41,8 +41,8 @@ public class ClientConfigurator {
 	public CloseableHttpClient checkHttpProvider(CloseableHttpClient httpProvider) {
 		if (httpProvider == null) {
 			httpProvider = getDefaultHttpProvider();
-			LOG.warn("-- checkHttpProvider(..): no preconfigured HTTP providers detected; "
-					+ "reverting to library default settings");
+			LOG.warn("-- checkHttpProvider(..): no preconfigured HTTP provider detected; reverting "
+					+ "to library default settings");
 		}
 		return httpProvider;
 	}
