@@ -35,7 +35,7 @@ public class Block extends Entity {
 	private String merkleRoot;
 	private List<String> tx;
 	private Long time;
-	private Integer nonce;
+	private Long nonce;
 	private String bits;
 	@Setter(AccessLevel.NONE)
 	private BigDecimal difficulty;
