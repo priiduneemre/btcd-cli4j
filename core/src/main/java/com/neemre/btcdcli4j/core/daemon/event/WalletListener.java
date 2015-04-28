@@ -17,6 +17,9 @@ public abstract class WalletListener {
 		observer = new Observer() {
 			public void update(Observable o, Object arg) {
 				Transaction transaction = (Transaction)arg;
+				System.out.printf("[%s] %s << %s: %s\n", Thread.currentThread().getName(), 
+						getClass().getSimpleName(), "update(..)", "received 'notification received'"
+						+ ", invoking 'walletChanged(..)'");
 				walletChanged(transaction);
 			}
 		};

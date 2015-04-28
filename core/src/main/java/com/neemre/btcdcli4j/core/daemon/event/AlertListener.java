@@ -15,6 +15,9 @@ public abstract class AlertListener {
 		observer = new Observer() {
 			public void update(Observable o, Object arg) {
 				String alert = (String)arg;
+				System.out.printf("[%s] %s -- %s: %s\n", Thread.currentThread().getName(), 
+						getClass().getSimpleName(), "update(..)", "received 'notification received'"
+						+ ", invoking 'alertReceived(..)'");
 				alertReceived(alert);
 			}
 		};

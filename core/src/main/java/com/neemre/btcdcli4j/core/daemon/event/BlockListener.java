@@ -17,6 +17,9 @@ public abstract class BlockListener {
 		observer = new Observer() {
 			public void update(Observable o, Object arg) {
 				Block block = (Block)arg;
+				System.out.printf("[%s] %s -- %s: %s\n", Thread.currentThread().getName(), 
+						getClass().getSimpleName(), "update(..)", "received 'notification received'"
+						+ ", invoking 'blockDetected(..)'");
 				blockDetected(block);
 			}
 		};
