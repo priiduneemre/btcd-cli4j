@@ -39,7 +39,7 @@ public class ApiCalls {
 	private BtcdClient btcdClient;
 
 
-	public ApiCalls(CloseableHttpClient httpProvider, Properties nodeConfig) 
+	public ApiCalls(CloseableHttpClient httpProvider, Properties nodeConfig)
 			throws BitcoindException, CommunicationException {
 		btcdClient = new BtcdClientImpl(httpProvider, nodeConfig);
 	}
