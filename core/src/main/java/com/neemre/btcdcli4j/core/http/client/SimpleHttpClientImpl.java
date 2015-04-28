@@ -67,15 +67,15 @@ public class SimpleHttpClientImpl implements SimpleHttpClient {
 		} catch (URISyntaxException e) {
 			throw new HttpLayerException(Errors.PARSE_URI_FAILED, e);
 		} finally {
-			try {
-				if(response != null) {
+			if(response != null) {
+				try {
 					LOG.debug("-- execute(..): attempting to recycle old HTTP response (reply to a "
 							+ "'{}' request) with status line '{}'", reqMethod, response
 							.getStatusLine());
 					response.close();
+				} catch (IOException e) {
+					throw new HttpLayerException(Errors.IO_UNKNOWN, e);
 				}
-			} catch (IOException e) {
-				throw new HttpLayerException(Errors.IO_UNKNOWN, e);
 			}
 		}
 	}
