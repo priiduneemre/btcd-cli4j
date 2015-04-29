@@ -11,6 +11,7 @@ import lombok.EqualsAndHashCode;
 
 import com.neemre.btcdcli4j.core.client.BtcdClient;
 import com.neemre.btcdcli4j.core.common.Constants;
+import com.neemre.btcdcli4j.core.util.StringUtils;
 
 @Data
 @EqualsAndHashCode(callSuper = false)
@@ -30,6 +31,7 @@ public abstract class NotificationWorker extends Observable implements Runnable 
 	@Override
 	public void run() {
 		try {
+			Thread.currentThread().setName(getUniqueName());
 			BufferedReader reader = new BufferedReader(new InputStreamReader(
 					socket.getInputStream(), Constants.UTF_8));
 			StringBuilder notification = new StringBuilder();
@@ -50,5 +52,9 @@ public abstract class NotificationWorker extends Observable implements Runnable 
 				}
 			}
 		}
+	}
+
+	private String getUniqueName() {
+		return getClass().getSimpleName() + "-" + StringUtils.random(4, Constants.DECIMAL_DIGITS);
 	}
 }

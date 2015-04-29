@@ -6,7 +6,9 @@ import java.net.Socket;
 import java.util.Observable;
 import java.util.Observer;
 import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
+import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,17 +17,21 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 import com.neemre.btcdcli4j.core.client.BtcdClient;
+import com.neemre.btcdcli4j.core.common.Constants;
 import com.neemre.btcdcli4j.core.daemon.Notifications;
 import com.neemre.btcdcli4j.core.daemon.notification.worker.NotificationWorker;
 import com.neemre.btcdcli4j.core.daemon.notification.worker.NotificationWorkerFactory;
+import com.neemre.btcdcli4j.core.util.StringUtils;
 
 @Data
 @EqualsAndHashCode(callSuper = false)
 public class NotificationMonitor extends Observable implements Observer, Runnable {
 
 	private static final Logger LOG = LoggerFactory.getLogger(NotificationMonitor.class);
-	private static final int NOTIFICATION_WORKER_COUNT = 10;
-
+	private static final int WORKER_MIN_COUNT = 1;
+	private static final int WORKER_MAX_COUNT = 5;
+	private static final int IDLE_WORKER_TIMEOUT = 60000;
+	
 	private Notifications type;
 	private int serverPort;
 	private ServerSocket serverSocket;
@@ -72,14 +78,15 @@ public class NotificationMonitor extends Observable implements Observer, Runnabl
 	}
 
 	private void activate() {
+		Thread.currentThread().setName(getUniqueName());
 		isActive = true;
 		try {
 			serverSocket = new ServerSocket(serverPort);
 		} catch (IOException e) {
 			throw new RuntimeException(e); //TODO
 		}
-		workerPool = Executors.newFixedThreadPool(NOTIFICATION_WORKER_COUNT);
-
+		workerPool = new ThreadPoolExecutor(WORKER_MIN_COUNT, WORKER_MAX_COUNT, IDLE_WORKER_TIMEOUT,
+				TimeUnit.MILLISECONDS, new LinkedBlockingQueue<Runnable>());
 	}
 
 	private void deactivate() {
@@ -92,5 +99,10 @@ public class NotificationMonitor extends Observable implements Observer, Runnabl
 			}
 		}
 		workerPool.shutdown();
+	}
+
+	private String getUniqueName() {
+		return "NotificationMonitor[" + StringUtils.capitalize(type.name().toLowerCase()) + "]-" 
+				+ StringUtils.random(4, Constants.DECIMAL_DIGITS);
 	}
 }

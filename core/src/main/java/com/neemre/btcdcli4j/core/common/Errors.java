@@ -11,11 +11,13 @@ public enum Errors {
 
 	ARGS_COUNT_UNEVEN(1001001, "Expected the argument count to be 'even', but was 'uneven' instead."),
 	ARGS_COUNT_UNEQUAL(1001002, "Expected the argument count to be 'equal', but was 'unequal' instead."),
-	ARGS_NULL(1001003, "Expected a non-null argument, but got 'null' instead."),
-	ARGS_CONTAIN_NULL(1001004, "Expected only non-null arguments, but got >0 'null' instead."),
-	ARGS_HTTP_METHOD_UNSUPPORTED(1001005, "Expected the argument to be a valid HTTP method, but was "
+	ARGS_VALUE_NEGATIVE(1001003, "Expected the argument value to be positive (>=0), but was negative (<0)"
+			+ " instead."),
+	ARGS_NULL(1001004, "Expected a non-null argument, but got 'null' instead."),
+	ARGS_CONTAIN_NULL(1001005, "Expected only non-null arguments, but got >0 'null' instead."),
+	ARGS_HTTP_METHOD_UNSUPPORTED(1001006, "Expected the argument to be a valid HTTP method, but was "
 			+ "invalid/unsupported instead."),
-	ARGS_HTTP_AUTHSCHEME_UNSUPPORTED(1001006, "Expected the argument to be a valid HTTP auth scheme, but "
+	ARGS_HTTP_AUTHSCHEME_UNSUPPORTED(1001007, "Expected the argument to be a valid HTTP auth scheme, but "
 			+ "was invalid/unsupported instead."),
 	REQUEST_HTTP_FAULT(1002001, "Request execution failed due an error in the HTTP protocol."),
 	RESPONSE_HTTP_CLIENT_FAULT(1003001, "The server responded with a non-OK (4xx) HTTP status code. "
