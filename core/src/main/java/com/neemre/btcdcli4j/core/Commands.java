@@ -4,7 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.ToString;
 
-/**An enumeration specifying the <i>bitcoind</i> API commands currently supported by btcd-cli4j.**/
+/**An enumeration specifying the <i>bitcoind</i> JSON-RPC API commands currently supported by 
+ * btcd-cli4j.**/
 @Getter
 @ToString
 @AllArgsConstructor

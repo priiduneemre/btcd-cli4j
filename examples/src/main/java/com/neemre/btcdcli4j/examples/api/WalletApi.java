@@ -10,8 +10,8 @@ import org.apache.http.impl.client.CloseableHttpClient;
 import com.neemre.btcdcli4j.core.domain.OutputOverview;
 import com.neemre.btcdcli4j.examples.util.ResourceUtils;
 
-/**A list of examples demonstrating the use of <i>bitcoind</i>'s 'Wallet API' commands 
- * currently supported by btcd-cli4j. Calling any of the methods below will cause a short overview 
+/**A list of examples demonstrating the use of <i>bitcoind</i>'s 'Wallet API' RPCs currently 
+ * supported by btcd-cli4j. Calling any of the methods below will cause a short overview 
  * (<i>i.e.</i> of the results of the operation) to be written to {@code stdout}.*/
 public class WalletApi {
 

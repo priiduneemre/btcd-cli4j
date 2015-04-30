@@ -11,8 +11,8 @@ public enum Errors {
 
 	ARGS_COUNT_UNEVEN(1001001, "Expected the argument count to be 'even', but was 'uneven' instead."),
 	ARGS_COUNT_UNEQUAL(1001002, "Expected the argument count to be 'equal', but was 'unequal' instead."),
-	ARGS_VALUE_NEGATIVE(1001003, "Expected the argument value to be positive (>=0), but was negative (<0)"
-			+ " instead."),
+	ARGS_VALUE_NEGATIVE(1001003, "Expected the argument value to be positive (>=0), but was negative (<0) "
+			+ "instead."),
 	ARGS_NULL(1001004, "Expected a non-null argument, but got 'null' instead."),
 	ARGS_CONTAIN_NULL(1001005, "Expected only non-null arguments, but got >0 'null' instead."),
 	ARGS_HTTP_METHOD_UNSUPPORTED(1001006, "Expected the argument to be a valid HTTP method, but was "
