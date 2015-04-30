@@ -1,7 +1,9 @@
 package com.neemre.btcdcli4j.core.client;
 
+import java.util.EnumSet;
 import java.util.List;
 import java.util.Properties;
+import java.util.Set;
 
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
@@ -10,25 +12,22 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.neemre.btcdcli4j.core.NodeProperties;
+import com.neemre.btcdcli4j.core.common.AgentConfigurator;
 import com.neemre.btcdcli4j.core.common.Defaults;
 import com.neemre.btcdcli4j.core.common.Errors;
 import com.neemre.btcdcli4j.core.util.CollectionUtils;
 import com.neemre.btcdcli4j.core.util.StringUtils;
 
-public class ClientConfigurator {
+public class ClientConfigurator extends AgentConfigurator {
 
 	private static final Logger LOG = LoggerFactory.getLogger(ClientConfigurator.class);
 	
 	
-	public Properties checkNodeConfig(Properties nodeConfig) {
-		for (NodeProperties property : NodeProperties.values()) {
-			if (nodeConfig.getProperty(property.getKey()) == null) {
-				LOG.warn("-- checkNodeConfig(..): node property '{}' not set; reverting to "
-						+ "default value '{}'", property.getKey(), property.getDefaultValue());
-				nodeConfig.setProperty(property.getKey(), property.getDefaultValue());
-			}
-		}
-		return nodeConfig;
+	@Override
+	public Set<NodeProperties> getRequiredProperties() {
+		return EnumSet.of(NodeProperties.RPC_PROTOCOL, NodeProperties.RPC_HOST, 
+				NodeProperties.RPC_PORT, NodeProperties.RPC_USER, NodeProperties.RPC_PASSWORD, 
+				NodeProperties.HTTP_AUTH_SCHEME);
 	}
 	
 	public Properties checkNodeConfig(String rpcProtocol, String rpcHost, Integer rpcPort, 
