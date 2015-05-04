@@ -6,18 +6,16 @@ import java.io.InputStreamReader;
 import java.net.Socket;
 import java.util.Observable;
 
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.Getter;
 
 import com.neemre.btcdcli4j.core.client.BtcdClient;
 import com.neemre.btcdcli4j.core.common.Constants;
 import com.neemre.btcdcli4j.core.util.StringUtils;
 
-@Data
-@EqualsAndHashCode(callSuper = false)
 public abstract class NotificationWorker extends Observable implements Runnable {
 
 	private Socket socket;
+	@Getter
 	private BtcdClient client;
 
 

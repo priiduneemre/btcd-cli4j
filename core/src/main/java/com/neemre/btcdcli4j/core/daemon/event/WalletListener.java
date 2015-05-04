@@ -7,9 +7,9 @@ import lombok.Getter;
 
 import com.neemre.btcdcli4j.core.domain.Transaction;
 
-@Getter
 public abstract class WalletListener {
 
+	@Getter
 	private Observer observer;
 
 

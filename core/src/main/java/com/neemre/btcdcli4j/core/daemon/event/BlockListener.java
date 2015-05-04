@@ -7,9 +7,9 @@ import lombok.Getter;
 
 import com.neemre.btcdcli4j.core.domain.Block;
 
-@Getter
 public abstract class BlockListener {
 
+	@Getter
 	private Observer observer;
 	
 	

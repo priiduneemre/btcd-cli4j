@@ -5,9 +5,9 @@ import java.util.Observer;
 
 import lombok.Getter;
 
-@Getter
 public abstract class AlertListener {
 
+	@Getter
 	private Observer observer;
 	
 	

@@ -18,7 +18,7 @@ public class JsonRpcLayerException extends CommunicationException {
 
 	
 	public JsonRpcLayerException(Errors error) {
-		super(error); 
+		super(error);
 	}
 	
 	public JsonRpcLayerException(Errors error, String additionalMsg) {

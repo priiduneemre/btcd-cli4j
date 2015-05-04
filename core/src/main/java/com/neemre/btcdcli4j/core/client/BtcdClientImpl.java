@@ -63,6 +63,7 @@ public class BtcdClientImpl implements BtcdClient {
 		rpcClient = new JsonRpcClientImpl(configurator.checkHttpProvider(httpProvider), 
 				configurator.checkNodeConfig(nodeConfig));
 		nodeVersion = configurator.checkNodeVersion(getInfo().getVersion());
+		configurator.checkNodeHealth((Block)getBlock(getBestBlockHash(), true));
 	}
 
 	public BtcdClientImpl(String rpcUser, String rpcPassword) throws BitcoindException, 
@@ -110,6 +111,7 @@ public class BtcdClientImpl implements BtcdClient {
 				configurator.checkNodeConfig(rpcProtocol, rpcHost, rpcPort, rpcUser, rpcPassword,
 						httpAuthScheme));
 		nodeVersion = configurator.checkNodeVersion(getInfo().getVersion());
+		configurator.checkNodeHealth((Block)getBlock(getBestBlockHash(), true));
 	}
 	
 	@Override

@@ -13,9 +13,6 @@ import java.util.concurrent.TimeUnit;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-
 import com.neemre.btcdcli4j.core.client.BtcdClient;
 import com.neemre.btcdcli4j.core.common.Constants;
 import com.neemre.btcdcli4j.core.daemon.Notifications;
@@ -23,8 +20,6 @@ import com.neemre.btcdcli4j.core.daemon.notification.worker.NotificationWorker;
 import com.neemre.btcdcli4j.core.daemon.notification.worker.NotificationWorkerFactory;
 import com.neemre.btcdcli4j.core.util.StringUtils;
 
-@Data
-@EqualsAndHashCode(callSuper = false)
 public class NotificationMonitor extends Observable implements Observer, Runnable {
 
 	private static final Logger LOG = LoggerFactory.getLogger(NotificationMonitor.class);
