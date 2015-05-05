@@ -14,7 +14,7 @@ public class BlockNotificationWorker extends NotificationWorker {
 	}
 
 	@Override
-	public Object getRelatedEntity(String headerHash) {
+	protected Object getRelatedEntity(String headerHash) {
 		Block block = null;
 		try {
 			block = getClient().getBlock(headerHash);

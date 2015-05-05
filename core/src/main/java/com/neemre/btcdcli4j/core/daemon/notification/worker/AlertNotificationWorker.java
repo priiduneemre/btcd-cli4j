@@ -9,7 +9,7 @@ public class AlertNotificationWorker extends NotificationWorker {
 	}
 
 	@Override
-	public Object getRelatedEntity(String alert) {
+	protected Object getRelatedEntity(String alert) {
 		return alert;
 	}
 }

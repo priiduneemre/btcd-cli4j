@@ -14,7 +14,7 @@ public class WalletNotificationWorker extends NotificationWorker {
 	}
 
 	@Override
-	public Object getRelatedEntity(String txId) {
+	protected Object getRelatedEntity(String txId) {
 		Transaction transaction = null;
 		try {
 			transaction = getClient().getTransaction(txId);

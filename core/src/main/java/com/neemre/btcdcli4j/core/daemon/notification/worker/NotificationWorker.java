@@ -24,8 +24,6 @@ public abstract class NotificationWorker extends Observable implements Runnable 
 		this.client = client;
 	}
 
-	public abstract Object getRelatedEntity(String notification);
-
 	@Override
 	public void run() {
 		try {
@@ -52,6 +50,8 @@ public abstract class NotificationWorker extends Observable implements Runnable 
 		}
 	}
 
+	protected abstract Object getRelatedEntity(String notification);
+	
 	private String getUniqueName() {
 		return getClass().getSimpleName() + "-" + StringUtils.random(4, Constants.DECIMAL_DIGITS);
 	}

@@ -1,6 +1,5 @@
 package com.neemre.btcdcli4j.core.daemon;
 
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
@@ -49,7 +48,7 @@ public class BtcdDaemonImpl implements BtcdDaemon {
 	}
 
 	public BtcdDaemonImpl(BtcdClient btcdProvider, Integer alertPort, Integer blockPort, 
-			Integer walletPort) throws IOException {
+			Integer walletPort) {
 		this();
 		this.client = configurator.checkBtcdProvider(btcdProvider);
 		buildMonitors(configurator.checkNodeConfig(alertPort, blockPort, walletPort));
