@@ -24,28 +24,34 @@ public class BtcdDaemonImpl implements BtcdDaemon {
 	
 	private DaemonConfigurator configurator;
 	private Map<Notifications, NotificationMonitor> monitors;
-	private Map<Notifications, Future<?>> futures;
+	private Map<Notifications, Future<Void>> futures;
 	private ExecutorService monitorPool;
-	
+
 	private BtcdClient client;
 	
 	
-	public BtcdDaemonImpl(BtcdClient client) {
-		LOG.info("** BtcdDaemon(): initiating the 'bitcoind' notification daemon");
-		this.client = configurator.checkBtcdProvider(client);
+	private BtcdDaemonImpl() {
+		LOG.info("** BtcdDaemonImpl(): initiating the 'bitcoind' notification daemon");
+		configurator = new DaemonConfigurator();
 		monitors = new HashMap<Notifications, NotificationMonitor>();
-		futures = new HashMap<Notifications, Future<?>>();
+		futures = new HashMap<Notifications, Future<Void>>();
 	}
 	
-	public BtcdDaemonImpl(BtcdClient client, Properties nodeConfig) {
-		this(client);
+	public BtcdDaemonImpl(BtcdClient btcdProvider) {
+		this(btcdProvider, new Properties());
+	}
+	
+	public BtcdDaemonImpl(BtcdClient btcdProvider, Properties nodeConfig) {
+		this();
+		this.client = configurator.checkBtcdProvider(btcdProvider);
 		buildMonitors(configurator.checkNodeConfig(nodeConfig));
 		startMonitors();
 	}
 
-	public BtcdDaemonImpl(BtcdClient client, Integer alertPort, Integer blockPort, 
+	public BtcdDaemonImpl(BtcdClient btcdProvider, Integer alertPort, Integer blockPort, 
 			Integer walletPort) throws IOException {
-		this(client);
+		this();
+		this.client = configurator.checkBtcdProvider(btcdProvider);
 		buildMonitors(configurator.checkNodeConfig(alertPort, blockPort, walletPort));
 		startMonitors();
 	}
@@ -144,9 +150,7 @@ public class BtcdDaemonImpl implements BtcdDaemon {
 
 	@Override
 	public void shutdown() {
-		for (Future<?> future : futures.values()) {
-			future.cancel(true);
-		}
+		monitorPool.shutdownNow();
 	}
 	
 	private void buildMonitors(Properties nodeConfig) {
@@ -154,17 +158,18 @@ public class BtcdDaemonImpl implements BtcdDaemon {
 		monitors.put(Notifications.ALERT, new NotificationMonitor(Notifications.ALERT, alertPort, 
 				null));
 		int blockPort = Integer.parseInt(nodeConfig.getProperty(NodeProperties.BLOCK_PORT.getKey()));
-		monitors.put(Notifications.BLOCK, new NotificationMonitor(Notifications.BLOCK, blockPort,
+		monitors.put(Notifications.BLOCK, new NotificationMonitor(Notifications.BLOCK, blockPort, 
 				client));
 		int walletPort = Integer.parseInt(nodeConfig.getProperty(NodeProperties.WALLET_PORT.getKey()));
 		monitors.put(Notifications.WALLET, new NotificationMonitor(Notifications.WALLET, walletPort, 
 				client));
 		monitorPool = Executors.newFixedThreadPool(monitors.size());
 	}
-	
+
 	private void startMonitors() {
-		futures.put(Notifications.ALERT, monitorPool.submit(monitors.get(Notifications.ALERT)));
-		futures.put(Notifications.BLOCK, monitorPool.submit(monitors.get(Notifications.BLOCK)));
-		futures.put(Notifications.WALLET, monitorPool.submit(monitors.get(Notifications.WALLET)));
+		for(Notifications notificationType : monitors.keySet()) {
+			NotificationMonitor monitor = monitors.get(notificationType);
+			futures.put(notificationType, monitorPool.submit(monitor, (Void)null));
+		}
 	}
 }

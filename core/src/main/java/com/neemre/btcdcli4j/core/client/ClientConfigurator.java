@@ -2,8 +2,8 @@ package com.neemre.btcdcli4j.core.client;
 
 import java.util.EnumSet;
 import java.util.List;
-import java.util.Properties;
 import java.util.Set;
+import java.util.concurrent.TimeUnit;
 
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
@@ -15,6 +15,7 @@ import com.neemre.btcdcli4j.core.NodeProperties;
 import com.neemre.btcdcli4j.core.common.AgentConfigurator;
 import com.neemre.btcdcli4j.core.common.Defaults;
 import com.neemre.btcdcli4j.core.common.Errors;
+import com.neemre.btcdcli4j.core.domain.Block;
 import com.neemre.btcdcli4j.core.util.CollectionUtils;
 import com.neemre.btcdcli4j.core.util.StringUtils;
 
@@ -28,13 +29,6 @@ public class ClientConfigurator extends AgentConfigurator {
 		return EnumSet.of(NodeProperties.RPC_PROTOCOL, NodeProperties.RPC_HOST, 
 				NodeProperties.RPC_PORT, NodeProperties.RPC_USER, NodeProperties.RPC_PASSWORD, 
 				NodeProperties.HTTP_AUTH_SCHEME);
-	}
-	
-	public Properties checkNodeConfig(String rpcProtocol, String rpcHost, Integer rpcPort, 
-			String rpcUser, String rpcPassword, String httpAuthScheme) {
-		Properties nodeConfig = toNodeConfig(rpcProtocol, rpcHost, rpcPort, rpcUser, rpcPassword,
-				httpAuthScheme);
-		return checkNodeConfig(nodeConfig);
 	}
 	
 	public CloseableHttpClient checkHttpProvider(CloseableHttpClient httpProvider) {
@@ -58,28 +52,12 @@ public class ClientConfigurator extends AgentConfigurator {
 		return nodeVersion;
 	}
 
-	private Properties toNodeConfig(String rpcProtocol, String rpcHost, Integer rpcPort, 
-			String rpcUser, String rpcPassword, String httpAuthScheme) {
-		Properties nodeConfig = new Properties();
-		if(rpcProtocol != null) {
-			nodeConfig.setProperty(NodeProperties.RPC_PROTOCOL.getKey(), rpcProtocol);
+	public void checkNodeHealth(Block bestBlock) {
+		long currentTime = System.currentTimeMillis() / 1000;
+		if ((currentTime - bestBlock.getTime()) > TimeUnit.HOURS.toSeconds(6)) {
+			LOG.warn("-- checkNodeHealth(..): last available block was mined >{} hours ago; please "
+					+ "check your network connection", ((currentTime - bestBlock.getTime()) / 3600));
 		}
-		if(rpcHost != null) {
-			nodeConfig.setProperty(NodeProperties.RPC_HOST.getKey(), rpcHost);
-		}
-		if(rpcPort != null) {
-			nodeConfig.setProperty(NodeProperties.RPC_PORT.getKey(), String.valueOf(rpcPort));
-		}
-		if(rpcUser != null) {
-			nodeConfig.setProperty(NodeProperties.RPC_USER.getKey(), rpcUser);
-		}
-		if(rpcPassword != null) {
-			nodeConfig.setProperty(NodeProperties.RPC_PASSWORD.getKey(), rpcPassword);
-		}
-		if(httpAuthScheme != null) {
-			nodeConfig.setProperty(NodeProperties.HTTP_AUTH_SCHEME.getKey(), httpAuthScheme);
-		}
-		return nodeConfig;
 	}
 
 	private CloseableHttpClient getDefaultHttpProvider() {

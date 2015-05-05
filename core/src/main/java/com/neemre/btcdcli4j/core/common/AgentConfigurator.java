@@ -1,5 +1,7 @@
 package com.neemre.btcdcli4j.core.common;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
 import java.util.Set;
 
@@ -24,5 +26,22 @@ public abstract class AgentConfigurator {
 			}
 		}
 		return nodeConfig;
+	}
+	
+	public Properties checkNodeConfig(Object... nodeConfig) {
+		return checkNodeConfig(toProperties(nodeConfig));
+	}
+	
+	private Properties toProperties(Object... values) {
+		Properties properties = new Properties();
+		List<NodeProperties> requiredProperties = new ArrayList<NodeProperties>(
+				getRequiredProperties());
+		for (int i = 0; i < requiredProperties.size(); i++) {
+			if (values[i] != null) {
+				String key = requiredProperties.get(i).getKey();
+				properties.setProperty(key, values[i].toString());
+			}
+		}
+		return properties;
 	}
 }
