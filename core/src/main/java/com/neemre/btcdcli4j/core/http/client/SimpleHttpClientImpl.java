@@ -102,10 +102,10 @@ public class SimpleHttpClientImpl implements SimpleHttpClient {
 			throw new IllegalArgumentException(Errors.ARGS_HTTP_METHOD_UNSUPPORTED.getDescription());
 		}
 		request.setURI(new URI(String.format("%s://%s:%s/", 
-					nodeConfig.get(NodeProperties.RPC_PROTOCOL.getKey()), 
-					nodeConfig.get(NodeProperties.RPC_HOST.getKey()), 
-					nodeConfig.get(NodeProperties.RPC_PORT.getKey()))));
-		String authScheme = nodeConfig.get(NodeProperties.HTTP_AUTH_SCHEME.getKey()).toString();
+					nodeConfig.getProperty(NodeProperties.RPC_PROTOCOL.getKey()), 
+					nodeConfig.getProperty(NodeProperties.RPC_HOST.getKey()), 
+					nodeConfig.getProperty(NodeProperties.RPC_PORT.getKey()))));
+		String authScheme = nodeConfig.getProperty(NodeProperties.HTTP_AUTH_SCHEME.getKey());
 		request.addHeader(resolveAuthHeader(authScheme));
 		LOG.debug("<< getNewRequest(..): returning a new HTTP '{}' request with target endpoint "
 				+ "'{}' and headers '{}'", reqMethod, request.getURI(), request.getAllHeaders());
@@ -127,8 +127,8 @@ public class SimpleHttpClientImpl implements SimpleHttpClient {
 		if(authScheme.equals(HttpConstants.AUTH_SCHEME_NONE)){
 			return Constants.STRING_EMPTY;
 		} else if(authScheme.equals(HttpConstants.AUTH_SCHEME_BASIC)) {
-			return Base64.encodeBase64String((nodeConfig.get(NodeProperties.RPC_USER.getKey()) 
-					+ ":" + nodeConfig.get(NodeProperties.RPC_PASSWORD.getKey())).getBytes());
+			return Base64.encodeBase64String((nodeConfig.getProperty(NodeProperties.RPC_USER.getKey())
+					+ ":" + nodeConfig.getProperty(NodeProperties.RPC_PASSWORD.getKey())).getBytes());
 		}
 		throw new IllegalArgumentException(Errors.ARGS_HTTP_AUTHSCHEME_UNSUPPORTED.getDescription());
 	}
