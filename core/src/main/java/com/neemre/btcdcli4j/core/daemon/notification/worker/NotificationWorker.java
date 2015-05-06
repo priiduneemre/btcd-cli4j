@@ -6,6 +6,9 @@ import java.io.InputStreamReader;
 import java.net.Socket;
 import java.util.Observable;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import lombok.Getter;
 
 import com.neemre.btcdcli4j.core.client.BtcdClient;
@@ -14,6 +17,8 @@ import com.neemre.btcdcli4j.core.util.StringUtils;
 
 public abstract class NotificationWorker extends Observable implements Runnable {
 
+	private static final Logger LOG = LoggerFactory.getLogger(NotificationWorker.class);
+	
 	private Socket socket;
 	@Getter
 	private BtcdClient client;
@@ -44,7 +49,7 @@ public abstract class NotificationWorker extends Observable implements Runnable 
 				try {
 					socket.close();
 				} catch (IOException e) {
-					throw new RuntimeException(e);	//TODO
+					LOG.warn("SODO");
 				}
 			}
 		}

@@ -10,6 +10,8 @@ import java.util.concurrent.Future;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.neemre.btcdcli4j.core.BitcoindException;
+import com.neemre.btcdcli4j.core.CommunicationException;
 import com.neemre.btcdcli4j.core.NodeProperties;
 import com.neemre.btcdcli4j.core.client.BtcdClient;
 import com.neemre.btcdcli4j.core.daemon.event.AlertListener;
@@ -36,23 +38,28 @@ public class BtcdDaemonImpl implements BtcdDaemon {
 		futures = new HashMap<Notifications, Future<Void>>();
 	}
 	
-	public BtcdDaemonImpl(BtcdClient btcdProvider) {
+	public BtcdDaemonImpl(BtcdClient btcdProvider) throws BitcoindException, CommunicationException {
 		this(btcdProvider, new Properties());
 	}
 	
-	public BtcdDaemonImpl(BtcdClient btcdProvider, Properties nodeConfig) {
+	public BtcdDaemonImpl(BtcdClient btcdProvider, Properties nodeConfig) throws BitcoindException, 
+			CommunicationException {
 		this();
 		this.client = configurator.checkBtcdProvider(btcdProvider);
 		buildMonitors(configurator.checkNodeConfig(nodeConfig));
+		configurator.checkNodeLiveness(client.getInfo());
 		startMonitors();
+		configurator.checkMonitorStates(futures);
 	}
 
 	public BtcdDaemonImpl(BtcdClient btcdProvider, Integer alertPort, Integer blockPort, 
-			Integer walletPort) {
+			Integer walletPort) throws BitcoindException, CommunicationException {
 		this();
 		this.client = configurator.checkBtcdProvider(btcdProvider);
 		buildMonitors(configurator.checkNodeConfig(alertPort, blockPort, walletPort));
+		configurator.checkNodeLiveness(client.getInfo());
 		startMonitors();
+		configurator.checkMonitorStates(futures);
 	}
 
 	@Override
@@ -117,7 +124,7 @@ public class BtcdDaemonImpl implements BtcdDaemon {
 
 	@Override
 	public boolean isMonitoring(Notifications notificationType) {
-		Future<?> monitorHandle = futures.get(notificationType);
+		Future<Void> monitorHandle = futures.get(notificationType);
 		if (monitorHandle != null) {
 			return !monitorHandle.isDone();
 		} else {
@@ -128,7 +135,7 @@ public class BtcdDaemonImpl implements BtcdDaemon {
 	@Override
 	public boolean isMonitoringAny() {
 		for (Notifications notificationType : Notifications.values()) {
-			Future<?> monitorHandle = futures.get(notificationType);
+			Future<Void> monitorHandle = futures.get(notificationType);
 			if ((monitorHandle != null) && (!monitorHandle.isDone())) {
 				return true;
 			} 
@@ -139,7 +146,7 @@ public class BtcdDaemonImpl implements BtcdDaemon {
 	@Override
 	public boolean isMonitoringAll() {
 		for (Notifications notificationType : Notifications.values()) {
-			Future<?> monitorHandle = futures.get(notificationType);
+			Future<Void> monitorHandle = futures.get(notificationType);
 			if ((monitorHandle == null) || (monitorHandle.isDone())) {
 				return false;
 			}

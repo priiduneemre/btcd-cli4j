@@ -20,7 +20,7 @@ public final class NotificationWorkerFactory {
 		} else if (type.equals(Notifications.WALLET)) {
 			return new WalletNotificationWorker(socket, client);
 		} else {
-			throw new IllegalArgumentException("I am broken.");	//TODO
+			throw new IllegalArgumentException("SODO");
 		}
 	}
 }

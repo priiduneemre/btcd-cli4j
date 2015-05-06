@@ -52,12 +52,14 @@ public class ClientConfigurator extends AgentConfigurator {
 		return nodeVersion;
 	}
 
-	public void checkNodeHealth(Block bestBlock) {
+	public boolean checkNodeHealth(Block bestBlock) {
 		long currentTime = System.currentTimeMillis() / 1000;
 		if ((currentTime - bestBlock.getTime()) > TimeUnit.HOURS.toSeconds(6)) {
 			LOG.warn("-- checkNodeHealth(..): last available block was mined >{} hours ago; please "
 					+ "check your network connection", ((currentTime - bestBlock.getTime()) / 3600));
+			return false;
 		}
+		return true;
 	}
 
 	private CloseableHttpClient getDefaultHttpProvider() {

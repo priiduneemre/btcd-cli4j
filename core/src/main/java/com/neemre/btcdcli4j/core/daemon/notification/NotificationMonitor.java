@@ -90,7 +90,7 @@ public class NotificationMonitor extends Observable implements Observer, Runnabl
 			try {
 				serverSocket.close();
 			} catch (IOException e) {
-				throw new RuntimeException(e);	//TODO
+				LOG.warn("SODO");
 			}
 		}
 		workerPool.shutdown();
