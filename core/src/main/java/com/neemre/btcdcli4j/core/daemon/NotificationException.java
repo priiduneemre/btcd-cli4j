@@ -12,23 +12,23 @@ import lombok.ToString;
 @Data
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = false)
-public class FailedNotificationException extends RuntimeException {
+public class NotificationException extends RuntimeException {
 
-	private static final long serialVersionUID = 00000001L;
+	private static final long serialVersionUID = 1L;
 
 	private int code;
 	
 	
-	public FailedNotificationException(Errors error) {
+	public NotificationException(Errors error) {
 		this(error, Constants.STRING_EMPTY);
 	}
 	
-	public FailedNotificationException(Errors error, String additionalMsg) {
+	public NotificationException(Errors error, String additionalMsg) {
 		super(error.getDescription() + additionalMsg);
 		code = error.getCode();
 	}
 	
-	public FailedNotificationException(Errors error, Exception cause) {
+	public NotificationException(Errors error, Exception cause) {
 		super(error.getDescription(), cause);
 		code = error.getCode();
 	}	

@@ -15,8 +15,9 @@ public abstract class BlockListener {
 	
 	public BlockListener() {
 		observer = new Observer() {
-			public void update(Observable o, Object arg) {
-				Block block = (Block)arg;
+			@Override
+			public void update(Observable monitor, Object cause) {
+				Block block = (Block)cause;
 				blockDetected(block);
 			}
 		};

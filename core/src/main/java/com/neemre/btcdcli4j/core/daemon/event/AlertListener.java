@@ -13,12 +13,14 @@ public abstract class AlertListener {
 	
 	public AlertListener() {
 		observer = new Observer() {
-			public void update(Observable o, Object arg) {
-				String alert = (String)arg;
+			@Override
+			public void update(Observable monitor, Object cause) {
+				String alert = (String)cause;
 				alertReceived(alert);
 			}
 		};
 	}
+	
 	
 	public abstract void alertReceived(String alert);
 }

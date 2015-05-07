@@ -11,7 +11,7 @@ import lombok.ToString;
 @EqualsAndHashCode(callSuper = false)
 public class BitcoindException extends Exception {
 
-	private static final long serialVersionUID = 00000001L;
+	private static final long serialVersionUID = 1L;
 
 	private int code;
 

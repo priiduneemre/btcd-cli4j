@@ -15,8 +15,9 @@ public abstract class WalletListener {
 
 	public WalletListener() {
 		observer = new Observer() {
-			public void update(Observable o, Object arg) {
-				Transaction transaction = (Transaction)arg;
+			@Override
+			public void update(Observable monitor, Object cause) {
+				Transaction transaction = (Transaction)cause;
 				walletChanged(transaction);
 			}
 		};

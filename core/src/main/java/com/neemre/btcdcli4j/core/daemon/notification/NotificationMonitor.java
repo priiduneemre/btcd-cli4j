@@ -15,6 +15,8 @@ import org.slf4j.LoggerFactory;
 
 import com.neemre.btcdcli4j.core.client.BtcdClient;
 import com.neemre.btcdcli4j.core.common.Constants;
+import com.neemre.btcdcli4j.core.common.Errors;
+import com.neemre.btcdcli4j.core.daemon.NotificationException;
 import com.neemre.btcdcli4j.core.daemon.Notifications;
 import com.neemre.btcdcli4j.core.daemon.notification.worker.NotificationWorker;
 import com.neemre.btcdcli4j.core.daemon.notification.worker.NotificationWorkerFactory;
@@ -53,7 +55,8 @@ public class NotificationMonitor extends Observable implements Observer, Runnabl
 				worker.addObserver(this);
 				workerPool.submit(worker);
 			} catch (IOException e) {
-				throw new RuntimeException(e); //TODO
+				Thread.currentThread().interrupt();
+				throw new NotificationException(Errors.ARGS_CONTAIN_NULL, e);	//SODO
 			} finally {
 				if(Thread.interrupted()) {
 					deactivate();
@@ -63,9 +66,10 @@ public class NotificationMonitor extends Observable implements Observer, Runnabl
 	}
 
 	@Override
-	public synchronized void update(Observable o, Object arg) {
+	public synchronized void update(Observable worker, Object result) {
+		worker.deleteObserver(this);
 		setChanged();
-		notifyObservers(arg);
+		notifyObservers(result);
 	}
 
 	private boolean isActive() {
@@ -78,7 +82,12 @@ public class NotificationMonitor extends Observable implements Observer, Runnabl
 		try {
 			serverSocket = new ServerSocket(serverPort);
 		} catch (IOException e) {
-			throw new RuntimeException(e); //TODO
+			try {
+				serverSocket = new ServerSocket(0);
+				LOG.warn("SODO");
+			} catch (IOException e1) {
+				throw new NotificationException(Errors.ARGS_CONTAIN_NULL, e);	//SODO
+			}
 		}
 		workerPool = new ThreadPoolExecutor(WORKER_MIN_COUNT, WORKER_MAX_COUNT, IDLE_WORKER_TIMEOUT,
 				TimeUnit.MILLISECONDS, new LinkedBlockingQueue<Runnable>());

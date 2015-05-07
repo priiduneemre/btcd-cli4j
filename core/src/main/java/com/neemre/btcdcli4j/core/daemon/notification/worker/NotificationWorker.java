@@ -13,6 +13,8 @@ import lombok.Getter;
 
 import com.neemre.btcdcli4j.core.client.BtcdClient;
 import com.neemre.btcdcli4j.core.common.Constants;
+import com.neemre.btcdcli4j.core.common.Errors;
+import com.neemre.btcdcli4j.core.daemon.NotificationException;
 import com.neemre.btcdcli4j.core.util.StringUtils;
 
 public abstract class NotificationWorker extends Observable implements Runnable {
@@ -43,7 +45,7 @@ public abstract class NotificationWorker extends Observable implements Runnable 
 			setChanged();
 			notifyObservers(relatedEntity);
 		} catch (IOException e) {
-			throw new RuntimeException(e);	//TODO
+			throw new NotificationException(Errors.ARGS_CONTAIN_NULL, e);	//SODO
 		} finally {
 			if (socket != null) {
 				try {

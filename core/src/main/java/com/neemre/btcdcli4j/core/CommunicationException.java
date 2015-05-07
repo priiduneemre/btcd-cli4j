@@ -14,7 +14,7 @@ import lombok.ToString;
 @EqualsAndHashCode(callSuper = false)
 public abstract class CommunicationException extends Exception {
 
-	private static final long serialVersionUID = 00000001L;
+	private static final long serialVersionUID = 1L;
 
 	private int code;
 	
