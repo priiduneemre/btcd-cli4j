@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.ToString;
 
+/**An enumeration specifying the error codes and exception messages used by btcd-cli4j.*/
 @Getter
 @ToString
 @AllArgsConstructor
@@ -19,6 +20,10 @@ public enum Errors {
 			+ "invalid/unsupported instead."),
 	ARGS_HTTP_AUTHSCHEME_UNSUPPORTED(1001007, "Expected the argument to be a valid HTTP auth scheme, but "
 			+ "was invalid/unsupported instead."),
+	ARGS_BTCD_NOTIFICATION_UNSUPPORTED(1001008, "Expected the argument to be a valid 'bitcoind' notification "
+			+ "type, but was invalid/unsupported instead."),
+	ARGS_BTCD_PROVIDER_NULL(1001009, "Expected a preconfigured 'bitcoind' JSON-RPC API provider, but got "
+			+ "'null' instead."),
 	REQUEST_HTTP_FAULT(1002001, "Request execution failed due an error in the HTTP protocol."),
 	RESPONSE_HTTP_CLIENT_FAULT(1003001, "The server responded with a non-OK (4xx) HTTP status code. "
 			+ "Status line: "),
@@ -29,7 +34,9 @@ public enum Errors {
 	RESPONSE_JSONRPC_UNEQUAL_IDS(1003005, "Expected the JSON-RPC request and response ids to be 'equal', "
 			+ "but were 'unequal' instead."),
 	IO_STREAM_UNCLOSED(1004001, "Unable to close the specified stream."),
-	IO_UNKNOWN(1004002, "The operation failed due to an unknown IO exception."),
+	IO_SOCKET_UNINITIALIZED(1004002, "Unable to open the specified socket."),
+	IO_SERVERSOCKET_UNINITIALIZED(1004003, "Unable to open the specified server socket."),
+	IO_UNKNOWN(1004004, "The operation failed due to an unknown IO exception."),
 	PARSE_URI_FAILED(1005001, "Unable to parse the specified URI."),
 	PARSE_JSON_UNKNOWN(1005002, "An unknown exception occurred while parsing/generating JSON content."),
 	PARSE_JSON_MALFORMED(1005003, "Unable to parse the specified JSON content (malformed syntax detected)."),

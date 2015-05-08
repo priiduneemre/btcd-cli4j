@@ -27,7 +27,7 @@ public class DaemonConfigurator extends AgentConfigurator {
 
 	public BtcdClient checkBtcdProvider(BtcdClient btcdProvider) {
 		if (btcdProvider == null) {
-			throw new IllegalArgumentException(Errors.ARGS_NULL.getDescription());	//SODO (custom message)
+			throw new IllegalArgumentException(Errors.ARGS_BTCD_PROVIDER_NULL.getDescription());
 		}
 		return btcdProvider;
 	}

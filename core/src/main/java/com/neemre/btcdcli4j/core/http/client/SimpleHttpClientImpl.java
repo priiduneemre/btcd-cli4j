@@ -74,19 +74,21 @@ public class SimpleHttpClientImpl implements SimpleHttpClient {
 							.getStatusLine());
 					response.close();
 				} catch (IOException e) {
-					throw new HttpLayerException(Errors.IO_UNKNOWN, e);
+					LOG.warn("<< execute(..): failed to recycle old HTTP response, message was: "
+							+ "'{}'", e.getMessage());
 				}
 			}
 		}
 	}
 	
 	@Override
-	public void close() throws HttpLayerException {
+	public void close() {
 		try {
 			LOG.info(">> close(..): attempting to shut down the underlying HTTP provider");
 			provider.close();
 		} catch (IOException e) {
-			throw new HttpLayerException(Errors.IO_UNKNOWN, e);
+			LOG.warn("<< close(..): failed to shut down the underlying HTTP provider, message was: "
+					+ "'{}'", e.getMessage());
 		}
 	}
 

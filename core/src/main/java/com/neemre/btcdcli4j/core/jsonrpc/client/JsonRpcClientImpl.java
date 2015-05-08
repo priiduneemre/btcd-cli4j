@@ -82,7 +82,7 @@ public class JsonRpcClientImpl implements JsonRpcClient {
 	}
 
 	@Override
-	public void close() throws CommunicationException {
+	public void close() {
 		httpClient.close();
 	}
 	

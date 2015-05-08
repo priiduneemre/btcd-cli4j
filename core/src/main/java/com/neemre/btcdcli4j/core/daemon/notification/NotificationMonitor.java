@@ -16,7 +16,7 @@ import org.slf4j.LoggerFactory;
 import com.neemre.btcdcli4j.core.client.BtcdClient;
 import com.neemre.btcdcli4j.core.common.Constants;
 import com.neemre.btcdcli4j.core.common.Errors;
-import com.neemre.btcdcli4j.core.daemon.NotificationException;
+import com.neemre.btcdcli4j.core.daemon.NotificationHandlerException;
 import com.neemre.btcdcli4j.core.daemon.Notifications;
 import com.neemre.btcdcli4j.core.daemon.notification.worker.NotificationWorker;
 import com.neemre.btcdcli4j.core.daemon.notification.worker.NotificationWorkerFactory;
@@ -56,7 +56,7 @@ public class NotificationMonitor extends Observable implements Observer, Runnabl
 				workerPool.submit(worker);
 			} catch (IOException e) {
 				Thread.currentThread().interrupt();
-				throw new NotificationException(Errors.ARGS_CONTAIN_NULL, e);	//SODO
+				throw new NotificationHandlerException(Errors.IO_SOCKET_UNINITIALIZED, e);
 			} finally {
 				if(Thread.interrupted()) {
 					deactivate();
@@ -86,7 +86,7 @@ public class NotificationMonitor extends Observable implements Observer, Runnabl
 				serverSocket = new ServerSocket(0);
 				LOG.warn("SODO");
 			} catch (IOException e1) {
-				throw new NotificationException(Errors.ARGS_CONTAIN_NULL, e);	//SODO
+				throw new NotificationHandlerException(Errors.IO_SERVERSOCKET_UNINITIALIZED, e1);
 			}
 		}
 		workerPool = new ThreadPoolExecutor(WORKER_MIN_COUNT, WORKER_MAX_COUNT, IDLE_WORKER_TIMEOUT,

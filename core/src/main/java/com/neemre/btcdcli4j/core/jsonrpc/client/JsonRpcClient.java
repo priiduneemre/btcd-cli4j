@@ -20,5 +20,5 @@ public interface JsonRpcClient {
 
 	JsonMapper getMapper();
 	
-	void close() throws CommunicationException;
+	void close();
 }

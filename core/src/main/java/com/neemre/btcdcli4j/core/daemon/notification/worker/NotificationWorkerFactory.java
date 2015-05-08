@@ -6,6 +6,7 @@ import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
 import com.neemre.btcdcli4j.core.client.BtcdClient;
+import com.neemre.btcdcli4j.core.common.Errors;
 import com.neemre.btcdcli4j.core.daemon.Notifications;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
@@ -20,7 +21,8 @@ public final class NotificationWorkerFactory {
 		} else if (type.equals(Notifications.WALLET)) {
 			return new WalletNotificationWorker(socket, client);
 		} else {
-			throw new IllegalArgumentException("SODO");
+			throw new IllegalArgumentException(Errors.ARGS_BTCD_NOTIFICATION_UNSUPPORTED
+					.getDescription());
 		}
 	}
 }

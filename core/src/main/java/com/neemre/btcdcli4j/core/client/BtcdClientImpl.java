@@ -1038,7 +1038,7 @@ public class BtcdClientImpl implements BtcdClient {
 	}
 
 	@Override
-	public void close() throws CommunicationException {
+	public void close() {
 		rpcClient.close();
 	}
 }

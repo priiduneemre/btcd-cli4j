@@ -6,5 +6,5 @@ public interface SimpleHttpClient {
 	
 	String execute(String reqMethod, String reqPayload) throws HttpLayerException;
 	
-	void close() throws HttpLayerException;
+	void close();
 }
