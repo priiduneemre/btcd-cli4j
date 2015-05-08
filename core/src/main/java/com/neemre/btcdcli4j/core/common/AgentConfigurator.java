@@ -10,8 +10,8 @@ import org.slf4j.LoggerFactory;
 
 import com.neemre.btcdcli4j.core.NodeProperties;
 
-/**This is an abstract superclass containing some of the common functionality required for 
- * constructing & configuring new btcd-cli4j client instances (<i>e.g.</i> {@code BtcdClient}s and 
+/**An abstract superclass containing the core functionality required for constructing 
+ * & configuring new btcd-cli4j agent instances (<i>e.g.</i> {@code BtcdClient}s and 
  * {@code BtcdDaemon}s).*/
 public abstract class AgentConfigurator {
 	
