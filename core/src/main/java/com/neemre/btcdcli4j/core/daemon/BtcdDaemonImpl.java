@@ -29,37 +29,40 @@ public class BtcdDaemonImpl implements BtcdDaemon {
 	private ExecutorService monitorPool;
 
 	private BtcdClient client;
+
 	
-	
-	private BtcdDaemonImpl() {
-		LOG.info("** BtcdDaemonImpl(): initiating the 'bitcoind' notification daemon");
-		configurator = new DaemonConfigurator();
-		monitors = new HashMap<Notifications, NotificationMonitor>();
-		futures = new HashMap<Notifications, Future<Void>>();
+	public BtcdDaemonImpl() {
+		this(new Properties());
 	}
 	
 	public BtcdDaemonImpl(BtcdClient btcdProvider) throws BitcoindException, CommunicationException {
 		this(btcdProvider, new Properties());
 	}
+
+	public BtcdDaemonImpl(Properties nodeConfig) {
+		initialize();
+		buildMonitors(configurator.checkNodeConfig(nodeConfig));
+		startMonitors();
+		configurator.checkMonitorStates(futures);
+	}
 	
 	public BtcdDaemonImpl(BtcdClient btcdProvider, Properties nodeConfig) throws BitcoindException, 
 			CommunicationException {
-		this();
+		initialize();
 		this.client = configurator.checkBtcdProvider(btcdProvider);
 		buildMonitors(configurator.checkNodeConfig(nodeConfig));
 		configurator.checkNodeLiveness(client.getInfo());
 		startMonitors();
 		configurator.checkMonitorStates(futures);
 	}
-
+	
+	public BtcdDaemonImpl(Integer alertPort, Integer blockPort, Integer walletPort) {
+		this(new DaemonConfigurator().toProperties(alertPort, blockPort, walletPort));
+	}
+	
 	public BtcdDaemonImpl(BtcdClient btcdProvider, Integer alertPort, Integer blockPort, 
 			Integer walletPort) throws BitcoindException, CommunicationException {
-		this();
-		this.client = configurator.checkBtcdProvider(btcdProvider);
-		buildMonitors(configurator.checkNodeConfig(alertPort, blockPort, walletPort));
-		configurator.checkNodeLiveness(client.getInfo());
-		startMonitors();
-		configurator.checkMonitorStates(futures);
+		this(btcdProvider, new DaemonConfigurator().toProperties(alertPort, blockPort, walletPort));
 	}
 
 	@Override
@@ -157,6 +160,13 @@ public class BtcdDaemonImpl implements BtcdDaemon {
 	@Override
 	public void shutdown() {
 		monitorPool.shutdownNow();
+	}
+	
+	private void initialize() {
+		LOG.info("** BtcdDaemonImpl(): initiating the 'bitcoind' notification daemon");
+		configurator = new DaemonConfigurator();
+		monitors = new HashMap<Notifications, NotificationMonitor>();
+		futures = new HashMap<Notifications, Future<Void>>();
 	}
 	
 	private void buildMonitors(Properties nodeConfig) {

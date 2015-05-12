@@ -22,11 +22,13 @@ public class BlockNotificationWorker extends NotificationWorker {
 	@Override
 	protected Object getRelatedEntity(String headerHash) {
 		Block block = new Block();
-		try {
-			block = getClient().getBlock(headerHash);
-		} catch (BitcoindException | CommunicationException e) {
-			LOG.error("SODO");	//Unable to fetch the relevant block from 'bitcoind'
-			block.setHash(headerHash);
+		block.setHash(headerHash);
+		if(getClient() != null) {
+			try {
+				block = getClient().getBlock(headerHash);
+			} catch (BitcoindException | CommunicationException e) {
+				LOG.error("SODO");	//Unable to fetch the relevant block from 'bitcoind'
+			}
 		}
 		return block;
 	}

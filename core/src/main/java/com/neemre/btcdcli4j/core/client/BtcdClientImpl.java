@@ -48,18 +48,13 @@ public class BtcdClientImpl implements BtcdClient {
 	private String nodeVersion;
 	
 
-	private BtcdClientImpl() {
-		LOG.info("** BtcdClientImpl(): initiating the 'bitcoind' core wrapper");
-		configurator = new ClientConfigurator();
-	}
-
 	public BtcdClientImpl(Properties nodeConfig) throws BitcoindException, CommunicationException {
 		this(null, nodeConfig);
 	}
 
 	public BtcdClientImpl(CloseableHttpClient httpProvider, Properties nodeConfig) 
 			throws BitcoindException, CommunicationException {
-		this();
+		initialize();
 		rpcClient = new JsonRpcClientImpl(configurator.checkHttpProvider(httpProvider), 
 				configurator.checkNodeConfig(nodeConfig));
 		nodeVersion = configurator.checkNodeVersion(getInfo().getVersion());
@@ -106,12 +101,8 @@ public class BtcdClientImpl implements BtcdClient {
 	public BtcdClientImpl(CloseableHttpClient httpProvider, String rpcProtocol, String rpcHost,
 			Integer rpcPort, String rpcUser, String rpcPassword, String httpAuthScheme) 
 			throws BitcoindException, CommunicationException {
-		this();
-		rpcClient = new JsonRpcClientImpl(configurator.checkHttpProvider(httpProvider), 
-				configurator.checkNodeConfig(rpcProtocol, rpcHost, rpcPort, rpcUser, rpcPassword,
-						httpAuthScheme));
-		nodeVersion = configurator.checkNodeVersion(getInfo().getVersion());
-		configurator.checkNodeHealth((Block)getBlock(getBestBlockHash(), true));
+		this(httpProvider, new ClientConfigurator().toProperties(rpcProtocol, rpcHost, rpcPort, 
+				rpcUser, rpcPassword, httpAuthScheme));
 	}
 	
 	@Override
@@ -1040,5 +1031,10 @@ public class BtcdClientImpl implements BtcdClient {
 	@Override
 	public void close() {
 		rpcClient.close();
+	}
+	
+	private void initialize() {
+		LOG.info("** BtcdClientImpl(): initiating the 'bitcoind' core wrapper");
+		configurator = new ClientConfigurator();
 	}
 }

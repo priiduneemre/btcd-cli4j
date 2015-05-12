@@ -11,10 +11,10 @@ import com.neemre.btcdcli4j.core.client.BtcdClient;
 import com.neemre.btcdcli4j.core.domain.Transaction;
 
 public class WalletNotificationWorker extends NotificationWorker {
-	
+
 	private static final Logger LOG = LoggerFactory.getLogger(WalletNotificationWorker.class);
-	
-	
+
+
 	public WalletNotificationWorker(Socket socket, BtcdClient client) {
 		super(socket, client);
 	}
@@ -22,11 +22,13 @@ public class WalletNotificationWorker extends NotificationWorker {
 	@Override
 	protected Object getRelatedEntity(String txId) {
 		Transaction transaction = new Transaction();
-		try {
-			transaction = getClient().getTransaction(txId);
-		} catch (BitcoindException | CommunicationException e) {
-			LOG.error("SODO");	//Unable to fetch the related entity from 'bitcoind'
-			transaction.setTxId(txId);
+		transaction.setTxId(txId);
+		if(getClient() != null) {
+			try {
+				transaction = getClient().getTransaction(txId);
+			} catch (BitcoindException | CommunicationException e) {
+				LOG.error("SODO");	//Unable to fetch the relevant transaction from 'bitcoind'
+			}
 		}
 		return transaction;
 	}
