@@ -11,8 +11,8 @@ import org.slf4j.LoggerFactory;
 import com.neemre.btcdcli4j.core.NodeProperties;
 
 /**An abstract superclass containing the core functionality required for constructing 
- * & configuring new <i>bitcoind</i> API consumer instances (<i>i.e.</i> {@code BtcdClient},  
- * {@code BtcdDaemon} etc.).*/
+ * & configuring new <i>bitcoind</i> consumer instances (<i>i.e.</i> {@code BtcdClient}
+ * (JSON-RPC API), {@code BtcdDaemon} ('callback-via-shell-command' API) etc.).*/
 public abstract class AgentConfigurator {
 	
 	private static final Logger LOG = LoggerFactory.getLogger(AgentConfigurator.class);

@@ -39,6 +39,8 @@ public class NotificationMonitor extends Observable implements Observer, Runnabl
 
 
 	public NotificationMonitor(Notifications type, int serverPort, BtcdClient client) {
+		LOG.info("** NotificationMonitor(): initiating a new '{}' notification monitor (port: '{}', "
+				+ "RPC-capable: '{}')", type.name(), serverPort, ((client == null) ? "no" : "yes"));
 		this.type = type;
 		this.serverPort = serverPort;
 		this.client = client;
@@ -84,7 +86,9 @@ public class NotificationMonitor extends Observable implements Observer, Runnabl
 		} catch (IOException e) {
 			try {
 				serverSocket = new ServerSocket(0);
-				LOG.warn("SODO");
+				LOG.warn("-- activate(..): failed to create server socket (monitor: '{}', port: "
+						+ "'{}'), reverting to unused port '{}'", type.name(), serverPort, 
+						serverSocket.getLocalPort());
 			} catch (IOException e1) {
 				throw new NotificationHandlerException(Errors.IO_SERVERSOCKET_UNINITIALIZED, e1);
 			}
@@ -99,7 +103,9 @@ public class NotificationMonitor extends Observable implements Observer, Runnabl
 			try {
 				serverSocket.close();
 			} catch (IOException e) {
-				LOG.warn("SODO");
+				LOG.warn("-- deactivate(..): failed to shutdown server socket (monitor: '{}', port: "
+						+ "'{}'), message was: '{}'", type.name(), serverSocket.getLocalPort(), 
+						e.getMessage());
 			}
 		}
 		workerPool.shutdown();
