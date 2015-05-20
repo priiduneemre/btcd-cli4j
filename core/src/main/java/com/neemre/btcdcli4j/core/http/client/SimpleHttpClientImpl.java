@@ -84,10 +84,10 @@ public class SimpleHttpClientImpl implements SimpleHttpClient {
 	@Override
 	public void close() {
 		try {
-			LOG.info(">> close(..): attempting to shut down the underlying HTTP provider");
+			LOG.info(">> close(..): attempting to shutdown the underlying HTTP provider");
 			provider.close();
 		} catch (IOException e) {
-			LOG.warn("<< close(..): failed to shut down the underlying HTTP provider, message was: "
+			LOG.warn("<< close(..): failed to shutdown the underlying HTTP provider, message was: "
 					+ "'{}'", e.getMessage());
 		}
 	}
