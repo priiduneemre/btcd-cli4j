@@ -25,9 +25,12 @@ public class BlockNotificationWorker extends NotificationWorker {
 		block.setHash(headerHash);
 		if(getClient() != null) {
 			try {
+				LOG.debug("-- getRelatedEntity(..): fetching related block data from 'bitcoind' "
+						+ "(via JSON-RPC API)");
 				block = getClient().getBlock(headerHash);
 			} catch (BitcoindException | CommunicationException e) {
-				LOG.error("SODO");	//Unable to fetch the relevant block from 'bitcoind'
+				LOG.error("<< getRelatedEntity(..): failed to receive block data from 'bitcoind' "
+						+ "(hash: '{}'), message was: '{}'", headerHash, e.getMessage());
 			}
 		}
 		return block;

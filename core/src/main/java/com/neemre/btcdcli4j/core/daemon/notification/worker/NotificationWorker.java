@@ -15,6 +15,7 @@ import com.neemre.btcdcli4j.core.client.BtcdClient;
 import com.neemre.btcdcli4j.core.common.Constants;
 import com.neemre.btcdcli4j.core.common.Errors;
 import com.neemre.btcdcli4j.core.daemon.NotificationHandlerException;
+import com.neemre.btcdcli4j.core.daemon.Notifications;
 import com.neemre.btcdcli4j.core.util.StringUtils;
 
 public abstract class NotificationWorker extends Observable implements Runnable {
@@ -27,6 +28,8 @@ public abstract class NotificationWorker extends Observable implements Runnable 
 
 
 	public NotificationWorker(Socket socket, BtcdClient client) {
+		LOG.debug("** NotificationWorker(): launching new '{}' notification worker (RPC-capable: "
+				+ "'{}')", getType().name(), ((client == null) ? "no" : "yes"));
 		this.socket = socket;
 		this.client = client;
 	}
@@ -37,11 +40,14 @@ public abstract class NotificationWorker extends Observable implements Runnable 
 			Thread.currentThread().setName(getUniqueName());
 			BufferedReader reader = new BufferedReader(new InputStreamReader(
 					socket.getInputStream(), Constants.UTF_8));
-			StringBuilder notification = new StringBuilder();
+			StringBuilder notificationBuilder = new StringBuilder();
 			for (String line = reader.readLine(); line != null; line = reader.readLine()) {
-				notification.append(line);
+				notificationBuilder.append(line);
 			}
-			Object relatedEntity = getRelatedEntity(notification.toString().trim());
+			String notification = notificationBuilder.toString().trim();
+			LOG.debug("-- run(..): received new '{}' notification as (raw): '{}'", getType().name(),
+					notification);
+			Object relatedEntity = getRelatedEntity(notification);
 			setChanged();
 			notifyObservers(relatedEntity);
 		} catch (IOException e) {
@@ -49,9 +55,12 @@ public abstract class NotificationWorker extends Observable implements Runnable 
 		} finally {
 			if (socket != null) {
 				try {
+					LOG.debug("-- run(..): attempting to recycle old '{}' notification worker (RPC-"
+							+ "capable: '{}')", getType().name(), ((client == null) ? "no" : "yes"));
 					socket.close();
 				} catch (IOException e) {
-					LOG.warn("SODO");
+					LOG.warn("<< run(..): failed to close socket (worker: '{}', port: '{}'), message "
+							+ "was: '{}'", getType().name(), socket.getLocalPort(), e.getMessage());
 				}
 			}
 		}
@@ -61,5 +70,10 @@ public abstract class NotificationWorker extends Observable implements Runnable 
 	
 	private String getUniqueName() {
 		return getClass().getSimpleName() + "-" + StringUtils.random(4, Constants.DECIMAL_DIGITS);
+	}
+	
+	private Notifications getType() {
+		return Notifications.valueOf(getClass().getSimpleName().replaceAll("NotificationWorker", "")
+				.toUpperCase());
 	}
 }

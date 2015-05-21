@@ -1030,11 +1030,12 @@ public class BtcdClientImpl implements BtcdClient {
 
 	@Override
 	public void close() {
+		LOG.info(">> close(..): closing the 'bitcoind' core wrapper");
 		rpcClient.close();
 	}
 	
 	private void initialize() {
-		LOG.info("** BtcdClientImpl(): initiating the 'bitcoind' core wrapper");
+		LOG.info(">> initialize(..): initiating the 'bitcoind' core wrapper");
 		configurator = new ClientConfigurator();
 	}
 }

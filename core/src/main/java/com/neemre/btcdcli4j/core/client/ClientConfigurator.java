@@ -33,9 +33,9 @@ public class ClientConfigurator extends AgentConfigurator {
 	
 	public CloseableHttpClient checkHttpProvider(CloseableHttpClient httpProvider) {
 		if (httpProvider == null) {
-			httpProvider = getDefaultHttpProvider();
 			LOG.warn("-- checkHttpProvider(..): no preconfigured HTTP provider detected; reverting "
 					+ "to library default settings");
+			httpProvider = getDefaultHttpProvider();
 		}
 		return httpProvider;
 	}

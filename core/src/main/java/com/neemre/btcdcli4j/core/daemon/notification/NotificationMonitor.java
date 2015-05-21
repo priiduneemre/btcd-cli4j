@@ -3,6 +3,7 @@ package com.neemre.btcdcli4j.core.daemon.notification;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.SocketTimeoutException;
 import java.util.Observable;
 import java.util.Observer;
 import java.util.concurrent.ExecutorService;
@@ -28,6 +29,7 @@ public class NotificationMonitor extends Observable implements Observer, Runnabl
 	private static final int WORKER_MIN_COUNT = 1;
 	private static final int WORKER_MAX_COUNT = 5;
 	private static final int IDLE_WORKER_TIMEOUT = 60000;
+	private static final int IDLE_SOCKET_TIMEOUT = 5000;
 	
 	private Notifications type;
 	private int serverPort;
@@ -39,7 +41,7 @@ public class NotificationMonitor extends Observable implements Observer, Runnabl
 
 
 	public NotificationMonitor(Notifications type, int serverPort, BtcdClient client) {
-		LOG.info("** NotificationMonitor(): initiating a new '{}' notification monitor (port: '{}', "
+		LOG.info("** NotificationMonitor(): initiating new '{}' notification monitor (port: '{}', "
 				+ "RPC-capable: '{}')", type.name(), serverPort, ((client == null) ? "no" : "yes"));
 		this.type = type;
 		this.serverPort = serverPort;
@@ -49,6 +51,8 @@ public class NotificationMonitor extends Observable implements Observer, Runnabl
 	@Override
 	public void run() {
 		activate();
+		LOG.info("-- run(..): started listening for '{}' notifications on port '{}'", type.name(), 
+				serverSocket.getLocalPort());
 		while(isActive) {
 			try {
 				Socket socket = serverSocket.accept();
@@ -56,6 +60,9 @@ public class NotificationMonitor extends Observable implements Observer, Runnabl
 						client);
 				worker.addObserver(this);
 				workerPool.submit(worker);
+			} catch (SocketTimeoutException e) {
+				LOG.trace("-- run(..): polling '{}' notification monitor for interrupts (socket idle "
+						+ "for {}ms)", type.name(), IDLE_SOCKET_TIMEOUT);
 			} catch (IOException e) {
 				Thread.currentThread().interrupt();
 				throw new NotificationHandlerException(Errors.IO_SOCKET_UNINITIALIZED, e);
@@ -69,12 +76,14 @@ public class NotificationMonitor extends Observable implements Observer, Runnabl
 
 	@Override
 	public synchronized void update(Observable worker, Object result) {
+		LOG.info(">> update(..): worker finished, informing listener(s) of new '{}' notification: "
+				+ "'{}'", type.name(), result);
 		worker.deleteObserver(this);
 		setChanged();
 		notifyObservers(result);
 	}
 
-	private boolean isActive() {
+	public boolean isActive() {
 		return isActive;
 	}
 
@@ -83,14 +92,16 @@ public class NotificationMonitor extends Observable implements Observer, Runnabl
 		isActive = true;
 		try {
 			serverSocket = new ServerSocket(serverPort);
+			serverSocket.setSoTimeout(IDLE_SOCKET_TIMEOUT);
 		} catch (IOException e) {
 			try {
 				serverSocket = new ServerSocket(0);
+				serverSocket.setSoTimeout(IDLE_SOCKET_TIMEOUT);
 				LOG.warn("-- activate(..): failed to create server socket (monitor: '{}', port: "
 						+ "'{}'), reverting to unused port '{}'", type.name(), serverPort, 
 						serverSocket.getLocalPort());
 			} catch (IOException e1) {
-				throw new NotificationHandlerException(Errors.IO_SERVERSOCKET_UNINITIALIZED, e1);
+				throw new NotificationHandlerException(Errors.IO_SERVERSOCKET_UNINITIALIZED, e);
 			}
 		}
 		workerPool = new ThreadPoolExecutor(WORKER_MIN_COUNT, WORKER_MAX_COUNT, IDLE_WORKER_TIMEOUT,
@@ -98,15 +109,15 @@ public class NotificationMonitor extends Observable implements Observer, Runnabl
 	}
 
 	private void deactivate() {
+		LOG.info(">> deactivate(..): attempting to shutdown '{}' notification monitor (port: '{}', "
+				+ "RPC-capable: '{}')", type.name(), serverSocket.getLocalPort(), ((client == null)
+						? "no" : "yes"));
 		isActive = false;
-		if(serverSocket != null) {
-			try {
-				serverSocket.close();
-			} catch (IOException e) {
-				LOG.warn("-- deactivate(..): failed to shutdown server socket (monitor: '{}', port: "
-						+ "'{}'), message was: '{}'", type.name(), serverSocket.getLocalPort(), 
-						e.getMessage());
-			}
+		try {
+			serverSocket.close();
+		} catch (IOException e) {
+			LOG.warn("-- deactivate(..): failed to close server socket (monitor: '{}', port: '{}'), "
+					+ "message was: '{}'", type.name(), serverSocket.getLocalPort(), e.getMessage());
 		}
 		workerPool.shutdown();
 	}

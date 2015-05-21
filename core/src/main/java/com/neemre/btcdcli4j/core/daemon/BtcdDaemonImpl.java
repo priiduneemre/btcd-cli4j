@@ -159,11 +159,12 @@ public class BtcdDaemonImpl implements BtcdDaemon {
 
 	@Override
 	public void shutdown() {
+		LOG.info(">> shutdown(..): shutting down the 'bitcoind' notification daemon");
 		monitorPool.shutdownNow();
 	}
 	
 	private void initialize() {
-		LOG.info("** BtcdDaemonImpl(): initiating the 'bitcoind' notification daemon");
+		LOG.info(">> initialize(..): initiating the 'bitcoind' notification daemon");
 		configurator = new DaemonConfigurator();
 		monitors = new HashMap<Notifications, NotificationMonitor>();
 		futures = new HashMap<Notifications, Future<Void>>();

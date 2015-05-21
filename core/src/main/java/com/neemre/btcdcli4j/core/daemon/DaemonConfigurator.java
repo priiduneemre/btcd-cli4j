@@ -34,7 +34,8 @@ public class DaemonConfigurator extends AgentConfigurator {
 
 	public boolean checkNodeLiveness(Info info) {
 		if (info == null) {
-			LOG.error("SODO");
+			LOG.error("-- checkNodeLiveness(..): node did not respond to JSON-RPC API probe request; "
+					+ "please check your 'bitcoind' configuration");
 			return false;
 		}
 		return true;
@@ -45,7 +46,9 @@ public class DaemonConfigurator extends AgentConfigurator {
 		for(Notifications notificationType : Notifications.values()) {
 			Future<Void> monitorHandle = futures.get(notificationType);
 			if((monitorHandle == null) || (monitorHandle.isDone())) {
-				LOG.warn("SODO");
+				LOG.warn("-- checkMonitorStates(..): no active '{}' notification monitor detected "
+						+ "(reason: {})", notificationType.name(), ((monitorHandle == null) ? 
+								"failure to launch" : "task terminated prematurely"));
 				isAllActive = false;
 			}
 		}
