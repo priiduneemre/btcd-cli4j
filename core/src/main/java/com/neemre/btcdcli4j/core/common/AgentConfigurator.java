@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Properties;
 import java.util.Set;
 
+import lombok.Getter;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -17,6 +19,9 @@ public abstract class AgentConfigurator {
 	
 	private static final Logger LOG = LoggerFactory.getLogger(AgentConfigurator.class);
 	
+	@Getter
+	private Properties nodeConfig;
+	
 	
 	public abstract Set<NodeProperties> getRequiredProperties();
 	
@@ -28,6 +33,7 @@ public abstract class AgentConfigurator {
 				nodeConfig.setProperty(property.getKey(), property.getDefaultValue());
 			}
 		}
+		this.nodeConfig = nodeConfig;
 		return nodeConfig;
 	}
 	

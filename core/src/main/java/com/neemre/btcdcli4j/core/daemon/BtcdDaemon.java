@@ -1,5 +1,7 @@
 package com.neemre.btcdcli4j.core.daemon;
 
+import java.util.Properties;
+
 import com.neemre.btcdcli4j.core.daemon.event.AlertListener;
 import com.neemre.btcdcli4j.core.daemon.event.BlockListener;
 import com.neemre.btcdcli4j.core.daemon.event.WalletListener;
@@ -35,6 +37,8 @@ public interface BtcdDaemon {
 	boolean isMonitoringAny();
 	
 	boolean isMonitoringAll();
+	
+	Properties getNodeConfig();
 	
 	void shutdown();
 }

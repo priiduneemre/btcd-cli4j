@@ -34,11 +34,16 @@ public class BtcdDaemonImpl implements BtcdDaemon {
 	public BtcdDaemonImpl() {
 		this(new Properties());
 	}
-	
-	public BtcdDaemonImpl(BtcdClient btcdProvider) throws BitcoindException, CommunicationException {
-		this(btcdProvider, new Properties());
-	}
 
+	public BtcdDaemonImpl(BtcdClient btcdProvider) throws BitcoindException, CommunicationException {
+		initialize();
+		this.client = configurator.checkBtcdProvider(btcdProvider);
+		buildMonitors(configurator.checkNodeConfig(client.getNodeConfig()));
+		configurator.checkNodeLiveness(client.getInfo());
+		startMonitors();
+		configurator.checkMonitorStates(futures);
+	}
+	
 	public BtcdDaemonImpl(Properties nodeConfig) {
 		initialize();
 		buildMonitors(configurator.checkNodeConfig(nodeConfig));
@@ -46,23 +51,8 @@ public class BtcdDaemonImpl implements BtcdDaemon {
 		configurator.checkMonitorStates(futures);
 	}
 	
-	public BtcdDaemonImpl(BtcdClient btcdProvider, Properties nodeConfig) throws BitcoindException, 
-			CommunicationException {
-		initialize();
-		this.client = configurator.checkBtcdProvider(btcdProvider);
-		buildMonitors(configurator.checkNodeConfig(nodeConfig));
-		configurator.checkNodeLiveness(client.getInfo());
-		startMonitors();
-		configurator.checkMonitorStates(futures);
-	}
-	
 	public BtcdDaemonImpl(Integer alertPort, Integer blockPort, Integer walletPort) {
 		this(new DaemonConfigurator().toProperties(alertPort, blockPort, walletPort));
-	}
-	
-	public BtcdDaemonImpl(BtcdClient btcdProvider, Integer alertPort, Integer blockPort, 
-			Integer walletPort) throws BitcoindException, CommunicationException {
-		this(btcdProvider, new DaemonConfigurator().toProperties(alertPort, blockPort, walletPort));
 	}
 
 	@Override
@@ -155,6 +145,11 @@ public class BtcdDaemonImpl implements BtcdDaemon {
 			}
 		}
 		return true;
+	}
+	
+	@Override
+	public Properties getNodeConfig() {
+		return configurator.getNodeConfig();
 	}
 
 	@Override

@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
+import lombok.Getter;
+
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.impl.conn.PoolingHttpClientConnectionManager;
@@ -22,6 +24,9 @@ import com.neemre.btcdcli4j.core.util.StringUtils;
 public class ClientConfigurator extends AgentConfigurator {
 
 	private static final Logger LOG = LoggerFactory.getLogger(ClientConfigurator.class);
+	
+	@Getter
+	private String nodeVersion;
 	
 	
 	@Override
@@ -41,7 +46,7 @@ public class ClientConfigurator extends AgentConfigurator {
 	}
 	
 	public String checkNodeVersion(Integer encodedVersion) {
-		String nodeVersion = decodeNodeVersion(encodedVersion);
+		nodeVersion = decodeNodeVersion(encodedVersion);
 		for (String supportedVersion : Defaults.NODE_VERSIONS) {
 			if (nodeVersion.equals(supportedVersion)) {
 				return nodeVersion;

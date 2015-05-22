@@ -3,6 +3,7 @@ package com.neemre.btcdcli4j.core.client;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 
 import com.neemre.btcdcli4j.core.BitcoindException;
 import com.neemre.btcdcli4j.core.CommunicationException;
@@ -309,6 +310,10 @@ public interface BtcdClient {
 
 	void walletPassphraseChange(String curPassphrase, String newPassphrase) 
 			throws BitcoindException, CommunicationException;
+
+	Properties getNodeConfig();
+	
+	String getNodeVersion();
 	
 	void close();
 }

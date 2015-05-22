@@ -45,7 +45,6 @@ public class BtcdClientImpl implements BtcdClient {
 	
 	private ClientConfigurator configurator;
 	private JsonRpcClient rpcClient;
-	private String nodeVersion;
 	
 
 	public BtcdClientImpl(Properties nodeConfig) throws BitcoindException, CommunicationException {
@@ -57,7 +56,7 @@ public class BtcdClientImpl implements BtcdClient {
 		initialize();
 		rpcClient = new JsonRpcClientImpl(configurator.checkHttpProvider(httpProvider), 
 				configurator.checkNodeConfig(nodeConfig));
-		nodeVersion = configurator.checkNodeVersion(getInfo().getVersion());
+		configurator.checkNodeVersion(getInfo().getVersion());
 		configurator.checkNodeHealth((Block)getBlock(getBestBlockHash(), true));
 	}
 
@@ -1028,6 +1027,16 @@ public class BtcdClientImpl implements BtcdClient {
 		rpcClient.execute(Commands.WALLET_PASSPHRASE_CHANGE.getName(), params);
 	}
 
+	@Override
+	public Properties getNodeConfig() {
+		return configurator.getNodeConfig();
+	}
+	
+	@Override
+	public String getNodeVersion() {
+		return configurator.getNodeVersion();
+	}
+	
 	@Override
 	public void close() {
 		LOG.info(">> close(..): closing the 'bitcoind' core wrapper");
