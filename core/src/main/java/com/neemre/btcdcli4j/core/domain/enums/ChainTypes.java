@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonValue;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.neemre.btcdcli4j.core.common.Errors;
 
 import lombok.AllArgsConstructor;
 import lombok.ToString;
@@ -31,11 +32,11 @@ public enum ChainTypes {
 	public static ChainTypes forName(String name) {
 		if(name != null) {
 			for(ChainTypes chainType : ChainTypes.values()) {
-				if(name.toLowerCase().equals(chainType.getName())) {
+				if(name.equals(chainType.getName())) {
 					return chainType;
 				}
 			}
 		}
-		return null;
+		throw new IllegalArgumentException(Errors.ARGS_BTCD_CHAINTYPE_UNSUPPORTED.getDescription());
 	}
 }

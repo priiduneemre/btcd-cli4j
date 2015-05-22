@@ -8,6 +8,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonValue;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.neemre.btcdcli4j.core.common.Errors;
 
 @ToString
 @AllArgsConstructor
@@ -34,11 +35,11 @@ public enum PaymentCategories {
 	public static PaymentCategories forName(String name) {
 		if(name != null) {
 			for(PaymentCategories paymentCategory : PaymentCategories.values()) {
-				if(name.toLowerCase().equals(paymentCategory.getName())) {
+				if(name.equals(paymentCategory.getName())) {
 					return paymentCategory;
 				}
 			}
 		}
-		return null;
+		throw new IllegalArgumentException(Errors.ARGS_BTCD_PAYMENTCATEGORY_UNSUPPORTED.getDescription());
 	}
 }

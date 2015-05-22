@@ -8,6 +8,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonValue;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.neemre.btcdcli4j.core.common.Errors;
 
 @ToString
 @AllArgsConstructor
@@ -34,11 +35,11 @@ public enum SigHashTypes {
 	public static SigHashTypes forName(String name) {
 		if(name != null) {
 			for(SigHashTypes sigHashType : SigHashTypes.values()) {
-				if(name.toLowerCase().equals(sigHashType.getName())) {
+				if(name.equals(sigHashType.getName())) {
 					return sigHashType;
 				}
 			}
 		}
-		return null;
+		throw new IllegalArgumentException(Errors.ARGS_BTCD_SIGHASHTYPE_UNSUPPORTED.getDescription());
 	}
 }
