@@ -27,4 +27,8 @@ public final class OutputUtils {
 				(printables.size() - 2)/2).replaceAll(", $", "") + ")' was: '%s'\n", 
 				printables.toArray());
 	}
+	
+	public static void printSeparator(int length) {
+		System.out.println(StringUtils.repeat('-', length));
+	}
 }
