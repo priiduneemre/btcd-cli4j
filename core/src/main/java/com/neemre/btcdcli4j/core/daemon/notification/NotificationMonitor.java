@@ -109,7 +109,7 @@ public class NotificationMonitor extends Observable implements Observer, Runnabl
 	}
 
 	private void deactivate() {
-		LOG.info(">> deactivate(..): attempting to shutdown '{}' notification monitor (port: '{}', "
+		LOG.info(">> deactivate(..): attempting to shut down '{}' notification monitor (port: '{}', "
 				+ "RPC-capable: '{}')", type.name(), serverSocket.getLocalPort(), ((client == null)
 						? "no" : "yes"));
 		isActive = false;

@@ -1,4 +1,4 @@
-package com.neemre.btcdcli4j.examples.api;
+package com.neemre.btcdcli4j.examples.client;
 
 import java.math.BigDecimal;
 import java.util.List;

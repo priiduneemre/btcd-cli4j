@@ -14,10 +14,12 @@ public final class Constants {
 	
 	public static final String STRING_EMPTY = "";
 	public static final String STRING_NULL = "null";
-	public static final String WHITESPACE = " ";
-	public static final String QUOTE_SINGLE = "'";
-	public static final String QUOTE_DOUBLE = "\"";
-
+	public static final String STRING_SPACE = " ";
+	public static final String STRING_SINGLE_QUOTE = "'";
+	public static final String STRING_DOUBLE_QUOTE = "\"";
+	
+	public static final char CHAR_NULL = '\u0000';
+	
 	public static final String UNIX_NEWLINE = "\n";
 	public static final String WINDOWS_NEWLINE ="\r\n";
 	

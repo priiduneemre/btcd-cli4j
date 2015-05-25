@@ -60,6 +60,11 @@ public final class StringUtils {
 		}
 	}
 	
+	public static String repeat(char character, int count) {
+		return new String(new char[count]).replaceAll(Character.toString(Constants.CHAR_NULL), 
+				Character.toString(character));
+	}
+	
 	public static List<String> split(String text, int fragmentLength) {
 		if (text == null) {
 			throw new IllegalArgumentException(Errors.ARGS_NULL.getDescription());
