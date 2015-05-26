@@ -11,8 +11,7 @@ import com.neemre.btcdcli4j.core.domain.Transaction;
 import com.neemre.btcdcli4j.examples.util.OutputUtils;
 
 /**An example demonstrating the use of <i>bitcoind</i>'s 'callback-via-shell-command' API via 
- * autonomous {@code BtcdDaemon} instances. Calling any of the methods below will cause a short 
- * overview (<i>i.e.</i> of the results of the operation) to be written to {@code stdout}.*/
+ * autonomous {@code BtcdDaemon} instances.*/
 public class AutonomousDaemon {
 
 	public static void main(String[] args) throws Exception {

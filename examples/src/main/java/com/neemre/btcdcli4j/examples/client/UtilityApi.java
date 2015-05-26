@@ -7,9 +7,8 @@ import org.apache.http.impl.client.CloseableHttpClient;
 
 import com.neemre.btcdcli4j.examples.util.ResourceUtils;
 
-/**A list of examples demonstrating the use of <i>bitcoind</i>'s utility RPCs (via the JSON-RPC API).
- * Calling any of the methods below will cause a short overview (<i>i.e.</i> of the results of the 
- * operation) to be written to {@code stdout}.*/
+/**A list of examples demonstrating the use of <i>bitcoind</i>'s utility RPCs (via the JSON-RPC 
+ * API).*/
 public class UtilityApi {
 
 	public static void main(String[] args) throws Exception {

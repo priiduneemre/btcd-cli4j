@@ -8,7 +8,9 @@ import com.neemre.btcdcli4j.core.daemon.event.AlertListener;
 import com.neemre.btcdcli4j.core.daemon.event.BlockListener;
 import com.neemre.btcdcli4j.core.daemon.event.WalletListener;
 
-/**An explanatory decorator for btcd-cli4j daemon ({@code BtcdDaemon}) implementations.*/
+/**An explanatory decorator for btcd-cli4j daemon ({@code BtcdDaemon}) implementations. Calling any
+ * of the methods below will cause a short overview (<i>i.e.</i> of the results of the operation) to 
+ * be written to {@code stdout}.*/
 public class VerboseBtcdDaemon implements BtcdDaemon {
 
 	private BtcdDaemon daemon;
