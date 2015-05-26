@@ -25,84 +25,101 @@ public class VerboseBtcdDaemon implements BtcdDaemon {
 		this.daemon = daemon;
 	}
 
+	@Override
 	public void addAlertListener(AlertListener listener) {
 		System.out.printf("Registering an event listener for 'ALERT' notifications (%s)\n", listener);
 		daemon.addAlertListener(listener);
 	}
 
+	@Override
 	public int countAlertListeners() {
 		int listenerCount = daemon.countAlertListeners();
 		System.out.printf("The daemon reported an alert listener count of: %s\n", listenerCount);
 		return listenerCount;
 	}
 
+	@Override
 	public void removeAlertListener(AlertListener listener) {
 		System.out.printf("Deregistering the specified alert listener (%s)\n", listener);
 		daemon.removeAlertListener(listener);
 	}
 
+	@Override
 	public void removeAlertListeners() {
 		System.out.println("Deregistering all alert listener(s)");
 		daemon.removeAlertListeners();
 	}
-	public void addBlockListener(BlockListener listener) {
+
+	@Override	public void addBlockListener(BlockListener listener) {
 		System.out.printf("Registering an event listener for 'BLOCK' notifications (%s)\n", listener);
 		daemon.addBlockListener(listener);
 	}
-		public int countBlockListeners() {
+
+	@Override	public int countBlockListeners() {
 		int listenerCount = daemon.countBlockListeners();
 		System.out.printf("The daemon reported a block listener count of: %s\n", listenerCount);
 		return listenerCount;
 	}
-		public void removeBlockListener(BlockListener listener) {
+
+	@Override	public void removeBlockListener(BlockListener listener) {
 		System.out.printf("Deregistering the specified block listener (%s)\n", listener);
 		daemon.removeBlockListener(listener);
 	}
-		public void removeBlockListeners() {
+
+	@Override	public void removeBlockListeners() {
 		System.out.println("Deregistering all block listener(s)");
 		daemon.removeBlockListeners();
 	}
-		public void addWalletListener(WalletListener listener) {
+
+	@Override	public void addWalletListener(WalletListener listener) {
 		System.out.printf("Registering an event listener for 'WALLET' notifications (%s)\n", listener);
 		daemon.addWalletListener(listener);
 	}
-		public int countWalletListeners() {
+
+	@Override	public int countWalletListeners() {
 		int listenerCount = daemon.countWalletListeners();
 		System.out.printf("The daemon reported a wallet listener count of: %s\n", listenerCount);
 		return listenerCount;
 	}
-		public void removeWalletListener(WalletListener listener) {
+
+	@Override	public void removeWalletListener(WalletListener listener) {
 		System.out.printf("Deregistering the specified wallet listener (%s)\n", listener);
 		daemon.removeWalletListener(listener);
 	}
-		public void removeWalletListeners() {
+
+	@Override	public void removeWalletListeners() {
 		System.out.println("Deregistering all wallet listener(s)");
 		daemon.removeWalletListeners();
 	}
-		public boolean isMonitoring(Notifications notificationType) {
+
+	@Override	public boolean isMonitoring(Notifications notificationType) {
 		boolean isMonitoringX = daemon.isMonitoring(notificationType);
 		System.out.printf("'%s' notification monitor status was: '%s'\n", notificationType.name(),
 				((isMonitoringX == true) ? "ACTIVE" : "INACTIVE"));
 		return isMonitoringX;
 	}
-		public boolean isMonitoringAny() {
+
+	@Override	public boolean isMonitoringAny() {
 		boolean isMonitoringAny = daemon.isMonitoringAny();
 		System.out.printf("Is listening for ANY supported notification types: %s\n", 
 				((isMonitoringAny == true) ? "YES" : "NO"));
 		return isMonitoringAny;
 	}
-		public boolean isMonitoringAll() {
+
+	@Override	public boolean isMonitoringAll() {
 		boolean isMonitoringAll = daemon.isMonitoringAll();
 		System.out.printf("Is listening for ALL supported notification types: %s\n", 
 				((isMonitoringAll == true) ? "YES" : "NO"));
 		return isMonitoringAll;
 	}
-		public Properties getNodeConfig() {
+
+	@Override	public Properties getNodeConfig() {
 		Properties nodeConfig = daemon.getNodeConfig();
 		System.out.printf("Node configuration passed to & used by the daemon: '%s'\n", nodeConfig);
 		return nodeConfig;
 	}
-		public void shutdown() {
+
+	@Override	public void shutdown() {
 		System.out.println("Shutting down the 'bitcoind' notification daemon");
 		daemon.shutdown();
 	}
