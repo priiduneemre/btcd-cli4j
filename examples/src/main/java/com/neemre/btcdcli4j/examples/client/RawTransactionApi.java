@@ -12,9 +12,9 @@ import com.neemre.btcdcli4j.core.domain.OutputOverview;
 import com.neemre.btcdcli4j.core.domain.enums.SigHashTypes;
 import com.neemre.btcdcli4j.examples.util.ResourceUtils;
 
-/**A list of examples demonstrating the use of <i>bitcoind</i>'s 'Raw Transaction API' RPCs currently 
- * supported by btcd-cli4j. Calling any of the methods below will cause a short overview 
- * (<i>i.e.</i> of the results of the operation) to be written to {@code stdout}.*/
+/**A list of examples demonstrating the use of <i>bitcoind</i>'s raw transaction RPCs (via the JSON-RPC API).
+ * Calling any of the methods below will cause a short overview (<i>i.e.</i> of the results of the 
+ * operation) to be written to {@code stdout}.*/
 public class RawTransactionApi {
 
 	public static void main(String[] args) throws Exception {

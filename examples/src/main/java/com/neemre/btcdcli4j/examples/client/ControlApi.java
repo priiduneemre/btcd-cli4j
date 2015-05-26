@@ -6,9 +6,9 @@ import org.apache.http.impl.client.CloseableHttpClient;
 
 import com.neemre.btcdcli4j.examples.util.ResourceUtils;
 
-/**A list of examples demonstrating the use of <i>bitcoind</i>'s 'Control API' RPCs currently 
- * supported by btcd-cli4j. Calling any of the methods below will cause a short overview 
- * (<i>i.e.</i> of the results of the operation) to be written to {@code stdout}.*/
+/**A list of examples demonstrating the use of <i>bitcoind</i>'s control RPCs (via the JSON-RPC API).
+ * Calling any of the methods below will cause a short overview (<i>i.e.</i> of the results of the 
+ * operation) to be written to {@code stdout}.*/
 public class ControlApi {
 
 	public static void main(String[] args) throws Exception {

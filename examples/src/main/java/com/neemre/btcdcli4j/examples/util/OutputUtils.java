@@ -14,6 +14,9 @@ import com.neemre.btcdcli4j.core.util.CollectionUtils;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class OutputUtils {
 
+	private static final int LINE_SEPARATOR_LENGTH = 89;
+	
+	
 	public static void printResult(String methodName, String[] paramNames, Object[] paramValues,
 			Object result) {
 		List<Object> printables = new ArrayList<Object>();
@@ -26,6 +29,10 @@ public final class OutputUtils {
 		System.out.printf("'bitcoind' response for API call '%s(" + StringUtils.repeat("%s=%s, ", 
 				(printables.size() - 2)/2).replaceAll(", $", "") + ")' was: '%s'\n", 
 				printables.toArray());
+	}
+	
+	public static void printSeparator() {
+		printSeparator(LINE_SEPARATOR_LENGTH);
 	}
 	
 	public static void printSeparator(int length) {
