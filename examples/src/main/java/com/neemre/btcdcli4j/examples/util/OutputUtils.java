@@ -26,8 +26,8 @@ public final class OutputUtils {
 					Arrays.asList(paramValues)));
 		}
 		printables.add(result);
-		System.out.printf("'bitcoind' response for API call '%s(" + StringUtils.repeat("%s=%s, ", 
-				(printables.size() - 2)/2).replaceAll(", $", "") + ")' was: '%s'\n", 
+		System.out.printf("'bitcoind' response for JSON-RPC API call '%s(" + StringUtils.repeat(
+				"%s=%s, ", (printables.size() - 2)/2).replaceAll(", $", "") + ")' was: '%s'\n", 
 				printables.toArray());
 	}
 	

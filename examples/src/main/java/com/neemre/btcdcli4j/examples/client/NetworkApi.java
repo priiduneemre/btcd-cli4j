@@ -4,6 +4,8 @@ import java.util.Properties;
 
 import org.apache.http.impl.client.CloseableHttpClient;
 
+import com.neemre.btcdcli4j.core.client.BtcdClient;
+import com.neemre.btcdcli4j.core.client.BtcdClientImpl;
 import com.neemre.btcdcli4j.examples.util.ResourceUtils;
 
 /**A list of examples demonstrating the use of <i>bitcoind</i>'s network RPCs (via the JSON-RPC 
@@ -13,9 +15,9 @@ public class NetworkApi {
 	public static void main(String[] args) throws Exception {
 		CloseableHttpClient httpProvider = ResourceUtils.getHttpProvider();
 		Properties nodeConfig = ResourceUtils.getNodeConfig();
-		ApiCalls supportedCalls = new ApiCalls(httpProvider, nodeConfig);
+		BtcdClient client = new VerboseBtcdClient(new BtcdClientImpl(httpProvider, nodeConfig));
 		
-		supportedCalls.getPeerInfo();
-		supportedCalls.ping();
+		client.getPeerInfo();
+		client.ping();
 	}
 }

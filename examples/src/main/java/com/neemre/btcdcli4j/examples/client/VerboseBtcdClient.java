@@ -978,7 +978,7 @@ public class VerboseBtcdClient implements BtcdClient {
 	@Override
 	public String getNodeVersion() {
 		String nodeVersion = client.getNodeVersion();
-		System.out.printf("Node version detected by the client: '%s'\n", nodeVersion);
+		System.out.printf("Node version reported by the client: '%s'\n", nodeVersion);
 		return nodeVersion;
 	}
 
