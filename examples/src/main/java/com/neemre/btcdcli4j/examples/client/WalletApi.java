@@ -8,7 +8,6 @@ import java.util.Properties;
 import org.apache.http.impl.client.CloseableHttpClient;
 
 import com.neemre.btcdcli4j.core.client.BtcdClient;
-import com.neemre.btcdcli4j.core.client.BtcdClientImpl;
 import com.neemre.btcdcli4j.core.domain.OutputOverview;
 import com.neemre.btcdcli4j.examples.util.ResourceUtils;
 
@@ -19,7 +18,7 @@ public class WalletApi {
 	public static void main(String[] args) throws Exception {
 		CloseableHttpClient httpProvider = ResourceUtils.getHttpProvider();
 		Properties nodeConfig = ResourceUtils.getNodeConfig();
-		BtcdClient client = new VerboseBtcdClient(new BtcdClientImpl(httpProvider, nodeConfig));
+		BtcdClient client = new VerboseBtcdClientImpl(httpProvider, nodeConfig);
 		
 		client.addMultiSigAddress(2, Arrays.asList(new String[]{"mwMpStsPJUfhRX5FFs8ppU7fWWfhjuKvL4", 
 				"myN6xmzRVHvsAEXv4MRzoNsoqNeuispybG", "mpgyUpBSBvVrPewGz26LmXSfRkVpq1tGV3"}));

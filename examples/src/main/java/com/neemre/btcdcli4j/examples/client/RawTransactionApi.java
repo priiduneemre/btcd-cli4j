@@ -8,7 +8,6 @@ import java.util.Properties;
 import org.apache.http.impl.client.CloseableHttpClient;
 
 import com.neemre.btcdcli4j.core.client.BtcdClient;
-import com.neemre.btcdcli4j.core.client.BtcdClientImpl;
 import com.neemre.btcdcli4j.core.domain.Output;
 import com.neemre.btcdcli4j.core.domain.OutputOverview;
 import com.neemre.btcdcli4j.core.domain.enums.SigHashTypes;
@@ -21,7 +20,7 @@ public class RawTransactionApi {
 	public static void main(String[] args) throws Exception {
 		CloseableHttpClient httpProvider = ResourceUtils.getHttpProvider();
 		Properties nodeConfig = ResourceUtils.getNodeConfig();
-		BtcdClient client = new VerboseBtcdClient(new BtcdClientImpl(httpProvider, nodeConfig));
+		BtcdClient client = new VerboseBtcdClientImpl(httpProvider, nodeConfig);
 
 		client.createRawTransaction(Arrays.asList(new OutputOverview[]{new OutputOverview(
 				"c61706760cbae899d8ef130c6d6405ce67c163340c7f78a5388c1adb44e271a7", 0)}), 

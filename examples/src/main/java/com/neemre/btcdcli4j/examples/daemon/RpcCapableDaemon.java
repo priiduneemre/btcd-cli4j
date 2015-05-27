@@ -2,7 +2,6 @@ package com.neemre.btcdcli4j.examples.daemon;
 
 import com.neemre.btcdcli4j.core.client.BtcdClient;
 import com.neemre.btcdcli4j.core.daemon.BtcdDaemon;
-import com.neemre.btcdcli4j.core.daemon.BtcdDaemonImpl;
 import com.neemre.btcdcli4j.core.daemon.Notifications;
 import com.neemre.btcdcli4j.core.daemon.event.AlertListener;
 import com.neemre.btcdcli4j.core.daemon.event.BlockListener;
@@ -18,7 +17,7 @@ public class RpcCapableDaemon {
 
 	public static void main(String[] args) throws Exception {
 		BtcdClient btcdProvider = ResourceUtils.getBtcdProvider();
-		BtcdDaemon daemon = new VerboseBtcdDaemon(new BtcdDaemonImpl(btcdProvider));
+		BtcdDaemon daemon = new VerboseBtcdDaemonImpl(btcdProvider);
 
 		daemon.getNodeConfig();
 		OutputUtils.printSeparator();

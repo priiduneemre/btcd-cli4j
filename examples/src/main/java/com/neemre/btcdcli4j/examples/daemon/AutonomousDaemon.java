@@ -1,7 +1,6 @@
 package com.neemre.btcdcli4j.examples.daemon;
 
 import com.neemre.btcdcli4j.core.daemon.BtcdDaemon;
-import com.neemre.btcdcli4j.core.daemon.BtcdDaemonImpl;
 import com.neemre.btcdcli4j.core.daemon.Notifications;
 import com.neemre.btcdcli4j.core.daemon.event.AlertListener;
 import com.neemre.btcdcli4j.core.daemon.event.BlockListener;
@@ -15,7 +14,7 @@ import com.neemre.btcdcli4j.examples.util.OutputUtils;
 public class AutonomousDaemon {
 
 	public static void main(String[] args) throws Exception {
-		BtcdDaemon daemon = new VerboseBtcdDaemon(new BtcdDaemonImpl(5158, 5159, 5160));
+		BtcdDaemon daemon = new VerboseBtcdDaemonImpl(5158, 5159, 5160);
 
 		daemon.getNodeConfig();
 		OutputUtils.printSeparator();

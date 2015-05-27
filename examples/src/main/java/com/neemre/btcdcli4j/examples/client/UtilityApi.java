@@ -6,7 +6,6 @@ import java.util.Properties;
 import org.apache.http.impl.client.CloseableHttpClient;
 
 import com.neemre.btcdcli4j.core.client.BtcdClient;
-import com.neemre.btcdcli4j.core.client.BtcdClientImpl;
 import com.neemre.btcdcli4j.examples.util.ResourceUtils;
 
 /**A list of examples demonstrating the use of <i>bitcoind</i>'s utility RPCs (via the JSON-RPC 
@@ -16,7 +15,7 @@ public class UtilityApi {
 	public static void main(String[] args) throws Exception {
 		CloseableHttpClient httpProvider = ResourceUtils.getHttpProvider();
 		Properties nodeConfig = ResourceUtils.getNodeConfig();
-		BtcdClient client = new VerboseBtcdClient(new BtcdClientImpl(httpProvider, nodeConfig));
+		BtcdClient client = new VerboseBtcdClientImpl(httpProvider, nodeConfig);
 		
 		client.createMultiSig(2, Arrays.asList(new String[]{"mhgPHX4kmzV8NgfoUtfhUwWEMZHQEZeMbH",
 				"mmfPHrvaoqqQLGkStcYgrbgiBFTvsjFzgx", "mxPop5NWu8ok5wbGv46wsASPKyC7yKYix3"}));

@@ -5,7 +5,6 @@ import java.util.Properties;
 import org.apache.http.impl.client.CloseableHttpClient;
 
 import com.neemre.btcdcli4j.core.client.BtcdClient;
-import com.neemre.btcdcli4j.core.client.BtcdClientImpl;
 import com.neemre.btcdcli4j.examples.util.ResourceUtils;
 
 /**A list of examples demonstrating the use of <i>bitcoind</i>'s block chain RPCs (via the JSON-RPC 
@@ -15,7 +14,7 @@ public class BlockChainApi {
 	public static void main(String[] args) throws Exception {
 		CloseableHttpClient httpProvider = ResourceUtils.getHttpProvider();
 		Properties nodeConfig = ResourceUtils.getNodeConfig();
-		BtcdClient client = new VerboseBtcdClient(new BtcdClientImpl(httpProvider, nodeConfig));
+		BtcdClient client = new VerboseBtcdClientImpl(httpProvider, nodeConfig);
 		
 		client.getBestBlockHash();
 		client.getBlock("00000000000000e8cf3d4fab91c642f5d5bb13339613aa915a42a7f1c91ab5ba");
