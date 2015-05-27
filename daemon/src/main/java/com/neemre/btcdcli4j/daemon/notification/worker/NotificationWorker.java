@@ -1,4 +1,4 @@
-package com.neemre.btcdcli4j.core.daemon.notification.worker;
+package com.neemre.btcdcli4j.daemon.notification.worker;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -14,9 +14,9 @@ import lombok.Getter;
 import com.neemre.btcdcli4j.core.client.BtcdClient;
 import com.neemre.btcdcli4j.core.common.Constants;
 import com.neemre.btcdcli4j.core.common.Errors;
-import com.neemre.btcdcli4j.core.daemon.NotificationHandlerException;
-import com.neemre.btcdcli4j.core.daemon.Notifications;
 import com.neemre.btcdcli4j.core.util.StringUtils;
+import com.neemre.btcdcli4j.daemon.NotificationHandlerException;
+import com.neemre.btcdcli4j.daemon.Notifications;
 
 public abstract class NotificationWorker extends Observable implements Runnable {
 

@@ -1,4 +1,4 @@
-package com.neemre.btcdcli4j.core.daemon;
+package com.neemre.btcdcli4j.daemon;
 
 import com.neemre.btcdcli4j.core.common.Constants;
 import com.neemre.btcdcli4j.core.common.Errors;

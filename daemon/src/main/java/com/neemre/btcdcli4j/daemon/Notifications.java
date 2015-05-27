@@ -1,4 +1,4 @@
-package com.neemre.btcdcli4j.core.daemon;
+package com.neemre.btcdcli4j.daemon;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

@@ -1,4 +1,4 @@
-package com.neemre.btcdcli4j.core.daemon.notification;
+package com.neemre.btcdcli4j.daemon.notification;
 
 import java.io.IOException;
 import java.net.ServerSocket;
@@ -17,11 +17,11 @@ import org.slf4j.LoggerFactory;
 import com.neemre.btcdcli4j.core.client.BtcdClient;
 import com.neemre.btcdcli4j.core.common.Constants;
 import com.neemre.btcdcli4j.core.common.Errors;
-import com.neemre.btcdcli4j.core.daemon.NotificationHandlerException;
-import com.neemre.btcdcli4j.core.daemon.Notifications;
-import com.neemre.btcdcli4j.core.daemon.notification.worker.NotificationWorker;
-import com.neemre.btcdcli4j.core.daemon.notification.worker.NotificationWorkerFactory;
 import com.neemre.btcdcli4j.core.util.StringUtils;
+import com.neemre.btcdcli4j.daemon.NotificationHandlerException;
+import com.neemre.btcdcli4j.daemon.Notifications;
+import com.neemre.btcdcli4j.daemon.notification.worker.NotificationWorker;
+import com.neemre.btcdcli4j.daemon.notification.worker.NotificationWorkerFactory;
 
 public class NotificationMonitor extends Observable implements Observer, Runnable {
 

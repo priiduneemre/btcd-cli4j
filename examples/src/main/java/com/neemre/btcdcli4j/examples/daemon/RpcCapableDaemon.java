@@ -1,18 +1,18 @@
 package com.neemre.btcdcli4j.examples.daemon;
 
 import com.neemre.btcdcli4j.core.client.BtcdClient;
-import com.neemre.btcdcli4j.core.daemon.BtcdDaemon;
-import com.neemre.btcdcli4j.core.daemon.Notifications;
-import com.neemre.btcdcli4j.core.daemon.event.AlertListener;
-import com.neemre.btcdcli4j.core.daemon.event.BlockListener;
-import com.neemre.btcdcli4j.core.daemon.event.WalletListener;
+import com.neemre.btcdcli4j.daemon.BtcdDaemon;
+import com.neemre.btcdcli4j.daemon.Notifications;
+import com.neemre.btcdcli4j.daemon.event.AlertListener;
+import com.neemre.btcdcli4j.daemon.event.BlockListener;
+import com.neemre.btcdcli4j.daemon.event.WalletListener;
 import com.neemre.btcdcli4j.core.domain.Block;
 import com.neemre.btcdcli4j.core.domain.Transaction;
 import com.neemre.btcdcli4j.examples.util.OutputUtils;
 import com.neemre.btcdcli4j.examples.util.ResourceUtils;
 
-/**An example demonstrating the use of <i>bitcoind</i>'s 'callback-via-shell-command' API via 
- * RPC-capable {@code BtcdDaemon} instances.*/
+/**An example demonstrating the use of <i>bitcoind</i>'s 'callback-via-shell-command' notification 
+ * API via RPC-capable {@code BtcdDaemon} instances.*/
 public class RpcCapableDaemon {
 
 	public static void main(String[] args) throws Exception {

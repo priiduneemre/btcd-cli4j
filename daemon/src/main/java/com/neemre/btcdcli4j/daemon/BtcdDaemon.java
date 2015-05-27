@@ -1,10 +1,10 @@
-package com.neemre.btcdcli4j.core.daemon;
+package com.neemre.btcdcli4j.daemon;
 
 import java.util.Properties;
 
-import com.neemre.btcdcli4j.core.daemon.event.AlertListener;
-import com.neemre.btcdcli4j.core.daemon.event.BlockListener;
-import com.neemre.btcdcli4j.core.daemon.event.WalletListener;
+import com.neemre.btcdcli4j.daemon.event.AlertListener;
+import com.neemre.btcdcli4j.daemon.event.BlockListener;
+import com.neemre.btcdcli4j.daemon.event.WalletListener;
 
 public interface BtcdDaemon {
 	

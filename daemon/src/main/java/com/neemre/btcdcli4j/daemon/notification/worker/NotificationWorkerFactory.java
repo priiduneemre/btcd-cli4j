@@ -1,4 +1,4 @@
-package com.neemre.btcdcli4j.core.daemon.notification.worker;
+package com.neemre.btcdcli4j.daemon.notification.worker;
 
 import java.net.Socket;
 
@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 
 import com.neemre.btcdcli4j.core.client.BtcdClient;
 import com.neemre.btcdcli4j.core.common.Errors;
-import com.neemre.btcdcli4j.core.daemon.Notifications;
+import com.neemre.btcdcli4j.daemon.Notifications;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class NotificationWorkerFactory {

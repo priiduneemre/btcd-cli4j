@@ -1,4 +1,4 @@
-package com.neemre.btcdcli4j.core.daemon.notification.worker;
+package com.neemre.btcdcli4j.daemon.notification.worker;
 
 import java.net.Socket;
 

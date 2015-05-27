@@ -5,15 +5,15 @@ import java.util.Properties;
 import com.neemre.btcdcli4j.core.BitcoindException;
 import com.neemre.btcdcli4j.core.CommunicationException;
 import com.neemre.btcdcli4j.core.client.BtcdClient;
-import com.neemre.btcdcli4j.core.daemon.BtcdDaemonImpl;
-import com.neemre.btcdcli4j.core.daemon.Notifications;
-import com.neemre.btcdcli4j.core.daemon.event.AlertListener;
-import com.neemre.btcdcli4j.core.daemon.event.BlockListener;
-import com.neemre.btcdcli4j.core.daemon.event.WalletListener;
+import com.neemre.btcdcli4j.daemon.BtcdDaemonImpl;
+import com.neemre.btcdcli4j.daemon.Notifications;
+import com.neemre.btcdcli4j.daemon.event.AlertListener;
+import com.neemre.btcdcli4j.daemon.event.BlockListener;
+import com.neemre.btcdcli4j.daemon.event.WalletListener;
 
 /**A subclass of {@code BtcdDaemonImpl} that writes detailed operational data (<i>e.g.</i> the 
  * result of each method call) to {@code stdout}. This implementation is provided for informational 
- * purposes only; it is not fit for use in a production environment.*/
+ * purposes only; it is not fit for use in production environments.*/
 public class VerboseBtcdDaemonImpl extends BtcdDaemonImpl {
 	
 	public VerboseBtcdDaemonImpl(BtcdClient btcdProvider) throws BitcoindException,

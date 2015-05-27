@@ -1,4 +1,4 @@
-package com.neemre.btcdcli4j.core.daemon;
+package com.neemre.btcdcli4j.daemon;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -14,10 +14,10 @@ import com.neemre.btcdcli4j.core.BitcoindException;
 import com.neemre.btcdcli4j.core.CommunicationException;
 import com.neemre.btcdcli4j.core.NodeProperties;
 import com.neemre.btcdcli4j.core.client.BtcdClient;
-import com.neemre.btcdcli4j.core.daemon.event.AlertListener;
-import com.neemre.btcdcli4j.core.daemon.event.BlockListener;
-import com.neemre.btcdcli4j.core.daemon.event.WalletListener;
-import com.neemre.btcdcli4j.core.daemon.notification.NotificationMonitor;
+import com.neemre.btcdcli4j.daemon.event.AlertListener;
+import com.neemre.btcdcli4j.daemon.event.BlockListener;
+import com.neemre.btcdcli4j.daemon.event.WalletListener;
+import com.neemre.btcdcli4j.daemon.notification.NotificationMonitor;
 
 public class BtcdDaemonImpl implements BtcdDaemon {
 	

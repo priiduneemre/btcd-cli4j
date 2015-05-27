@@ -1,4 +1,4 @@
-package com.neemre.btcdcli4j.core.daemon.event;
+package com.neemre.btcdcli4j.daemon.event;
 
 import java.util.Observable;
 import java.util.Observer;
