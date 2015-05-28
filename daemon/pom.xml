@@ -11,7 +11,8 @@
 	<packaging>jar</packaging>
 
 	<name>btcd-cli4j Daemon</name>
-	<description>A set of tools for working with the 'callback-via-shell-command' API provided by Bitcoin Core</description>
+	<description>A set of tools for working with the 'callback-via-shell-command' API provided by Bitcoin Core
+	</description>
 
 	<dependencies>
 		<dependency>

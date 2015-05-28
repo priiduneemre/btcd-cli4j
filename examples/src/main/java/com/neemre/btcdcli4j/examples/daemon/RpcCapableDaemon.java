@@ -45,7 +45,7 @@ public class RpcCapableDaemon {
 		daemon.addWalletListener(new WalletListener() {
 			@Override
 			public void walletChanged(Transaction transaction) {
-				System.out.printf("New wallet transaction completed! (Event details: '%s')\n", 
+				System.out.printf("Wallet transaction changed! (Event details: '%s')\n", 
 						transaction);
 			}
 		});

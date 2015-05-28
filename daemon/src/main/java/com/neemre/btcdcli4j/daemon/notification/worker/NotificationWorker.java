@@ -56,11 +56,11 @@ public abstract class NotificationWorker extends Observable implements Runnable 
 			if (socket != null) {
 				try {
 					LOG.debug("-- run(..): attempting to recycle old '{}' notification worker (RPC-"
-							+ "capable: '{}')", getType().name(), ((client == null) ? "no" : "yes"));
+						+ "capable: '{}')", getType().name(), ((client == null) ? "no" : "yes"));
 					socket.close();
 				} catch (IOException e) {
 					LOG.warn("<< run(..): failed to close socket (worker: '{}', port: '{}'), message "
-							+ "was: '{}'", getType().name(), socket.getLocalPort(), e.getMessage());
+						+ "was: '{}'", getType().name(), socket.getLocalPort(), e.getMessage());
 				}
 			}
 		}

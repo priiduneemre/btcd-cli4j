@@ -25,12 +25,12 @@ public class WalletNotificationWorker extends NotificationWorker {
 		transaction.setTxId(txId);
 		if(getClient() != null) {
 			try {
-				LOG.debug("-- getRelatedEntity(..): fetching related transaction data from "
-						+ "'bitcoind' (via JSON-RPC API)");
+				LOG.debug("-- getRelatedEntity(..): fetching related transaction data from 'bitcoind' "
+						+ "(via JSON-RPC API)");
 				transaction = getClient().getTransaction(txId);
 			} catch (BitcoindException | CommunicationException e) {
-				LOG.error("<< getRelatedEntity(..): failed to receive transaction data from "
-						+ "'bitcoind' (txId: '{}'), message was: '{}'", txId, e.getMessage());
+				LOG.error("<< getRelatedEntity(..): failed to receive transaction data from 'bitcoind' "
+						+ "(txId: '{}'), message was: '{}'", txId, e.getMessage());
 			}
 		}
 		return transaction;

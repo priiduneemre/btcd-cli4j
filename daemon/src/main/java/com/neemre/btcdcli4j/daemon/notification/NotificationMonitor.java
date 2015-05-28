@@ -6,7 +6,6 @@ import java.net.Socket;
 import java.net.SocketTimeoutException;
 import java.util.Observable;
 import java.util.Observer;
-import java.util.concurrent.ExecutorService;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
@@ -28,20 +27,21 @@ public class NotificationMonitor extends Observable implements Observer, Runnabl
 	private static final Logger LOG = LoggerFactory.getLogger(NotificationMonitor.class);
 	private static final int WORKER_MIN_COUNT = 1;
 	private static final int WORKER_MAX_COUNT = 5;
+	private static final int WORKER_QUEUE_LENGTH = 100;
 	private static final int IDLE_WORKER_TIMEOUT = 60000;
 	private static final int IDLE_SOCKET_TIMEOUT = 5000;
 	
 	private Notifications type;
 	private int serverPort;
 	private ServerSocket serverSocket;
-	private ExecutorService workerPool;
+	private ThreadPoolExecutor workerPool;
 	private volatile boolean isActive;
 
 	private BtcdClient client;
 
 
 	public NotificationMonitor(Notifications type, int serverPort, BtcdClient client) {
-		LOG.info("** NotificationMonitor(): initiating new '{}' notification monitor (port: '{}', "
+		LOG.info("** NotificationMonitor(): launching new '{}' notification monitor (port: '{}', "
 				+ "RPC-capable: '{}')", type.name(), serverPort, ((client == null) ? "no" : "yes"));
 		this.type = type;
 		this.serverPort = serverPort;
@@ -60,6 +60,9 @@ public class NotificationMonitor extends Observable implements Observer, Runnabl
 						client);
 				worker.addObserver(this);
 				workerPool.submit(worker);
+				LOG.trace("-- run(..): total no. of '{}' notifications received: '{}', task queue "
+						+ "occupancy: '{}/{}'", type.name(), workerPool.getTaskCount(), 
+						workerPool.getQueue().size(), WORKER_QUEUE_LENGTH);
 			} catch (SocketTimeoutException e) {
 				LOG.trace("-- run(..): polling '{}' notification monitor for interrupts (socket idle "
 						+ "for {}ms)", type.name(), IDLE_SOCKET_TIMEOUT);
@@ -105,7 +108,7 @@ public class NotificationMonitor extends Observable implements Observer, Runnabl
 			}
 		}
 		workerPool = new ThreadPoolExecutor(WORKER_MIN_COUNT, WORKER_MAX_COUNT, IDLE_WORKER_TIMEOUT,
-				TimeUnit.MILLISECONDS, new LinkedBlockingQueue<Runnable>());
+				TimeUnit.MILLISECONDS, new LinkedBlockingQueue<Runnable>(WORKER_QUEUE_LENGTH));
 	}
 
 	private void deactivate() {

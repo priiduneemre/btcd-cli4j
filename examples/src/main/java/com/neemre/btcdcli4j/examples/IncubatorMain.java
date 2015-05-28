@@ -10,6 +10,12 @@ import java.util.UUID;
 import org.apache.http.impl.client.CloseableHttpClient;
 
 import com.neemre.btcdcli4j.core.BitcoindException;
+import com.neemre.btcdcli4j.core.client.BtcdClient;
+import com.neemre.btcdcli4j.core.client.BtcdClientImpl;
+import com.neemre.btcdcli4j.daemon.BtcdDaemon;
+import com.neemre.btcdcli4j.daemon.BtcdDaemonImpl;
+import com.neemre.btcdcli4j.daemon.event.BlockListener;
+import com.neemre.btcdcli4j.core.domain.Block;
 import com.neemre.btcdcli4j.core.domain.PeerNode;
 import com.neemre.btcdcli4j.core.http.client.SimpleHttpClient;
 import com.neemre.btcdcli4j.core.http.client.SimpleHttpClientImpl;
@@ -23,14 +29,14 @@ import com.neemre.btcdcli4j.examples.util.ResourceUtils;
 /**Please ignore this class - it's just a quick mock-up {@code main} for ironing out bugs/trying 
  * new features.*/
 public class IncubatorMain {
-	
+
 	public static void main(String[] args) throws Exception {
 		JsonPrimitiveParser parser = new JsonPrimitiveParser();
 		System.out.println(parser.parseString("\"nul\"\""));
-		
+
 		String id = UUID.randomUUID().toString().replaceAll("-", "");
-		System.out.printf("Unique ID: '%s'\n", id);
-		
+		System.out.printf("Sample JSON-RPC request ID (unique): '%s'\n", id);
+
 		List<String> listA = new ArrayList<String>();
 		listA.add("listA: I like bitcoin");
 		listA.add("listA: I like litecoin");
@@ -52,7 +58,7 @@ public class IncubatorMain {
 				CollectionUtils.equalsSize(listA, listB, listC, listD, null));
 		System.out.printf("CollectionUtils.mergeInterlaced(..) result is: '%s'\n",
 				CollectionUtils.mergeInterlaced(listA, listB, listC, listD));
-		
+
 		String[] arrayA = new String[3];
 		arrayA[0] = "I (A)";
 		arrayA[1] = "love (A)";
@@ -62,7 +68,7 @@ public class IncubatorMain {
 		arrayB[1] = "love (B)";
 		arrayB[2] = "liquorice! (B)";
 		System.out.println(CollectionUtils.mergeInterlaced(Arrays.asList(arrayA), Arrays.asList(arrayB)));
-		
+
 		CloseableHttpClient httpProvider = ResourceUtils.getHttpProvider();
 		Properties nodeConfig = ResourceUtils.getNodeConfig();
 		JsonRpcClient rpcClient = new JsonRpcClientImpl(httpProvider, nodeConfig);
@@ -79,31 +85,44 @@ public class IncubatorMain {
 				+ "\"startingheight\":345108,\"banscore\":0,\"synced_headers\":345114,\"synced_blocks"
 				+ "\":345114,\"inflight\":[345109,345110,34511],\"whitelisted\":false}]";
 		List<PeerNode> peerInfo = rpcClient.getMapper().mapToList(peerInfoJson, PeerNode.class);
-		System.out.println("Sample 'peerInfo': " + peerInfo);
-		
+		System.out.println("Sample 'peerInfo' as POJOs: " + peerInfo);
+
 		//System.out.println("Testing 'CollectionUtils.asMap(..)' #1: " + CollectionUtils.asMap(
 		//		"addressA", new BigDecimal("0.03"), "addressB", new BigDecimal("0.05"), "addressC"));
 		System.out.println("Testing 'CollectionUtils.asMap(..)' #2: " + CollectionUtils.asMap(
 				"addressA", new BigDecimal("0.03"), "addressB", new BigDecimal("0.05"), "addressC", 
 				new BigDecimal("0.09")));
-		
+
 		SimpleHttpClient httpClient = new SimpleHttpClientImpl(httpProvider, nodeConfig);
-		//httpClient.execute(HttpConstants.REQ_METHOD_GET, "This should not get sent because it's a"
-		//		+ " HTTP 'GET' request.");
-		
+		//httpClient.execute(HttpConstants.REQ_METHOD_GET, "This should throw an exception because "
+		//		+ "it's a HTTP 'GET' request (currently not supported).");
+
 		System.out.println(new BitcoindException(334, "'I am a Bitcoin-specific exception!'"));
-		
-		String nodeVersion = "60200"; //0.6.14
+
+		String nodeVersion = "60200"; //0.6.2
 		String nodeVersion1 = "80400"; //0.8.4
 		String nodeVersion2 = "100000"; //0.10.0
-		String nodeVersion3 = "1010500"; //1.1.5
+		String nodeVersion3 = "1080500"; //1.8.5
 
-		System.out.println("'" + new StringBuilder().toString() + "'");
-		System.out.printf("'%s'\n", StringUtils.pad(nodeVersion, 8, '0', true));
-		System.out.printf("'%s'\n", StringUtils.split("0123456789abcdef", 3));
+		System.out.printf("'StringBuilder#toString()' on empty 'StringBuilder' gives: '%s'\n", 
+				new StringBuilder().toString());
+		System.out.printf("'nodeVersion' was: '%s'\n", StringUtils.pad(nodeVersion, 8, '0', true));
+		System.out.printf("'nodeVersion1' was: '%s'\n", StringUtils.pad(nodeVersion1, 8, '0', true));
+		System.out.printf("'nodeVersion3' was: '%s'\n", StringUtils.pad(nodeVersion3, 8, '0', true));		
+		System.out.printf("'Testing 'StringUtils.split(..)' #1: '%s'\n", 
+				StringUtils.split("0123456789abcdef", 3));
 		String decodedVersion = StringUtils.join(CollectionUtils.mergeInterlaced(
 				StringUtils.split(StringUtils.pad(nodeVersion2, 8, '0', true), 2), 
 				CollectionUtils.duplicate(".", 4)));
-		System.out.printf("decodedVersion: '%s'\n", decodedVersion);
+		System.out.printf("'decodedVersion' was: '%s'\n", decodedVersion);
+
+		final BtcdClient client = new BtcdClientImpl(httpProvider, nodeConfig);
+		final BtcdDaemon daemon = new BtcdDaemonImpl(client);
+		daemon.addBlockListener(new BlockListener() {
+			@Override
+			public void blockDetected(Block block) {
+				daemon.shutdown();
+				client.close();
+			}});
 	}
 }
