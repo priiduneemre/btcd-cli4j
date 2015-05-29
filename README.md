@@ -2,34 +2,34 @@
 
 The btcd-cli4j library is a simple Java wrapper around Bitcoin Core's JSON-RPC (via HTTP) interface. 
 
-* **Latest release:** 0.5.0 ([.zip](https://github.com/priiduneemre/btcd-cli4j/archive/0.5.0.zip); [.tar.gz](https://github.com/priiduneemre/btcd-cli4j/archive/0.5.0.tar.gz))
+* **Latest release:** 0.5.1 ([.zip](https://github.com/priiduneemre/btcd-cli4j/archive/0.5.1.zip); [.tar.gz](https://github.com/priiduneemre/btcd-cli4j/archive/0.5.1.tar.gz))
 * **Compatibility:** Bitcoin Core 0.10.0/0.10.1/0.10.2
 * **API coverage:** 63 of 81 commands (fully) implemented
 * **License:** Apache License 2.0 (see [LICENSE.md](https://github.com/priiduneemre/btcd-cli4j/blob/master/LICENSE.md))
-* **Readme updated:** 2015-05-29 20:18:53
+* **Readme updated:** 2015-05-29 19:16:28
 
 A list of all *bitcoind* JSON-RPC API commands currently supported by btcd-cli4j can be found in the `Commands` enum (see [here](https://github.com/priiduneemre/btcd-cli4j/blob/master/core/src/main/java/com/neemre/btcdcli4j/core/Commands.java) for more details).
 
-btcd-cli4j follows a layered architecture in that the actions needed to communicate with the Bitcoin network have been separated into multiple levels of abstraction. The central interface used to invoke *bitcoind* commands (`BtcdClient`) is solely concerned with Bitcoin-specific entity mapping & business logic and does not know anything about JSON-RPC or HTTP. Internally, `BtcdClient` relies on `JsonRpcClient` for managing cross-application communication and adherence to the JSON-RPC standard. `JsonRpcClient`, in turn, utilizes the interface provided by `SimpleHttpClient` to tunnel all JSON-RPC traffic over HTTP. Both the `JsonRpcClient` and `SimpleHttpClient` classes rely on external service providers internally (*Jackson JSON Processor* and *Apache HttpComponents Client* for the time being) which should be relatively easy to replace, were the need to arise.
+btcd-cli4j follows a layered architecture in that the actions needed to communicate with the Bitcoin network have been separated into multiple levels of abstraction. The central interface used to invoke *bitcoind* API commands (`BtcdClient`) is solely concerned with Bitcoin-specific entity mapping & business logic and does not know anything about JSON-RPC or HTTP. Internally, `BtcdClientImpl` relies on `JsonRpcClient` for managing cross-application communication and adherence to the JSON-RPC standard. `JsonRpcClientImpl`, in turn, utilizes the interface provided by `SimpleHttpClient` to tunnel all JSON-RPC traffic over HTTP. Both the `JsonRpcClientImpl` and `SimpleHttpClientImpl` classes rely on external service providers internally (*Jackson JSON Processor* and *Apache HttpComponents Client* for the time being) which should be relatively easy to replace, were the need to arise.
 
 By default, all incoming & outgoing decimal values (*i.e.* amounts, balances, ping times etc) are transformed into `BigDecimal`s with a scale of 8 and rounding mode of `RoundingMode.HALF_UP` by btcd-cli4j.
 
 
 ##Technologies & dependencies
 
-The btcd-cli4j library has been designed for use with Java SE 7+, however it should also work fine with slightly older versions of the Java runtime (*i.e.* Java SE 6).
+The btcd-cli4j library has been designed for use with Java 7+, however it should also work fine with slightly older versions of the Java runtime (*i.e.* Java 6).
 
 Core dependencies:
-* Apache HttpComponents Client 4.3.6
-* Jackson JSON Processor 2.5.0:
+* Apache HttpComponents Client 4.3.6 [[link]](https://hc.apache.org/httpcomponents-client-ga/index.html)
+* Jackson JSON Processor 2.5.0 [[link]](https://github.com/FasterXML/jackson):
   * Streaming 2.5.0 (`jackson-core`) 
   * Annotations 2.5.0 (`jackson-annotations`)
   * Databind 2.5.0 (`jackson-databind`)
-* Lombok 1.16.2
+* Lombok 1.16.2 [[link]](https://github.com/rzwitserloot/lombok/)
 
 Other dependencies:
-* Simple Logging Facade for Java 1.7.10
-* Apache Commons Lang 3.3.2
+* Simple Logging Facade for Java 1.7.10 [[link]](http://www.slf4j.org/)
+* Apache Commons Lang 3.3.2 [[link]](http://commons.apache.org/proper/commons-lang/)
 
 
 ##Getting started <a name="getting-started"></a>
@@ -49,10 +49,10 @@ Next, modify your `pom.xml` to include `btcd-cli4j-core` as a dependency:
 	<dependency>
 		<groupId>com.neemre.btcd-cli4j</groupId>
 		<artifactId>btcd-cli4j-core</artifactId>
-		<version>0.5.0</version>
+		<version>0.5.1</version>
 	</dependency>
 
-In order to communicate with `bitcoind`, btcd-cli4j needs to be aware of your node's exact configuration. The easiest way of providing this information is via a `node_config.properties` file, for example:
+In order to communicate with *bitcoind*, btcd-cli4j needs to be aware of your node's exact configuration. The easiest way of providing this information is via a `node_config.properties` file, for example:
 
 	node.bitcoind.rpc.protocol = http
 	node.bitcoind.rpc.host = 127.0.0.1
@@ -81,7 +81,7 @@ That's it!
 
 ##Handling asynchronous events
 
-Bitcoin Core also provides an asynchronous notification API by invoking a set of user-defined shell scripts specified in the `bitcoin.conf` configuration file (see [here](https://en.bitcoin.it/wiki/Running_Bitcoin#Bitcoin.conf_Configuration_File) for more info). Whenever a particular event is detected on the network, the appropriate shell script gets loaded with data & executed by *bitcoind*. To take advantage of this useful feature, add the following lines to your `bitcoin.conf` file (use any flavor of `netcat` that you're comfortable with, such as `ncat` or `socat`): 
+Bitcoin Core also provides an asynchronous notification API by relying on a set of user-defined shell scripts specified in the `bitcoin.conf` configuration file (see [here](https://en.bitcoin.it/wiki/Running_Bitcoin#Bitcoin.conf_Configuration_File) for more details). Whenever a particular event is detected on the network, the appropriate shell script gets loaded with data & executed by *bitcoind*. To take advantage of this feature, add the following lines to your `bitcoin.conf` file (use any flavor of `netcat` that you're comfortable with, such as `ncat` or `socat`): 
 
 	alertnotify="echo %s | ncat 127.0.0.1 5158"
 	blocknotify="echo %s | ncat 127.0.0.1 5159"
@@ -92,7 +92,7 @@ Next, modify your `pom.xml` to include `btcd-cli4j-daemon` as a dependency:
 	<dependency>
 		<groupId>com.neemre.btcd-cli4j</groupId>
 		<artifactId>btcd-cli4j-daemon</artifactId>
-		<version>0.5.0</version>
+		<version>0.5.1</version>
 	</dependency>
 
 To let the daemon know where to listen for notifications, open up your `node_config.properties` file and specify the ports listed in the shell scripts above, for example:
@@ -105,7 +105,7 @@ Finally, instantiate the daemon with a preconfigured `BtcdClient` instance (see 
 
 	BtcdDaemon daemon = new BtcdDaemonImpl(client);
 
-Alternatively, create a self-contained version of the daemon (*i.e.* by specifying the affected ports only):
+Alternatively, create a stand-alone version of the daemon (*i.e.* by specifying the affected ports only):
 	
 	BtcdDaemon daemon = new BtcdDaemonImpl(5158, 5159, 5160);
 
