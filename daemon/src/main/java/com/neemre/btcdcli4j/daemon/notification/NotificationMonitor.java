@@ -34,8 +34,8 @@ public class NotificationMonitor extends Observable implements Observer, Runnabl
 	private Notifications type;
 	private int serverPort;
 	private ServerSocket serverSocket;
-	private ThreadPoolExecutor workerPool;
 	private volatile boolean isActive;
+	private ThreadPoolExecutor workerPool;
 
 	private BtcdClient client;
 

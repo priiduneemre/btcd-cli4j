@@ -14,9 +14,12 @@ import com.neemre.btcdcli4j.core.client.BtcdClient;
 import com.neemre.btcdcli4j.core.client.BtcdClientImpl;
 import com.neemre.btcdcli4j.daemon.BtcdDaemon;
 import com.neemre.btcdcli4j.daemon.BtcdDaemonImpl;
+import com.neemre.btcdcli4j.daemon.event.AlertListener;
 import com.neemre.btcdcli4j.daemon.event.BlockListener;
+import com.neemre.btcdcli4j.daemon.event.WalletListener;
 import com.neemre.btcdcli4j.core.domain.Block;
 import com.neemre.btcdcli4j.core.domain.PeerNode;
+import com.neemre.btcdcli4j.core.domain.Transaction;
 import com.neemre.btcdcli4j.core.http.client.SimpleHttpClient;
 import com.neemre.btcdcli4j.core.http.client.SimpleHttpClientImpl;
 import com.neemre.btcdcli4j.core.jsonrpc.JsonPrimitiveParser;
@@ -118,11 +121,24 @@ public class IncubatorMain {
 
 		final BtcdClient client = new BtcdClientImpl(httpProvider, nodeConfig);
 		final BtcdDaemon daemon = new BtcdDaemonImpl(client);
+		daemon.addAlertListener(new AlertListener() {
+			@Override
+			public void alertReceived(String alert) {
+				System.out.printf("New alert received! (Event details: '%s')\n", alert);
+			}
+		});
 		daemon.addBlockListener(new BlockListener() {
 			@Override
 			public void blockDetected(Block block) {
-				daemon.shutdown();
-				client.close();
-			}});
+				System.out.printf("New block detected! (Event details: '%s')\n", block);
+			}
+		});
+		daemon.addWalletListener(new WalletListener() {
+			@Override
+			public void walletChanged(Transaction transaction) {
+				System.out.printf("Wallet transaction changed! (Event details: '%s')\n", 
+						transaction);
+			}
+		});
 	}
 }

@@ -13,7 +13,7 @@ import com.neemre.btcdcli4j.daemon.event.WalletListener;
 
 /**A subclass of {@code BtcdDaemonImpl} that writes detailed operational data (<i>e.g.</i> the 
  * result of each method call) to {@code stdout}. This implementation is provided for informational 
- * purposes only; it is not fit for use in production environments.*/
+ * purposes only; it is not meant for use in production environments.*/
 public class VerboseBtcdDaemonImpl extends BtcdDaemonImpl {
 	
 	public VerboseBtcdDaemonImpl(BtcdClient btcdProvider) throws BitcoindException,

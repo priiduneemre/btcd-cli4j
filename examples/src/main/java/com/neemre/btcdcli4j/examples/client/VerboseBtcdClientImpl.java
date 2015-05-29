@@ -35,7 +35,7 @@ import static com.neemre.btcdcli4j.examples.util.OutputUtils.printResult;
 
 /**A subclass of {@code BtcdClientImpl} that writes detailed operational data (<i>e.g.</i> the 
  * result of each method call) to {@code stdout}. This implementation is provided for informational 
- * purposes only; it is not fit for use in production environments.*/
+ * purposes only; it is not meant for use in production environments.*/
 public class VerboseBtcdClientImpl extends BtcdClientImpl {
 
 	public VerboseBtcdClientImpl(CloseableHttpClient httpProvider, Properties nodeConfig) 

@@ -81,7 +81,7 @@ That's it!
 
 ##Handling asynchronous events
 
-Bitcoin Core also provides an asynchronous notification API by calling a set of user-defined shell scripts specified in the `bitcoin.conf` configuration file (see [here](https://en.bitcoin.it/wiki/Running_Bitcoin#Bitcoin.conf_Configuration_File) for more info). Whenever a particular event is detected on the network, the appropriate shell script gets loaded with data & executed by *bitcoind*. To take advantage of this useful feature, add the following lines to your `bitcoin.conf` file (use any flavor of `netcat` that you're comfortable with, such as `ncat` or `socat`): 
+Bitcoin Core also provides an asynchronous notification API by invoking a set of user-defined shell scripts specified in the `bitcoin.conf` configuration file (see [here](https://en.bitcoin.it/wiki/Running_Bitcoin#Bitcoin.conf_Configuration_File) for more info). Whenever a particular event is detected on the network, the appropriate shell script gets loaded with data & executed by *bitcoind*. To take advantage of this useful feature, add the following lines to your `bitcoin.conf` file (use any flavor of `netcat` that you're comfortable with, such as `ncat` or `socat`): 
 
 	alertnotify="echo %s | ncat 127.0.0.1 5158"
 	blocknotify="echo %s | ncat 127.0.0.1 5159"
@@ -95,7 +95,7 @@ Next, modify your `pom.xml` to include `btcd-cli4j-daemon` as a dependency:
 		<version>0.5.0</version>
 	</dependency>
 
-To let the daemon know where to wait for notifications, open up your `node_config.properties` file and specify the ports listed in the shell scripts above, for example:
+To let the daemon know where to listen for notifications, open up your `node_config.properties` file and specify the ports listed in the shell scripts above, for example:
 
 	node.bitcoind.notification.alert.port = 5158
 	node.bitcoind.notification.block.port = 5159
