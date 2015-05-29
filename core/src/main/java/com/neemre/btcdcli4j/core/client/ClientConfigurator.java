@@ -52,8 +52,8 @@ public class ClientConfigurator extends AgentConfigurator {
 				return nodeVersion;
 			}
 		}
-		LOG.warn("-- checkNodeVersion(..): server version mismatch (client optimized for '{}'"
-				+ ", node responded with '{}')", Defaults.NODE_VERSIONS, nodeVersion);
+		LOG.warn("-- checkNodeVersion(..): server version mismatch - client optimized for '{}'"
+				+ ", node responded with '{}'", Defaults.NODE_VERSIONS, nodeVersion);
 		return nodeVersion;
 	}
 

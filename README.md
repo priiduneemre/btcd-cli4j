@@ -2,15 +2,15 @@
 
 The btcd-cli4j library is a simple Java wrapper around Bitcoin Core's JSON-RPC (via HTTP) interface. 
 
-* **Latest release:** 0.3.6 ([.zip](https://github.com/priiduneemre/btcd-cli4j/archive/0.3.6.zip); [.tar.gz](https://github.com/priiduneemre/btcd-cli4j/archive/0.3.6.tar.gz))
-* **Compatibility:** Bitcoin Core 0.10.0
+* **Latest release:** 0.5.0 ([.zip](https://github.com/priiduneemre/btcd-cli4j/archive/0.5.0.zip); [.tar.gz](https://github.com/priiduneemre/btcd-cli4j/archive/0.5.0.tar.gz))
+* **Compatibility:** Bitcoin Core 0.10.0/0.10.1/0.10.2
 * **API coverage:** 63 of 81 commands (fully) implemented
 * **License:** Apache License 2.0 (see [LICENSE.md](https://github.com/priiduneemre/btcd-cli4j/blob/master/LICENSE.md))
-* **Readme updated:** 2015-03-19 14:13:49
+* **Readme updated:** 2015-05-29 20:18:53
 
-A list of all *bitcoind* API commands currently supported by btcd-cli4j can be found in the `Commands` enum (see [here](https://github.com/priiduneemre/btcd-cli4j/blob/master/core/src/main/java/com/neemre/btcdcli4j/core/Commands.java) for more details).
+A list of all *bitcoind* JSON-RPC API commands currently supported by btcd-cli4j can be found in the `Commands` enum (see [here](https://github.com/priiduneemre/btcd-cli4j/blob/master/core/src/main/java/com/neemre/btcdcli4j/core/Commands.java) for more details).
 
-btcd-cli4j follows a layered architecture in that the actions needed to communicate with the Bitcoin network have been separated into multiple levels of abstraction. The central interface used to invoke *bitcoind* API commands (`BtcdClient`) is solely concerned with Bitcoin-specific entity mapping & business logic and does not know anything about JSON-RPC or HTTP. Internally, `BtcdClient` relies on `JsonRpcClient` for managing cross-application communication and adherence to the JSON-RPC standard. `JsonRpcClient`, in turn, utilizes the interface provided by `SimpleHttpClient` to tunnel all JSON-RPC traffic over HTTP. Both the `JsonRpcClient` and `SimpleHttpClient` classes rely on external service providers internally (*Jackson JSON Processor* and *Apache HttpComponents Client* for the time being) which should be relatively easy to replace, were the need to arise.
+btcd-cli4j follows a layered architecture in that the actions needed to communicate with the Bitcoin network have been separated into multiple levels of abstraction. The central interface used to invoke *bitcoind* commands (`BtcdClient`) is solely concerned with Bitcoin-specific entity mapping & business logic and does not know anything about JSON-RPC or HTTP. Internally, `BtcdClient` relies on `JsonRpcClient` for managing cross-application communication and adherence to the JSON-RPC standard. `JsonRpcClient`, in turn, utilizes the interface provided by `SimpleHttpClient` to tunnel all JSON-RPC traffic over HTTP. Both the `JsonRpcClient` and `SimpleHttpClient` classes rely on external service providers internally (*Jackson JSON Processor* and *Apache HttpComponents Client* for the time being) which should be relatively easy to replace, were the need to arise.
 
 By default, all incoming & outgoing decimal values (*i.e.* amounts, balances, ping times etc) are transformed into `BigDecimal`s with a scale of 8 and rounding mode of `RoundingMode.HALF_UP` by btcd-cli4j.
 
@@ -32,7 +32,7 @@ Other dependencies:
 * Apache Commons Lang 3.3.2
 
 
-##Getting started
+##Getting started <a name="getting-started"></a>
 
 Since the project is currently not hosted on the Maven Central Repository, you should begin by specifying the following custom repository in your `pom.xml` file:
 
@@ -49,7 +49,7 @@ Next, modify your `pom.xml` to include `btcd-cli4j-core` as a dependency:
 	<dependency>
 		<groupId>com.neemre.btcd-cli4j</groupId>
 		<artifactId>btcd-cli4j-core</artifactId>
-		<version>0.3.6</version>
+		<version>0.5.0</version>
 	</dependency>
 
 In order to communicate with `bitcoind`, btcd-cli4j needs to be aware of your node's exact configuration. The easiest way of providing this information is via a `node_config.properties` file, for example:
@@ -79,18 +79,58 @@ That's it!
 	
 *P.S. To learn more about the default HTTP provider (e.g. performance tuning of* `CloseableHttpClient` *instances and/or use of SSL/TLS layering (i.e. HTTPS) (untested!)), see the official HttpComponents Client documentation* [here](http://hc.apache.org/httpcomponents-client-ga/tutorial/html/connmgmt.html#d5e380) *and* [here](http://hc.apache.org/httpcomponents-client-ga/tutorial/html/connmgmt.html#d5e436)*. Additionally, check out the related code samples:* [1](http://hc.apache.org/httpcomponents-client-4.4.x/httpclient/examples/org/apache/http/examples/client/ClientConfiguration.java) *and* [2](http://hc.apache.org/httpcomponents-client-4.4.x/httpclient/examples/org/apache/http/examples/client/ClientCustomSSL.java)*.* 
 
+##Subscribing for notifications
 
+Bitcoin Core also provides an asynchronous notification API by calling a set of user-defined shell scripts located in the `bitcoin.conf` configuration file (see [here](https://en.bitcoin.it/wiki/Running_Bitcoin#Bitcoin.conf_Configuration_File) for more info). Whenever a certain event is detected on the network, the appropriate shell script gets loaded with data & executed by *bitcoind*. To take advantage of this useful feature, add the following lines to your `bitcoin.conf` file (use any flavor of `netcat` that you're comfortable with, such as `ncat` or `socat`): 
+
+	alertnotify="echo %s | ncat 127.0.0.1 5158"
+	blocknotify="echo %s | ncat 127.0.0.1 5159"
+	walletnotify="echo %s | ncat 127.0.0.1 5160"
+
+Next, modify your `pom.xml` to include `btcd-cli4j-daemon` as a dependency:
+
+	<dependency>
+		<groupId>com.neemre.btcd-cli4j</groupId>
+		<artifactId>btcd-cli4j-daemon</artifactId>
+		<version>0.5.0</version>
+	</dependency>
+
+To let the daemon know where to look for the notifications, open up your `node_config.properties` file (yet again) and specify the ports mentioned in your tiny shell scripts above, for example:
+
+	node.bitcoind.notification.alert.port = 5158
+	node.bitcoind.notification.block.port = 5159
+	node.bitcoind.notification.wallet.port = 5160
+
+Finally, instantiate the daemon with a preconfigured `BtcdClient` instance (see [Getting started](#getting-started)) like so:
+
+	BtcdDaemon daemon = new BtcdDaemonImpl(client);
+
+Alternatively, create a self-contained version of the daemon (*i.e.* by specifying the affected ports only):
+	
+	BtcdDaemon daemon = new BtcdDaemonImpl(5158, 5159, 5160);
+	
+Now you're free to add as many event listeners as you like:
+
+	daemon.addBlockListener(new BlockListener() {
+		@Override
+		public void blockDetected(Block block) {
+			System.out.printf("New block detected! (Event details: '%s')\n", block);
+		}
+	});
+	
 ##Examples
 
-For a short list of usage examples (mostly just sample API calls), see [examples](https://github.com/priiduneemre/btcd-cli4j/tree/master/examples/src/main). 
+For a short list of usage examples (mostly just sample API calls), see the [examples](https://github.com/priiduneemre/btcd-cli4j/tree/master/examples/src/main) module. 
 
 Please note that some of the examples above will only work on the Bitcoin TESTNET chain (for obvious reasons).
 
 
 ##Supporting the project
 
-If btcd-cli4j has been useful to you and you feel like contributing, consider posting a bug report or a pull request. Alternatively, a spare beer or pizza would also be much appreciated:
+If btcd-cli4j has been useful to you and you feel like contributing, consider posting a [bug report](https://github.com/priiduneemre/btcd-cli4j/issues) or a [pull request](https://github.com/priiduneemre/btcd-cli4j/pulls). Alternatively, a spare beer or pizza would also be much appreciated:
 
-* Bitcoin: 12CfEQ7RAEwpS82jFZg1HgjeH8obbpMeL5
-* Litecoin: LMwTYNgj7Hkugd1x8rjNXBYdYKgNvACjRF
-* Dogecoin: D6DUTo8MTxredfHbbQsb7MLqu7zkuFSMnt
+* Bitcoin: `12CfEQ7RAEwpS82jFZg1HgjeH8obbpMeL5`
+* Litecoin: `LMwTYNgj7Hkugd1x8rjNXBYdYKgNvACjRF`
+* Dogecoin: `D6DUTo8MTxredfHbbQsb7MLqu7zkuFSMnt`
+
+If you have any further questions, feel free to visit us at the `#bitcoin` IRC channel on [freenode](https://freenode.net/).

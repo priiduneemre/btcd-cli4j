@@ -68,16 +68,15 @@ public class RawTransactionApi {
 				+ "00000000001976a9140ebec5470aec62ac2731ac536f4860768e31983288ac00000000",
 				Arrays.asList(new Output[]{new Output("656fd6e21867bfda44d33d62e464f7994ebcbf8e7de329c1"
 					+ "07aa6e856fe45198", 0, "76a9141083bfc4f51e3556a7908dde8a7d32e827e1212d88ac", 
-					null)}),
-					Arrays.asList(new String[]{"cNbvKQrwsEtwriHYK9ji1k7BZqggD3ZezXfkWJZFNp6PmSTfWEkT"}));
+					null)}), Arrays.asList(new String[]{"cNbvKQrwsEtwriHYK9ji1k7BZqggD3ZezXfkWJZFNp"
+							+ "6PmSTfWEkT"}));
 		client.signRawTransaction("01000000019851e46f856eaa07c129e37d8ebfbc4e99f764e4623dd344dabf6718e2"
 				+ "d66f650000000000ffffffff0300ef1c0d000000001976a9141083bfc4f51e3556a7908dde8a7d32e827"
 				+ "e1212d88ac580f0200000000001976a914af7d3ceab273e95a623b45fa511345836ddccf8488acd84703"
 				+ "00000000001976a9140ebec5470aec62ac2731ac536f4860768e31983288ac00000000",
 				Arrays.asList(new Output[]{new Output("656fd6e21867bfda44d33d62e464f7994ebcbf8e7de329c1"
 					+ "07aa6e856fe45198", 0, "76a9141083bfc4f51e3556a7908dde8a7d32e827e1212d88ac", 
-					null)}), 
-					Arrays.asList(new String[]{"cNbvKQrwsEtwriHYK9ji1k7BZqggD3ZezXfkWJZFNp6PmSTfWEkT"}), 
-					SigHashTypes.NONE.getName());
+					null)}), Arrays.asList(new String[]{"cNbvKQrwsEtwriHYK9ji1k7BZqggD3ZezXfkWJZFNp"
+							+ "6PmSTfWEkT"}), SigHashTypes.NONE.getName());
 	}
 }

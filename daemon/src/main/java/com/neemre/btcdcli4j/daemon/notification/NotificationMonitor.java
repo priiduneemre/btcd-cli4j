@@ -26,8 +26,8 @@ public class NotificationMonitor extends Observable implements Observer, Runnabl
 
 	private static final Logger LOG = LoggerFactory.getLogger(NotificationMonitor.class);
 	private static final int WORKER_MIN_COUNT = 1;
-	private static final int WORKER_MAX_COUNT = 5;
-	private static final int WORKER_QUEUE_LENGTH = 100;
+	private static final int WORKER_MAX_COUNT = 10;
+	private static final int TASK_QUEUE_LENGTH = 100;
 	private static final int IDLE_WORKER_TIMEOUT = 60000;
 	private static final int IDLE_SOCKET_TIMEOUT = 5000;
 	
@@ -62,7 +62,7 @@ public class NotificationMonitor extends Observable implements Observer, Runnabl
 				workerPool.submit(worker);
 				LOG.trace("-- run(..): total no. of '{}' notifications received: '{}', task queue "
 						+ "occupancy: '{}/{}'", type.name(), workerPool.getTaskCount(), 
-						workerPool.getQueue().size(), WORKER_QUEUE_LENGTH);
+						workerPool.getQueue().size(), TASK_QUEUE_LENGTH);
 			} catch (SocketTimeoutException e) {
 				LOG.trace("-- run(..): polling '{}' notification monitor for interrupts (socket idle "
 						+ "for {}ms)", type.name(), IDLE_SOCKET_TIMEOUT);
@@ -108,7 +108,7 @@ public class NotificationMonitor extends Observable implements Observer, Runnabl
 			}
 		}
 		workerPool = new ThreadPoolExecutor(WORKER_MIN_COUNT, WORKER_MAX_COUNT, IDLE_WORKER_TIMEOUT,
-				TimeUnit.MILLISECONDS, new LinkedBlockingQueue<Runnable>(WORKER_QUEUE_LENGTH));
+				TimeUnit.MILLISECONDS, new LinkedBlockingQueue<Runnable>(TASK_QUEUE_LENGTH));
 	}
 
 	private void deactivate() {
