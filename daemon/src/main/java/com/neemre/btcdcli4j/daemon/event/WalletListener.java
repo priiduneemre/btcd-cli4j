@@ -10,10 +10,12 @@ import lombok.Getter;
 
 import com.neemre.btcdcli4j.core.domain.Transaction;
 
+/**An abstract adapter class for receiving {@code WALLET} notifications. Extend this class to 
+ * override any methods of interest.*/
 public abstract class WalletListener {
 
 	private static final Logger LOG = LoggerFactory.getLogger(WalletListener.class);
-			
+
 	@Getter
 	private Observer observer;
 
@@ -30,5 +32,5 @@ public abstract class WalletListener {
 		};
 	}
 
-	public abstract void walletChanged(Transaction transaction);
+	public void walletChanged(Transaction transaction) {}
 }

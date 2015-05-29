@@ -79,9 +79,9 @@ That's it!
 	
 *P.S. To learn more about the default HTTP provider (e.g. performance tuning of* `CloseableHttpClient` *instances and/or use of SSL/TLS layering (i.e. HTTPS) (untested!)), see the official HttpComponents Client documentation* [here](http://hc.apache.org/httpcomponents-client-ga/tutorial/html/connmgmt.html#d5e380) *and* [here](http://hc.apache.org/httpcomponents-client-ga/tutorial/html/connmgmt.html#d5e436)*. Additionally, check out the related code samples:* [1](http://hc.apache.org/httpcomponents-client-4.4.x/httpclient/examples/org/apache/http/examples/client/ClientConfiguration.java) *and* [2](http://hc.apache.org/httpcomponents-client-4.4.x/httpclient/examples/org/apache/http/examples/client/ClientCustomSSL.java)*.* 
 
-##Subscribing for notifications
+##Handling asynchronous events
 
-Bitcoin Core also provides an asynchronous notification API by calling a set of user-defined shell scripts located in the `bitcoin.conf` configuration file (see [here](https://en.bitcoin.it/wiki/Running_Bitcoin#Bitcoin.conf_Configuration_File) for more info). Whenever a certain event is detected on the network, the appropriate shell script gets loaded with data & executed by *bitcoind*. To take advantage of this useful feature, add the following lines to your `bitcoin.conf` file (use any flavor of `netcat` that you're comfortable with, such as `ncat` or `socat`): 
+Bitcoin Core also provides an asynchronous notification API by calling a set of user-defined shell scripts specified in the `bitcoin.conf` configuration file (see [here](https://en.bitcoin.it/wiki/Running_Bitcoin#Bitcoin.conf_Configuration_File) for more info). Whenever a particular event is detected on the network, the appropriate shell script gets loaded with data & executed by *bitcoind*. To take advantage of this useful feature, add the following lines to your `bitcoin.conf` file (use any flavor of `netcat` that you're comfortable with, such as `ncat` or `socat`): 
 
 	alertnotify="echo %s | ncat 127.0.0.1 5158"
 	blocknotify="echo %s | ncat 127.0.0.1 5159"
@@ -95,7 +95,7 @@ Next, modify your `pom.xml` to include `btcd-cli4j-daemon` as a dependency:
 		<version>0.5.0</version>
 	</dependency>
 
-To let the daemon know where to look for the notifications, open up your `node_config.properties` file (yet again) and specify the ports mentioned in your tiny shell scripts above, for example:
+To let the daemon know where to wait for notifications, open up your `node_config.properties` file and specify the ports listed in the shell scripts above, for example:
 
 	node.bitcoind.notification.alert.port = 5158
 	node.bitcoind.notification.block.port = 5159
@@ -108,8 +108,8 @@ Finally, instantiate the daemon with a preconfigured `BtcdClient` instance (see 
 Alternatively, create a self-contained version of the daemon (*i.e.* by specifying the affected ports only):
 	
 	BtcdDaemon daemon = new BtcdDaemonImpl(5158, 5159, 5160);
-	
-Now you're free to add as many event listeners as you like:
+
+Great! Now you're ready to add some event listeners:
 
 	daemon.addBlockListener(new BlockListener() {
 		@Override

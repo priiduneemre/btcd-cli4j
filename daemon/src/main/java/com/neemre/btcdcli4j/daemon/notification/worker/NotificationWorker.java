@@ -38,8 +38,8 @@ public abstract class NotificationWorker extends Observable implements Runnable 
 	public void run() {
 		try {
 			Thread.currentThread().setName(getUniqueName());
-			BufferedReader reader = new BufferedReader(new InputStreamReader(
-					socket.getInputStream(), Constants.UTF_8));
+			BufferedReader reader = new BufferedReader(new InputStreamReader(socket.getInputStream(),
+					Constants.UTF_8));
 			StringBuilder notificationBuilder = new StringBuilder();
 			for (String line = reader.readLine(); line != null; line = reader.readLine()) {
 				notificationBuilder.append(line);

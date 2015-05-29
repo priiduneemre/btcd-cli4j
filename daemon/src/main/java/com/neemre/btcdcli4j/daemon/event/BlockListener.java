@@ -10,14 +10,16 @@ import lombok.Getter;
 
 import com.neemre.btcdcli4j.core.domain.Block;
 
+/**An abstract adapter class for receiving {@code BLOCK} notifications. Extend this class to 
+ * override any methods of interest.*/
 public abstract class BlockListener {
 
 	private static final Logger LOG = LoggerFactory.getLogger(BlockListener.class);
-	
+
 	@Getter
 	private Observer observer;
-	
-	
+
+
 	public BlockListener() {
 		observer = new Observer() {
 			@Override
@@ -29,6 +31,6 @@ public abstract class BlockListener {
 			}
 		};
 	}
-	
-	public abstract void blockDetected(Block block);
+
+	public void blockDetected(Block block) {}
 }

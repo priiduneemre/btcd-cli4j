@@ -153,7 +153,7 @@ public class BtcdDaemonImpl implements BtcdDaemon {
 	}
 
 	@Override
-	public void shutdown() {
+	public synchronized void shutdown() {
 		LOG.info(">> shutdown(..): shutting down the 'bitcoind' notification daemon");
 		monitorPool.shutdownNow();
 	}

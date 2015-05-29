@@ -8,14 +8,16 @@ import org.slf4j.LoggerFactory;
 
 import lombok.Getter;
 
+/**An abstract adapter class for receiving {@code ALERT} notifications. Extend this class to 
+ * override any methods of interest.*/
 public abstract class AlertListener {
 
 	private static final Logger LOG = LoggerFactory.getLogger(AlertListener.class);
-	
+
 	@Getter
 	private Observer observer;
-	
-	
+
+
 	public AlertListener() {
 		observer = new Observer() {
 			@Override
@@ -27,6 +29,6 @@ public abstract class AlertListener {
 			}
 		};
 	}
-	
-	public abstract void alertReceived(String alert);
+
+	public void alertReceived(String alert) {}
 }

@@ -1038,7 +1038,7 @@ public class BtcdClientImpl implements BtcdClient {
 	}
 	
 	@Override
-	public void close() {
+	public synchronized void close() {
 		LOG.info(">> close(..): closing the 'bitcoind' core wrapper");
 		rpcClient.close();
 	}
