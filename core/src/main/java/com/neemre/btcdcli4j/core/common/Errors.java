@@ -4,7 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.ToString;
 
-/**An enumeration specifying the error codes & messages used by btcd-cli4j.*/
+/**An enumeration specifying the error codes &amp; messages used by btcd-cli4j.*/
 @Getter
 @ToString
 @AllArgsConstructor
