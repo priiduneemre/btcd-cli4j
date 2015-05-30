@@ -21,11 +21,11 @@ The btcd-cli4j library has been designed for use with Java 7+, however it should
 
 Core dependencies:
 * Apache HttpComponents Client 4.3.6 [[link]](https://hc.apache.org/httpcomponents-client-ga/index.html)
-* Jackson JSON Processor 2.5.0 [[link]](https://github.com/FasterXML/jackson):
-  * Streaming 2.5.0 (`jackson-core`) 
-  * Annotations 2.5.0 (`jackson-annotations`)
-  * Databind 2.5.0 (`jackson-databind`)
-* Lombok 1.16.2 [[link]](https://github.com/rzwitserloot/lombok/)
+* Jackson JSON Processor 2.5.0:
+  * Streaming 2.5.0 (`jackson-core`) [[link]](https://github.com/FasterXML/jackson-core)
+  * Annotations 2.5.0 (`jackson-annotations`) [[link]](https://github.com/FasterXML/jackson-annotations)
+  * Databind 2.5.0 (`jackson-databind`) [[link]](https://github.com/FasterXML/jackson-databind)
+* Lombok 1.16.2 [[link]](https://github.com/rzwitserloot/lombok)
 
 Other dependencies:
 * Simple Logging Facade for Java 1.7.10 [[link]](http://www.slf4j.org/)
@@ -77,11 +77,11 @@ That's it!
 	
 	MiningInfo miningInfo = client.getMiningInfo();
 	
-*P.S. To learn more about the default HTTP provider (e.g. performance tuning of* `CloseableHttpClient` *instances and/or use of SSL/TLS layering (i.e. HTTPS) (untested!)), see the official HttpComponents Client documentation* [here](http://hc.apache.org/httpcomponents-client-ga/tutorial/html/connmgmt.html#d5e380) *and* [here](http://hc.apache.org/httpcomponents-client-ga/tutorial/html/connmgmt.html#d5e436)*. Additionally, check out the related code samples:* [1](http://hc.apache.org/httpcomponents-client-4.4.x/httpclient/examples/org/apache/http/examples/client/ClientConfiguration.java) *and* [2](http://hc.apache.org/httpcomponents-client-4.4.x/httpclient/examples/org/apache/http/examples/client/ClientCustomSSL.java)*.* 
+*P.S. To learn more about the default HTTP provider (e.g. performance tuning of* `CloseableHttpClient` *instances and/or use of SSL/TLS layering (i.e. HTTPS) (untested!)), see the official HttpComponents Client documentation* [here](http://hc.apache.org/httpcomponents-client-4.3.x/tutorial/html/connmgmt.html#d5e380) *and* [here](http://hc.apache.org/httpcomponents-client-4.3.x/tutorial/html/connmgmt.html#d5e436)*. Additionally, check out the related code samples:* [1](http://hc.apache.org/httpcomponents-client-4.3.x/httpclient/examples/org/apache/http/examples/client/ClientConfiguration.java) *and* [2](http://hc.apache.org/httpcomponents-client-4.3.x/httpclient/examples/org/apache/http/examples/client/ClientCustomSSL.java)*.* 
 
 ##Handling asynchronous events
 
-Bitcoin Core also provides an asynchronous notification API by relying on a set of user-defined shell scripts specified in the `bitcoin.conf` configuration file (see [here](https://en.bitcoin.it/wiki/Running_Bitcoin#Bitcoin.conf_Configuration_File) for more details). Whenever a particular event is detected on the network, the appropriate shell script gets loaded with data & executed by *bitcoind*. To take advantage of this feature, add the following lines to your `bitcoin.conf` file (use any flavor of `netcat` that you're comfortable with, such as `ncat` or `socat`): 
+Bitcoin Core also provides an asynchronous notification API by relying on a set of user-defined shell scripts specified in the `bitcoin.conf` configuration file (see [here](https://en.bitcoin.it/wiki/Running_Bitcoin#Bitcoin.conf_Configuration_File) for more details). Whenever a particular event is detected on the network, the appropriate shell script gets loaded with data & executed by *bitcoind*. To take advantage of this feature, add the following lines to your `bitcoin.conf` file (use any flavor of `netcat` you're comfortable with, such as `ncat` or `socat`): 
 
 	alertnotify="echo %s | ncat 127.0.0.1 5158"
 	blocknotify="echo %s | ncat 127.0.0.1 5159"
@@ -105,7 +105,7 @@ Finally, instantiate the daemon with a preconfigured `BtcdClient` instance (see 
 
 	BtcdDaemon daemon = new BtcdDaemonImpl(client);
 
-Alternatively, create a stand-alone version of the daemon (*i.e.* by specifying the affected ports only):
+Alternatively, create a self-contained version of the daemon (*i.e.* by specifying the affected ports only):
 	
 	BtcdDaemon daemon = new BtcdDaemonImpl(5158, 5159, 5160);
 
