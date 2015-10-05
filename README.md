@@ -122,7 +122,7 @@ Great! Now you're ready to add some event listeners:
 
 For a short list of usage examples (mostly just sample API calls), see the [examples](https://github.com/priiduneemre/btcd-cli4j/tree/master/examples/src/main) module. 
 
-Please note that some of the examples above will only work on the Bitcoin TESTNET chain (for obvious reasons).
+Please note that some of the examples above will only work on the Bitcoin TESTNET3 chain (for obvious reasons).
 
 
 ##Supporting the project
