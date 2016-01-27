@@ -6,40 +6,40 @@ import lombok.ToString;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonValue;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.fasterxml.jackson.annotation.JsonValue;
 import com.neemre.btcdcli4j.core.common.Errors;
 
 @ToString
 @AllArgsConstructor
 @JsonInclude(Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
-public enum PaymentCategories {
-	
-	SEND("send"),
-	RECEIVE("receive"),
-	GENERATE("generate"),
-	IMMATURE("immature"),
-	ORPHAN("orphan"),
-	MOVE("move");
-	
+public enum ChainStatuses {
+
+	ACTIVE("active"),
+	INVALID("invalid"),
+	HEADERS_ONLY("headers-only"),
+	VALID_HEADERS("valid-headers"),
+	VALID_FORK("valid-fork"),
+	UNKNOWN("unknown");
+
 	private final String name;
 
-	
+
 	@JsonValue
 	public String getName() {
 		return name;
 	}
 
 	@JsonCreator
-	public static PaymentCategories forName(String name) {
+	public static ChainStatuses forName(String name) {
 		if (name != null) {
-			for (PaymentCategories paymentCategory : PaymentCategories.values()) {
-				if (name.equals(paymentCategory.getName())) {
-					return paymentCategory;
+			for (ChainStatuses chainStatus : ChainStatuses.values()) {
+				if (name.equals(chainStatus.getName())) {
+					return chainStatus;
 				}
 			}
 		}
-		throw new IllegalArgumentException(Errors.ARGS_BTCD_PAYMENTCATEGORY_UNSUPPORTED.getDescription());
+		throw new IllegalArgumentException(Errors.ARGS_BTCD_CHAINSTATUS_UNSUPPORTED.getDescription());
 	}
 }

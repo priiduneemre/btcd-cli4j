@@ -15,7 +15,8 @@ public class NetworkApi {
 		CloseableHttpClient httpProvider = ResourceUtils.getHttpProvider();
 		Properties nodeConfig = ResourceUtils.getNodeConfig();
 		BtcdClient client = new VerboseBtcdClientImpl(httpProvider, nodeConfig);
-		
+
+		client.getConnectionCount();
 		client.getPeerInfo();
 		client.ping();
 	}

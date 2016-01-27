@@ -33,6 +33,7 @@ import com.neemre.btcdcli4j.core.domain.RawTransactionOverview;
 import com.neemre.btcdcli4j.core.domain.RedeemScript;
 import com.neemre.btcdcli4j.core.domain.SignatureResult;
 import com.neemre.btcdcli4j.core.domain.SinceBlock;
+import com.neemre.btcdcli4j.core.domain.Tip;
 import com.neemre.btcdcli4j.core.domain.Transaction;
 import com.neemre.btcdcli4j.core.domain.WalletInfo;
 import com.neemre.btcdcli4j.core.jsonrpc.client.JsonRpcClient;
@@ -314,7 +315,21 @@ public class BtcdClientImpl implements BtcdClient {
 		String headerHash = rpcClient.getParser().parseString(headerHashJson);
 		return headerHash;
 	}
-	
+
+	@Override
+	public List<Tip> getChainTips() throws BitcoindException, CommunicationException {
+		String chainTipsJson = rpcClient.execute(Commands.GET_CHAIN_TIPS.getName());
+		List<Tip> chainTips = rpcClient.getMapper().mapToList(chainTipsJson, Tip.class);
+		return chainTips;
+	}
+
+	@Override
+	public Integer getConnectionCount() throws BitcoindException, CommunicationException {
+		String connectionCountJson = rpcClient.execute(Commands.GET_CONNECTION_COUNT.getName());
+		Integer connectionCount = rpcClient.getParser().parseInteger(connectionCountJson);
+		return connectionCount;
+	}
+
 	@Override
 	public BigDecimal getDifficulty() throws BitcoindException, CommunicationException {
 		String difficultyJson = rpcClient.execute(Commands.GET_DIFFICULTY.getName());

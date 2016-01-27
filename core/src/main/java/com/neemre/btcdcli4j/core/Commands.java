@@ -10,7 +10,7 @@ import lombok.ToString;
 @ToString
 @AllArgsConstructor
 public enum Commands {
-	
+
 	ADD_MULTI_SIG_ADDRESS("addmultisigaddress", 2, 3),
 	BACKUP_WALLET("backupwallet", 1, 1),
 	CREATE_MULTI_SIG("createmultisig", 2, 2),
@@ -31,6 +31,8 @@ public enum Commands {
 	GET_BLOCK_CHAIN_INFO("getblockchaininfo", 0, 0),
 	GET_BLOCK_COUNT("getblockcount", 0, 0),
 	GET_BLOCK_HASH("getblockhash", 1, 1),
+	GET_CHAIN_TIPS("getchaintips", 0, 0),
+	GET_CONNECTION_COUNT("getconnectioncount", 0, 0),
 	GET_DIFFICULTY("getdifficulty", 0, 0),
 	GET_GENERATE("getgenerate", 0, 0),
 	GET_HASHES_PER_SEC("gethashespersec", 0, 0),
@@ -76,7 +78,7 @@ public enum Commands {
 	WALLET_LOCK("walletlock", 0, 0),
 	WALLET_PASSPHRASE("walletpassphrase", 2, 2),
 	WALLET_PASSPHRASE_CHANGE("walletpassphrasechange", 2, 2);
-	
+
 	private final String name;
 	private final int minParams;
 	private final int maxParams;

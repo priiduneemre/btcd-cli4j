@@ -29,6 +29,7 @@ import com.neemre.btcdcli4j.core.domain.RawTransactionOverview;
 import com.neemre.btcdcli4j.core.domain.RedeemScript;
 import com.neemre.btcdcli4j.core.domain.SignatureResult;
 import com.neemre.btcdcli4j.core.domain.SinceBlock;
+import com.neemre.btcdcli4j.core.domain.Tip;
 import com.neemre.btcdcli4j.core.domain.Transaction;
 import com.neemre.btcdcli4j.core.domain.WalletInfo;
 
@@ -249,6 +250,20 @@ public class VerboseBtcdClientImpl extends BtcdClientImpl {
 		printResult(Commands.GET_BLOCK_HASH.getName(), new String[]{"blockHeight"}, 
 				new Object[]{blockHeight}, headerHash);
 		return headerHash;
+	}
+
+	@Override
+	public List<Tip> getChainTips() throws BitcoindException, CommunicationException {
+		List<Tip> chainTips = super.getChainTips();
+		printResult(Commands.GET_CHAIN_TIPS.getName(), null, null, chainTips);
+		return chainTips;
+	}
+
+	@Override
+	public Integer getConnectionCount() throws BitcoindException, CommunicationException {
+		Integer connectionCount = super.getConnectionCount();
+		printResult(Commands.GET_CONNECTION_COUNT.getName(), null, null, connectionCount);
+		return connectionCount;
 	}
 
 	@Override

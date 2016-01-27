@@ -33,9 +33,9 @@ public enum SigHashTypes {
 
 	@JsonCreator
 	public static SigHashTypes forName(String name) {
-		if(name != null) {
-			for(SigHashTypes sigHashType : SigHashTypes.values()) {
-				if(name.equals(sigHashType.getName())) {
+		if (name != null) {
+			for (SigHashTypes sigHashType : SigHashTypes.values()) {
+				if (name.equals(sigHashType.getName())) {
 					return sigHashType;
 				}
 			}

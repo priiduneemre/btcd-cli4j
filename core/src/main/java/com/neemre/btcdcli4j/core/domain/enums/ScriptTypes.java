@@ -33,9 +33,9 @@ public enum ScriptTypes {
 
 	@JsonCreator
 	public static ScriptTypes forName(String name) {
-		if(name != null) {
-			for(ScriptTypes scriptType : ScriptTypes.values()) {
-				if(name.equals(scriptType.getName())) {
+		if (name != null) {
+			for (ScriptTypes scriptType : ScriptTypes.values()) {
+				if (name.equals(scriptType.getName())) {
 					return scriptType;
 				}
 			}
