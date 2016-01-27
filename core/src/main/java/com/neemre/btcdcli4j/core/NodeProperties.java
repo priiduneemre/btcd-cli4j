@@ -15,7 +15,7 @@ public enum NodeProperties {
     RPC_HOST("node.bitcoind.rpc.host", "127.0.0.1"),
     RPC_PORT("node.bitcoind.rpc.port", "8332"),
     RPC_USER("node.bitcoind.rpc.user", "user"),
-    RPC_PASSWORD("node.bitcoind.rpc.password", ""),
+    RPC_PASSWORD("node.bitcoind.rpc.password", "password"),
     HTTP_AUTH_SCHEME("node.bitcoind.http.auth_scheme", "Basic"),
     ALERT_PORT("node.bitcoind.notification.alert.port", "5158"),
     BLOCK_PORT("node.bitcoind.notification.block.port", "5159"),

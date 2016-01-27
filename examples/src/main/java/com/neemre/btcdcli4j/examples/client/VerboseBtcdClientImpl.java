@@ -16,6 +16,7 @@ import com.neemre.btcdcli4j.core.domain.Address;
 import com.neemre.btcdcli4j.core.domain.AddressInfo;
 import com.neemre.btcdcli4j.core.domain.AddressOverview;
 import com.neemre.btcdcli4j.core.domain.Block;
+import com.neemre.btcdcli4j.core.domain.BlockChainInfo;
 import com.neemre.btcdcli4j.core.domain.Info;
 import com.neemre.btcdcli4j.core.domain.MemPoolInfo;
 import com.neemre.btcdcli4j.core.domain.MiningInfo;
@@ -136,7 +137,16 @@ public class VerboseBtcdClientImpl extends BtcdClientImpl {
 				new Object[]{maxBlocks}, estimatedFee);
 		return estimatedFee;
 	}
-	
+
+	@Override
+	public BigDecimal estimatePriority(Integer maxBlocks) throws BitcoindException, 
+			CommunicationException {
+		BigDecimal estimatedPriority = super.estimatePriority(maxBlocks);
+		printResult(Commands.ESTIMATE_PRIORITY.getName(), new String[]{"maxBlocks"}, 
+				new Object[]{maxBlocks}, estimatedPriority);
+		return estimatedPriority;
+	}
+
 	@Override
 	public String getAccount(String address) throws BitcoindException, CommunicationException {
 		String account = super.getAccount(address);
@@ -217,6 +227,13 @@ public class VerboseBtcdClientImpl extends BtcdClientImpl {
 		printResult(Commands.GET_BLOCK.getName(), new String[]{"headerHash", "isDecoded"}, 
 				new Object[]{headerHash, isDecoded}, block);
 		return block;
+	}
+
+	@Override
+	public BlockChainInfo getBlockChainInfo() throws BitcoindException, CommunicationException {
+		BlockChainInfo blockChainInfo = super.getBlockChainInfo();
+		printResult(Commands.GET_BLOCK_CHAIN_INFO.getName(), null, null, blockChainInfo);
+		return blockChainInfo;
 	}
 
 	@Override

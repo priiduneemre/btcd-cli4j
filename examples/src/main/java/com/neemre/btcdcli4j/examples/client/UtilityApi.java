@@ -20,6 +20,7 @@ public class UtilityApi {
 		client.createMultiSig(2, Arrays.asList(new String[]{"mhgPHX4kmzV8NgfoUtfhUwWEMZHQEZeMbH",
 				"mmfPHrvaoqqQLGkStcYgrbgiBFTvsjFzgx", "mxPop5NWu8ok5wbGv46wsASPKyC7yKYix3"}));
 		client.estimateFee(10);
+		client.estimatePriority(5);
 		client.validateAddress("2MyVxxgNBk5zHRPRY2iVjGRJHYZEp1pMCSq");
 		client.verifyMessage("mixnciYh9dar2CwywYYZTHZqS4kyZWkvoV", "INXVUmzGIh+VnkiFAVgNiw1t35oSxxv"
 				+ "wc6e53hrjMtBdVm/GoTyDY+TelMV64pVrdMY0s9fW5M1bWZl+kcnCQ0g=", "I like liquorice.");

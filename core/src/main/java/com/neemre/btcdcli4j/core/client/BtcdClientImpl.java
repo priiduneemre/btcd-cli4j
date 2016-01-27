@@ -19,6 +19,7 @@ import com.neemre.btcdcli4j.core.domain.Address;
 import com.neemre.btcdcli4j.core.domain.AddressInfo;
 import com.neemre.btcdcli4j.core.domain.AddressOverview;
 import com.neemre.btcdcli4j.core.domain.Block;
+import com.neemre.btcdcli4j.core.domain.BlockChainInfo;
 import com.neemre.btcdcli4j.core.domain.Info;
 import com.neemre.btcdcli4j.core.domain.MemPoolInfo;
 import com.neemre.btcdcli4j.core.domain.MiningInfo;
@@ -197,7 +198,16 @@ public class BtcdClientImpl implements BtcdClient {
 		BigDecimal estimatedFee = rpcClient.getParser().parseBigDecimal(estimatedFeeJson);
 		return estimatedFee;
 	}
-	
+
+	@Override
+	public BigDecimal estimatePriority(Integer maxBlocks) throws BitcoindException, 
+			CommunicationException {
+		String estimatedPriorityJson = rpcClient.execute(Commands.ESTIMATE_PRIORITY.getName(), 
+				maxBlocks);
+		BigDecimal estimatedPriority = rpcClient.getParser().parseBigDecimal(estimatedPriorityJson);
+		return estimatedPriority;
+	}
+
 	@Override
 	public String getAccount(String address) throws BitcoindException, CommunicationException {
 		String accountJson = rpcClient.execute(Commands.GET_ACCOUNT.getName(), address);
@@ -281,7 +291,15 @@ public class BtcdClientImpl implements BtcdClient {
 			return block;
 		}
 	}
-	
+
+	@Override
+	public BlockChainInfo getBlockChainInfo() throws BitcoindException, CommunicationException {
+		String blockChainInfoJson = rpcClient.execute(Commands.GET_BLOCK_CHAIN_INFO.getName());
+		BlockChainInfo blockChainInfo = rpcClient.getMapper().mapToEntity(blockChainInfoJson, 
+				BlockChainInfo.class);
+		return blockChainInfo;		
+	}
+
 	@Override
 	public Integer getBlockCount() throws BitcoindException, CommunicationException {
 		String blockHeightJson = rpcClient.execute(Commands.GET_BLOCK_COUNT.getName());

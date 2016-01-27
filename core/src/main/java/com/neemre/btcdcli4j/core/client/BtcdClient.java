@@ -12,6 +12,7 @@ import com.neemre.btcdcli4j.core.domain.Address;
 import com.neemre.btcdcli4j.core.domain.AddressInfo;
 import com.neemre.btcdcli4j.core.domain.AddressOverview;
 import com.neemre.btcdcli4j.core.domain.Block;
+import com.neemre.btcdcli4j.core.domain.BlockChainInfo;
 import com.neemre.btcdcli4j.core.domain.Info;
 import com.neemre.btcdcli4j.core.domain.MemPoolInfo;
 import com.neemre.btcdcli4j.core.domain.MiningInfo;
@@ -56,7 +57,9 @@ public interface BtcdClient {
 	String encryptWallet(String passphrase) throws BitcoindException, CommunicationException;
 
 	BigDecimal estimateFee(Integer maxBlocks) throws BitcoindException, CommunicationException;
-	
+
+	BigDecimal estimatePriority(Integer maxBlocks) throws BitcoindException, CommunicationException;
+
 	String getAccount(String address) throws BitcoindException, CommunicationException;
 	
 	String getAccountAddress(String account) throws BitcoindException, CommunicationException;
@@ -80,6 +83,8 @@ public interface BtcdClient {
 
 	Object getBlock(String headerHash, Boolean isDecoded) throws BitcoindException, 
 			CommunicationException;
+
+	BlockChainInfo getBlockChainInfo() throws BitcoindException, CommunicationException;
 
 	Integer getBlockCount() throws BitcoindException, CommunicationException;
 	
