@@ -1,6 +1,7 @@
 package com.neemre.btcdcli4j.examples.client;
 
 import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
@@ -21,6 +22,7 @@ import com.neemre.btcdcli4j.core.domain.Info;
 import com.neemre.btcdcli4j.core.domain.MemPoolInfo;
 import com.neemre.btcdcli4j.core.domain.MiningInfo;
 import com.neemre.btcdcli4j.core.domain.MultiSigAddress;
+import com.neemre.btcdcli4j.core.domain.NetworkTotals;
 import com.neemre.btcdcli4j.core.domain.Output;
 import com.neemre.btcdcli4j.core.domain.OutputOverview;
 import com.neemre.btcdcli4j.core.domain.Payment;
@@ -306,6 +308,38 @@ public class VerboseBtcdClientImpl extends BtcdClientImpl {
 		MiningInfo miningInfo = super.getMiningInfo();
 		printResult(Commands.GET_MINING_INFO.getName(), null, null, miningInfo);
 		return miningInfo;
+	}
+
+	@Override
+	public NetworkTotals getNetTotals() throws BitcoindException, CommunicationException {
+		NetworkTotals netTotals = super.getNetTotals();
+		printResult(Commands.GET_NET_TOTALS.getName(), null, null, netTotals);
+		return netTotals;
+	}
+
+	@Override
+	public BigInteger getNetworkHashPs() throws BitcoindException, CommunicationException {
+		BigInteger networkHashPs = super.getNetworkHashPs();
+		printResult(Commands.GET_NETWORK_HASH_PS.getName(), null, null, networkHashPs);
+		return networkHashPs;
+	}
+
+	@Override
+	public BigInteger getNetworkHashPs(Integer blocks) throws BitcoindException, 
+			CommunicationException {
+		BigInteger networkHashPs = super.getNetworkHashPs(blocks);
+		printResult(Commands.GET_NETWORK_HASH_PS.getName(), new String[]{"blocks"}, 
+				new Object[]{blocks}, networkHashPs);
+		return networkHashPs;
+	}
+
+	@Override
+	public BigInteger getNetworkHashPs(Integer blocks, Integer blockHeight) throws BitcoindException,
+			CommunicationException {
+		BigInteger networkHashPs = super.getNetworkHashPs(blocks, blockHeight);
+		printResult(Commands.GET_NETWORK_HASH_PS.getName(), new String[]{"blocks", "blockHeight"},
+				new Object[]{blocks, blockHeight}, networkHashPs);
+		return networkHashPs;
 	}
 
 	@Override

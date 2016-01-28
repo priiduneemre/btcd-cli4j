@@ -1,6 +1,7 @@
 package com.neemre.btcdcli4j.core.jsonrpc;
 
 import java.math.BigDecimal;
+import java.math.BigInteger;
 
 import org.apache.commons.lang3.StringEscapeUtils;
 
@@ -20,6 +21,14 @@ public class JsonPrimitiveParser {
 	public Long parseLong(String longJson) {
 		try {
 			return Long.valueOf(longJson);		
+		} catch (NumberFormatException e) {
+			return null;
+		}
+	}
+
+	public BigInteger parseBigInteger(String bigIntegerJson) {
+		try {
+			return new BigInteger(bigIntegerJson);
 		} catch (NumberFormatException e) {
 			return null;
 		}

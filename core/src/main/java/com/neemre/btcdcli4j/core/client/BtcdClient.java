@@ -1,6 +1,7 @@
 package com.neemre.btcdcli4j.core.client;
 
 import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
@@ -17,6 +18,7 @@ import com.neemre.btcdcli4j.core.domain.Info;
 import com.neemre.btcdcli4j.core.domain.MemPoolInfo;
 import com.neemre.btcdcli4j.core.domain.MiningInfo;
 import com.neemre.btcdcli4j.core.domain.MultiSigAddress;
+import com.neemre.btcdcli4j.core.domain.NetworkTotals;
 import com.neemre.btcdcli4j.core.domain.Output;
 import com.neemre.btcdcli4j.core.domain.OutputOverview;
 import com.neemre.btcdcli4j.core.domain.Payment;
@@ -106,6 +108,15 @@ public interface BtcdClient {
 	MemPoolInfo getMemPoolInfo() throws BitcoindException, CommunicationException;
 
 	MiningInfo getMiningInfo() throws BitcoindException, CommunicationException;
+
+	NetworkTotals getNetTotals() throws BitcoindException, CommunicationException;
+
+	BigInteger getNetworkHashPs() throws BitcoindException, CommunicationException;
+
+	BigInteger getNetworkHashPs(Integer blocks) throws BitcoindException, CommunicationException;
+
+	BigInteger getNetworkHashPs(Integer blocks, Integer blockHeight) throws BitcoindException, 
+			CommunicationException;
 
 	String getNewAddress() throws BitcoindException, CommunicationException;
 

@@ -15,9 +15,12 @@ public class MiningApi {
 		CloseableHttpClient httpProvider = ResourceUtils.getHttpProvider();
 		Properties nodeConfig = ResourceUtils.getNodeConfig();
 		BtcdClient client = new VerboseBtcdClientImpl(httpProvider, nodeConfig);
-		
+
 		client.getGenerate();
 		client.getMiningInfo();
+		client.getNetworkHashPs();
+		client.getNetworkHashPs(1008);
+		client.getNetworkHashPs(2016, 278106);
 		client.setGenerate(false);
 		client.setGenerate(false, 7);
 	}

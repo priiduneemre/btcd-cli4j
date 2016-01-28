@@ -18,7 +18,7 @@ import com.fasterxml.jackson.annotation.JsonInclude.Include;
 @JsonInclude(Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class MemPoolInfo extends Entity {
-	
+
 	private Integer size;
-	private Integer bytes;
+	private Long bytes;
 }

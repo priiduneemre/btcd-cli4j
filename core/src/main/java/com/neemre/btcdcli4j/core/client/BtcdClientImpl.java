@@ -1,6 +1,7 @@
 package com.neemre.btcdcli4j.core.client;
 
 import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
@@ -24,6 +25,7 @@ import com.neemre.btcdcli4j.core.domain.Info;
 import com.neemre.btcdcli4j.core.domain.MemPoolInfo;
 import com.neemre.btcdcli4j.core.domain.MiningInfo;
 import com.neemre.btcdcli4j.core.domain.MultiSigAddress;
+import com.neemre.btcdcli4j.core.domain.NetworkTotals;
 import com.neemre.btcdcli4j.core.domain.Output;
 import com.neemre.btcdcli4j.core.domain.OutputOverview;
 import com.neemre.btcdcli4j.core.domain.Payment;
@@ -371,6 +373,38 @@ public class BtcdClientImpl implements BtcdClient {
 		String miningInfoJson = rpcClient.execute(Commands.GET_MINING_INFO.getName());
 		MiningInfo miningInfo = rpcClient.getMapper().mapToEntity(miningInfoJson, MiningInfo.class);
 		return miningInfo;
+	}
+
+	@Override
+	public NetworkTotals getNetTotals() throws BitcoindException, CommunicationException {
+		String netTotalsJson = rpcClient.execute(Commands.GET_NET_TOTALS.getName());
+		NetworkTotals netTotals = rpcClient.getMapper().mapToEntity(netTotalsJson, 
+				NetworkTotals.class);
+		return netTotals;
+	}
+
+	@Override
+	public BigInteger getNetworkHashPs() throws BitcoindException, CommunicationException {
+		String networkHashPsJson = rpcClient.execute(Commands.GET_NETWORK_HASH_PS.getName());
+		BigInteger networkHashPs = rpcClient.getParser().parseBigInteger(networkHashPsJson);
+		return networkHashPs;
+	}
+
+	@Override
+	public BigInteger getNetworkHashPs(Integer blocks) throws BitcoindException, 
+			CommunicationException {
+		String networkHashPsJson = rpcClient.execute(Commands.GET_NETWORK_HASH_PS.getName(), blocks);
+		BigInteger networkHashPs = rpcClient.getParser().parseBigInteger(networkHashPsJson);
+		return networkHashPs;
+	}
+
+	@Override
+	public BigInteger getNetworkHashPs(Integer blocks, Integer blockHeight) throws BitcoindException,
+			CommunicationException {
+		List<Object> params = CollectionUtils.asList(blocks, blockHeight);
+		String networkHashPsJson = rpcClient.execute(Commands.GET_NETWORK_HASH_PS.getName(), params);
+		BigInteger networkHashPs = rpcClient.getParser().parseBigInteger(networkHashPsJson);
+		return networkHashPs;
 	}
 
 	@Override

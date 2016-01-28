@@ -1,6 +1,7 @@
 package com.neemre.btcdcli4j.core.domain;
 
 import java.math.BigDecimal;
+import java.math.BigInteger;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -37,7 +38,7 @@ public class MiningInfo extends Entity {
 	@JsonProperty("genproclimit")
 	private Integer genProcLimit;
 	@JsonProperty("networkhashps")
-	private Long networkHashPS;
+	private BigInteger networkHashPs;
 	@JsonProperty("pooledtx")
 	private Integer pooledTx;
 	private Boolean testnet;

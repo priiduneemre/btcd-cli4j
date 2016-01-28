@@ -17,6 +17,7 @@ public class NetworkApi {
 		BtcdClient client = new VerboseBtcdClientImpl(httpProvider, nodeConfig);
 
 		client.getConnectionCount();
+		client.getNetTotals();
 		client.getPeerInfo();
 		client.ping();
 	}
