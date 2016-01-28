@@ -42,12 +42,12 @@ import com.neemre.btcdcli4j.core.util.CollectionUtils;
 import com.neemre.btcdcli4j.core.util.NumberUtils;
 
 public class BtcdClientImpl implements BtcdClient {
-	
+
 	private static final Logger LOG = LoggerFactory.getLogger(BtcdClientImpl.class);
-	
+
 	private ClientConfigurator configurator;
 	private JsonRpcClient rpcClient;
-	
+
 
 	public BtcdClientImpl(Properties nodeConfig) throws BitcoindException, CommunicationException {
 		this(null, nodeConfig);
@@ -66,27 +66,27 @@ public class BtcdClientImpl implements BtcdClient {
 			CommunicationException {
 		this(null, null, rpcUser, rpcPassword);
 	}
-	
+
 	public BtcdClientImpl(CloseableHttpClient httpProvider, String rpcUser, String rpcPassword) 
 			throws BitcoindException, CommunicationException {
 		this(httpProvider, null, null, rpcUser, rpcPassword);
 	}
-	
+
 	public BtcdClientImpl(String rpcHost, Integer rpcPort, String rpcUser, String rpcPassword) 
 			throws BitcoindException, CommunicationException {
 		this((String)null, rpcHost, rpcPort, rpcUser, rpcPassword);
 	}
-	
+
 	public BtcdClientImpl(CloseableHttpClient httpProvider, String rpcHost, Integer rpcPort, 
 			String rpcUser, String rpcPassword) throws BitcoindException, CommunicationException {
 		this(httpProvider, null, rpcHost, rpcPort, rpcUser, rpcPassword);
 	}
-	
+
 	public BtcdClientImpl(String rpcProtocol, String rpcHost, Integer rpcPort, String rpcUser,
 			String rpcPassword) throws BitcoindException, CommunicationException {
 		this(rpcProtocol, rpcHost, rpcPort, rpcUser, rpcPassword, null);
 	}
-	
+
 	public BtcdClientImpl(CloseableHttpClient httpProvider, String rpcProtocol, String rpcHost,
 			Integer rpcPort, String rpcUser, String rpcPassword) throws BitcoindException, 
 			CommunicationException {
@@ -105,7 +105,7 @@ public class BtcdClientImpl implements BtcdClient {
 		this(httpProvider, new ClientConfigurator().toProperties(rpcProtocol, rpcHost, rpcPort, 
 				rpcUser, rpcPassword, httpAuthScheme));
 	}
-	
+
 	@Override
 	public String addMultiSigAddress(Integer minSignatures, List<String> addresses) 
 			throws BitcoindException, CommunicationException {
@@ -125,12 +125,12 @@ public class BtcdClientImpl implements BtcdClient {
 		String multiSigAddress = rpcClient.getParser().parseString(multiSigAddressJson);
 		return multiSigAddress;
 	}
-	
+
 	@Override
 	public void backupWallet(String filePath) throws BitcoindException, CommunicationException {
 		rpcClient.execute(Commands.BACKUP_WALLET.getName(), filePath);
 	}
-	
+
 	@Override
 	public MultiSigAddress createMultiSig(Integer minSignatures, List<String> addresses)
 			throws BitcoindException, CommunicationException {
@@ -160,7 +160,7 @@ public class BtcdClientImpl implements BtcdClient {
 				rawTransactionJson, RawTransactionOverview.class);
 		return rawTransaction;
 	}
-	
+
 	@Override
 	public RedeemScript decodeScript(String hexRedeemScript) throws BitcoindException, 
 			CommunicationException {
@@ -171,19 +171,19 @@ public class BtcdClientImpl implements BtcdClient {
 		redeemScript.setHex(hexRedeemScript);
 		return redeemScript;
 	}
-	
+
 	@Override
 	public String dumpPrivKey(String address) throws BitcoindException, CommunicationException {
 		String privateKeyJson = rpcClient.execute(Commands.DUMP_PRIV_KEY.getName(), address);
 		String privateKey = rpcClient.getParser().parseString(privateKeyJson);
 		return privateKey;
 	}
-	
+
 	@Override
 	public void dumpWallet(String filePath) throws BitcoindException, CommunicationException {
 		rpcClient.execute(Commands.DUMP_WALLET.getName(), filePath);
 	}
-	
+
 	@Override
 	public String encryptWallet(String passphrase) throws BitcoindException, 
 			CommunicationException {
@@ -191,7 +191,7 @@ public class BtcdClientImpl implements BtcdClient {
 		String noticeMsg = rpcClient.getParser().parseString(noticeMsgJson);
 		return noticeMsg;
 	}
-	
+
 	@Override
 	public BigDecimal estimateFee(Integer maxBlocks) throws BitcoindException, 
 			CommunicationException {
@@ -215,7 +215,7 @@ public class BtcdClientImpl implements BtcdClient {
 		String account = rpcClient.getParser().parseString(accountJson);
 		return account;
 	}
-	
+
 	@Override
 	public String getAccountAddress(String account) throws BitcoindException, 
 			CommunicationException {
@@ -223,7 +223,7 @@ public class BtcdClientImpl implements BtcdClient {
 		String address = rpcClient.getParser().parseString(addressJson);
 		return address;
 	}
-	
+
 	@Override
 	public List<String> getAddressesByAccount(String account) throws BitcoindException, 
 			CommunicationException {
@@ -239,14 +239,14 @@ public class BtcdClientImpl implements BtcdClient {
 		BigDecimal balance = rpcClient.getParser().parseBigDecimal(balanceJson);
 		return balance;
 	}
-	
+
 	@Override
 	public BigDecimal getBalance(String account) throws BitcoindException, CommunicationException {
 		String balanceJson = rpcClient.execute(Commands.GET_BALANCE.getName(), account);
 		BigDecimal balance = rpcClient.getParser().parseBigDecimal(balanceJson);
 		return balance;
 	}
-	
+
 	@Override
 	public BigDecimal getBalance(String account, Integer confirmations) throws BitcoindException, 
 			CommunicationException {
@@ -264,14 +264,14 @@ public class BtcdClientImpl implements BtcdClient {
 		BigDecimal balance = rpcClient.getParser().parseBigDecimal(balanceJson);
 		return balance;
 	}
-	
+
 	@Override
 	public String getBestBlockHash() throws BitcoindException, CommunicationException {
 		String headerHashJson = rpcClient.execute(Commands.GET_BEST_BLOCK_HASH.getName());
 		String headerHash = rpcClient.getParser().parseString(headerHashJson);
 		return headerHash;
 	}
-	
+
 	@Override
 	public Block getBlock(String headerHash) throws BitcoindException, CommunicationException {
 		String blockJson = rpcClient.execute(Commands.GET_BLOCK.getName(), headerHash);
@@ -284,7 +284,7 @@ public class BtcdClientImpl implements BtcdClient {
 			CommunicationException {
 		List<Object> params = CollectionUtils.asList(headerHash, isDecoded);
 		String blockJson = rpcClient.execute(Commands.GET_BLOCK.getName(), params);
-		if(isDecoded) {
+		if (isDecoded) {
 			Block block = rpcClient.getMapper().mapToEntity(blockJson, Block.class);
 			return block;
 		} else {
@@ -336,28 +336,28 @@ public class BtcdClientImpl implements BtcdClient {
 		BigDecimal difficulty = rpcClient.getParser().parseBigDecimal(difficultyJson);
 		return difficulty;
 	}
-	
+
 	@Override
 	public Boolean getGenerate() throws BitcoindException, CommunicationException {
 		String isGenerateJson = rpcClient.execute(Commands.GET_GENERATE.getName());
 		Boolean isGenerate = rpcClient.getParser().parseBoolean(isGenerateJson);
 		return isGenerate;
 	}
-	
+
 	@Override
 	public Long getHashesPerSec() throws BitcoindException, CommunicationException {
 		String hashesPerSecJson = rpcClient.execute(Commands.GET_HASHES_PER_SEC.getName());
 		Long hashesPerSec = rpcClient.getParser().parseLong(hashesPerSecJson);
 		return hashesPerSec;
 	}
-	
+
 	@Override
 	public Info getInfo() throws BitcoindException, CommunicationException {
 		String infoJson = rpcClient.execute(Commands.GET_INFO.getName());
 		Info info = rpcClient.getMapper().mapToEntity(infoJson, Info.class);
 		return info;
 	}
-	
+
 	@Override
 	public MemPoolInfo getMemPoolInfo() throws BitcoindException, CommunicationException {
 		String memPoolInfoJson = rpcClient.execute(Commands.GET_MEM_POOL_INFO.getName());
@@ -372,7 +372,7 @@ public class BtcdClientImpl implements BtcdClient {
 		MiningInfo miningInfo = rpcClient.getMapper().mapToEntity(miningInfoJson, MiningInfo.class);
 		return miningInfo;
 	}
-	
+
 	@Override
 	public String getNewAddress() throws BitcoindException, CommunicationException {
 		String addressJson = rpcClient.execute(Commands.GET_NEW_ADDRESS.getName());
@@ -386,21 +386,21 @@ public class BtcdClientImpl implements BtcdClient {
 		String address = rpcClient.getParser().parseString(addressJson);
 		return address;
 	}
-	
+
 	@Override
 	public List<PeerNode> getPeerInfo() throws BitcoindException, CommunicationException {
 		String peerInfoJson = rpcClient.execute(Commands.GET_PEER_INFO.getName());
 		List<PeerNode> peerInfo = rpcClient.getMapper().mapToList(peerInfoJson, PeerNode.class);
 		return peerInfo;
 	}
-	
+
 	@Override
 	public String getRawChangeAddress() throws BitcoindException, CommunicationException {
 		String addressJson = rpcClient.execute(Commands.GET_RAW_CHANGE_ADDRESS.getName());
 		String address = rpcClient.getParser().parseString(addressJson);
 		return address;
 	}
-	
+
 	@Override
 	public String getRawTransaction(String txId) throws BitcoindException, CommunicationException {
 		String hexTransactionJson = rpcClient.execute(Commands.GET_RAW_TRANSACTION.getName(), txId);
@@ -413,7 +413,7 @@ public class BtcdClientImpl implements BtcdClient {
 			CommunicationException {
 		List<Object> params = CollectionUtils.asList(txId, verbosity);
 		String transactionJson = rpcClient.execute(Commands.GET_RAW_TRANSACTION.getName(), params);
-		if(verbosity == DataFormats.HEX.getCode()) {
+		if (verbosity == DataFormats.HEX.getCode()) {
 			String hexTransaction = rpcClient.getParser().parseString(transactionJson);
 			return hexTransaction;
 		} else {
@@ -422,7 +422,7 @@ public class BtcdClientImpl implements BtcdClient {
 			return rawTransaction;
 		}
 	}
-	
+
 	@Override
 	public BigDecimal getReceivedByAccount(String account) throws BitcoindException, 
 			CommunicationException {
@@ -441,7 +441,7 @@ public class BtcdClientImpl implements BtcdClient {
 		BigDecimal totalReceived = rpcClient.getParser().parseBigDecimal(totalReceivedJson);
 		return totalReceived;
 	}
-	
+
 	@Override
 	public BigDecimal getReceivedByAddress(String address) throws BitcoindException, 
 			CommunicationException {
@@ -460,7 +460,7 @@ public class BtcdClientImpl implements BtcdClient {
 		BigDecimal totalReceived = rpcClient.getParser().parseBigDecimal(totalReceivedJson);
 		return totalReceived;
 	}
-	
+
 	@Override
 	public Transaction getTransaction(String txId) throws BitcoindException, 
 			CommunicationException {
@@ -479,7 +479,7 @@ public class BtcdClientImpl implements BtcdClient {
 				Transaction.class);
 		return transaction;
 	}
-	
+
 	@Override
 	public BigDecimal getUnconfirmedBalance() throws BitcoindException, CommunicationException {
 		String unconfirmedBalanceJson = rpcClient.execute(Commands.GET_UNCONFIRMED_BALANCE.getName());
@@ -493,7 +493,7 @@ public class BtcdClientImpl implements BtcdClient {
 		WalletInfo walletInfo = rpcClient.getMapper().mapToEntity(walletInfoJson, WalletInfo.class);
 		return walletInfo;
 	}
-	
+
 	@Override
 	public void importAddress(String address) throws BitcoindException, CommunicationException {
 		rpcClient.execute(Commands.IMPORT_ADDRESS.getName(), address);
@@ -512,7 +512,7 @@ public class BtcdClientImpl implements BtcdClient {
 		List<Object> params = CollectionUtils.asList(address, account, withRescan);
 		rpcClient.execute(Commands.IMPORT_ADDRESS.getName(), params);
 	}
-	
+
 	@Override
 	public void importPrivKey(String privateKey) throws BitcoindException, CommunicationException {
 		rpcClient.execute(Commands.IMPORT_PRIV_KEY.getName(), privateKey);
@@ -531,12 +531,12 @@ public class BtcdClientImpl implements BtcdClient {
 		List<Object> params = CollectionUtils.asList(privateKey, account, withRescan);
 		rpcClient.execute(Commands.IMPORT_PRIV_KEY.getName(), params);
 	}
-	
+
 	@Override
 	public void importWallet(String filePath) throws BitcoindException, CommunicationException {
 		rpcClient.execute(Commands.IMPORT_WALLET.getName(), filePath);
 	}
-	
+
 	@Override
 	public void keyPoolRefill() throws BitcoindException, CommunicationException {
 		rpcClient.execute(Commands.KEY_POOL_REFILL.getName());
@@ -547,7 +547,7 @@ public class BtcdClientImpl implements BtcdClient {
 			CommunicationException {
 		rpcClient.execute(Commands.KEY_POOL_REFILL.getName(), keypoolSize);
 	}
-	
+
 	@Override
 	public Map<String, BigDecimal> listAccounts() throws BitcoindException, CommunicationException {
 		String accountsJson = rpcClient.execute(Commands.LIST_ACCOUNTS.getName());
@@ -556,7 +556,7 @@ public class BtcdClientImpl implements BtcdClient {
 		accounts = NumberUtils.setValueScale(accounts, Defaults.DECIMAL_SCALE);
 		return accounts;
 	}
-	
+
 	@Override
 	public Map<String, BigDecimal> listAccounts(Integer confirmations) throws BitcoindException, 
 			CommunicationException {
@@ -577,7 +577,7 @@ public class BtcdClientImpl implements BtcdClient {
 		accounts = NumberUtils.setValueScale(accounts, Defaults.DECIMAL_SCALE);
 		return accounts;
 	}
-	
+
 	@Override
 	public List<List<AddressOverview>> listAddressGroupings() throws BitcoindException, 
 			CommunicationException {
@@ -586,7 +586,7 @@ public class BtcdClientImpl implements BtcdClient {
 				groupingsJson, AddressOverview.class);
 		return groupings;
 	}
-	
+
 	@Override
 	public List<OutputOverview> listLockUnspent() throws BitcoindException, CommunicationException {
 		String lockedOutputsJson = rpcClient.execute(Commands.LIST_LOCK_UNSPENT.getName());
@@ -594,7 +594,7 @@ public class BtcdClientImpl implements BtcdClient {
 				OutputOverview.class);
 		return lockedOutputs;
 	}
-	
+
 	@Override
 	public List<Account> listReceivedByAccount() throws BitcoindException, CommunicationException {
 		String accountsJson = rpcClient.execute(Commands.LIST_RECEIVED_BY_ACCOUNT.getName());
@@ -630,7 +630,6 @@ public class BtcdClientImpl implements BtcdClient {
 		List<Account> accounts = rpcClient.getMapper().mapToList(accountsJson, Account.class);
 		return accounts;
 	}
-	
 
 	@Override
 	public List<Address> listReceivedByAddress() throws BitcoindException, CommunicationException {
@@ -667,7 +666,7 @@ public class BtcdClientImpl implements BtcdClient {
 		List<Address> addresses = rpcClient.getMapper().mapToList(addressesJson, Address.class);
 		return addresses;
 	}
-	
+
 	@Override
 	public SinceBlock listSinceBlock() throws BitcoindException, CommunicationException {
 		String sinceBlockJson = rpcClient.execute(Commands.LIST_SINCE_BLOCK.getName());
@@ -700,7 +699,7 @@ public class BtcdClientImpl implements BtcdClient {
 		SinceBlock sinceBlock = rpcClient.getMapper().mapToEntity(sinceBlockJson, SinceBlock.class);
 		return sinceBlock;
 	}
-	
+
 	@Override
 	public List<Payment> listTransactions() throws BitcoindException, CommunicationException {
 		String paymentsJson = rpcClient.execute(Commands.LIST_TRANSACTIONS.getName());
@@ -742,7 +741,7 @@ public class BtcdClientImpl implements BtcdClient {
 		List<Payment> payments = rpcClient.getMapper().mapToList(paymentsJson, Payment.class);
 		return payments;
 	}
-	
+
 	@Override
 	public List<Output> listUnspent() throws BitcoindException, CommunicationException {
 		String unspentOutputsJson = rpcClient.execute(Commands.LIST_UNSPENT.getName());
@@ -780,7 +779,7 @@ public class BtcdClientImpl implements BtcdClient {
 				Output.class);
 		return unspentOutputs;
 	}
-	
+
 	@Override
 	public Boolean lockUnspent(Boolean isUnlocked) throws BitcoindException, 
 			CommunicationException {
@@ -797,7 +796,7 @@ public class BtcdClientImpl implements BtcdClient {
 		Boolean isSuccess = rpcClient.getParser().parseBoolean(isSuccessJson);
 		return isSuccess;
 	}
-	
+
 	@Override
 	public Boolean move(String fromAccount, String toAccount, BigDecimal amount) 
 			throws BitcoindException, CommunicationException {
@@ -815,12 +814,12 @@ public class BtcdClientImpl implements BtcdClient {
 		Boolean isSuccess = rpcClient.getParser().parseBoolean(isSuccessJson);
 		return isSuccess;
 	}
-	
+
 	@Override
 	public void ping() throws BitcoindException, CommunicationException {
 		rpcClient.execute(Commands.PING.getName());
 	}
-	
+
 	@Override
 	public String sendFrom(String fromAccount, String toAddress, BigDecimal amount) 
 			throws BitcoindException, CommunicationException {
@@ -860,7 +859,7 @@ public class BtcdClientImpl implements BtcdClient {
 		String transactionId = rpcClient.getParser().parseString(transactionIdJson);
 		return transactionId;
 	}
-	
+
 	@Override
 	public String sendMany(String fromAccount, Map<String, BigDecimal> toAddresses) 
 			throws BitcoindException, CommunicationException {
@@ -889,7 +888,7 @@ public class BtcdClientImpl implements BtcdClient {
 		String transactionId = rpcClient.getParser().parseString(transactionIdJson);
 		return transactionId;
 	}
-	
+
 	@Override
 	public String sendRawTransaction(String hexTransaction) throws BitcoindException, 
 			CommunicationException {
@@ -908,7 +907,7 @@ public class BtcdClientImpl implements BtcdClient {
 		String transactionId = rpcClient.getParser().parseString(transactionIdJson);
 		return transactionId;
 	}
-	
+
 	@Override
 	public String sendToAddress(String toAddress, BigDecimal amount) throws BitcoindException, 
 			CommunicationException {
@@ -935,33 +934,33 @@ public class BtcdClientImpl implements BtcdClient {
 		String transactionId = rpcClient.getParser().parseString(transactionIdJson);
 		return transactionId;
 	}
-	
+
 	@Override
 	public void setAccount(String address, String account) throws BitcoindException, 
 			CommunicationException {
 		List<Object> params = CollectionUtils.asList(address, account);
 		rpcClient.execute(Commands.SET_ACCOUNT.getName(), params);
 	}
-	
+
 	@Override
 	public void setGenerate(Boolean isGenerate) throws BitcoindException, CommunicationException {
 		rpcClient.execute(Commands.SET_GENERATE.getName(), isGenerate);		
 	}
-	
+
 	@Override
 	public void setGenerate(Boolean isGenerate, Integer processors) throws BitcoindException, 
 			CommunicationException {
 		List<Object> params = CollectionUtils.asList(isGenerate, processors);
 		rpcClient.execute(Commands.SET_GENERATE.getName(), params);
 	}
-	
+
 	@Override
 	public Boolean setTxFee(BigDecimal txFee) throws BitcoindException, CommunicationException {
 		String isSuccessJson = rpcClient.execute(Commands.SET_TX_FEE.getName(), txFee);
 		Boolean isSuccess = rpcClient.getParser().parseBoolean(isSuccessJson);
 		return isSuccess;
 	}
-	
+
 	@Override
 	public String signMessage(String address, String message) throws BitcoindException, 
 			CommunicationException {
@@ -970,7 +969,7 @@ public class BtcdClientImpl implements BtcdClient {
 		String signature = rpcClient.getParser().parseString(signatureJson);
 		return signature;
 	}
-	
+
 	@Override
 	public SignatureResult signRawTransaction(String hexTransaction) throws BitcoindException, 
 			CommunicationException {
@@ -1015,14 +1014,14 @@ public class BtcdClientImpl implements BtcdClient {
 				SignatureResult.class);
 		return signatureResult;
 	}
-	
+
 	@Override
 	public String stop() throws BitcoindException, CommunicationException {
 		String noticeMsgJson = rpcClient.execute(Commands.STOP.getName());
 		String noticeMsg = rpcClient.getParser().parseString(noticeMsgJson);
 		return noticeMsg;
 	}
-	
+
 	@Override
 	public AddressInfo validateAddress(String address) throws BitcoindException, 
 			CommunicationException {
@@ -1031,7 +1030,7 @@ public class BtcdClientImpl implements BtcdClient {
 				AddressInfo.class);
 		return addressInfo;
 	}
-	
+
 	@Override
 	public Boolean verifyMessage(String address, String signature, String message) 
 			throws BitcoindException, CommunicationException {
@@ -1040,12 +1039,12 @@ public class BtcdClientImpl implements BtcdClient {
 		Boolean isSigValid = rpcClient.getParser().parseBoolean(isSigValidJson);
 		return isSigValid;
 	}
-	
+
 	@Override
 	public void walletLock() throws BitcoindException, CommunicationException {
 		rpcClient.execute(Commands.WALLET_LOCK.getName());
 	}
-	
+
 	@Override
 	public void walletPassphrase(String passphrase, Integer authTimeout) throws BitcoindException, 
 			CommunicationException {
@@ -1064,18 +1063,18 @@ public class BtcdClientImpl implements BtcdClient {
 	public Properties getNodeConfig() {
 		return configurator.getNodeConfig();
 	}
-	
+
 	@Override
 	public String getNodeVersion() {
 		return configurator.getNodeVersion();
 	}
-	
+
 	@Override
 	public synchronized void close() {
 		LOG.info(">> close(..): closing the 'bitcoind' core wrapper");
 		rpcClient.close();
 	}
-	
+
 	private void initialize() {
 		LOG.info(">> initialize(..): initiating the 'bitcoind' core wrapper");
 		configurator = new ClientConfigurator();

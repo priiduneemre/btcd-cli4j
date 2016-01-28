@@ -111,16 +111,16 @@ public class JsonRpcClientImpl implements JsonRpcClient {
 	private <T> JsonRpcResponse verifyResponse(JsonRpcRequest<T> request, JsonRpcResponse response) 
 			throws JsonRpcLayerException {
 		LOG.debug(">> verifyResponse(..): verifying JSON-RPC response for basic protocol conformance");
-		if(response == null) {
+		if (response == null) {
 			throw new JsonRpcLayerException(Errors.RESPONSE_JSONRPC_NULL);
 		}
-		if(response.getId() == null) {
+		if (response.getId() == null) {
 			throw new JsonRpcLayerException(Errors.RESPONSE_JSONRPC_NULL_ID);
 		}
-		if(!response.getId().equals(request.getId())) {
+		if (!response.getId().equals(request.getId())) {
 			throw new JsonRpcLayerException(Errors.RESPONSE_JSONRPC_UNEQUAL_IDS);
 		}
-		if((response.getJsonrpc() != null) && (!response.getJsonrpc().equals(
+		if ((response.getJsonrpc() != null) && (!response.getJsonrpc().equals(
 				Defaults.JSON_RPC_VERSION))) {
 			LOG.warn("-- verifyResponse(..): JSON-RPC version mismatch - client optimized for '{}'"
 					+ ", node responded in '{}'", Defaults.JSON_RPC_VERSION, response.getJsonrpc());
@@ -130,7 +130,7 @@ public class JsonRpcClientImpl implements JsonRpcClient {
 
 	private <T> JsonRpcResponse checkResponse(JsonRpcResponse response) throws BitcoindException {
 		LOG.debug(">> checkResponse(..): checking JSON-RPC response for nested 'bitcoind' errors");
-		if(!(response.getError() == null)) {
+		if (!(response.getError() == null)) {
 			JsonRpcError bitcoindError = response.getError();
 			throw new BitcoindException(bitcoindError.getCode(), String.format("Error #%s: %s", 
 					bitcoindError.getCode(), bitcoindError.getMessage()));

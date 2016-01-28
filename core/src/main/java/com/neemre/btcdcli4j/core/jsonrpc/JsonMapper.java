@@ -54,7 +54,7 @@ public class JsonMapper {
 	public <T> List<String> mapToJson(List<T> entities) throws JsonRpcLayerException {
 		try {
 			List<String> entitiesJson = new ArrayList<String>();
-			for(T entity : entities) {
+			for (T entity : entities) {
 				entitiesJson.add(rawWriter.writeValueAsString(entity));
 			}
 			return entitiesJson;
@@ -97,7 +97,7 @@ public class JsonMapper {
 		try {
 			CollectionType outmostListType = rawMapper.getTypeFactory().constructCollectionType(
 					ArrayList.class, entityClass);
-			for(int i = 0; i < depth; i++) {
+			for (int i = 0; i < depth; i++) {
 				outmostListType = rawMapper.getTypeFactory().constructCollectionType(
 						ArrayList.class, outmostListType);
 			}

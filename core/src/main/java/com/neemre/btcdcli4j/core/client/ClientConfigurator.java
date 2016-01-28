@@ -75,7 +75,7 @@ public class ClientConfigurator extends AgentConfigurator {
 	}
 	
 	private String decodeNodeVersion(Integer extendedFormat) {
-		if(extendedFormat == null) {
+		if (extendedFormat == null) {
 			throw new IllegalArgumentException(Errors.ARGS_NULL.getDescription());
 		}
 		String canonicalFormat = StringUtils.pad(extendedFormat.toString(), 8, '0', true);

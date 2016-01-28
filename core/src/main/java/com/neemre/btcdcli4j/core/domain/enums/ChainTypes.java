@@ -30,9 +30,9 @@ public enum ChainTypes {
 
 	@JsonCreator
 	public static ChainTypes forName(String name) {
-		if(name != null) {
-			for(ChainTypes chainType : ChainTypes.values()) {
-				if(name.equals(chainType.getName())) {
+		if (name != null) {
+			for (ChainTypes chainType : ChainTypes.values()) {
+				if (name.equals(chainType.getName())) {
 					return chainType;
 				}
 			}

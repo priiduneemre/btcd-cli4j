@@ -23,7 +23,7 @@ public class BlockNotificationWorker extends NotificationWorker {
 	protected Object getRelatedEntity(String headerHash) {
 		Block block = new Block();
 		block.setHash(headerHash);
-		if(getClient() != null) {
+		if (getClient() != null) {
 			try {
 				LOG.debug("-- getRelatedEntity(..): fetching related block data from 'bitcoind' "
 						+ "(via JSON-RPC API)");

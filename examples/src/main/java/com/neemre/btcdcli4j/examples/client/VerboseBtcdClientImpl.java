@@ -54,7 +54,7 @@ public class VerboseBtcdClientImpl extends BtcdClientImpl {
 				"addresses"}, new Object[]{minSignatures, addresses}, multiSigAddress);
 		return multiSigAddress;
 	}
-	
+
 	@Override
 	public String addMultiSigAddress(Integer minSignatures, List<String> addresses, String account)
 			throws BitcoindException, CommunicationException {
@@ -64,14 +64,14 @@ public class VerboseBtcdClientImpl extends BtcdClientImpl {
 				multiSigAddress);
 		return multiSigAddress;
 	}
-	
+
 	@Override
 	public void backupWallet(String filePath) throws BitcoindException, CommunicationException {
 		super.backupWallet(filePath);
 		printResult(Commands.BACKUP_WALLET.getName(), new String[]{"filePath"}, 
 				new Object[]{filePath}, null);
 	}
-	
+
 	@Override
 	public MultiSigAddress createMultiSig(Integer minSignatures, List<String> addresses)
 			throws BitcoindException, CommunicationException {
@@ -80,7 +80,7 @@ public class VerboseBtcdClientImpl extends BtcdClientImpl {
 				new Object[]{minSignatures, addresses}, multiSigAddress);
 		return multiSigAddress;
 	}
-	
+
 	@Override
 	public String createRawTransaction(List<OutputOverview> outputs, 
 			Map<String, BigDecimal> toAddresses) throws BitcoindException, CommunicationException {
@@ -89,7 +89,7 @@ public class VerboseBtcdClientImpl extends BtcdClientImpl {
 				"toAddresses"}, new Object[]{outputs, toAddresses}, hexTransaction);
 		return hexTransaction;
 	}
-	
+
 	@Override
 	public RawTransactionOverview decodeRawTransaction(String hexTransaction) throws BitcoindException,
 			CommunicationException {
@@ -98,7 +98,7 @@ public class VerboseBtcdClientImpl extends BtcdClientImpl {
 				new Object[]{hexTransaction}, rawTransaction);
 		return rawTransaction;
 	}
-	
+
 	@Override
 	public RedeemScript decodeScript(String hexRedeemScript) throws BitcoindException, 
 			CommunicationException {
@@ -107,7 +107,7 @@ public class VerboseBtcdClientImpl extends BtcdClientImpl {
 				new Object[]{hexRedeemScript}, redeemScript);
 		return redeemScript;
 	}
-	
+
 	@Override
 	public String dumpPrivKey(String address) throws BitcoindException, CommunicationException {
 		String privateKey = super.dumpPrivKey(address);
@@ -115,14 +115,14 @@ public class VerboseBtcdClientImpl extends BtcdClientImpl {
 				new Object[]{address}, privateKey);
 		return privateKey;
 	}
-	
+
 	@Override
 	public void dumpWallet(String filePath) throws BitcoindException, CommunicationException {
 		super.dumpWallet(filePath);
 		printResult(Commands.DUMP_WALLET.getName(), new String[]{"filePath"}, 
 				new Object[]{filePath}, null);
 	}
-	
+
 	@Override
 	public String encryptWallet(String passphrase) throws BitcoindException, CommunicationException {
 		String noticeMsg = super.encryptWallet(passphrase);
@@ -220,7 +220,7 @@ public class VerboseBtcdClientImpl extends BtcdClientImpl {
 				new Object[]{headerHash}, block);
 		return block;
 	}
-	
+
 	@Override
 	public Object getBlock(String headerHash, Boolean isDecoded) throws BitcoindException, 
 			CommunicationException {
@@ -322,7 +322,7 @@ public class VerboseBtcdClientImpl extends BtcdClientImpl {
 				new Object[]{account}, address);
 		return address;
 	}
-	
+
 	@Override
 	public List<PeerNode> getPeerInfo() throws BitcoindException, CommunicationException {
 		List<PeerNode> peerInfo = super.getPeerInfo();
@@ -336,7 +336,7 @@ public class VerboseBtcdClientImpl extends BtcdClientImpl {
 		printResult(Commands.GET_RAW_CHANGE_ADDRESS.getName(), null, null, address);
 		return address;
 	}
-	
+
 	@Override
 	public String getRawTransaction(String txId) throws BitcoindException, CommunicationException {
 		String hexTransaction = super.getRawTransaction(txId);
@@ -344,7 +344,7 @@ public class VerboseBtcdClientImpl extends BtcdClientImpl {
 				new Object[]{txId}, hexTransaction);
 		return hexTransaction;
 	}
-	
+
 	@Override
 	public Object getRawTransaction(String txId, Integer verbosity) throws BitcoindException, 
 			CommunicationException {
@@ -397,7 +397,7 @@ public class VerboseBtcdClientImpl extends BtcdClientImpl {
 				transaction);
 		return transaction;
 	}
-	
+
 	@Override
 	public Transaction getTransaction(String txId, Boolean withWatchOnly) throws BitcoindException, 
 			CommunicationException {
@@ -473,7 +473,7 @@ public class VerboseBtcdClientImpl extends BtcdClientImpl {
 		printResult(Commands.IMPORT_WALLET.getName(), new String[]{"filePath"}, 
 				new Object[]{filePath}, null);
 	}
-	
+
 	@Override
 	public void keyPoolRefill() throws BitcoindException, CommunicationException {
 		super.keyPoolRefill();
@@ -511,7 +511,7 @@ public class VerboseBtcdClientImpl extends BtcdClientImpl {
 				"withWatchOnly"}, new Object[]{confirmations, withWatchOnly}, accounts);
 		return accounts;
 	}
-	
+
 	@Override
 	public List<List<AddressOverview>> listAddressGroupings() throws BitcoindException, 
 			CommunicationException {
@@ -519,21 +519,21 @@ public class VerboseBtcdClientImpl extends BtcdClientImpl {
 		printResult(Commands.LIST_ADDRESS_GROUPINGS.getName(), null, null, groupings);
 		return groupings;
 	}
-	
+
 	@Override
 	public List<OutputOverview> listLockUnspent() throws BitcoindException, CommunicationException {
 		List<OutputOverview> lockedOutputs = super.listLockUnspent();
 		printResult(Commands.LIST_LOCK_UNSPENT.getName(), null, null, lockedOutputs);
 		return lockedOutputs;
 	}
-	
+
 	@Override
 	public List<Account> listReceivedByAccount() throws BitcoindException, CommunicationException {
 		List<Account> accounts = super.listReceivedByAccount();
 		printResult(Commands.LIST_RECEIVED_BY_ACCOUNT.getName(), null, null, accounts);
 		return accounts;
 	}
-	
+
 	@Override
 	public List<Account> listReceivedByAccount(Integer confirmations) throws BitcoindException, 
 			CommunicationException {
@@ -542,7 +542,7 @@ public class VerboseBtcdClientImpl extends BtcdClientImpl {
 				new Object[]{confirmations}, accounts);
 		return accounts;
 	}
-	
+
 	@Override
 	public List<Account> listReceivedByAccount(Integer confirmations, Boolean withUnused) 
 			throws BitcoindException, CommunicationException {
@@ -551,7 +551,7 @@ public class VerboseBtcdClientImpl extends BtcdClientImpl {
 				"withUnused"}, new Object[]{confirmations, withUnused}, accounts);
 		return accounts;
 	}
-	
+
 	@Override
 	public List<Account> listReceivedByAccount(Integer confirmations, Boolean withUnused, 
 			Boolean withWatchOnly) throws BitcoindException, CommunicationException {
@@ -562,7 +562,7 @@ public class VerboseBtcdClientImpl extends BtcdClientImpl {
 				withWatchOnly}, accounts);
 		return accounts;
 	}		
-	
+
 	@Override
 	public List<Address> listReceivedByAddress() throws BitcoindException, CommunicationException {
 		List<Address> addresses = super.listReceivedByAddress();
@@ -578,7 +578,7 @@ public class VerboseBtcdClientImpl extends BtcdClientImpl {
 				new Object[]{confirmations}, addresses);
 		return addresses;
 	}
-	
+
 	@Override
 	public List<Address> listReceivedByAddress(Integer confirmations, Boolean withUnused) 
 			throws BitcoindException, CommunicationException {
@@ -598,14 +598,14 @@ public class VerboseBtcdClientImpl extends BtcdClientImpl {
 				withWatchOnly}, addresses);
 		return addresses;
 	}
-	
+
 	@Override
 	public SinceBlock listSinceBlock() throws BitcoindException, CommunicationException {
 		SinceBlock sinceBlock = super.listSinceBlock();
 		printResult(Commands.LIST_SINCE_BLOCK.getName(), null, null, sinceBlock);
 		return sinceBlock;
 	}
-	
+
 	@Override
 	public SinceBlock listSinceBlock(String headerHash) throws BitcoindException, 
 			CommunicationException {
@@ -614,7 +614,7 @@ public class VerboseBtcdClientImpl extends BtcdClientImpl {
 				new Object[]{headerHash}, sinceBlock);
 		return sinceBlock;
 	}
-	
+
 	@Override
 	public SinceBlock listSinceBlock(String headerHash, Integer confirmations) 
 			throws BitcoindException, CommunicationException {
@@ -623,7 +623,7 @@ public class VerboseBtcdClientImpl extends BtcdClientImpl {
 				"confirmations"}, new Object[]{headerHash, confirmations}, sinceBlock);
 		return sinceBlock;
 	}
-	
+
 	@Override
 	public SinceBlock listSinceBlock(String headerHash, Integer confirmations, Boolean withWatchOnly) 
 			throws BitcoindException, CommunicationException {
@@ -675,7 +675,7 @@ public class VerboseBtcdClientImpl extends BtcdClientImpl {
 				"withWatchOnly"}, new Object[]{account, count, offset, withWatchOnly}, payments);
 		return payments;
 	}
-	
+
 	@Override
 	public List<Output> listUnspent() throws BitcoindException, CommunicationException {
 		List<Output> unspentOutputs = super.listUnspent();
@@ -712,7 +712,7 @@ public class VerboseBtcdClientImpl extends BtcdClientImpl {
 				addresses}, unspentOutputs);
 		return unspentOutputs;
 	}
-	
+
 	@Override
 	public Boolean lockUnspent(Boolean isUnlocked) throws BitcoindException, CommunicationException {
 		Boolean isSuccess = super.lockUnspent(isUnlocked);
@@ -729,7 +729,7 @@ public class VerboseBtcdClientImpl extends BtcdClientImpl {
 				new Object[]{isUnlocked, outputs}, isSuccess);
 		return isSuccess;
 	}
-	
+
 	@Override
 	public Boolean move(String fromAccount, String toAccount, BigDecimal amount) 
 			throws BitcoindException, CommunicationException {
@@ -738,7 +738,7 @@ public class VerboseBtcdClientImpl extends BtcdClientImpl {
 				new Object[]{fromAccount, toAccount, amount}, isSuccess);
 		return isSuccess;
 	}
-	
+
 	@Override
 	public Boolean move(String fromAccount, String toAccount, BigDecimal amount, Integer dummy,
 			String comment) throws BitcoindException, CommunicationException {
@@ -748,13 +748,13 @@ public class VerboseBtcdClientImpl extends BtcdClientImpl {
 				isSuccess);
 		return isSuccess;
 	}
-	
+
 	@Override
 	public void ping() throws BitcoindException, CommunicationException {
 		super.ping();
 		printResult(Commands.PING.getName(), null, null, null);
 	}
-	
+
 	@Override
 	public String sendFrom(String fromAccount, String toAddress, BigDecimal amount) 
 			throws BitcoindException, CommunicationException {
@@ -763,7 +763,7 @@ public class VerboseBtcdClientImpl extends BtcdClientImpl {
 				new Object[]{fromAccount, toAddress, amount}, transactionId);
 		return transactionId;
 	}
-	
+
 	@Override
 	public String sendFrom(String fromAccount, String toAddress, BigDecimal amount, 
 			Integer confirmations) throws BitcoindException, CommunicationException {
@@ -773,7 +773,7 @@ public class VerboseBtcdClientImpl extends BtcdClientImpl {
 				transactionId);
 		return transactionId;
 	}
-	
+
 	@Override
 	public String sendFrom(String fromAccount, String toAddress, BigDecimal amount, 
 			Integer confirmations, String comment) throws BitcoindException, CommunicationException {
@@ -784,7 +784,7 @@ public class VerboseBtcdClientImpl extends BtcdClientImpl {
 				confirmations, comment}, transactionId);
 		return transactionId;
 	}
-	
+
 	@Override
 	public String sendFrom(String fromAccount, String toAddress, BigDecimal amount, 
 			Integer confirmations, String comment, String commentTo) throws BitcoindException, 
@@ -805,7 +805,7 @@ public class VerboseBtcdClientImpl extends BtcdClientImpl {
 				new Object[]{fromAccount, toAddresses}, transactionId);
 		return transactionId;
 	}
-	
+
 	@Override
 	public String sendMany(String fromAccount, Map<String, BigDecimal> toAddresses, 
 			Integer confirmations) throws BitcoindException, CommunicationException {
@@ -815,7 +815,7 @@ public class VerboseBtcdClientImpl extends BtcdClientImpl {
 				transactionId);
 		return transactionId;
 	}
-	
+
 	@Override
 	public String sendMany(String fromAccount, Map<String, BigDecimal> toAddresses, 
 			Integer confirmations, String comment) throws BitcoindException, CommunicationException {
@@ -825,7 +825,7 @@ public class VerboseBtcdClientImpl extends BtcdClientImpl {
 				comment}, transactionId);
 		return transactionId;
 	}
-	
+
 	@Override
 	public String sendRawTransaction(String hexTransaction) throws BitcoindException, 
 			CommunicationException {
@@ -843,7 +843,7 @@ public class VerboseBtcdClientImpl extends BtcdClientImpl {
 				"withHighFees"}, new Object[]{hexTransaction, withHighFees}, transactionId);
 		return transactionId;
 	}
-	
+
 	@Override
 	public String sendToAddress(String toAddress, BigDecimal amount) throws BitcoindException, 
 			CommunicationException {
@@ -902,7 +902,7 @@ public class VerboseBtcdClientImpl extends BtcdClientImpl {
 				isSuccess);
 		return isSuccess;
 	}
-	
+
 	@Override
 	public String signMessage(String address, String message) throws BitcoindException, 
 			CommunicationException {
@@ -911,7 +911,7 @@ public class VerboseBtcdClientImpl extends BtcdClientImpl {
 				new Object[]{address, message}, signature);
 		return signature;
 	}
-	
+
 	@Override
 	public SignatureResult signRawTransaction(String hexTransaction) throws BitcoindException, 
 			CommunicationException {
@@ -968,7 +968,7 @@ public class VerboseBtcdClientImpl extends BtcdClientImpl {
 				new Object[]{address}, addressInfo);
 		return addressInfo;
 	}
-	
+
 	@Override
 	public Boolean verifyMessage(String address, String signature, String message) 
 			throws BitcoindException, CommunicationException {
@@ -977,7 +977,7 @@ public class VerboseBtcdClientImpl extends BtcdClientImpl {
 				"message"}, new Object[]{address, signature, message}, isSigValid);
 		return isSigValid;
 	}
-	
+
 	@Override
 	public void walletLock() throws BitcoindException, CommunicationException {
 		super.walletLock();

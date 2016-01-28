@@ -25,7 +25,7 @@ import com.neemre.btcdcli4j.core.domain.enums.ChainTypes;
 @JsonInclude(Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class MiningInfo extends Entity {
-	
+
 	private Integer blocks;
 	@JsonProperty("currentblocksize")
 	private Integer currentBlockSize;
@@ -45,8 +45,8 @@ public class MiningInfo extends Entity {
 	private Boolean generate;
 	@JsonProperty("hashespersec")
 	private Long hashesPerSec;
-	
-	
+
+
 	public void setDifficulty(BigDecimal difficulty) {
 		this.difficulty = difficulty.setScale(Defaults.DECIMAL_SCALE, Defaults.ROUNDING_MODE);
 	}

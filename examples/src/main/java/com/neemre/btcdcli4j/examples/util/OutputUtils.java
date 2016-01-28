@@ -21,7 +21,7 @@ public final class OutputUtils {
 			Object result) {
 		List<Object> printables = new ArrayList<Object>();
 		printables.add(methodName);
-		if(!(paramNames == null || paramValues == null)) {
+		if (!(paramNames == null || paramValues == null)) {
 			printables.addAll(CollectionUtils.mergeInterlaced(Arrays.asList(paramNames), 
 					Arrays.asList(paramValues)));
 		}

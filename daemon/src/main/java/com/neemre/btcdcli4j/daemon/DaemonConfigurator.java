@@ -43,9 +43,9 @@ public class DaemonConfigurator extends AgentConfigurator {
 
 	public boolean checkMonitorStates(Map<Notifications, Future<Void>> futures) {
 		boolean isAllActive = true;
-		for(Notifications notificationType : Notifications.values()) {
+		for (Notifications notificationType : Notifications.values()) {
 			Future<Void> monitorHandle = futures.get(notificationType);
-			if((monitorHandle == null) || (monitorHandle.isDone())) {
+			if ((monitorHandle == null) || (monitorHandle.isDone())) {
 				LOG.warn("-- checkMonitorStates(..): no active '{}' notification monitor detected "
 						+ "(reason: {})", notificationType.name(), ((monitorHandle == null) ? 
 								"failure to launch" : "task terminated prematurely"));

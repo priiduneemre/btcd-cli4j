@@ -54,19 +54,19 @@ public class Info extends Entity {
 	private BigDecimal relayFee;
 	private String errors;
 
-	
+
 	public void setBalance(BigDecimal balance) {
 		this.balance = balance.setScale(Defaults.DECIMAL_SCALE, Defaults.ROUNDING_MODE);
 	}
-	
+
 	public void setDifficulty(BigDecimal difficulty) {
 		this.difficulty = difficulty.setScale(Defaults.DECIMAL_SCALE, Defaults.ROUNDING_MODE);
 	}
-	
+
 	public void setPayTxFee(BigDecimal payTxFee) {
 		this.payTxFee = payTxFee.setScale(Defaults.DECIMAL_SCALE, Defaults.ROUNDING_MODE);
 	}
-	
+
 	public void setRelayFee(BigDecimal relayFee) {
 		this.relayFee = relayFee.setScale(Defaults.DECIMAL_SCALE, Defaults.ROUNDING_MODE);
 	}

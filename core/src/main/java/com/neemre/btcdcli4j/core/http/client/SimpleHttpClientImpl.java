@@ -52,7 +52,7 @@ public class SimpleHttpClientImpl implements SimpleHttpClient {
 			response = checkResponse(response);
 			HttpEntity respPayloadEntity = response.getEntity();
 			String respPayload = Constants.STRING_EMPTY;
-			if(respPayloadEntity != null) {
+			if (respPayloadEntity != null) {
 				respPayload = EntityUtils.toString(respPayloadEntity);
 				EntityUtils.consume(respPayloadEntity);
 			}
@@ -67,7 +67,7 @@ public class SimpleHttpClientImpl implements SimpleHttpClient {
 		} catch (URISyntaxException e) {
 			throw new HttpLayerException(Errors.PARSE_URI_FAILED, e);
 		} finally {
-			if(response != null) {
+			if (response != null) {
 				try {
 					LOG.debug("-- execute(..): attempting to recycle old HTTP response (reply to a "
 							+ "'{}' request) with status line '{}'", reqMethod, response
@@ -95,7 +95,7 @@ public class SimpleHttpClientImpl implements SimpleHttpClient {
 	private HttpRequestBase getNewRequest(String reqMethod, String reqPayload) 
 			throws URISyntaxException, UnsupportedEncodingException {
 		HttpRequestBase request;
-		if(reqMethod.equals(HttpConstants.REQ_METHOD_POST)) {
+		if (reqMethod.equals(HttpConstants.REQ_METHOD_POST)) {
 			HttpPost postRequest = new HttpPost();
 			postRequest.setEntity(new StringEntity(reqPayload, ContentType.create(
 					DataFormats.JSON.getMediaType(), Constants.UTF_8)));
@@ -115,10 +115,10 @@ public class SimpleHttpClientImpl implements SimpleHttpClient {
 	}
 
 	private Header resolveAuthHeader(String authScheme) {
-		if(authScheme.equals(HttpConstants.AUTH_SCHEME_NONE)) {
+		if (authScheme.equals(HttpConstants.AUTH_SCHEME_NONE)) {
 			return null;
 		}
-		if(authScheme.equals(HttpConstants.AUTH_SCHEME_BASIC)) {
+		if (authScheme.equals(HttpConstants.AUTH_SCHEME_BASIC)) {
 			return new BasicHeader(HttpConstants.HEADER_AUTH, HttpConstants.AUTH_SCHEME_BASIC 
 					+ " " + getCredentials(HttpConstants.AUTH_SCHEME_BASIC));
 		}
@@ -126,9 +126,9 @@ public class SimpleHttpClientImpl implements SimpleHttpClient {
 	}
 
 	private String getCredentials(String authScheme) {
-		if(authScheme.equals(HttpConstants.AUTH_SCHEME_NONE)){
+		if (authScheme.equals(HttpConstants.AUTH_SCHEME_NONE)) {
 			return Constants.STRING_EMPTY;
-		} else if(authScheme.equals(HttpConstants.AUTH_SCHEME_BASIC)) {
+		} else if (authScheme.equals(HttpConstants.AUTH_SCHEME_BASIC)) {
 			return Base64.encodeBase64String((nodeConfig.getProperty(NodeProperties.RPC_USER.getKey())
 					+ ":" + nodeConfig.getProperty(NodeProperties.RPC_PASSWORD.getKey())).getBytes());
 		}
@@ -140,10 +140,10 @@ public class SimpleHttpClientImpl implements SimpleHttpClient {
 		LOG.debug(">> checkResponse(..): checking HTTP response for non-OK status codes & "
 				+ "unexpected header values");
 		StatusLine statusLine = response.getStatusLine();
-		if((statusLine.getStatusCode() >= 400) && (statusLine.getStatusCode() <= 499)) {
+		if ((statusLine.getStatusCode() >= 400) && (statusLine.getStatusCode() <= 499)) {
 			throw new HttpLayerException(Errors.RESPONSE_HTTP_CLIENT_FAULT, statusLine.toString());
 		}
-		if((statusLine.getStatusCode() >= 500) && (statusLine.getStatusCode() <= 599)) {
+		if ((statusLine.getStatusCode() >= 500) && (statusLine.getStatusCode() <= 599)) {
 			throw new HttpLayerException(Errors.RESPONSE_HTTP_SERVER_FAULT, statusLine.toString());
 		}	
 		return response;

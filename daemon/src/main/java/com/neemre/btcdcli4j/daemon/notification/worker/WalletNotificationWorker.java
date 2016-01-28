@@ -23,7 +23,7 @@ public class WalletNotificationWorker extends NotificationWorker {
 	protected Object getRelatedEntity(String txId) {
 		Transaction transaction = new Transaction();
 		transaction.setTxId(txId);
-		if(getClient() != null) {
+		if (getClient() != null) {
 			try {
 				LOG.debug("-- getRelatedEntity(..): fetching related transaction data from 'bitcoind' "
 						+ "(via JSON-RPC API)");

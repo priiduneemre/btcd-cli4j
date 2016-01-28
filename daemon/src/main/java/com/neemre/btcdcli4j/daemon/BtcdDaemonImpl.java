@@ -179,7 +179,7 @@ public class BtcdDaemonImpl implements BtcdDaemon {
 	}
 
 	private void startMonitors() {
-		for(Notifications notificationType : monitors.keySet()) {
+		for (Notifications notificationType : monitors.keySet()) {
 			NotificationMonitor monitor = monitors.get(notificationType);
 			futures.put(notificationType, monitorPool.submit(monitor, (Void)null));
 		}

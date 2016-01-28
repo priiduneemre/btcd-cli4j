@@ -53,7 +53,7 @@ public class NotificationMonitor extends Observable implements Observer, Runnabl
 		activate();
 		LOG.info("-- run(..): started listening for '{}' notifications on port '{}'", type.name(), 
 				serverSocket.getLocalPort());
-		while(isActive) {
+		while (isActive) {
 			try {
 				Socket socket = serverSocket.accept();
 				NotificationWorker worker = NotificationWorkerFactory.createWorker(type, socket, 
@@ -70,7 +70,7 @@ public class NotificationMonitor extends Observable implements Observer, Runnabl
 				Thread.currentThread().interrupt();
 				throw new NotificationHandlerException(Errors.IO_SOCKET_UNINITIALIZED, e);
 			} finally {
-				if(Thread.interrupted()) {
+				if (Thread.interrupted()) {
 					deactivate();
 				}
 			}

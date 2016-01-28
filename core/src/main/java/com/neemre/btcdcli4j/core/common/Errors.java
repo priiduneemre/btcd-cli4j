@@ -51,11 +51,11 @@ public enum Errors {
 	PARSE_JSON_UNKNOWN(1005002, "An unknown exception occurred while parsing/generating JSON content."),
 	PARSE_JSON_MALFORMED(1005003, "Unable to parse the specified JSON content (malformed syntax detected)."),
 	MAP_JSON_UNKNOWN(1006001, "An unknown exception ocurred while mapping the JSON content.");
-	
+
 	private final int code;
 	private final String message;
-	
-	
+
+
 	public String getDescription() {
 		return String.format("Error #%s: %s", code, message);
 	}

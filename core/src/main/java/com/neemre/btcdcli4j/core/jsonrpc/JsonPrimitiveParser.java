@@ -35,7 +35,7 @@ public class JsonPrimitiveParser {
 	}
 
 	public Boolean parseBoolean(String booleanJson) {
-		if(!booleanJson.equals(Constants.STRING_NULL)) {
+		if (!booleanJson.equals(Constants.STRING_NULL)) {
 			return Boolean.valueOf(booleanJson);
 		} else {
 			return null;
@@ -43,7 +43,7 @@ public class JsonPrimitiveParser {
 	}
 
 	public String parseString(String stringJson) {
-		if(!stringJson.equals(Constants.STRING_NULL)) {
+		if (!stringJson.equals(Constants.STRING_NULL)) {
 			return unescapeJson(stringJson.replaceAll("^\"|\"$", ""));
 		} else {
 			return null;

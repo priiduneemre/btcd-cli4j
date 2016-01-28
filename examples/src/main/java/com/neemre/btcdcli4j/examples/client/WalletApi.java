@@ -95,13 +95,13 @@ public class WalletApi {
 		client.sendFrom("treasury", "mz6s3qBsifGLyJMcjxWabJ9z3Zf95Etods", new BigDecimal("0.007"), 4, 
 				"Sample transaction: a payment of 0.007 BTC to 'supplierF' for services rendered.", 
 				"supplierF");
-		client.sendMany("treasury", new HashMap<String, BigDecimal>(){{ 
+		client.sendMany("treasury", new HashMap<String, BigDecimal>() {{ 
 				put("msrHoyN5Jw1EH7saGxMqJtTKt6qhmyPZMF", new BigDecimal("0.004")); 
 				put("n3y8BpckkDDGMtSq7d2Yx46EYenyUit3Jc", new BigDecimal("0.005"));}});
-		client.sendMany("treasury", new HashMap<String, BigDecimal>(){{
+		client.sendMany("treasury", new HashMap<String, BigDecimal>() {{
 				put("msrHoyN5Jw1EH7saGxMqJtTKt6qhmyPZMF", new BigDecimal("0.006")); 
 				put("n3y8BpckkDDGMtSq7d2Yx46EYenyUit3Jc", new BigDecimal("0.007"));}}, 100);
-		client.sendMany("treasury", new HashMap<String, BigDecimal>(){{
+		client.sendMany("treasury", new HashMap<String, BigDecimal>() {{
 				put("msrHoyN5Jw1EH7saGxMqJtTKt6qhmyPZMF", new BigDecimal("0.0015"));
 				put("n3y8BpckkDDGMtSq7d2Yx46EYenyUit3Jc", new BigDecimal("0.0015"));}}, 100, 
 				"Sample transaction: a payment of 0.0015 BTC to both 'supplierA' and 'supplierB' for"

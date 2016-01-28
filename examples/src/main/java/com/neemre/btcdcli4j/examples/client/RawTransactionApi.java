@@ -24,7 +24,7 @@ public class RawTransactionApi {
 
 		client.createRawTransaction(Arrays.asList(new OutputOverview[]{new OutputOverview(
 				"c61706760cbae899d8ef130c6d6405ce67c163340c7f78a5388c1adb44e271a7", 0)}), 
-				new HashMap<String, BigDecimal>(){{
+				new HashMap<String, BigDecimal>() {{
 					put("mkedpaeZELrF36mjpNmEdmLznN7YKKHVSV", new BigDecimal("0.299"));
 					put("mh2GwDCi8rhm319vRLyLyDTPgmnFLprwb7", new BigDecimal("1.900"));}});
 		client.decodeRawTransaction("01000000019851e46f856eaa07c129e37d8ebfbc4e99f764e4623dd344dabf6718"

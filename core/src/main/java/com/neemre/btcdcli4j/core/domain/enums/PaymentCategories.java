@@ -15,17 +15,17 @@ import com.neemre.btcdcli4j.core.common.Errors;
 @JsonInclude(Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
 public enum PaymentCategories {
-	
+
 	SEND("send"),
 	RECEIVE("receive"),
 	GENERATE("generate"),
 	IMMATURE("immature"),
 	ORPHAN("orphan"),
 	MOVE("move");
-	
+
 	private final String name;
 
-	
+
 	@JsonValue
 	public String getName() {
 		return name;

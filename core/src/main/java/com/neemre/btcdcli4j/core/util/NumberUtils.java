@@ -13,7 +13,7 @@ import com.neemre.btcdcli4j.core.common.Defaults;
 public final class NumberUtils {
 	
 	public static boolean isEven(int integer) {
-		if(integer % 2 == 0) {
+		if (integer % 2 == 0) {
 			return true;
 		} else {
 			return false;
@@ -22,7 +22,7 @@ public final class NumberUtils {
 	
 	public static <T> Map<T, BigDecimal> setValueScale(Map<T, BigDecimal> pairs, int newScale) {
 		Iterator<Map.Entry<T, BigDecimal>> iterator = pairs.entrySet().iterator();
-		while(iterator.hasNext()) {
+		while (iterator.hasNext()) {
 			Map.Entry<T, BigDecimal> pair = iterator.next();
 			pair.setValue(pair.getValue().setScale(newScale, Defaults.ROUNDING_MODE));
 		}
