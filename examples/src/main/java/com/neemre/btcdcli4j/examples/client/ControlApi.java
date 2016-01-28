@@ -15,8 +15,10 @@ public class ControlApi {
 		CloseableHttpClient httpProvider = ResourceUtils.getHttpProvider();
 		Properties nodeConfig = ResourceUtils.getNodeConfig();
 		BtcdClient client = new VerboseBtcdClientImpl(httpProvider, nodeConfig);
-		
+
 		client.getInfo();
+		client.help();
+		client.help("walletlock");
 		client.stop();
 	}
 }

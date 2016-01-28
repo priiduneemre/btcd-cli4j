@@ -456,6 +456,20 @@ public class VerboseBtcdClientImpl extends BtcdClientImpl {
 	}
 
 	@Override
+	public String help() throws BitcoindException, CommunicationException {
+		String help = super.help();
+		printResult(Commands.HELP.getName(), null, null, help);
+		return help;
+	}
+
+	@Override
+	public String help(String command) throws BitcoindException, CommunicationException {
+		String help = super.help(command);
+		printResult(Commands.HELP.getName(), new String[]{"command"}, new Object[]{command}, help);
+		return help;
+	}
+
+	@Override
 	public void importAddress(String address) throws BitcoindException, CommunicationException {
 		super.importAddress(address);
 		printResult(Commands.IMPORT_ADDRESS.getName(), new String[]{"address"}, 

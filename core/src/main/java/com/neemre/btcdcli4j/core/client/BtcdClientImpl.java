@@ -529,6 +529,20 @@ public class BtcdClientImpl implements BtcdClient {
 	}
 
 	@Override
+	public String help() throws BitcoindException, CommunicationException {
+		String helpJson = rpcClient.execute(Commands.HELP.getName());
+		String help = rpcClient.getParser().parseString(helpJson);
+		return help;
+	}
+
+	@Override
+	public String help(String command) throws BitcoindException, CommunicationException {
+		String helpJson = rpcClient.execute(Commands.HELP.getName(), command);
+		String help = rpcClient.getParser().parseString(helpJson);
+		return help;
+	}
+
+	@Override
 	public void importAddress(String address) throws BitcoindException, CommunicationException {
 		rpcClient.execute(Commands.IMPORT_ADDRESS.getName(), address);
 	}

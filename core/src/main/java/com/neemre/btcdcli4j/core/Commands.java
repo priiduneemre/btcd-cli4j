@@ -50,6 +50,7 @@ public enum Commands {
 	GET_TRANSACTION("gettransaction", 1, 2),
 	GET_UNCONFIRMED_BALANCE("getunconfirmedbalance", 0, 0),
 	GET_WALLET_INFO("getwalletinfo", 0, 0),
+	HELP("help", 0, 1),
 	IMPORT_ADDRESS("importaddress", 1, 3),
 	IMPORT_PRIV_KEY("importprivkey", 1, 3),
 	IMPORT_WALLET("importwallet", 1, 1),

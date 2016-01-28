@@ -151,6 +151,10 @@ public interface BtcdClient {
 
 	WalletInfo getWalletInfo() throws BitcoindException, CommunicationException;
 
+	String help() throws BitcoindException, CommunicationException;
+
+	String help(String command) throws BitcoindException, CommunicationException;
+
 	void importAddress(String address) throws BitcoindException, CommunicationException;
 
 	void importAddress(String address, String account) throws BitcoindException, 
