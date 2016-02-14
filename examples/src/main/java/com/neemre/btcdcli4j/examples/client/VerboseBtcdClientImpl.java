@@ -22,6 +22,7 @@ import com.neemre.btcdcli4j.core.domain.Info;
 import com.neemre.btcdcli4j.core.domain.MemPoolInfo;
 import com.neemre.btcdcli4j.core.domain.MiningInfo;
 import com.neemre.btcdcli4j.core.domain.MultiSigAddress;
+import com.neemre.btcdcli4j.core.domain.NetworkInfo;
 import com.neemre.btcdcli4j.core.domain.NetworkTotals;
 import com.neemre.btcdcli4j.core.domain.Output;
 import com.neemre.btcdcli4j.core.domain.OutputOverview;
@@ -340,6 +341,13 @@ public class VerboseBtcdClientImpl extends BtcdClientImpl {
 		printResult(Commands.GET_NETWORK_HASH_PS.getName(), new String[]{"blocks", "blockHeight"},
 				new Object[]{blocks, blockHeight}, networkHashPs);
 		return networkHashPs;
+	}
+
+	@Override
+	public NetworkInfo getNetworkInfo() throws BitcoindException, CommunicationException {
+		NetworkInfo networkInfo = super.getNetworkInfo();
+		printResult(Commands.GET_NETWORK_INFO.getName(), null, null, networkInfo);
+		return networkInfo;
 	}
 
 	@Override

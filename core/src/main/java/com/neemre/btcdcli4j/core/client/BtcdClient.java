@@ -18,6 +18,7 @@ import com.neemre.btcdcli4j.core.domain.Info;
 import com.neemre.btcdcli4j.core.domain.MemPoolInfo;
 import com.neemre.btcdcli4j.core.domain.MiningInfo;
 import com.neemre.btcdcli4j.core.domain.MultiSigAddress;
+import com.neemre.btcdcli4j.core.domain.NetworkInfo;
 import com.neemre.btcdcli4j.core.domain.NetworkTotals;
 import com.neemre.btcdcli4j.core.domain.Output;
 import com.neemre.btcdcli4j.core.domain.OutputOverview;
@@ -117,6 +118,8 @@ public interface BtcdClient {
 
 	BigInteger getNetworkHashPs(Integer blocks, Integer blockHeight) throws BitcoindException, 
 			CommunicationException;
+
+	NetworkInfo getNetworkInfo() throws BitcoindException, CommunicationException;
 
 	String getNewAddress() throws BitcoindException, CommunicationException;
 

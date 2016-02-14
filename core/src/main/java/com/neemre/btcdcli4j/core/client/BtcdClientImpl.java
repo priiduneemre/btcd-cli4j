@@ -25,6 +25,7 @@ import com.neemre.btcdcli4j.core.domain.Info;
 import com.neemre.btcdcli4j.core.domain.MemPoolInfo;
 import com.neemre.btcdcli4j.core.domain.MiningInfo;
 import com.neemre.btcdcli4j.core.domain.MultiSigAddress;
+import com.neemre.btcdcli4j.core.domain.NetworkInfo;
 import com.neemre.btcdcli4j.core.domain.NetworkTotals;
 import com.neemre.btcdcli4j.core.domain.Output;
 import com.neemre.btcdcli4j.core.domain.OutputOverview;
@@ -405,6 +406,14 @@ public class BtcdClientImpl implements BtcdClient {
 		String networkHashPsJson = rpcClient.execute(Commands.GET_NETWORK_HASH_PS.getName(), params);
 		BigInteger networkHashPs = rpcClient.getParser().parseBigInteger(networkHashPsJson);
 		return networkHashPs;
+	}
+
+	@Override
+	public NetworkInfo getNetworkInfo() throws BitcoindException, CommunicationException {
+		String networkInfoJson = rpcClient.execute(Commands.GET_NETWORK_INFO.getName());
+		NetworkInfo networkInfo = rpcClient.getMapper().mapToEntity(networkInfoJson, 
+				NetworkInfo.class);
+		return networkInfo;
 	}
 
 	@Override

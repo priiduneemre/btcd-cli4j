@@ -18,6 +18,7 @@ public class NetworkApi {
 
 		client.getConnectionCount();
 		client.getNetTotals();
+		client.getNetworkInfo();
 		client.getPeerInfo();
 		client.ping();
 	}

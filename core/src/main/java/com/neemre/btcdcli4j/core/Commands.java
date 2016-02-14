@@ -41,6 +41,7 @@ public enum Commands {
 	GET_MINING_INFO("getmininginfo", 0, 0),
 	GET_NET_TOTALS("getnettotals", 0, 0),
 	GET_NETWORK_HASH_PS("getnetworkhashps", 0, 2),
+	GET_NETWORK_INFO("getnetworkinfo", 0, 0),
 	GET_NEW_ADDRESS("getnewaddress", 0, 1),
 	GET_PEER_INFO("getpeerinfo", 0, 0),
 	GET_RAW_CHANGE_ADDRESS("getrawchangeaddress", 0, 0),
