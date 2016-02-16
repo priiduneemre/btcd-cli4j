@@ -35,6 +35,7 @@ import com.neemre.btcdcli4j.core.domain.SignatureResult;
 import com.neemre.btcdcli4j.core.domain.SinceBlock;
 import com.neemre.btcdcli4j.core.domain.Tip;
 import com.neemre.btcdcli4j.core.domain.Transaction;
+import com.neemre.btcdcli4j.core.domain.TxOutSetInfo;
 import com.neemre.btcdcli4j.core.domain.WalletInfo;
 
 import static com.neemre.btcdcli4j.examples.util.OutputUtils.printResult;
@@ -407,6 +408,22 @@ public class VerboseBtcdClientImpl extends BtcdClientImpl {
 	}
 
 	@Override
+	public List<String> getRawMemPool() throws BitcoindException, CommunicationException {
+		List<String> memPoolTxns = super.getRawMemPool();
+		printResult(Commands.GET_RAW_MEM_POOL.getName(), null, null, memPoolTxns);
+		return memPoolTxns;
+	}
+
+	@Override
+	public List<? extends Object> getRawMemPool(Boolean isDetailed) throws BitcoindException, 
+			CommunicationException {
+		List<? extends Object> memPoolTxns = super.getRawMemPool(isDetailed);
+		printResult(Commands.GET_RAW_MEM_POOL.getName(), new String[]{"isDetailed"}, 
+				new Object[]{isDetailed}, memPoolTxns);
+		return memPoolTxns;
+	}
+
+	@Override
 	public String getRawTransaction(String txId) throws BitcoindException, CommunicationException {
 		String hexTransaction = super.getRawTransaction(txId);
 		printResult(Commands.GET_RAW_TRANSACTION.getName(), new String[]{"txId"}, 
@@ -474,6 +491,13 @@ public class VerboseBtcdClientImpl extends BtcdClientImpl {
 		printResult(Commands.GET_TRANSACTION.getName(), new String[]{"txId", "withWatchOnly"},
 				new Object[]{txId, withWatchOnly}, transaction);
 		return transaction;
+	}
+
+	@Override
+	public TxOutSetInfo getTxOutSetInfo() throws BitcoindException, CommunicationException {
+		TxOutSetInfo txnOutSetInfo = super.getTxOutSetInfo();
+		printResult(Commands.GET_TX_OUT_SET_INFO.getName(), null, null, txnOutSetInfo);
+		return txnOutSetInfo;
 	}
 
 	@Override

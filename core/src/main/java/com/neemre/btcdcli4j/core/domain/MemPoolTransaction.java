@@ -24,38 +24,34 @@ import com.neemre.btcdcli4j.core.common.Defaults;
 @EqualsAndHashCode(callSuper = false)
 @JsonInclude(Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class Transaction extends Entity {
+public class MemPoolTransaction extends Entity {
 
-	@Setter(AccessLevel.NONE)
-	private BigDecimal amount;
+	private String txId;
+	private Integer size;
 	@Setter(AccessLevel.NONE)
 	private BigDecimal fee;
-	private Integer confirmations;
-	private Boolean generated;
-	@JsonProperty("blockhash")
-	private String blockHash;
-	@JsonProperty("blockindex")
-	private Integer blockIndex;
-	@JsonProperty("blocktime")
-	private Long blockTime;
-	@JsonProperty("txid")
-	private String txId;
-	@JsonProperty("walletconflicts")
-	private List<String> walletConflicts;
 	private Long time;
-	@JsonProperty("timereceived")
-	private Long timeReceived;
-	private String comment;
-	private String to;
-	private List<PaymentOverview> details;
-	private String hex;
+	private Integer height;
+	@Setter(AccessLevel.NONE)
+	@JsonProperty("startingpriority")
+	private BigDecimal startingPriority;
+	@Setter(AccessLevel.NONE)
+	@JsonProperty("currentpriority")
+	private BigDecimal currentPriority;
+	private List<String> depends;
 
-
-	public void setAmount(BigDecimal amount) {
-		this.amount = amount.setScale(Defaults.DECIMAL_SCALE, Defaults.ROUNDING_MODE);
-	}
 
 	public void setFee(BigDecimal fee) {
 		this.fee = fee.setScale(Defaults.DECIMAL_SCALE, Defaults.ROUNDING_MODE);
+	}
+
+	public void setStartingPriority(BigDecimal startingPriority) {
+		this.startingPriority = startingPriority.setScale(Defaults.DECIMAL_SCALE, 
+				Defaults.ROUNDING_MODE);
+	}
+
+	public void setCurrentPriority(BigDecimal currentPriority) {
+		this.currentPriority = currentPriority.setScale(Defaults.DECIMAL_SCALE, 
+				Defaults.ROUNDING_MODE);
 	}
 }

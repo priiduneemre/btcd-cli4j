@@ -2,6 +2,7 @@ package com.neemre.btcdcli4j.core.client;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
@@ -24,6 +25,7 @@ import com.neemre.btcdcli4j.core.domain.Block;
 import com.neemre.btcdcli4j.core.domain.BlockChainInfo;
 import com.neemre.btcdcli4j.core.domain.Info;
 import com.neemre.btcdcli4j.core.domain.MemPoolInfo;
+import com.neemre.btcdcli4j.core.domain.MemPoolTransaction;
 import com.neemre.btcdcli4j.core.domain.MiningInfo;
 import com.neemre.btcdcli4j.core.domain.MultiSigAddress;
 import com.neemre.btcdcli4j.core.domain.NetworkInfo;
@@ -39,6 +41,7 @@ import com.neemre.btcdcli4j.core.domain.SignatureResult;
 import com.neemre.btcdcli4j.core.domain.SinceBlock;
 import com.neemre.btcdcli4j.core.domain.Tip;
 import com.neemre.btcdcli4j.core.domain.Transaction;
+import com.neemre.btcdcli4j.core.domain.TxOutSetInfo;
 import com.neemre.btcdcli4j.core.domain.WalletInfo;
 import com.neemre.btcdcli4j.core.jsonrpc.client.JsonRpcClient;
 import com.neemre.btcdcli4j.core.jsonrpc.client.JsonRpcClientImpl;
@@ -473,6 +476,31 @@ public class BtcdClientImpl implements BtcdClient {
 	}
 
 	@Override
+	public List<String> getRawMemPool() throws BitcoindException, CommunicationException {
+		String memPoolTxnsJson = rpcClient.execute(Commands.GET_RAW_MEM_POOL.getName());
+		List<String> memPoolTxns = rpcClient.getMapper().mapToList(memPoolTxnsJson, String.class);
+		return memPoolTxns;
+	}
+
+	@Override
+	public List<? extends Object> getRawMemPool(Boolean isDetailed) throws BitcoindException, 
+			CommunicationException {
+		String memPoolTxnsJson = rpcClient.execute(Commands.GET_RAW_MEM_POOL.getName(), isDetailed);
+		if (isDetailed) {
+			Map<String, MemPoolTransaction> memPoolTxns = rpcClient.getMapper().mapToMap(
+					memPoolTxnsJson, String.class, MemPoolTransaction.class);
+			for (Map.Entry<String, MemPoolTransaction> memPoolTxn : memPoolTxns.entrySet()) {
+				memPoolTxn.getValue().setTxId(memPoolTxn.getKey());
+			}
+			return new ArrayList<MemPoolTransaction>(memPoolTxns.values());
+		} else {
+			List<String> memPoolTxns = rpcClient.getMapper().mapToList(memPoolTxnsJson, 
+					String.class);
+			return memPoolTxns;
+		}
+	}
+
+	@Override
 	public String getRawTransaction(String txId) throws BitcoindException, CommunicationException {
 		String hexTransactionJson = rpcClient.execute(Commands.GET_RAW_TRANSACTION.getName(), txId);
 		String hexTransaction = rpcClient.getParser().parseString(hexTransactionJson);
@@ -549,6 +577,14 @@ public class BtcdClientImpl implements BtcdClient {
 		Transaction transaction = rpcClient.getMapper().mapToEntity(transactionJson,
 				Transaction.class);
 		return transaction;
+	}
+
+	@Override
+	public TxOutSetInfo getTxOutSetInfo() throws BitcoindException, CommunicationException {
+		String txnOutSetInfoJson = rpcClient.execute(Commands.GET_TX_OUT_SET_INFO.getName());
+		TxOutSetInfo txnOutSetInfo = rpcClient.getMapper().mapToEntity(txnOutSetInfoJson, 
+				TxOutSetInfo.class);
+		return txnOutSetInfo;
 	}
 
 	@Override

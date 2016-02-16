@@ -31,6 +31,7 @@ import com.neemre.btcdcli4j.core.domain.SignatureResult;
 import com.neemre.btcdcli4j.core.domain.SinceBlock;
 import com.neemre.btcdcli4j.core.domain.Tip;
 import com.neemre.btcdcli4j.core.domain.Transaction;
+import com.neemre.btcdcli4j.core.domain.TxOutSetInfo;
 import com.neemre.btcdcli4j.core.domain.WalletInfo;
 
 public interface BtcdClient {
@@ -138,6 +139,11 @@ public interface BtcdClient {
 
 	String getRawChangeAddress() throws BitcoindException, CommunicationException;
 
+	List<String> getRawMemPool() throws BitcoindException, CommunicationException;
+
+	List<? extends Object> getRawMemPool(Boolean isDetailed) throws BitcoindException, 
+			CommunicationException;
+
 	String getRawTransaction(String txId) throws BitcoindException, CommunicationException;
 
 	Object getRawTransaction(String txId, Integer verbosity) throws BitcoindException, 
@@ -158,6 +164,8 @@ public interface BtcdClient {
 
 	Transaction getTransaction(String txId, Boolean withWatchOnly) throws BitcoindException, 
 			CommunicationException;
+
+	TxOutSetInfo getTxOutSetInfo() throws BitcoindException, CommunicationException;
 
 	BigDecimal getUnconfirmedBalance() throws BitcoindException, CommunicationException;
 

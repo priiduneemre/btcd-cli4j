@@ -25,5 +25,8 @@ public class BlockChainApi {
 		client.getChainTips();
 		client.getDifficulty();
 		client.getMemPoolInfo();
+		client.getRawMemPool();
+		client.getRawMemPool(true);
+		client.getTxOutSetInfo();
 	}
 }
