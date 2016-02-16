@@ -13,6 +13,7 @@ import com.neemre.btcdcli4j.core.Commands;
 import com.neemre.btcdcli4j.core.CommunicationException;
 import com.neemre.btcdcli4j.core.client.BtcdClientImpl;
 import com.neemre.btcdcli4j.core.domain.Account;
+import com.neemre.btcdcli4j.core.domain.AddedNode;
 import com.neemre.btcdcli4j.core.domain.Address;
 import com.neemre.btcdcli4j.core.domain.AddressInfo;
 import com.neemre.btcdcli4j.core.domain.AddressOverview;
@@ -66,6 +67,14 @@ public class VerboseBtcdClientImpl extends BtcdClientImpl {
 				"addresses", "account"}, new Object[]{minSignatures, addresses, account}, 
 				multiSigAddress);
 		return multiSigAddress;
+	}
+
+	@Override
+	public void addNode(String node, String command) throws BitcoindException, 
+			CommunicationException {
+		super.addNode(node, command);
+		printResult(Commands.ADD_NODE.getName(), new String[]{"node", "command"}, 
+				new Object[]{node, command}, null);
 	}
 
 	@Override
@@ -165,6 +174,24 @@ public class VerboseBtcdClientImpl extends BtcdClientImpl {
 		printResult(Commands.GET_ACCOUNT_ADDRESS.getName(), new String[]{"account"}, 
 				new Object[]{account}, address);
 		return address;
+	}
+
+	@Override
+	public List<AddedNode> getAddedNodeInfo(Boolean withDetails) throws BitcoindException, 
+			CommunicationException {
+		List<AddedNode> addedNodes = super.getAddedNodeInfo(withDetails);
+		printResult(Commands.GET_ADDED_NODE_INFO.getName(), new String[]{"withDetails"}, 
+				new Object[]{withDetails}, addedNodes);
+		return addedNodes;
+	}
+
+	@Override
+	public List<AddedNode> getAddedNodeInfo(Boolean withDetails, String node) 
+			throws BitcoindException, CommunicationException {
+		List<AddedNode> addedNodes = super.getAddedNodeInfo(withDetails, node);
+		printResult(Commands.GET_ADDED_NODE_INFO.getName(), new String[]{"withDetails", "node"},
+				new Object[]{withDetails, node}, addedNodes);
+		return addedNodes;
 	}
 
 	@Override

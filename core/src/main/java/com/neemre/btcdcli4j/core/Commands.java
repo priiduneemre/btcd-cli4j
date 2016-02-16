@@ -12,6 +12,7 @@ import lombok.ToString;
 public enum Commands {
 
 	ADD_MULTI_SIG_ADDRESS("addmultisigaddress", 2, 3),
+	ADD_NODE("addnode", 2, 2),
 	BACKUP_WALLET("backupwallet", 1, 1),
 	CREATE_MULTI_SIG("createmultisig", 2, 2),
 	CREATE_RAW_TRANSACTION("createrawtransaction", 2, 2),
@@ -24,6 +25,7 @@ public enum Commands {
 	ESTIMATE_PRIORITY("estimatepriority", 1, 1),
 	GET_ACCOUNT("getaccount", 1, 1),
 	GET_ACCOUNT_ADDRESS("getaccountaddress", 1, 1),
+	GET_ADDED_NODE_INFO("getaddednodeinfo", 1, 2),
 	GET_ADDRESSES_BY_ACCOUNT("getaddressesbyaccount", 1, 1),
 	GET_BALANCE("getbalance", 0, 3),
 	GET_BEST_BLOCK_HASH("getbestblockhash", 0, 0),

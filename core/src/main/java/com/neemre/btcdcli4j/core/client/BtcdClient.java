@@ -9,6 +9,7 @@ import java.util.Properties;
 import com.neemre.btcdcli4j.core.BitcoindException;
 import com.neemre.btcdcli4j.core.CommunicationException;
 import com.neemre.btcdcli4j.core.domain.Account;
+import com.neemre.btcdcli4j.core.domain.AddedNode;
 import com.neemre.btcdcli4j.core.domain.Address;
 import com.neemre.btcdcli4j.core.domain.AddressInfo;
 import com.neemre.btcdcli4j.core.domain.AddressOverview;
@@ -40,6 +41,8 @@ public interface BtcdClient {
 	String addMultiSigAddress(Integer minSignatures, List<String> addresses, String account) 
 			throws BitcoindException, CommunicationException;
 
+	void addNode(String node, String command) throws BitcoindException, CommunicationException;
+
 	void backupWallet(String filePath) throws BitcoindException, CommunicationException;
 
 	MultiSigAddress createMultiSig(Integer minSignatures, List<String> addresses) 
@@ -67,6 +70,12 @@ public interface BtcdClient {
 	String getAccount(String address) throws BitcoindException, CommunicationException;
 
 	String getAccountAddress(String account) throws BitcoindException, CommunicationException;
+
+	List<AddedNode> getAddedNodeInfo(Boolean withDetails) throws BitcoindException, 
+			CommunicationException;
+
+	List<AddedNode> getAddedNodeInfo(Boolean withDetails, String node) throws BitcoindException, 
+			CommunicationException;
 
 	List<String> getAddressesByAccount(String account) throws BitcoindException, 
 			CommunicationException;

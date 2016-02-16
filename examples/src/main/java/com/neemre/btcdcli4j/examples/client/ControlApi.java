@@ -4,6 +4,7 @@ import java.util.Properties;
 
 import org.apache.http.impl.client.CloseableHttpClient;
 
+import com.neemre.btcdcli4j.core.Commands;
 import com.neemre.btcdcli4j.core.client.BtcdClient;
 import com.neemre.btcdcli4j.examples.util.ResourceUtils;
 
@@ -18,7 +19,7 @@ public class ControlApi {
 
 		client.getInfo();
 		client.help();
-		client.help("walletlock");
+		client.help(Commands.WALLET_LOCK.getName());
 		client.stop();
 	}
 }

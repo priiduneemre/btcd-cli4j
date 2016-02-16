@@ -16,6 +16,7 @@ import com.neemre.btcdcli4j.core.CommunicationException;
 import com.neemre.btcdcli4j.core.common.DataFormats;
 import com.neemre.btcdcli4j.core.common.Defaults;
 import com.neemre.btcdcli4j.core.domain.Account;
+import com.neemre.btcdcli4j.core.domain.AddedNode;
 import com.neemre.btcdcli4j.core.domain.Address;
 import com.neemre.btcdcli4j.core.domain.AddressInfo;
 import com.neemre.btcdcli4j.core.domain.AddressOverview;
@@ -130,6 +131,13 @@ public class BtcdClientImpl implements BtcdClient {
 	}
 
 	@Override
+	public void addNode(String node, String command) throws BitcoindException, 
+			CommunicationException {
+		List<Object> params = CollectionUtils.asList(node, command);
+		rpcClient.execute(Commands.ADD_NODE.getName(), params);
+	}
+
+	@Override
 	public void backupWallet(String filePath) throws BitcoindException, CommunicationException {
 		rpcClient.execute(Commands.BACKUP_WALLET.getName(), filePath);
 	}
@@ -225,6 +233,26 @@ public class BtcdClientImpl implements BtcdClient {
 		String addressJson = rpcClient.execute(Commands.GET_ACCOUNT_ADDRESS.getName(), account);
 		String address = rpcClient.getParser().parseString(addressJson);
 		return address;
+	}
+
+	@Override
+	public List<AddedNode> getAddedNodeInfo(Boolean withDetails) throws BitcoindException,
+			CommunicationException {
+		String addedNodesJson = rpcClient.execute(Commands.GET_ADDED_NODE_INFO.getName(), 
+				withDetails);
+		List<AddedNode> addedNodes = rpcClient.getMapper().mapToList(addedNodesJson, 
+				AddedNode.class);
+		return addedNodes;
+	}
+
+	@Override
+	public List<AddedNode> getAddedNodeInfo(Boolean withDetails, String node) 
+			throws BitcoindException, CommunicationException {
+		List<Object> params = CollectionUtils.asList(withDetails, node);
+		String addedNodesJson = rpcClient.execute(Commands.GET_ADDED_NODE_INFO.getName(), params);
+		List<AddedNode> addedNodes = rpcClient.getMapper().mapToList(addedNodesJson, 
+				AddedNode.class);
+		return addedNodes;
 	}
 
 	@Override
