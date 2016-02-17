@@ -82,6 +82,7 @@ public enum Commands {
 	SIGN_RAW_TRANSACTION("signrawtransaction", 1, 4),
 	STOP("stop", 0, 0),
 	VALIDATE_ADDRESS("validateaddress", 1, 1),
+	VERIFY_CHAIN("verifychain", 0, 2),
 	VERIFY_MESSAGE("verifymessage", 3, 3),
 	WALLET_LOCK("walletlock", 0, 0),
 	WALLET_PASSPHRASE("walletpassphrase", 2, 2),

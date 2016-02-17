@@ -5,6 +5,7 @@ import java.util.Properties;
 import org.apache.http.impl.client.CloseableHttpClient;
 
 import com.neemre.btcdcli4j.core.client.BtcdClient;
+import com.neemre.btcdcli4j.core.domain.enums.CheckLevels;
 import com.neemre.btcdcli4j.examples.util.ResourceUtils;
 
 /**A list of examples demonstrating the use of <i>bitcoind</i>'s block chain RPCs (via the JSON-RPC 
@@ -28,5 +29,8 @@ public class BlockChainApi {
 		client.getRawMemPool();
 		client.getRawMemPool(true);
 		client.getTxOutSetInfo();
+		client.verifyChain();
+		client.verifyChain(CheckLevels.LEVEL_4.getIdentifier());
+		client.verifyChain(CheckLevels.LEVEL_4.getIdentifier(), 1000);
 	}
 }

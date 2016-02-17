@@ -1077,6 +1077,30 @@ public class VerboseBtcdClientImpl extends BtcdClientImpl {
 	}
 
 	@Override
+	public Boolean verifyChain() throws BitcoindException, CommunicationException {
+		Boolean isChainValid = super.verifyChain();
+		printResult(Commands.VERIFY_CHAIN.getName(), null, null, isChainValid);
+		return isChainValid;
+	}
+
+	@Override
+	public Boolean verifyChain(Integer checkLevel) throws BitcoindException, CommunicationException {
+		Boolean isChainValid = super.verifyChain(checkLevel);
+		printResult(Commands.VERIFY_CHAIN.getName(), new String[]{"checkLevel"}, 
+				new Object[]{checkLevel}, isChainValid);
+		return isChainValid;
+	}
+
+	@Override
+	public Boolean verifyChain(Integer checkLevel, Integer blocks) throws BitcoindException, 
+			CommunicationException {
+		Boolean isChainValid = super.verifyChain(checkLevel, blocks);
+		printResult(Commands.VERIFY_CHAIN.getName(), new String[]{"checkLevel", "blocks"}, 
+				new Object[]{checkLevel, blocks}, isChainValid);
+		return isChainValid;
+	}
+
+	@Override
 	public Boolean verifyMessage(String address, String signature, String message) 
 			throws BitcoindException, CommunicationException {
 		Boolean isSigValid = super.verifyMessage(address, signature, message);

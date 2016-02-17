@@ -345,6 +345,13 @@ public interface BtcdClient {
 
 	AddressInfo validateAddress(String address) throws BitcoindException, CommunicationException;
 
+	Boolean verifyChain() throws BitcoindException, CommunicationException;
+
+	Boolean verifyChain(Integer checkLevel) throws BitcoindException, CommunicationException;
+
+	Boolean verifyChain(Integer checkLevel, Integer blocks) throws BitcoindException, 
+			CommunicationException;
+
 	Boolean verifyMessage(String address, String signature, String message) 
 			throws BitcoindException, CommunicationException;
 

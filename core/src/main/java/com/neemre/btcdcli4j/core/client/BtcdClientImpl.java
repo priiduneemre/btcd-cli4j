@@ -1153,6 +1153,29 @@ public class BtcdClientImpl implements BtcdClient {
 	}
 
 	@Override
+	public Boolean verifyChain() throws BitcoindException, CommunicationException {
+		String isChainValidJson = rpcClient.execute(Commands.VERIFY_CHAIN.getName());
+		Boolean isChainValid = rpcClient.getParser().parseBoolean(isChainValidJson);
+		return isChainValid;
+	}
+
+	@Override
+	public Boolean verifyChain(Integer checkLevel) throws BitcoindException, CommunicationException {
+		String isChainValidJson = rpcClient.execute(Commands.VERIFY_CHAIN.getName(), checkLevel);
+		Boolean isChainValid = rpcClient.getParser().parseBoolean(isChainValidJson);
+		return isChainValid;
+	}
+
+	@Override
+	public Boolean verifyChain(Integer checkLevel, Integer blocks) throws BitcoindException,
+			CommunicationException {
+		List<Object> params = CollectionUtils.asList(checkLevel, blocks);
+		String isChainValidJson = rpcClient.execute(Commands.VERIFY_CHAIN.getName(), params);
+		Boolean isChainValid = rpcClient.getParser().parseBoolean(isChainValidJson);
+		return isChainValid;
+	}
+
+	@Override
 	public Boolean verifyMessage(String address, String signature, String message) 
 			throws BitcoindException, CommunicationException {
 		List<Object> params = CollectionUtils.asList(address, signature, message);
