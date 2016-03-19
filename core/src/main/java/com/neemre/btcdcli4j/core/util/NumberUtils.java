@@ -19,7 +19,7 @@ public final class NumberUtils {
 			return false;
 		}
 	}
-	
+
 	public static <T> Map<T, BigDecimal> setValueScale(Map<T, BigDecimal> pairs, int newScale) {
 		Iterator<Map.Entry<T, BigDecimal>> iterator = pairs.entrySet().iterator();
 		while (iterator.hasNext()) {

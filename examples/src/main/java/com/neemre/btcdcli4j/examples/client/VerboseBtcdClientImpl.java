@@ -863,6 +863,15 @@ public class VerboseBtcdClientImpl extends BtcdClientImpl {
 	}
 
 	@Override
+	public Boolean prioritiseTransaction(String txId, BigDecimal deltaPriority, Long deltaFee) 
+			throws BitcoindException, CommunicationException {
+		Boolean isSuccess = super.prioritiseTransaction(txId, deltaPriority, deltaFee);
+		printResult(Commands.PRIORITISE_TRANSACTION.getName(), new String[]{"txId", "deltaPriority",
+				"deltaFee"}, new Object[]{txId, deltaPriority, deltaFee}, isSuccess);
+		return isSuccess;
+	}
+
+	@Override
 	public String sendFrom(String fromAccount, String toAddress, BigDecimal amount) 
 			throws BitcoindException, CommunicationException {
 		String transactionId = super.sendFrom(fromAccount, toAddress, amount);
@@ -1065,6 +1074,23 @@ public class VerboseBtcdClientImpl extends BtcdClientImpl {
 		String noticeMsg = super.stop();
 		printResult(Commands.STOP.getName(), null, null, noticeMsg);
 		return noticeMsg;
+	}
+
+	@Override
+	public String submitBlock(String block) throws BitcoindException, CommunicationException {
+		String blockStatus = super.submitBlock(block);
+		printResult(Commands.SUBMIT_BLOCK.getName(), new String[]{"block"}, new Object[]{block},
+				blockStatus);
+		return blockStatus;
+	}
+
+	@Override
+	public String submitBlock(String block, Map<String, Object> extraParameters) 
+			throws BitcoindException, CommunicationException {
+		String blockStatus = super.submitBlock(block, extraParameters);
+		printResult(Commands.SUBMIT_BLOCK.getName(), new String[]{"block", "extraParameters"}, 
+				new Object[]{block, extraParameters}, blockStatus);
+		return blockStatus;
 	}
 
 	@Override

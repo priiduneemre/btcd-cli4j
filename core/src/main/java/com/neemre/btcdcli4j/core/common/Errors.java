@@ -20,27 +20,29 @@ public enum Errors {
 			+ "invalid/unsupported instead."),
 	ARGS_HTTP_AUTHSCHEME_UNSUPPORTED(1001007, "Expected the argument to be a valid HTTP auth scheme, but "
 			+ "was invalid/unsupported instead."),
-	ARGS_BTCD_CHAINSTATUS_UNSUPPORTED(1001008, "Expected the argument to be a valid 'bitcoind' chain status, "
+	ARGS_BTCD_BLOCKSTATUS_UNSUPPORTED(1001008, "Expected the argument to be a valid 'bitcoind' block status, "
 			+ "but was invalid/unsupported instead."),
-	ARGS_BTCD_CHAINTYPE_UNSUPPORTED(1001009, "Expected the argument to be a valid 'bitcoind' chain type, but "
+	ARGS_BTCD_CHAINSTATUS_UNSUPPORTED(1001009, "Expected the argument to be a valid 'bitcoind' chain status, "
+			+ "but was invalid/unsupported instead."),
+	ARGS_BTCD_CHAINTYPE_UNSUPPORTED(1001010, "Expected the argument to be a valid 'bitcoind' chain type, but "
 			+ "was invalid/unsupported instead."),
-	ARGS_BTCD_CHECKLEVEL_UNSUPPORTED(1001010, "Expected the argument to be a valid 'bitcoind' check level, "
+	ARGS_BTCD_CHECKLEVEL_UNSUPPORTED(1001011, "Expected the argument to be a valid 'bitcoind' check level, "
 			+ "but was invalid/unsupported instead."),
-	ARGS_BTCD_CONNECTIONTYPE_UNSUPPORTED(1001011, "Expected the argument to be a valid 'bitcoind' connection "
+	ARGS_BTCD_CONNECTIONTYPE_UNSUPPORTED(1001012, "Expected the argument to be a valid 'bitcoind' connection "
 			+ "type, but was invalid/unsupported instead."),
-	ARGS_BTCD_NETWORKTYPE_UNSUPPORTED(1001012, "Expected the argument to be a valid 'bitcoind' network type, "
+	ARGS_BTCD_NETWORKTYPE_UNSUPPORTED(1001013, "Expected the argument to be a valid 'bitcoind' network type, "
 			+ "but was invalid/unsupported instead."),
-	ARGS_BTCD_PAYMENTCATEGORY_UNSUPPORTED(1001013, "Expected the argument to be a valid 'bitcoind' payment "
+	ARGS_BTCD_PAYMENTCATEGORY_UNSUPPORTED(1001014, "Expected the argument to be a valid 'bitcoind' payment "
 			+ "category, but was invalid/unsupported instead."),
-	ARGS_BTCD_PEERCONTROL_UNSUPPORTED(1001014, "Expected the argument to be a valid 'bitcoind' peer control, "
+	ARGS_BTCD_PEERCONTROL_UNSUPPORTED(1001015, "Expected the argument to be a valid 'bitcoind' peer control, "
 			+ "but was invalid/unsupported instead."),
-	ARGS_BTCD_SCRIPTTYPE_UNSUPPORTED(1001015, "Expected the argument to be a valid 'bitcoind' script type, "
+	ARGS_BTCD_SCRIPTTYPE_UNSUPPORTED(1001016, "Expected the argument to be a valid 'bitcoind' script type, "
 			+ "but was invalid/unsupported instead."),
-	ARGS_BTCD_SIGHASHTYPE_UNSUPPORTED(1001016, "Expected the argument to be a valid 'bitcoind' signature hash "
+	ARGS_BTCD_SIGHASHTYPE_UNSUPPORTED(1001017, "Expected the argument to be a valid 'bitcoind' signature hash "
 			+ "type, but was invalid/unsupported instead."),
-	ARGS_BTCD_NOTIFICATION_UNSUPPORTED(1001017, "Expected the argument to be a valid 'bitcoind' notification "
+	ARGS_BTCD_NOTIFICATION_UNSUPPORTED(1001018, "Expected the argument to be a valid 'bitcoind' notification "
 			+ "type, but was invalid/unsupported instead."),
-	ARGS_BTCD_PROVIDER_NULL(1001018, "Expected a preconfigured 'bitcoind' JSON-RPC API provider, but got "
+	ARGS_BTCD_PROVIDER_NULL(1001019, "Expected a preconfigured 'bitcoind' JSON-RPC API provider, but got "
 			+ "'null' instead."),
 	REQUEST_HTTP_FAULT(1002001, "Request execution failed due an error in the HTTP protocol."),
 	RESPONSE_HTTP_CLIENT_FAULT(1003001, "The server responded with a non-OK (4xx) HTTP status code. "

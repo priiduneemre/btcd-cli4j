@@ -279,6 +279,9 @@ public interface BtcdClient {
 
 	void ping() throws BitcoindException, CommunicationException;
 
+	Boolean prioritiseTransaction(String txId, BigDecimal deltaPriority, Long deltaFee) 
+			throws BitcoindException, CommunicationException;
+
 	String sendFrom(String fromAccount, String toAddress, BigDecimal amount) 
 			throws BitcoindException, CommunicationException;
 
@@ -342,6 +345,11 @@ public interface BtcdClient {
 			CommunicationException;
 
 	String stop() throws BitcoindException, CommunicationException;
+
+	String submitBlock(String block) throws BitcoindException, CommunicationException;
+
+	String submitBlock(String block, Map<String, Object> extraParameters) throws BitcoindException, 
+			CommunicationException;
 
 	AddressInfo validateAddress(String address) throws BitcoindException, CommunicationException;
 

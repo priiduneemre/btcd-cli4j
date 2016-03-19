@@ -158,6 +158,7 @@ public class BtcdClientImpl implements BtcdClient {
 	@Override
 	public String createRawTransaction(List<OutputOverview> outputs, 
 			Map<String, BigDecimal> toAddresses) throws BitcoindException, CommunicationException {
+		toAddresses = NumberUtils.setValueScale(toAddresses, Defaults.DECIMAL_SCALE);
 		List<Object> params = CollectionUtils.asList(outputs, toAddresses);
 		String hexTransactionJson = rpcClient.execute(Commands.CREATE_RAW_TRANSACTION.getName(), 
 				params);
@@ -921,6 +922,7 @@ public class BtcdClientImpl implements BtcdClient {
 	@Override
 	public Boolean move(String fromAccount, String toAccount, BigDecimal amount) 
 			throws BitcoindException, CommunicationException {
+		amount = amount.setScale(Defaults.DECIMAL_SCALE, Defaults.ROUNDING_MODE);
 		List<Object> params = CollectionUtils.asList(fromAccount, toAccount, amount);
 		String isSuccessJson = rpcClient.execute(Commands.MOVE.getName(), params);
 		Boolean isSuccess = rpcClient.getParser().parseBoolean(isSuccessJson);
@@ -930,6 +932,7 @@ public class BtcdClientImpl implements BtcdClient {
 	@Override
 	public Boolean move(String fromAccount, String toAccount, BigDecimal amount, Integer dummy,
 			String comment) throws BitcoindException, CommunicationException {
+		amount = amount.setScale(Defaults.DECIMAL_SCALE, Defaults.ROUNDING_MODE);
 		List<Object> params = CollectionUtils.asList(fromAccount, toAccount, amount, dummy, comment);
 		String isSuccessJson = rpcClient.execute(Commands.MOVE.getName(), params);
 		Boolean isSuccess = rpcClient.getParser().parseBoolean(isSuccessJson);
@@ -942,8 +945,19 @@ public class BtcdClientImpl implements BtcdClient {
 	}
 
 	@Override
+	public Boolean prioritiseTransaction(String txId, BigDecimal deltaPriority, Long deltaFee) 
+			throws BitcoindException, CommunicationException {
+		deltaPriority = deltaPriority.setScale(Defaults.DECIMAL_SCALE, Defaults.ROUNDING_MODE);
+		List<Object> params = CollectionUtils.asList(txId, deltaPriority, deltaFee);
+		String isSuccessJson = rpcClient.execute(Commands.PRIORITISE_TRANSACTION.getName(), params);
+		Boolean isSuccess = rpcClient.getParser().parseBoolean(isSuccessJson);
+		return isSuccess;
+	}
+
+	@Override
 	public String sendFrom(String fromAccount, String toAddress, BigDecimal amount) 
 			throws BitcoindException, CommunicationException {
+		amount = amount.setScale(Defaults.DECIMAL_SCALE, Defaults.ROUNDING_MODE);
 		List<Object> params = CollectionUtils.asList(fromAccount, toAddress, amount);
 		String transactionIdJson = rpcClient.execute(Commands.SEND_FROM.getName(), params);
 		String transactionId = rpcClient.getParser().parseString(transactionIdJson);
@@ -953,6 +967,7 @@ public class BtcdClientImpl implements BtcdClient {
 	@Override
 	public String sendFrom(String fromAccount, String toAddress, BigDecimal amount, 
 			Integer confirmations) throws BitcoindException, CommunicationException {
+		amount = amount.setScale(Defaults.DECIMAL_SCALE, Defaults.ROUNDING_MODE);
 		List<Object> params = CollectionUtils.asList(fromAccount, toAddress, amount, confirmations);
 		String transactionIdJson = rpcClient.execute(Commands.SEND_FROM.getName(), params);
 		String transactionId = rpcClient.getParser().parseString(transactionIdJson);
@@ -963,6 +978,7 @@ public class BtcdClientImpl implements BtcdClient {
 	public String sendFrom(String fromAccount, String toAddress, BigDecimal amount, 
 			Integer confirmations, String comment) throws BitcoindException, 
 			CommunicationException {
+		amount = amount.setScale(Defaults.DECIMAL_SCALE, Defaults.ROUNDING_MODE);
 		List<Object> params = CollectionUtils.asList(fromAccount, toAddress, amount, confirmations, 
 				comment);
 		String transactionIdJson = rpcClient.execute(Commands.SEND_FROM.getName(), params);
@@ -974,6 +990,7 @@ public class BtcdClientImpl implements BtcdClient {
 	public String sendFrom(String fromAccount, String toAddress, BigDecimal amount, 
 			Integer confirmations, String comment, String commentTo) throws BitcoindException, 
 			CommunicationException {
+		amount = amount.setScale(Defaults.DECIMAL_SCALE, Defaults.ROUNDING_MODE);
 		List<Object> params = CollectionUtils.asList(fromAccount, toAddress, amount, confirmations,
 				comment, commentTo);
 		String transactionIdJson = rpcClient.execute(Commands.SEND_FROM.getName(), params);
@@ -984,6 +1001,7 @@ public class BtcdClientImpl implements BtcdClient {
 	@Override
 	public String sendMany(String fromAccount, Map<String, BigDecimal> toAddresses) 
 			throws BitcoindException, CommunicationException {
+		toAddresses = NumberUtils.setValueScale(toAddresses, Defaults.DECIMAL_SCALE);
 		List<Object> params = CollectionUtils.asList(fromAccount, toAddresses);
 		String transactionIdJson = rpcClient.execute(Commands.SEND_MANY.getName(), params);
 		String transactionId = rpcClient.getParser().parseString(transactionIdJson);
@@ -993,6 +1011,7 @@ public class BtcdClientImpl implements BtcdClient {
 	@Override
 	public String sendMany(String fromAccount, Map<String, BigDecimal> toAddresses,	
 			Integer confirmations) throws BitcoindException, CommunicationException {
+		toAddresses = NumberUtils.setValueScale(toAddresses, Defaults.DECIMAL_SCALE);
 		List<Object> params = CollectionUtils.asList(fromAccount, toAddresses, confirmations);
 		String transactionIdJson = rpcClient.execute(Commands.SEND_MANY.getName(), params);
 		String transactionId = rpcClient.getParser().parseString(transactionIdJson);
@@ -1003,6 +1022,7 @@ public class BtcdClientImpl implements BtcdClient {
 	public String sendMany(String fromAccount, Map<String, BigDecimal> toAddresses,
 			Integer confirmations, String comment) throws BitcoindException, 
 			CommunicationException {
+		toAddresses = NumberUtils.setValueScale(toAddresses, Defaults.DECIMAL_SCALE);
 		List<Object> params = CollectionUtils.asList(fromAccount, toAddresses, confirmations,
 				comment);
 		String transactionIdJson = rpcClient.execute(Commands.SEND_MANY.getName(), params);
@@ -1032,6 +1052,7 @@ public class BtcdClientImpl implements BtcdClient {
 	@Override
 	public String sendToAddress(String toAddress, BigDecimal amount) throws BitcoindException, 
 			CommunicationException {
+		amount = amount.setScale(Defaults.DECIMAL_SCALE, Defaults.ROUNDING_MODE);
 		List<Object> params = CollectionUtils.asList(toAddress, amount);
 		String transactionIdJson = rpcClient.execute(Commands.SEND_TO_ADDRESS.getName(), params);
 		String transactionId = rpcClient.getParser().parseString(transactionIdJson);
@@ -1041,6 +1062,7 @@ public class BtcdClientImpl implements BtcdClient {
 	@Override
 	public String sendToAddress(String toAddress, BigDecimal amount, String comment) 
 			throws BitcoindException, CommunicationException {
+		amount = amount.setScale(Defaults.DECIMAL_SCALE, Defaults.ROUNDING_MODE);
 		List<Object> params = CollectionUtils.asList(toAddress, amount, comment);
 		String transactionIdJson = rpcClient.execute(Commands.SEND_TO_ADDRESS.getName(), params);
 		String transactionId = rpcClient.getParser().parseString(transactionIdJson);
@@ -1050,6 +1072,7 @@ public class BtcdClientImpl implements BtcdClient {
 	@Override
 	public String sendToAddress(String toAddress, BigDecimal amount, String comment, 
 			String commentTo) throws BitcoindException, CommunicationException {
+		amount = amount.setScale(Defaults.DECIMAL_SCALE, Defaults.ROUNDING_MODE);
 		List<Object> params = CollectionUtils.asList(toAddress, amount, comment, commentTo);
 		String transactionIdJson = rpcClient.execute(Commands.SEND_TO_ADDRESS.getName(), params);
 		String transactionId = rpcClient.getParser().parseString(transactionIdJson);
@@ -1077,6 +1100,7 @@ public class BtcdClientImpl implements BtcdClient {
 
 	@Override
 	public Boolean setTxFee(BigDecimal txFee) throws BitcoindException, CommunicationException {
+		txFee = txFee.setScale(Defaults.DECIMAL_SCALE, Defaults.ROUNDING_MODE);
 		String isSuccessJson = rpcClient.execute(Commands.SET_TX_FEE.getName(), txFee);
 		Boolean isSuccess = rpcClient.getParser().parseBoolean(isSuccessJson);
 		return isSuccess;
@@ -1141,6 +1165,22 @@ public class BtcdClientImpl implements BtcdClient {
 		String noticeMsgJson = rpcClient.execute(Commands.STOP.getName());
 		String noticeMsg = rpcClient.getParser().parseString(noticeMsgJson);
 		return noticeMsg;
+	}
+
+	@Override
+	public String submitBlock(String block) throws BitcoindException, CommunicationException {
+		String blockStatusJson = rpcClient.execute(Commands.SUBMIT_BLOCK.getName(), block);
+		String blockStatus = rpcClient.getParser().parseString(blockStatusJson);
+		return blockStatus;
+	}
+
+	@Override
+	public String submitBlock(String block, Map<String, Object> extraParameters) 
+			throws BitcoindException, CommunicationException {
+		List<Object> params = CollectionUtils.asList(block, extraParameters);
+		String blockStatusJson = rpcClient.execute(Commands.SUBMIT_BLOCK.getName(), params);
+		String blockStatus = rpcClient.getParser().parseString(blockStatusJson);
+		return blockStatus;
 	}
 
 	@Override
