@@ -143,7 +143,10 @@ public class SimpleHttpClientImpl implements SimpleHttpClient {
 		if ((statusLine.getStatusCode() >= 400) && (statusLine.getStatusCode() <= 499)) {
 			throw new HttpLayerException(Errors.RESPONSE_HTTP_CLIENT_FAULT, statusLine.toString());
 		}
-		if ((statusLine.getStatusCode() >= 500) && (statusLine.getStatusCode() <= 599)) {
+		if ((statusLine.getStatusCode() == 500)) {
+			return response;
+		}
+		if ((statusLine.getStatusCode() >= 501) && (statusLine.getStatusCode() <= 599)) {
 			throw new HttpLayerException(Errors.RESPONSE_HTTP_SERVER_FAULT, statusLine.toString());
 		}	
 		return response;
