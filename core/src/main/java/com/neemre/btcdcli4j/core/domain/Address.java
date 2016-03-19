@@ -4,7 +4,6 @@ import java.math.BigDecimal;
 import java.util.List;
 
 import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -19,13 +18,12 @@ import com.neemre.btcdcli4j.core.common.Defaults;
 
 @Data
 @NoArgsConstructor
-@AllArgsConstructor
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = false)
 @JsonInclude(Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Address extends Entity {
-	
+
 	@JsonProperty("involvesWatchonly")
 	private Boolean involvesWatchOnly;
 	private String address;
@@ -36,7 +34,17 @@ public class Address extends Entity {
 	@JsonProperty("txids")
 	private List<String> txIds;
 
-	
+
+	public Address(Boolean involvesWatchOnly, String address, String account, BigDecimal amount, 
+			Integer confirmations, List<String> txIds) {
+		setInvolvesWatchOnly(involvesWatchOnly);
+		setAddress(address);
+		setAccount(account);
+		setAmount(amount);
+		setConfirmations(confirmations);
+		setTxIds(txIds);
+	}
+
 	public void setAmount(BigDecimal amount) {
 		this.amount = amount.setScale(Defaults.DECIMAL_SCALE, Defaults.ROUNDING_MODE);
 	}

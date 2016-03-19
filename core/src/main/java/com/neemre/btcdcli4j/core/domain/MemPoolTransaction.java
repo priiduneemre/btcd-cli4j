@@ -4,7 +4,6 @@ import java.math.BigDecimal;
 import java.util.List;
 
 import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -19,7 +18,6 @@ import com.neemre.btcdcli4j.core.common.Defaults;
 
 @Data
 @NoArgsConstructor
-@AllArgsConstructor
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = false)
 @JsonInclude(Include.NON_NULL)
@@ -40,6 +38,18 @@ public class MemPoolTransaction extends Entity {
 	private BigDecimal currentPriority;
 	private List<String> depends;
 
+
+	public MemPoolTransaction(String txId, Integer size, BigDecimal fee, Long time, Integer height,
+			BigDecimal startingPriority, BigDecimal currentPriority, List<String> depends) {
+		setTxId(txId);
+		setSize(size);
+		setFee(fee);
+		setTime(time);
+		setHeight(height);
+		setStartingPriority(startingPriority);
+		setCurrentPriority(currentPriority);
+		setDepends(depends);
+	}
 
 	public void setFee(BigDecimal fee) {
 		this.fee = fee.setScale(Defaults.DECIMAL_SCALE, Defaults.ROUNDING_MODE);

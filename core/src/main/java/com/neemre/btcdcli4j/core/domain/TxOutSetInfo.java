@@ -3,7 +3,6 @@ package com.neemre.btcdcli4j.core.domain;
 import java.math.BigDecimal;
 
 import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -18,7 +17,6 @@ import com.neemre.btcdcli4j.core.common.Defaults;
 
 @Data
 @NoArgsConstructor
-@AllArgsConstructor
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = false)
 @JsonInclude(Include.NON_NULL)
@@ -39,6 +37,17 @@ public class TxOutSetInfo extends Entity {
 	@JsonProperty("total_amount")
 	private BigDecimal totalAmount;
 
+
+	public TxOutSetInfo(Integer height, String bestBlock, Long transactions, Long txOuts, 
+			Long bytesSerialized, String hashSerialized, BigDecimal totalAmount) {
+		setHeight(height);
+		setBestBlock(bestBlock);
+		setTransactions(transactions);
+		setTxOuts(txOuts);
+		setBytesSerialized(bytesSerialized);
+		setHashSerialized(hashSerialized);
+		setTotalAmount(totalAmount);
+	}
 
 	public void setTotalAmount(BigDecimal totalAmount) {
 		this.totalAmount = totalAmount.setScale(Defaults.DECIMAL_SCALE, Defaults.ROUNDING_MODE);

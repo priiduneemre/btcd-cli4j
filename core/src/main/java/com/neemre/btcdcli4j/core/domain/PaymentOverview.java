@@ -2,7 +2,6 @@ package com.neemre.btcdcli4j.core.domain;
 
 import java.math.BigDecimal;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -19,7 +18,6 @@ import com.neemre.btcdcli4j.core.domain.enums.PaymentCategories;
 
 @Data
 @NoArgsConstructor
-@AllArgsConstructor
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = false)
 @JsonInclude(Include.NON_NULL)
@@ -37,8 +35,19 @@ public class PaymentOverview extends Entity {
 	private Integer vOut;
 	@Setter(AccessLevel.NONE)
 	private BigDecimal fee;
-	
-	
+
+
+	public PaymentOverview(Boolean involvesWatchOnly, String account, String address, 
+			PaymentCategories category, BigDecimal amount, Integer vOut, BigDecimal fee) {
+		setInvolvesWatchOnly(involvesWatchOnly);
+		setAccount(account);
+		setAddress(address);
+		setCategory(category);
+		setAmount(amount);
+		setVOut(vOut);
+		setFee(fee);
+	}
+
 	public void setAmount(BigDecimal amount) {
 		this.amount = amount.setScale(Defaults.DECIMAL_SCALE, Defaults.ROUNDING_MODE);
 	}

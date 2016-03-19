@@ -9,15 +9,15 @@ import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.neemre.btcdcli4j.core.common.Defaults;
 
-import lombok.AllArgsConstructor;
+import lombok.AccessLevel;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import lombok.ToString;
 
 @Data
 @NoArgsConstructor
-@AllArgsConstructor
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = false)
 @JsonInclude(Include.NON_NULL)
@@ -35,11 +35,26 @@ public class NetworkInfo extends Entity {
 	private Integer timeOffset;
 	private Integer connections;
 	private List<Network> networks;
+	@Setter(AccessLevel.NONE)
 	@JsonProperty("relayfee")
 	private BigDecimal relayFee;
 	@JsonProperty("localaddresses")
 	private List<NetworkAddress> localAddresses;
 
+
+	public NetworkInfo(Integer version, String subVersion, Integer protocolVersion, 
+			String localServices, Integer timeOffset, Integer connections, List<Network> networks, 
+			BigDecimal relayFee, List<NetworkAddress> localAddresses) {
+		setVersion(version);
+		setSubVersion(subVersion);
+		setProtocolVersion(protocolVersion);
+		setLocalServices(localServices);
+		setTimeOffset(timeOffset);
+		setConnections(connections);
+		setNetworks(networks);
+		setRelayFee(relayFee);
+		setLocalAddresses(localAddresses);
+	}
 
 	public void setRelayFee(BigDecimal relayFee) {
 		this.relayFee = relayFee.setScale(Defaults.DECIMAL_SCALE, Defaults.ROUNDING_MODE);

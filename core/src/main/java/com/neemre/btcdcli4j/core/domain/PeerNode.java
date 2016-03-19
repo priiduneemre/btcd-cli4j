@@ -10,7 +10,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.neemre.btcdcli4j.core.common.Defaults;
 
 import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -19,13 +18,12 @@ import lombok.ToString;
 
 @Data
 @NoArgsConstructor
-@AllArgsConstructor
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = false)
 @JsonInclude(Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class PeerNode extends Entity {
-	
+
 	private Integer id;
 	private String addr;
 	@JsonProperty("addrlocal")
@@ -64,8 +62,36 @@ public class PeerNode extends Entity {
 	@JsonProperty("inflight")
 	private List<Integer> inFlight;
 	private Boolean whitelisted;
-	
-	
+
+
+	public PeerNode(Integer id, String addr, String addrLocal, String services, Long lastSend, 
+			Long lastRecv, Long bytesSent, Long bytesRecv, Long connTime, BigDecimal pingTime,
+			BigDecimal pingWait, Integer version, String subVer, Boolean inbound, 
+			Integer startingHeight, Integer banScore, Integer syncedHeaders, 
+			Integer syncedBlocks, Boolean syncNode, List<Integer> inFlight, Boolean whitelisted) {
+		setId(id);
+		setAddr(addr);
+		setAddrLocal(addrLocal);
+		setServices(services);
+		setLastSend(lastSend);
+		setLastRecv(lastRecv);
+		setBytesSent(bytesSent);
+		setBytesRecv(bytesRecv);
+		setConnTime(connTime);
+		setPingTime(pingTime);
+		setPingWait(pingWait);
+		setVersion(version);
+		setSubVer(subVer);
+		setInbound(inbound);
+		setStartingHeight(startingHeight);
+		setBanScore(banScore);
+		setSyncedHeaders(syncedHeaders);
+		setSyncedBlocks(syncedBlocks);
+		setSyncNode(syncNode);
+		setInFlight(inFlight);
+		setWhitelisted(whitelisted);
+	}
+
 	public void setPingTime(BigDecimal pingTime) {
 		this.pingTime = pingTime.setScale(Defaults.DECIMAL_SCALE, Defaults.ROUNDING_MODE);
 	}

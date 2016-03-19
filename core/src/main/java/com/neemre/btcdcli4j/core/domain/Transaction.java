@@ -4,7 +4,6 @@ import java.math.BigDecimal;
 import java.util.List;
 
 import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -19,7 +18,6 @@ import com.neemre.btcdcli4j.core.common.Defaults;
 
 @Data
 @NoArgsConstructor
-@AllArgsConstructor
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = false)
 @JsonInclude(Include.NON_NULL)
@@ -50,6 +48,27 @@ public class Transaction extends Entity {
 	private List<PaymentOverview> details;
 	private String hex;
 
+
+	public Transaction(BigDecimal amount, BigDecimal fee, Integer confirmations, Boolean generated, 
+			String blockHash, Integer blockIndex, Long blockTime, String txId, 
+			List<String> walletConflicts, Long time, Long timeReceived, String comment, String to, 
+			List<PaymentOverview> details, String hex) {
+		setAmount(amount);
+		setFee(fee);
+		setConfirmations(confirmations);
+		setGenerated(generated);
+		setBlockHash(blockHash);
+		setBlockIndex(blockIndex);
+		setBlockTime(blockTime);
+		setTxId(txId);
+		setWalletConflicts(walletConflicts);
+		setTime(time);
+		setTimeReceived(timeReceived);
+		setComment(comment);
+		setTo(to);
+		setDetails(details);
+		setHex(hex);
+	}
 
 	public void setAmount(BigDecimal amount) {
 		this.amount = amount.setScale(Defaults.DECIMAL_SCALE, Defaults.ROUNDING_MODE);

@@ -2,7 +2,6 @@ package com.neemre.btcdcli4j.core.domain;
 
 import java.math.BigDecimal;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -17,13 +16,12 @@ import com.neemre.btcdcli4j.core.common.Defaults;
 
 @Data
 @NoArgsConstructor
-@AllArgsConstructor
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = false)
 @JsonInclude(Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Output extends OutputOverview {
-	
+
 	private String address;
 	private String account;
 	private String scriptPubKey;
@@ -33,11 +31,22 @@ public class Output extends OutputOverview {
 	private Integer confirmations;
 	private Boolean spendable;
 
-	
+
 	public Output(String txId, Integer vOut, String scriptPubKey, String redeemScript) {
 		super(txId, vOut);
 		this.scriptPubKey = scriptPubKey;
 		this.redeemScript = redeemScript;
+	}
+
+	public Output(String address, String account, String scriptPubKey, String redeemScript, 
+			BigDecimal amount, Integer confirmations, Boolean spendable) {
+		setAddress(address);
+		setAccount(account);
+		setScriptPubKey(scriptPubKey);
+		setRedeemScript(redeemScript);
+		setAmount(amount);
+		setConfirmations(confirmations);
+		setSpendable(spendable);
 	}
 
 	public void setAmount(BigDecimal amount) {

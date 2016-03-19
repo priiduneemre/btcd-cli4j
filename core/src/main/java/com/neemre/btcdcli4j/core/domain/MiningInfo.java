@@ -4,7 +4,6 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 
 import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -20,7 +19,6 @@ import com.neemre.btcdcli4j.core.domain.enums.ChainTypes;
 
 @Data
 @NoArgsConstructor
-@AllArgsConstructor
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = false)
 @JsonInclude(Include.NON_NULL)
@@ -47,6 +45,24 @@ public class MiningInfo extends Entity {
 	@JsonProperty("hashespersec")
 	private Long hashesPerSec;
 
+
+	public MiningInfo(Integer blocks, Integer currentBlockSize, Integer currentBlockTx, 
+			BigDecimal difficulty, String errors, Integer genProcLimit, BigInteger networkHashPs,
+			Integer pooledTx, Boolean testnet, ChainTypes chain, Boolean generate, 
+			Long hashesPerSec) {
+		setBlocks(blocks);
+		setCurrentBlockSize(currentBlockSize);
+		setCurrentBlockTx(currentBlockTx);
+		setDifficulty(difficulty);
+		setErrors(errors);
+		setGenProcLimit(genProcLimit);
+		setNetworkHashPs(networkHashPs);
+		setPooledTx(pooledTx);
+		setTestnet(testnet);
+		setChain(chain);
+		setGenerate(generate);
+		setHashesPerSec(hashesPerSec);
+	}
 
 	public void setDifficulty(BigDecimal difficulty) {
 		this.difficulty = difficulty.setScale(Defaults.DECIMAL_SCALE, Defaults.ROUNDING_MODE);

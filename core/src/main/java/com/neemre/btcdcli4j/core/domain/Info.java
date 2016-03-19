@@ -8,7 +8,6 @@ import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.neemre.btcdcli4j.core.common.Defaults;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -18,7 +17,6 @@ import lombok.AccessLevel;
 
 @Data
 @NoArgsConstructor
-@AllArgsConstructor
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = false)
 @JsonInclude(Include.NON_NULL)
@@ -54,6 +52,28 @@ public class Info extends Entity {
 	private BigDecimal relayFee;
 	private String errors;
 
+
+	public Info(Integer version, Integer protocolVersion, Integer walletVersion, BigDecimal balance,
+			Integer blocks, Integer timeOffset, Integer connections, String proxy, 
+			BigDecimal difficulty, Boolean testnet, Long keypoolOldest, Integer keypoolSize,
+			Long unlockedUntil, BigDecimal payTxFee, BigDecimal relayFee, String errors) {
+		setVersion(version);
+		setProtocolVersion(protocolVersion);
+		setWalletVersion(walletVersion);
+		setBalance(balance);
+		setBlocks(blocks);
+		setTimeOffset(timeOffset);
+		setConnections(connections);
+		setProxy(proxy);
+		setDifficulty(difficulty);
+		setTestnet(testnet);
+		setKeypoolOldest(keypoolOldest);
+		setKeypoolSize(keypoolSize);
+		setUnlockedUntil(unlockedUntil);
+		setPayTxFee(payTxFee);
+		setRelayFee(relayFee);
+		setErrors(errors);
+	}
 
 	public void setBalance(BigDecimal balance) {
 		this.balance = balance.setScale(Defaults.DECIMAL_SCALE, Defaults.ROUNDING_MODE);

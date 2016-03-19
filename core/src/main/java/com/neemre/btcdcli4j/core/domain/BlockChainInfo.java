@@ -3,7 +3,6 @@ package com.neemre.btcdcli4j.core.domain;
 import java.math.BigDecimal;
 
 import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -19,7 +18,6 @@ import com.neemre.btcdcli4j.core.domain.enums.ChainTypes;
 
 @Data
 @NoArgsConstructor
-@AllArgsConstructor
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = false)
 @JsonInclude(Include.NON_NULL)
@@ -39,6 +37,17 @@ public class BlockChainInfo extends Entity {
 	@JsonProperty("chainwork")
 	private String chainWork;
 
+
+	public BlockChainInfo(ChainTypes chain, Integer blocks, Integer headers, String bestBlockHash,
+			BigDecimal difficulty, BigDecimal verificationProgress, String chainWork) {
+		setChain(chain);
+		setBlocks(blocks);
+		setHeaders(headers);
+		setBestBlockHash(bestBlockHash);
+		setDifficulty(difficulty);
+		setVerificationProgress(verificationProgress);
+		setChainWork(chainWork);
+	}
 
 	public void setDifficulty(BigDecimal difficulty) {
 		this.difficulty = difficulty.setScale(Defaults.DECIMAL_SCALE, Defaults.ROUNDING_MODE);

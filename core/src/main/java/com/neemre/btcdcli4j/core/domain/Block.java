@@ -10,7 +10,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.neemre.btcdcli4j.core.common.Defaults;
 
 import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -19,13 +18,12 @@ import lombok.ToString;
 
 @Data
 @NoArgsConstructor
-@AllArgsConstructor
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = false)
 @JsonInclude(Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Block extends Entity {
-	
+
 	private String hash;
 	private Integer confirmations;
 	private Integer size;
@@ -45,8 +43,27 @@ public class Block extends Entity {
 	private String previousBlockHash;
 	@JsonProperty("nextblockhash")
 	private String nextBlockHash;
-	
-	
+
+
+	public Block(String hash, Integer confirmations, Integer size, Integer height, Integer version,
+			String merkleRoot, List<String> tx, Long time, Long nonce, String bits, 
+			BigDecimal difficulty, String chainWork, String previousBlockHash, String nextBlockHash) {
+		setHash(hash);
+		setConfirmations(confirmations);
+		setSize(size);
+		setHeight(height);
+		setVersion(version);
+		setMerkleRoot(merkleRoot);
+		setTx(tx);
+		setTime(time);
+		setNonce(nonce);
+		setBits(bits);
+		setDifficulty(difficulty);
+		setChainWork(chainWork);
+		setPreviousBlockHash(previousBlockHash);
+		setNextBlockHash(nextBlockHash);
+	}
+
 	public void setDifficulty(BigDecimal difficulty) {
 		this.difficulty = difficulty.setScale(Defaults.DECIMAL_SCALE, Defaults.ROUNDING_MODE);
 	}

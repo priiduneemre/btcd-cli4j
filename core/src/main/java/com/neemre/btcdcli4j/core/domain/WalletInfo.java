@@ -9,7 +9,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.neemre.btcdcli4j.core.common.Defaults;
 
 import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -18,7 +17,6 @@ import lombok.ToString;
 
 @Data
 @NoArgsConstructor
-@AllArgsConstructor
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = false)
 @JsonInclude(Include.NON_NULL)
@@ -37,8 +35,18 @@ public class WalletInfo extends Entity {
 	private Integer keypoolSize;
 	@JsonProperty("unlocked_until")
 	private Long unlockedUntil;
-	
-	
+
+
+	public WalletInfo(Integer walletVersion, BigDecimal balance, Integer txCount, Long keypoolOldest,
+			Integer keypoolSize, Long unlockedUntil) {
+		setWalletVersion(walletVersion);
+		setBalance(balance);
+		setTxCount(txCount);
+		setKeypoolOldest(keypoolOldest);
+		setKeypoolSize(keypoolSize);
+		setUnlockedUntil(unlockedUntil);
+	}
+
 	public void setBalance(BigDecimal balance) {
 		this.balance = balance.setScale(Defaults.DECIMAL_SCALE, Defaults.ROUNDING_MODE);
 	}

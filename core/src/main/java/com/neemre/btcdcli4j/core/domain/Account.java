@@ -2,7 +2,6 @@ package com.neemre.btcdcli4j.core.domain;
 
 import java.math.BigDecimal;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -18,7 +17,6 @@ import com.neemre.btcdcli4j.core.common.Defaults;
 
 @Data
 @NoArgsConstructor
-@AllArgsConstructor
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = false)
 @JsonInclude(Include.NON_NULL)
@@ -32,6 +30,14 @@ public class Account extends Entity {
 	private BigDecimal amount;
 	private Integer confirmations;
 
+
+	public Account(Boolean involvesWatchOnly, String account, BigDecimal amount, 
+			Integer confirmations) {
+		setInvolvesWatchOnly(involvesWatchOnly);
+		setAccount(account);
+		setAmount(amount);
+		setConfirmations(confirmations);
+	}
 
 	public void setAmount(BigDecimal amount) {
 		this.amount = amount.setScale(Defaults.DECIMAL_SCALE, Defaults.ROUNDING_MODE);
