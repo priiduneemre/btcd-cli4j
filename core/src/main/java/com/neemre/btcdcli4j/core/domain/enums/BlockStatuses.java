@@ -19,6 +19,7 @@ public enum BlockStatuses {
 	ACCEPTED("null"),
 	DUPLICATE("duplicate"),
 	DUPLICATE_INVALID("duplicate-invalid"),
+	DUPLICATE_INCONCLUSIVE("duplicate-inconclusive"),
 	INCONCLUSIVE("inconclusive"),
 	REJECTED("rejected");
 
