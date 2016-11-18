@@ -34,9 +34,20 @@ public class AddressOverviewDeserializer extends JsonDeserializer<AddressOvervie
 	
 	private AddressOverview toAddressOverview(List<Object> propertyList) {
 		AddressOverview addressOverview = new AddressOverview();
-		addressOverview.setAddress(parser.parseString(propertyList.get(ADDRESS_INDEX).toString()));
-		addressOverview.setBalance(parser.parseBigDecimal(propertyList.get(BALANCE_INDEX).toString()));
-		addressOverview.setAccount(parser.parseString(propertyList.get(ACCOUNT_INDEX).toString()));
+		if (propertyList.size() > ADDRESS_INDEX) {
+			Object o = propertyList.get(ADDRESS_INDEX);
+			addressOverview.setAddress(parser.parseString(o.toString()));
+		}
+
+		if (propertyList.size() > BALANCE_INDEX) {
+			Object o = propertyList.get(BALANCE_INDEX);
+			addressOverview.setBalance(parser.parseBigDecimal(o.toString()));
+		}
+
+		if (propertyList.size() > ACCOUNT_INDEX) {
+			Object o = propertyList.get(ACCOUNT_INDEX);
+			addressOverview.setAccount(parser.parseString(o.toString()));
+		}
 		return addressOverview;
 	}
 }
