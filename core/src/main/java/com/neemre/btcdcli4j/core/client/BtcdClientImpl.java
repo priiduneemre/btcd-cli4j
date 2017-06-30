@@ -1,12 +1,11 @@
 package com.neemre.btcdcli4j.core.client;
 
+import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
 import java.math.BigInteger;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Properties;
+import java.util.*;
 
+import org.apache.commons.codec.binary.Hex;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -162,6 +161,21 @@ public class BtcdClientImpl implements BtcdClient {
 		List<Object> params = CollectionUtils.asList(outputs, toAddresses);
 		String hexTransactionJson = rpcClient.execute(Commands.CREATE_RAW_TRANSACTION.getName(), 
 				params);
+		String hexTransaction = rpcClient.getParser().parseString(hexTransactionJson);
+		return hexTransaction;
+	}
+
+	public String createRawTransaction(List<OutputOverview> outputs,
+			Map<String, BigDecimal> toAddresses, String data) throws BitcoindException, CommunicationException, UnsupportedEncodingException {
+		toAddresses = NumberUtils.setValueScale(toAddresses, Defaults.DECIMAL_SCALE);
+		//create a new map where "toAddresses" is copied, and a new "data" field which includes the payload.
+		Map<String,Object> mapWithData = new HashMap<String,Object>();
+		mapWithData.putAll(toAddresses);
+		//encode data to hex
+		data = Hex.encodeHexString(data.getBytes("UTF-8"));
+		mapWithData.put("data", data);
+		List<Object> params = CollectionUtils.asList(outputs, mapWithData);
+		String hexTransactionJson = rpcClient.execute(Commands.CREATE_RAW_TRANSACTION.getName(), params);
 		String hexTransaction = rpcClient.getParser().parseString(hexTransactionJson);
 		return hexTransaction;
 	}
@@ -1263,4 +1277,6 @@ public class BtcdClientImpl implements BtcdClient {
 		LOG.info(">> initialize(..): initiating the 'bitcoind' core wrapper");
 		configurator = new ClientConfigurator();
 	}
+
+
 }
