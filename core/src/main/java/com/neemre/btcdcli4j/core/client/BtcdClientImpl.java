@@ -1,52 +1,24 @@
 package com.neemre.btcdcli4j.core.client;
 
-import java.math.BigDecimal;
-import java.math.BigInteger;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Properties;
-
-import org.apache.http.impl.client.CloseableHttpClient;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.neemre.btcdcli4j.core.BitcoindException;
 import com.neemre.btcdcli4j.core.Commands;
 import com.neemre.btcdcli4j.core.CommunicationException;
 import com.neemre.btcdcli4j.core.common.DataFormats;
 import com.neemre.btcdcli4j.core.common.Defaults;
-import com.neemre.btcdcli4j.core.domain.Account;
-import com.neemre.btcdcli4j.core.domain.AddedNode;
-import com.neemre.btcdcli4j.core.domain.Address;
-import com.neemre.btcdcli4j.core.domain.AddressInfo;
-import com.neemre.btcdcli4j.core.domain.AddressOverview;
-import com.neemre.btcdcli4j.core.domain.Block;
-import com.neemre.btcdcli4j.core.domain.BlockChainInfo;
-import com.neemre.btcdcli4j.core.domain.Info;
-import com.neemre.btcdcli4j.core.domain.MemPoolInfo;
-import com.neemre.btcdcli4j.core.domain.MemPoolTransaction;
-import com.neemre.btcdcli4j.core.domain.MiningInfo;
-import com.neemre.btcdcli4j.core.domain.MultiSigAddress;
-import com.neemre.btcdcli4j.core.domain.NetworkInfo;
-import com.neemre.btcdcli4j.core.domain.NetworkTotals;
-import com.neemre.btcdcli4j.core.domain.Output;
-import com.neemre.btcdcli4j.core.domain.OutputOverview;
-import com.neemre.btcdcli4j.core.domain.Payment;
-import com.neemre.btcdcli4j.core.domain.PeerNode;
-import com.neemre.btcdcli4j.core.domain.RawTransaction;
-import com.neemre.btcdcli4j.core.domain.RawTransactionOverview;
-import com.neemre.btcdcli4j.core.domain.RedeemScript;
-import com.neemre.btcdcli4j.core.domain.SignatureResult;
-import com.neemre.btcdcli4j.core.domain.SinceBlock;
-import com.neemre.btcdcli4j.core.domain.Tip;
-import com.neemre.btcdcli4j.core.domain.Transaction;
-import com.neemre.btcdcli4j.core.domain.TxOutSetInfo;
-import com.neemre.btcdcli4j.core.domain.WalletInfo;
+import com.neemre.btcdcli4j.core.domain.*;
 import com.neemre.btcdcli4j.core.jsonrpc.client.JsonRpcClient;
 import com.neemre.btcdcli4j.core.jsonrpc.client.JsonRpcClientImpl;
 import com.neemre.btcdcli4j.core.util.CollectionUtils;
 import com.neemre.btcdcli4j.core.util.NumberUtils;
+import org.apache.commons.codec.binary.Hex;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.io.UnsupportedEncodingException;
+import java.math.BigDecimal;
+import java.math.BigInteger;
+import java.util.*;
 
 public class BtcdClientImpl implements BtcdClient {
 
@@ -114,7 +86,7 @@ public class BtcdClientImpl implements BtcdClient {
 	}
 
 	@Override
-	public String addMultiSigAddress(Integer minSignatures, List<String> addresses) 
+	public String addMultiSigAddress(Integer minSignatures, List<String> addresses)
 			throws BitcoindException, CommunicationException {
 		List<Object> params = CollectionUtils.asList(minSignatures, addresses);
 		String multiSigAddressJson = rpcClient.execute(Commands.ADD_MULTI_SIG_ADDRESS.getName(), 
@@ -162,6 +134,36 @@ public class BtcdClientImpl implements BtcdClient {
 		List<Object> params = CollectionUtils.asList(outputs, toAddresses);
 		String hexTransactionJson = rpcClient.execute(Commands.CREATE_RAW_TRANSACTION.getName(), 
 				params);
+		String hexTransaction = rpcClient.getParser().parseString(hexTransactionJson);
+		return hexTransaction;
+	}
+    
+    @Override
+	public String createRawTransaction(List<OutputOverview> outputs,
+			Map<String, BigDecimal> toAddresses, String data) throws BitcoindException, CommunicationException, UnsupportedEncodingException {
+		toAddresses = NumberUtils.setValueScale(toAddresses, Defaults.DECIMAL_SCALE);
+		//create a new map where "toAddresses" is copied, and a new "data" field which includes the payload.
+		Map<String,Object> mapWithData = new HashMap<String,Object>();
+		mapWithData.putAll(toAddresses);
+		//encode data to hex
+		data = Hex.encodeHexString(data.getBytes("UTF-8"));
+		mapWithData.put("data", data);
+		List<Object> params = CollectionUtils.asList(outputs, mapWithData);
+		String hexTransactionJson = rpcClient.execute(Commands.CREATE_RAW_TRANSACTION.getName(), params);
+		String hexTransaction = rpcClient.getParser().parseString(hexTransactionJson);
+		return hexTransaction;
+	}
+
+	@Override
+	public String createRawTransactionHex(List<OutputOverview> outputs,
+									   Map<String, BigDecimal> toAddresses, String hexData) throws BitcoindException, CommunicationException, UnsupportedEncodingException {
+		toAddresses = NumberUtils.setValueScale(toAddresses, Defaults.DECIMAL_SCALE);
+		//create a new map where "toAddresses" is copied, and a new "data" field which includes the payload.
+		Map<String,Object> mapWithData = new HashMap<String,Object>();
+		mapWithData.putAll(toAddresses);
+		mapWithData.put("data", hexData);
+		List<Object> params = CollectionUtils.asList(outputs, mapWithData);
+		String hexTransactionJson = rpcClient.execute(Commands.CREATE_RAW_TRANSACTION.getName(), params);
 		String hexTransaction = rpcClient.getParser().parseString(hexTransactionJson);
 		return hexTransaction;
 	}
@@ -1263,4 +1265,6 @@ public class BtcdClientImpl implements BtcdClient {
 		LOG.info(">> initialize(..): initiating the 'bitcoind' core wrapper");
 		configurator = new ClientConfigurator();
 	}
+
+
 }
