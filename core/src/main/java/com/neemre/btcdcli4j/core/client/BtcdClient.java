@@ -32,6 +32,9 @@ public interface BtcdClient {
 	String createRawTransaction(List<OutputOverview> outputs, Map<String, BigDecimal> toAddresses, String data)
 			throws BitcoindException, CommunicationException, UnsupportedEncodingException;
 
+	String createRawTransactionHex(List<OutputOverview> outputs, Map<String, BigDecimal> toAddresses, String hexData)
+			throws BitcoindException, CommunicationException, UnsupportedEncodingException;
+
 	RawTransactionOverview decodeRawTransaction(String hexTransaction) throws BitcoindException, 
 			CommunicationException;
 

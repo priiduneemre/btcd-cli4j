@@ -155,6 +155,20 @@ public class BtcdClientImpl implements BtcdClient {
 	}
 
 	@Override
+	public String createRawTransactionHex(List<OutputOverview> outputs,
+									   Map<String, BigDecimal> toAddresses, String hexData) throws BitcoindException, CommunicationException, UnsupportedEncodingException {
+		toAddresses = NumberUtils.setValueScale(toAddresses, Defaults.DECIMAL_SCALE);
+		//create a new map where "toAddresses" is copied, and a new "data" field which includes the payload.
+		Map<String,Object> mapWithData = new HashMap<String,Object>();
+		mapWithData.putAll(toAddresses);
+		mapWithData.put("data", hexData);
+		List<Object> params = CollectionUtils.asList(outputs, mapWithData);
+		String hexTransactionJson = rpcClient.execute(Commands.CREATE_RAW_TRANSACTION.getName(), params);
+		String hexTransaction = rpcClient.getParser().parseString(hexTransactionJson);
+		return hexTransaction;
+	}
+
+	@Override
 	public RawTransactionOverview decodeRawTransaction(String hexTransaction) 
 			throws BitcoindException, CommunicationException {
 		String rawTransactionJson = rpcClient.execute(Commands.DECODE_RAW_TRANSACTION.getName(), 
