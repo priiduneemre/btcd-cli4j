@@ -21,8 +21,8 @@ public enum ScriptTypes {
 	SCRIPT_HASH("scripthash"),
 	MULTISIG("multisig"),
 	NULL_DATA("nulldata"),
-	NONSTANDARD("nonstandard");
-	WITNESS_V0_KEYHASH("witness_v0_keyhash");
+	NONSTANDARD("nonstandard"),
+	WITNESS_V0_KEYHASH("witness_v0_keyhash"),
 	WITNESS_V0_SCRIPTHASH("witness_v0_scripthash");
 	
 	private final String name;
