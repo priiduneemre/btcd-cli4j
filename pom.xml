@@ -38,7 +38,7 @@
 
 		<jdk.version>1.7</jdk.version>
 		<jackson.version>2.5.0</jackson.version>
-		<slf4j.version>1.7.10</slf4j.version>
+		<slf4j.version>1.7.25</slf4j.version>
 		<commons-lang.version>3.3.2</commons-lang.version>
 	</properties>
 
