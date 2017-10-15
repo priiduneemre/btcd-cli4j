@@ -33,7 +33,7 @@ public class JsonRpcClientImpl implements JsonRpcClient {
 
 
 	public JsonRpcClientImpl(CloseableHttpClient httpProvider, Properties nodeConfig) {
-		LOG.info("** JsonRpcClientImpl(): initiating the JSON-RPC communication layer");
+		LOG.debug("** JsonRpcClientImpl(): initiating the JSON-RPC communication layer");
 		httpClient = new SimpleHttpClientImpl(httpProvider, nodeConfig);
 		parser = new JsonPrimitiveParser();
 		mapper = new JsonMapper();
