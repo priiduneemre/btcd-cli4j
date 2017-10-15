@@ -55,18 +55,18 @@ public class JsonRpcClientImpl implements JsonRpcClient {
 	@Override
 	public <T> String execute(String method, List<T> params) throws BitcoindException, 
 			CommunicationException {
-		LOG.info(">> execute(..): invoking 'bitcoind' JSON-RPC API command '{}' with params: '{}'", 
+		LOG.debug(">> execute(..): invoking 'bitcoind' JSON-RPC API command '{}' with params: '{}'",
 				method, params);
 		String requestUuid = getNewUuid();
 		JsonRpcRequest<T> request = getNewRequest(method, params, requestUuid);
 		String requestJson = mapper.mapToJson(request);
-		LOG.debug("-- execute(..): sending JSON-RPC request as (raw): '{}'", requestJson.trim());
+		LOG.trace("-- execute(..): sending JSON-RPC request as (raw): '{}'", requestJson.trim());
 		String responseJson = httpClient.execute(HttpConstants.REQ_METHOD_POST, requestJson);
-		LOG.debug("-- execute(..): received JSON-RPC response as (raw): '{}'", responseJson.trim());
+		LOG.trace("-- execute(..): received JSON-RPC response as (raw): '{}'", responseJson.trim());
 		JsonRpcResponse response = mapper.mapToEntity(responseJson, JsonRpcResponse.class);
 		response = verifyResponse(request, response);
 		response = checkResponse(response);
-		LOG.info("<< execute(..): returning result for 'bitcoind' API command '{}' as: '{}'", 
+		LOG.debug("<< execute(..): returning result for 'bitcoind' API command '{}' as: '{}'",
 				method, response.getResult());
 		return response.getResult();
 	}
