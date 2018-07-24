@@ -52,7 +52,10 @@ public interface BtcdClient {
 	String createRawTransaction(List<OutputOverview> outputs, Map<String, BigDecimal> toAddresses) 
 			throws BitcoindException, CommunicationException;
 
-	RawTransactionOverview decodeRawTransaction(String hexTransaction) throws BitcoindException, 
+	RawTransactionOverview decodeRawTransaction(String hexTransaction, Boolean isWitness) throws BitcoindException,
+			CommunicationException;
+
+	RawTransactionOverview decodeRawTransaction(String hexTransaction) throws BitcoindException,
 			CommunicationException;
 
 	RedeemScript decodeScript(String hexRedeemScript) throws BitcoindException, 
