@@ -55,6 +55,15 @@ public interface BtcdClient {
 	RawTransactionOverview decodeRawTransaction(String hexTransaction, Boolean isWitness) throws BitcoindException,
 			CommunicationException;
 
+	/**
+	 *  Calls decodeRawTransaction(hexTransaction, true).
+	 *
+	 *  Defaults to true b/c asof bitcoin .16.0 this supports segWit transactions.
+	 *  As per https://github.com/bitcoin/bitcoin/issues/12989 it appears safe to call regarding if segWit txn or not,
+	 *  unless we are dealing with 0-input 1-output transactions, a specific kind of coinbase transaction.  Since we as an exchange are not concerned
+	 *  with coinbase txn's, it is safe to make this the default behavior, but just in case for future reference, we can still manually call
+	 *  decodeRawTransaction(String hexTransaction, Boolean isWitness) if needed.
+	 */
 	RawTransactionOverview decodeRawTransaction(String hexTransaction) throws BitcoindException,
 			CommunicationException;
 
