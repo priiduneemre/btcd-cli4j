@@ -167,15 +167,13 @@ public class BtcdClientImpl implements BtcdClient {
 	}
 
 	@Override
-	public RawTransactionOverview decodeRawTransaction(String hexTransaction)
-			throws BitcoindException, CommunicationException {
-		return decodeRawTransaction(hexTransaction, true);
-	}
-
-	@Override
 	public RawTransactionOverview decodeRawTransaction(String hexTransaction, Boolean isWitness)
 			throws BitcoindException, CommunicationException {
-		List<Object> params = CollectionUtils.asList(hexTransaction, isWitness);
+		List<Object> params = new ArrayList<>();
+		params.add(hexTransaction);
+		if (isWitness != null) {  //Treat as optional - so if null, don't pass anything in
+			params.add(isWitness);
+		}
 		String rawTransactionJson = rpcClient.execute(Commands.DECODE_RAW_TRANSACTION.getName(),
 				params);
 		RawTransactionOverview rawTransaction = rpcClient.getMapper().mapToEntity(
