@@ -169,7 +169,7 @@ public class BtcdClientImpl implements BtcdClient {
 	@Override
 	public RawTransactionOverview decodeRawTransaction(String hexTransaction, Boolean isWitness)
 			throws BitcoindException, CommunicationException {
-		List<Object> params = new ArrayList<>();
+		List<Object> params = new ArrayList<>(2);
 		params.add(hexTransaction);
 		if (isWitness != null) {  //Treat as optional - so if null, don't pass anything in
 			params.add(isWitness);
