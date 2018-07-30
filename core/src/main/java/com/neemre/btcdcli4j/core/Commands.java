@@ -16,7 +16,7 @@ public enum Commands {
 	BACKUP_WALLET("backupwallet", 1, 1),
 	CREATE_MULTI_SIG("createmultisig", 2, 2),
 	CREATE_RAW_TRANSACTION("createrawtransaction", 2, 2),
-	DECODE_RAW_TRANSACTION("decoderawtransaction", 1, 1),
+	DECODE_RAW_TRANSACTION("decoderawtransaction", 1, 2),
 	DECODE_SCRIPT("decodescript", 1, 1),
 	DUMP_PRIV_KEY("dumpprivkey", 1, 1),
 	DUMP_WALLET("dumpwallet", 1, 1),

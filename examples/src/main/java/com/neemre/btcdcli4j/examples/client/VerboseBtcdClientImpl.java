@@ -104,9 +104,9 @@ public class VerboseBtcdClientImpl extends BtcdClientImpl {
 	}
 
 	@Override
-	public RawTransactionOverview decodeRawTransaction(String hexTransaction) throws BitcoindException,
+	public RawTransactionOverview decodeRawTransaction(String hexTransaction, Boolean isWitness) throws BitcoindException,
 			CommunicationException {
-		RawTransactionOverview rawTransaction = super.decodeRawTransaction(hexTransaction);
+		RawTransactionOverview rawTransaction = super.decodeRawTransaction(hexTransaction, isWitness);
 		printResult(Commands.DECODE_RAW_TRANSACTION.getName(), new String[]{"hexTransaction"},
 				new Object[]{hexTransaction}, rawTransaction);
 		return rawTransaction;

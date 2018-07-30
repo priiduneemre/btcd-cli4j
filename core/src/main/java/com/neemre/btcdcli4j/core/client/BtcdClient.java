@@ -51,8 +51,19 @@ public interface BtcdClient {
 
 	String createRawTransaction(List<OutputOverview> outputs, Map<String, BigDecimal> toAddresses) 
 			throws BitcoindException, CommunicationException;
-
-	RawTransactionOverview decodeRawTransaction(String hexTransaction) throws BitcoindException, 
+	/**
+	 *
+	 * @param hexTransaction
+	 * @param isWitness If using bitcoind before 0.16, always pass null
+	 *                  If using bitcoind 0.16 or greater, this is an optional parameter that controls 3 separate behaviors
+	 *                  If true, then can be used for "any real, fully valid, or on-chain transaction...even coinbase transaction." (see https://github.com/bitcoin/bitcoin/issues/12989)
+	 *                  If false, then used for "the case of decoding partial not-fully-signed transactions"
+	 *                  if blank, then "heuristics will be used to determine which is the most reasonable interpretation."
+	 * @return
+	 * @throws BitcoindException
+	 * @throws CommunicationException
+	 */
+	RawTransactionOverview decodeRawTransaction(String hexTransaction, Boolean isWitness) throws BitcoindException,
 			CommunicationException;
 
 	RedeemScript decodeScript(String hexRedeemScript) throws BitcoindException, 
