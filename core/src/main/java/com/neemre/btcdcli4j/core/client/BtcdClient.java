@@ -15,6 +15,7 @@ import com.neemre.btcdcli4j.core.domain.AddressInfo;
 import com.neemre.btcdcli4j.core.domain.AddressOverview;
 import com.neemre.btcdcli4j.core.domain.Block;
 import com.neemre.btcdcli4j.core.domain.BlockChainInfo;
+import com.neemre.btcdcli4j.core.domain.EstimateFee;
 import com.neemre.btcdcli4j.core.domain.Info;
 import com.neemre.btcdcli4j.core.domain.MemPoolInfo;
 import com.neemre.btcdcli4j.core.domain.MiningInfo;
@@ -75,7 +76,16 @@ public interface BtcdClient {
 
 	String encryptWallet(String passphrase) throws BitcoindException, CommunicationException;
 
-	BigDecimal estimateFee(Integer maxBlocks) throws BitcoindException, CommunicationException;
+	/**
+	 * See https://developer.bitcoin.org/reference/rpc/estimatesmartfee.html
+	 * @param maxBlocks Confirmation target in blocks (1 - 1008)
+	 * @param mode Which mode to use.  Note that default is CONSERVATIVE
+	 *
+	 * @return
+	 * @throws BitcoindException
+	 * @throws CommunicationException
+	 */
+	BigDecimal estimateSmartFee(Integer maxBlocks, EstimateFee.Mode mode) throws BitcoindException, CommunicationException;
 
 	BigDecimal estimatePriority(Integer maxBlocks) throws BitcoindException, CommunicationException;
 

@@ -21,7 +21,7 @@ public enum Commands {
 	DUMP_PRIV_KEY("dumpprivkey", 1, 1),
 	DUMP_WALLET("dumpwallet", 1, 1),
 	ENCRYPT_WALLET("encryptwallet", 1, 1),
-	ESTIMATE_FEE("estimatefee", 1, 1),
+	ESTIMATE_SMART_FEE("estimatesmartfee", 1, 2),
 	ESTIMATE_PRIORITY("estimatepriority", 1, 1),
 	GET_ACCOUNT("getaccount", 1, 1),
 	GET_ACCOUNT_ADDRESS("getaccountaddress", 1, 1),
