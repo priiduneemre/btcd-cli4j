@@ -2,6 +2,8 @@ package com.neemre.btcdcli4j.core.domain;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonAlias;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -24,5 +26,8 @@ public class PubKeyScript extends SignatureScript {
 	
 	private Integer reqSigs;
 	private ScriptTypes type;
+	// When comes with a list of addresses
 	private List<String> addresses;
+	// When comes only with 1 address
+	private String address;
 }
