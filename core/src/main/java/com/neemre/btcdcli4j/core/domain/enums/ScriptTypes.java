@@ -24,7 +24,10 @@ public enum ScriptTypes {
 	NONSTANDARD("nonstandard"),
 	WITNESS_V0_KEYHASH("witness_v0_keyhash"),
 	WITNESS_V0_SCRIPTHASH("witness_v0_scripthash"),
-	WITNESS_V1_TAPROOT("witness_v1_taproot");
+	WITNESS_V1_TAPROOT("witness_v1_taproot"),
+	WITNESS_UNKNOWN("witness_unknown"),
+	WITNESS_MWEB_PEGIN("witness_mweb_pegin"),
+	WITNESS_MWEB_HOGADDR("withness_mweb_hogaddr");
 	
 	private final String name;
 
@@ -43,6 +46,6 @@ public enum ScriptTypes {
 				}
 			}
 		}
-		throw new IllegalArgumentException(Errors.ARGS_BTCD_SCRIPTTYPE_UNSUPPORTED.getDescription());
+		throw new IllegalArgumentException(String.format("%s - %s", Errors.ARGS_BTCD_SCRIPTTYPE_UNSUPPORTED.getDescription(), name));
 	}
 }

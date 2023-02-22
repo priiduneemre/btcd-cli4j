@@ -26,12 +26,19 @@ public class RawOutput extends Entity {
 	private BigDecimal value;
 	private Integer n;
 	private PubKeyScript scriptPubKey;
-
+	private boolean ismweb;
 
 	public RawOutput(BigDecimal value, Integer n, PubKeyScript scriptPubKey) {
 		setValue(value);
 		setN(n);
 		setScriptPubKey(scriptPubKey);
+	}
+
+	public RawOutput(BigDecimal value, Integer n, PubKeyScript scriptPubKey, boolean ismweb) {
+		setValue(value);
+		setN(n);
+		setScriptPubKey(scriptPubKey);
+		setIsmweb(ismweb);
 	}
 
 	public void setValue(BigDecimal value) {
