@@ -27,7 +27,7 @@ public enum ScriptTypes {
 	WITNESS_V1_TAPROOT("witness_v1_taproot"),
 	WITNESS_UNKNOWN("witness_unknown"),
 	WITNESS_MWEB_PEGIN("witness_mweb_pegin"),
-	WITNESS_MWEB_HOGADDR("withness_mweb_hogaddr");
+	WITNESS_MWEB_HOGADDR("witness_mweb_hogaddr");
 	
 	private final String name;
 
