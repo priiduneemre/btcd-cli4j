@@ -19,7 +19,8 @@ public enum NetworkTypes {
 	IPV4("ipv4"),
 	IPV6("ipv6"),
 	ONION("onion"),
-	I2P("i2p");
+	I2P("i2p"),
+	EMPTY("");
 
 	private final String name;
 
