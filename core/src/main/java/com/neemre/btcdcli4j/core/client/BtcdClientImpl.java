@@ -8,6 +8,8 @@ import java.util.Map;
 import java.util.Properties;
 
 import com.neemre.btcdcli4j.core.domain.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -81,10 +83,39 @@ public class BtcdClientImpl implements BtcdClient {
 	}
 
 	public BtcdClientImpl(CloseableHttpClient httpProvider, String rpcProtocol, String rpcHost,
-			Integer rpcPort, String rpcUser, String rpcPassword, String httpAuthScheme) 
+			Integer rpcPort, String rpcUser, String rpcPassword, String httpAuthScheme)
 			throws BitcoindException, CommunicationException {
 		this(httpProvider, new ClientConfigurator().toProperties(rpcProtocol, rpcHost, rpcPort, 
 				rpcUser, rpcPassword, httpAuthScheme));
+	}
+
+	/**
+	 * Create a btcd client with no port, rpc user, rpc password and auth scheme. This case is useful for using node providers
+	 */
+	public BtcdClientImpl(CloseableHttpClient httpProvider, BtcNodeProviderConfig providerConfig)
+		throws BitcoindException, CommunicationException {
+		this(httpProvider, new NodeProviderConfigurator().toProperties(providerConfig.rpcProtocol, providerConfig.rpcHost));
+	}
+
+	/**
+	 * To provide with configuration for client
+	 */
+	@Getter
+	public static class BtcNodeProviderConfig {
+		private final String rpcProtocol;
+		private final String rpcHost;
+
+		public BtcNodeProviderConfig(String url) {
+			if (url == null) {
+				throw new IllegalArgumentException("URL must be specified");
+			}
+			if (!url.contains("://")) {
+				throw new IllegalArgumentException("URL must have the protocol specified! Provided=" + url);
+			}
+			final String[] splitUrl = url.split("://");
+			this.rpcProtocol = splitUrl[0];
+			this.rpcHost = splitUrl[1];
+		}
 	}
 
 	@Override
