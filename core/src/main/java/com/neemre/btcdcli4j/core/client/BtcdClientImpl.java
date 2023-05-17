@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
+import com.neemre.btcdcli4j.core.NodeProperties;
+import com.neemre.btcdcli4j.core.common.AgentConfigurator;
 import com.neemre.btcdcli4j.core.domain.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -28,7 +30,7 @@ public class BtcdClientImpl implements BtcdClient {
 
 	private static final Logger LOG = LoggerFactory.getLogger(BtcdClientImpl.class);
 
-	private ClientConfigurator configurator;
+	private BtcClientConfigurator configurator;
 	private JsonRpcClient rpcClient;
 
 
@@ -38,11 +40,17 @@ public class BtcdClientImpl implements BtcdClient {
 
 	public BtcdClientImpl(CloseableHttpClient httpProvider, Properties nodeConfig) 
 			throws BitcoindException, CommunicationException {
-		initialize();
+		initialize(isNodeProvider(nodeConfig));
 		rpcClient = new JsonRpcClientImpl(configurator.checkHttpProvider(httpProvider), 
 				configurator.checkNodeConfig(nodeConfig));
 		configurator.checkNodeVersion(getNetworkInfo().getVersion());
 		configurator.checkNodeHealth((Block)getBlock(getBestBlockHash(), true));
+	}
+
+	// Only is Node Provider if contains HOST but does not contain PORT
+	private boolean isNodeProvider(Properties nodeConfig) {
+		return nodeConfig.containsKey(NodeProperties.RPC_HOST)
+			&& !nodeConfig.containsKey(NodeProperties.RPC_PORT);
 	}
 
 	public BtcdClientImpl(String rpcUser, String rpcPassword) throws BitcoindException, 
@@ -1290,8 +1298,9 @@ public class BtcdClientImpl implements BtcdClient {
 		rpcClient.close();
 	}
 
-	private void initialize() {
+	private void initialize(boolean isNodeProvider) {
 		LOG.debug(">> initialize(..): initiating the 'bitcoind' core wrapper");
-		configurator = new ClientConfigurator();
+
+		configurator = isNodeProvider? new NodeProviderConfigurator() : new ClientConfigurator();
 	}
 }
