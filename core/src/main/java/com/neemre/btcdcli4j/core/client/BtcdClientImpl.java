@@ -49,8 +49,8 @@ public class BtcdClientImpl implements BtcdClient {
 
 	// Only is Node Provider if contains HOST but does not contain PORT
 	private boolean isNodeProvider(Properties nodeConfig) {
-		return nodeConfig.containsKey(NodeProperties.RPC_HOST)
-			&& !nodeConfig.containsKey(NodeProperties.RPC_PORT);
+		return nodeConfig.containsKey(NodeProperties.RPC_HOST.getKey())
+			&& !nodeConfig.containsKey(NodeProperties.RPC_PORT.getKey());
 	}
 
 	public BtcdClientImpl(String rpcUser, String rpcPassword) throws BitcoindException, 
