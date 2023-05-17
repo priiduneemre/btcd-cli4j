@@ -106,7 +106,7 @@ public class SimpleHttpClientImpl implements SimpleHttpClient {
 		request.setURI(createNodeUri());
 
 		// Auth is now optional if we are using a node provider
-		if (nodeConfig.contains(NodeProperties.HTTP_AUTH_SCHEME.getKey())) {
+		if (nodeConfig.containsKey(NodeProperties.HTTP_AUTH_SCHEME.getKey())) {
 			final String authScheme = nodeConfig.getProperty(NodeProperties.HTTP_AUTH_SCHEME.getKey());
 			request.addHeader(resolveAuthHeader(authScheme));
 		}
@@ -118,7 +118,7 @@ public class SimpleHttpClientImpl implements SimpleHttpClient {
 
 	private URI createNodeUri() throws URISyntaxException {
 		// With port specified
-		if (nodeConfig.contains(NodeProperties.RPC_PORT.getKey())) {
+		if (nodeConfig.containsKey(NodeProperties.RPC_PORT.getKey())) {
 			return new URI(String.format("%s://%s:%s/",
 				nodeConfig.getProperty(NodeProperties.RPC_PROTOCOL.getKey()),
 				nodeConfig.getProperty(NodeProperties.RPC_HOST.getKey()),
