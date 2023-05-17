@@ -1,7 +1,6 @@
 package com.neemre.btcdcli4j.core.client;
 
 import com.neemre.btcdcli4j.core.NodeProperties;
-import com.neemre.btcdcli4j.core.common.AgentConfigurator;
 import com.neemre.btcdcli4j.core.common.Defaults;
 import com.neemre.btcdcli4j.core.common.Errors;
 import com.neemre.btcdcli4j.core.domain.Block;
@@ -23,7 +22,7 @@ import java.util.concurrent.TimeUnit;
  * Configurator of clients only used with Node Providers that dont require to specify the Auth scheme and the RPC port,
  * just an URL
  */
-public class NodeProviderConfigurator extends AgentConfigurator {
+public class NodeProviderConfigurator extends BtcClientConfigurator {
 
     private static final Logger LOG = LoggerFactory.getLogger(ClientConfigurator.class);
 
@@ -38,6 +37,7 @@ public class NodeProviderConfigurator extends AgentConfigurator {
         return EnumSet.of(NodeProperties.RPC_PROTOCOL, NodeProperties.RPC_HOST);
     }
 
+    @Override
     public CloseableHttpClient checkHttpProvider(CloseableHttpClient httpProvider) {
         if (httpProvider == null) {
             LOG.warn("-- checkHttpProvider(..): no preconfigured HTTP provider detected; reverting "
@@ -47,6 +47,7 @@ public class NodeProviderConfigurator extends AgentConfigurator {
         return httpProvider;
     }
 
+    @Override
     public String checkNodeVersion(Integer encodedVersion) {
         nodeVersion = decodeNodeVersion(encodedVersion);
         for (String supportedVersion : Defaults.NODE_VERSIONS) {
@@ -59,6 +60,7 @@ public class NodeProviderConfigurator extends AgentConfigurator {
         return nodeVersion;
     }
 
+    @Override
     public boolean checkNodeHealth(Block bestBlock) {
         long currentTime = System.currentTimeMillis() / 1000;
         if ((currentTime - bestBlock.getTime()) > TimeUnit.HOURS.toSeconds(6)) {
