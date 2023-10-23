@@ -39,7 +39,7 @@ public class SimpleHttpClientImpl implements SimpleHttpClient {
 
 
 	public SimpleHttpClientImpl(CloseableHttpClient provider, Properties nodeConfig) {
-		LOG.info("** SimpleHttpClientImpl(): initiating the HTTP communication layer");
+		LOG.debug("** SimpleHttpClientImpl(): initiating the HTTP communication layer");
 		this.provider = provider;
 		this.nodeConfig = nodeConfig;
 	}
@@ -84,7 +84,7 @@ public class SimpleHttpClientImpl implements SimpleHttpClient {
 	@Override
 	public void close() {
 		try {
-			LOG.info(">> close(..): attempting to shut down the underlying HTTP provider");
+			LOG.debug(">> close(..): attempting to shut down the underlying HTTP provider");
 			provider.close();
 		} catch (IOException e) {
 			LOG.warn("<< close(..): failed to shut down the underlying HTTP provider, message was: "
@@ -103,15 +103,32 @@ public class SimpleHttpClientImpl implements SimpleHttpClient {
 		} else {
 			throw new IllegalArgumentException(Errors.ARGS_HTTP_METHOD_UNSUPPORTED.getDescription());
 		}
-		request.setURI(new URI(String.format("%s://%s:%s/", 
-					nodeConfig.getProperty(NodeProperties.RPC_PROTOCOL.getKey()), 
-					nodeConfig.getProperty(NodeProperties.RPC_HOST.getKey()), 
-					nodeConfig.getProperty(NodeProperties.RPC_PORT.getKey()))));
-		String authScheme = nodeConfig.getProperty(NodeProperties.HTTP_AUTH_SCHEME.getKey());
-		request.addHeader(resolveAuthHeader(authScheme));
+		request.setURI(createNodeUri());
+
+		// Auth is now optional if we are using a node provider
+		if (nodeConfig.containsKey(NodeProperties.HTTP_AUTH_SCHEME.getKey())) {
+			final String authScheme = nodeConfig.getProperty(NodeProperties.HTTP_AUTH_SCHEME.getKey());
+			request.addHeader(resolveAuthHeader(authScheme));
+		}
+
 		LOG.debug("<< getNewRequest(..): returning a new HTTP '{}' request with target endpoint "
 				+ "'{}' and headers '{}'", reqMethod, request.getURI(), request.getAllHeaders());
 		return request;
+	}
+
+	private URI createNodeUri() throws URISyntaxException {
+		// With port specified
+		if (nodeConfig.containsKey(NodeProperties.RPC_PORT.getKey())) {
+			return new URI(String.format("%s://%s:%s/",
+				nodeConfig.getProperty(NodeProperties.RPC_PROTOCOL.getKey()),
+				nodeConfig.getProperty(NodeProperties.RPC_HOST.getKey()),
+				nodeConfig.getProperty(NodeProperties.RPC_PORT.getKey())));
+		} else {
+			// Without port
+			return new URI(String.format("%s://%s",
+				nodeConfig.getProperty(NodeProperties.RPC_PROTOCOL.getKey()),
+				nodeConfig.getProperty(NodeProperties.RPC_HOST.getKey())));
+		}
 	}
 
 	private Header resolveAuthHeader(String authScheme) {

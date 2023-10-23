@@ -7,6 +7,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
+import com.neemre.btcdcli4j.core.NodeProperties;
+import com.neemre.btcdcli4j.core.common.AgentConfigurator;
+import com.neemre.btcdcli4j.core.domain.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,33 +21,6 @@ import com.neemre.btcdcli4j.core.Commands;
 import com.neemre.btcdcli4j.core.CommunicationException;
 import com.neemre.btcdcli4j.core.common.DataFormats;
 import com.neemre.btcdcli4j.core.common.Defaults;
-import com.neemre.btcdcli4j.core.domain.Account;
-import com.neemre.btcdcli4j.core.domain.AddedNode;
-import com.neemre.btcdcli4j.core.domain.Address;
-import com.neemre.btcdcli4j.core.domain.AddressInfo;
-import com.neemre.btcdcli4j.core.domain.AddressOverview;
-import com.neemre.btcdcli4j.core.domain.Block;
-import com.neemre.btcdcli4j.core.domain.BlockChainInfo;
-import com.neemre.btcdcli4j.core.domain.Info;
-import com.neemre.btcdcli4j.core.domain.MemPoolInfo;
-import com.neemre.btcdcli4j.core.domain.MemPoolTransaction;
-import com.neemre.btcdcli4j.core.domain.MiningInfo;
-import com.neemre.btcdcli4j.core.domain.MultiSigAddress;
-import com.neemre.btcdcli4j.core.domain.NetworkInfo;
-import com.neemre.btcdcli4j.core.domain.NetworkTotals;
-import com.neemre.btcdcli4j.core.domain.Output;
-import com.neemre.btcdcli4j.core.domain.OutputOverview;
-import com.neemre.btcdcli4j.core.domain.Payment;
-import com.neemre.btcdcli4j.core.domain.PeerNode;
-import com.neemre.btcdcli4j.core.domain.RawTransaction;
-import com.neemre.btcdcli4j.core.domain.RawTransactionOverview;
-import com.neemre.btcdcli4j.core.domain.RedeemScript;
-import com.neemre.btcdcli4j.core.domain.SignatureResult;
-import com.neemre.btcdcli4j.core.domain.SinceBlock;
-import com.neemre.btcdcli4j.core.domain.Tip;
-import com.neemre.btcdcli4j.core.domain.Transaction;
-import com.neemre.btcdcli4j.core.domain.TxOutSetInfo;
-import com.neemre.btcdcli4j.core.domain.WalletInfo;
 import com.neemre.btcdcli4j.core.jsonrpc.client.JsonRpcClient;
 import com.neemre.btcdcli4j.core.jsonrpc.client.JsonRpcClientImpl;
 import com.neemre.btcdcli4j.core.util.CollectionUtils;
@@ -52,7 +30,7 @@ public class BtcdClientImpl implements BtcdClient {
 
 	private static final Logger LOG = LoggerFactory.getLogger(BtcdClientImpl.class);
 
-	private ClientConfigurator configurator;
+	private BtcClientConfigurator configurator;
 	private JsonRpcClient rpcClient;
 
 
@@ -62,11 +40,17 @@ public class BtcdClientImpl implements BtcdClient {
 
 	public BtcdClientImpl(CloseableHttpClient httpProvider, Properties nodeConfig) 
 			throws BitcoindException, CommunicationException {
-		initialize();
+		initialize(isNodeProvider(nodeConfig));
 		rpcClient = new JsonRpcClientImpl(configurator.checkHttpProvider(httpProvider), 
 				configurator.checkNodeConfig(nodeConfig));
-		configurator.checkNodeVersion(getInfo().getVersion());
+		configurator.checkNodeVersion(getNetworkInfo().getVersion());
 		configurator.checkNodeHealth((Block)getBlock(getBestBlockHash(), true));
+	}
+
+	// Only is Node Provider if contains HOST but does not contain PORT
+	private boolean isNodeProvider(Properties nodeConfig) {
+		return nodeConfig.containsKey(NodeProperties.RPC_HOST.getKey())
+			&& !nodeConfig.containsKey(NodeProperties.RPC_PORT.getKey());
 	}
 
 	public BtcdClientImpl(String rpcUser, String rpcPassword) throws BitcoindException, 
@@ -107,10 +91,39 @@ public class BtcdClientImpl implements BtcdClient {
 	}
 
 	public BtcdClientImpl(CloseableHttpClient httpProvider, String rpcProtocol, String rpcHost,
-			Integer rpcPort, String rpcUser, String rpcPassword, String httpAuthScheme) 
+			Integer rpcPort, String rpcUser, String rpcPassword, String httpAuthScheme)
 			throws BitcoindException, CommunicationException {
 		this(httpProvider, new ClientConfigurator().toProperties(rpcProtocol, rpcHost, rpcPort, 
 				rpcUser, rpcPassword, httpAuthScheme));
+	}
+
+	/**
+	 * Create a btcd client with no port, rpc user, rpc password and auth scheme. This case is useful for using node providers
+	 */
+	public BtcdClientImpl(CloseableHttpClient httpProvider, BtcNodeProviderConfig providerConfig)
+		throws BitcoindException, CommunicationException {
+		this(httpProvider, new NodeProviderConfigurator().toProperties(providerConfig.rpcProtocol, providerConfig.rpcHost));
+	}
+
+	/**
+	 * To provide with configuration for client
+	 */
+	@Getter
+	public static class BtcNodeProviderConfig {
+		private final String rpcProtocol;
+		private final String rpcHost;
+
+		public BtcNodeProviderConfig(String url) {
+			if (url == null) {
+				throw new IllegalArgumentException("URL must be specified");
+			}
+			if (!url.contains("://")) {
+				throw new IllegalArgumentException("URL must have the protocol specified! Provided=" + url);
+			}
+			final String[] splitUrl = url.split("://");
+			this.rpcProtocol = splitUrl[0];
+			this.rpcHost = splitUrl[1];
+		}
 	}
 
 	@Override
@@ -167,10 +180,15 @@ public class BtcdClientImpl implements BtcdClient {
 	}
 
 	@Override
-	public RawTransactionOverview decodeRawTransaction(String hexTransaction) 
+	public RawTransactionOverview decodeRawTransaction(String hexTransaction, Boolean isWitness)
 			throws BitcoindException, CommunicationException {
-		String rawTransactionJson = rpcClient.execute(Commands.DECODE_RAW_TRANSACTION.getName(), 
-				hexTransaction);
+		List<Object> params = new ArrayList<>(2);
+		params.add(hexTransaction);
+		if (isWitness != null) {  //Treat as optional - so if null, don't pass anything in
+			params.add(isWitness);
+		}
+		String rawTransactionJson = rpcClient.execute(Commands.DECODE_RAW_TRANSACTION.getName(),
+				params);
 		RawTransactionOverview rawTransaction = rpcClient.getMapper().mapToEntity(
 				rawTransactionJson, RawTransactionOverview.class);
 		return rawTransaction;
@@ -208,11 +226,12 @@ public class BtcdClientImpl implements BtcdClient {
 	}
 
 	@Override
-	public BigDecimal estimateFee(Integer maxBlocks) throws BitcoindException, 
+	public BigDecimal estimateSmartFee(Integer maxBlocks, EstimateFee.Mode mode) throws BitcoindException,
 			CommunicationException {
-		String estimatedFeeJson = rpcClient.execute(Commands.ESTIMATE_FEE.getName(), maxBlocks);
-		BigDecimal estimatedFee = rpcClient.getParser().parseBigDecimal(estimatedFeeJson);
-		return estimatedFee;
+		List<Object> params = CollectionUtils.asList(maxBlocks, mode);
+		String estimatedFeeJson = rpcClient.execute(Commands.ESTIMATE_SMART_FEE.getName(), params);
+		EstimateFee estimateFee = rpcClient.getMapper().mapToEntity(estimatedFeeJson, EstimateFee.class);
+		return estimateFee.getFeeRate();
 	}
 
 	@Override
@@ -519,7 +538,27 @@ public class BtcdClientImpl implements BtcdClient {
 		} else {
 			RawTransaction rawTransaction = rpcClient.getMapper().mapToEntity(transactionJson, 
 					RawTransaction.class);
+			// make a replacement for list of addresses with the unique address present
+			rawTransaction.getVOut()
+					.forEach(vout ->  setVoutAddressToList(vout
+							.getScriptPubKey())
+					);
+
 			return rawTransaction;
+		}
+
+	}
+
+	// DANGER: this is a hack to fill the addresses list in case of having only 1 address.
+	// This is a little hacky.. if we don't have a list of addresses and we have 1 address, we have to populate
+	// the list of addresses with just 1 element. If address is null and the list is already populated (vout has more
+	// than 1 address), then we don't have to do anything.
+	void setVoutAddressToList(PubKeyScript pubKeyScript) {
+
+		if (pubKeyScript.getAddress() != null) {
+			List<String> addresses = new ArrayList<>();
+			addresses.add(pubKeyScript.getAddress());
+			pubKeyScript.setAddresses(addresses);
 		}
 	}
 
@@ -1255,12 +1294,13 @@ public class BtcdClientImpl implements BtcdClient {
 
 	@Override
 	public synchronized void close() {
-		LOG.info(">> close(..): closing the 'bitcoind' core wrapper");
+		LOG.debug(">> close(..): closing the 'bitcoind' core wrapper");
 		rpcClient.close();
 	}
 
-	private void initialize() {
-		LOG.info(">> initialize(..): initiating the 'bitcoind' core wrapper");
-		configurator = new ClientConfigurator();
+	private void initialize(boolean isNodeProvider) {
+		LOG.debug(">> initialize(..): initiating the 'bitcoind' core wrapper");
+
+		configurator = isNodeProvider? new NodeProviderConfigurator() : new ClientConfigurator();
 	}
 }

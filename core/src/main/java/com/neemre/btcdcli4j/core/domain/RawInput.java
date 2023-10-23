@@ -27,4 +27,5 @@ public class RawInput extends Entity {
 	private SignatureScript scriptSig;
 	private String coinbase;
 	private Long sequence;
+	private boolean ismweb;
 }
