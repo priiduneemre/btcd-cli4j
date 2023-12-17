@@ -29,7 +29,7 @@
 		<repository>
 			<id>mvn-nemp-ftp</id>
 			<name>Nemp's Maven Repository</name>
-			<url>ftp://nemp.planet.ee/htdocs/mvn/</url>
+			<url>ftps://nemp.planet.ee/htdocs/mvn/</url>
 		</repository>
 	</distributionManagement>
 
