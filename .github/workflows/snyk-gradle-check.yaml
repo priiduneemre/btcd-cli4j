@@ -1,0 +1,28 @@
+jobs:
+  security:
+      name: Run Snyk to check for gradle vulnerabilities
+      runs-on: ubuntu-latest
+      steps:
+          - uses: actions/checkout@v4
+          - env:
+              GITHUB_ACTOR: ${{secrets.SVC_SNYK_ACTOR}}
+              GITHUB_TOKEN: ${{secrets.SVC_SNYK_TOKEN}}
+              SNYK_TOKEN: ${{secrets.SNYK_TOKEN}}
+            name: Run Snyk to check for vulnerabilities
+            uses: snyk/actions/gradle@4a528b5c534bb771b6e3772656a8e0e9dc902f8b
+            with:
+              args: --detection-depth=5 --all-sub-projects
+              command: monitor
+          - env:
+              SLACK_BOT_TOKEN: ${{ secrets.EC_SLACK_TOKEN }}
+            if: ${{ failure() }}
+            name: Notify on Snyk gradle check failure
+            uses: slackapi/slack-github-action@e28cf165c92ffef168d23c5c9000cffc8a25e117
+            with:
+              channel-id: snyk-health-check
+              payload: '{"text": ":warning-1: Snyk gradle check failed on `${{ github.repository }}`. Check the <${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}|action run> for more details."}'
+name: Snyk Gradle Check
+"on":
+  schedule:
+      - cron: 0 10 * * 1,3,5
+  workflow_dispatch: null
